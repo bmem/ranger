@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/flwyd/rails_sql_views
+  revision: ee9bbdbe12609baf7be21bb84ec38b70cb585e20
+  specs:
+    rails_sql_views (0.8.0)
+      activerecord
+
 PATH
   remote: ../schedule
   specs:
@@ -123,9 +130,12 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-rails (~> 3.2.1)
+  formtastic
+  haml-rails
   jquery-rails
   json
   rails (= 3.2.1)
+  rails_sql_views!
   sass-rails (~> 3.2.3)
   schedule!
   sqlite3
