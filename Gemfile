@@ -32,6 +32,8 @@ gem 'formtastic'
 # Patched to fix various stack overflow and sqlite compatibility errors
 gem "rails_sql_views", :git => "git://github.com/flwyd/rails_sql_views"
 
+gem 'cancan'
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
