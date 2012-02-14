@@ -1,0 +1,35 @@
+= semantic_form_for @person do |f|
+  -if @person.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@person.errors.count, "error")} prohibited this person from being saved:"
+      %ul
+        - @person.errors.full_messages.each do |msg|
+          %li= msg
+
+  = f.inputs :name => 'Basic Information' do
+    = f.input :callsign
+    = f.input :full_name
+    = f.input :barcode
+    = f.input :status, :as => :select, :collection => Person::STATUSES.map(&:to_s)
+    = f.input :status_date, :as => :date_picker
+    = f.input :callsign_approved, :as => :boolean
+    = f.input :on_site
+
+  = f.inputs :name => 'Personal and Contact' do
+    = f.input :mailing_address, :as => :text, :input_html => { :rows => 5, :cols => 30 }
+    = f.input :email, :as => :email
+    = f.input :main_phone
+    = f.input :alt_phone
+    = f.input :birth_date, :as => :date_picker
+    = f.input :shirt_size, :as => :select, :collection => Person::SHIRT_SIZES
+
+  = f.inputs :name => 'On Playa' do
+    = f.input :emergency_contact, :as => :text, :input_html => { :rows => 8, :cols => 30 }
+    = f.input :camp_location
+    = f.input :asset_authorized, :as => :boolean
+    = f.input :vehicle_paperwork, :as => :boolean
+    = f.input :vehicle_blacklisted, :as => :boolean
+    = f.input :has_personnel_note, :as => :boolean
+
+  = f.buttons do
+    = f.commit_button

@@ -10,7 +10,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120211211211) do
+ActiveRecord::Schema.define(:version => 20120213005213) do
+
+  create_table "people", :force => true do |t|
+    t.string   "callsign"
+    t.string   "full_name"
+    t.string   "status"
+    t.string   "barcode"
+    t.boolean  "on_site"
+    t.text     "details"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "people", ["barcode"], :name => "index_people_on_barcode"
+  add_index "people", ["callsign"], :name => "index_people_on_callsign"
+  add_index "people", ["full_name"], :name => "index_people_on_full_name"
 
   create_table "schedule_events", :force => true do |t|
     t.string   "name",                          :null => false
@@ -20,12 +35,6 @@ ActiveRecord::Schema.define(:version => 20120211211211) do
     t.boolean  "signup_open", :default => true, :null => false
     t.datetime "created_at",                    :null => false
     t.datetime "updated_at",                    :null => false
-  end
-
-  create_table "schedule_people", :force => true do |t|
-    t.string   "name",       :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
   end
 
   create_table "schedule_people_positions", :id => false, :force => true do |t|
@@ -75,5 +84,12 @@ ActiveRecord::Schema.define(:version => 20120211211211) do
 
   add_index "schedule_slots", ["position_id"], :name => "index_schedule_slots_on_position_id"
   add_index "schedule_slots", ["shift_id"], :name => "index_schedule_slots_on_shift_id"
+
+  create_view "schedule_people", "SELECT id, callsign AS name, created_at, updated_at FROM people", :force => true do |v|
+    v.column :id
+    v.column :name
+    v.column :created_at
+    v.column :updated_at
+  end
 
 end

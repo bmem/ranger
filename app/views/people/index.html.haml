@@ -1,0 +1,27 @@
+%h1 Listing people
+
+%table
+  %tr
+    %th Callsign
+    %th Full name
+    %th Status
+    %th Barcode
+    %th On site
+    %th
+    %th
+    %th
+
+  - @people.each do |person|
+    %tr
+      %td= person.callsign
+      %td= person.full_name
+      %td= person.status
+      %td= person.barcode
+      %td= person.on_site
+      %td= link_to 'Show', person
+      %td= link_to 'Edit', edit_person_path(person)
+      %td= link_to 'Destroy', person, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Person', new_person_path

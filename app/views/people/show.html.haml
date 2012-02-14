@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%h1= "#{@person.callsign} (#{@person.full_name})"
+
+%dl.attributes[@person]
+  - ([:callsign, :full_name, :barcode, :status, :status_date, :callsign_approved, :on_site] + Person::DETAIL_ATTRS + [:created_at, :updated_at]).uniq.each do |attr|
+    %dt{:id => "label_#{attr}"}= Person.human_attribute_name attr
+    %dd{:id => "value_#{attr}"}= @person.send attr
+
+= link_to 'Edit', edit_person_path(@person)
+\|
+= link_to 'Back', people_path

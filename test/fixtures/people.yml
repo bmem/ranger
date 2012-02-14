@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  callsign: Hubcap
+  full_name: Hubert C. Appleton
+  status: active
+  barcode:
+  on_site: false
+  details:
+
+two:
+  callsign: Snarkle Pony
+  full_name: Suzy Creamcheese
+  status: alpha
+  barcode: 223344
+  on_site: true
+  details:
