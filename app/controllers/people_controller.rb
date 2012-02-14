@@ -80,4 +80,8 @@ class PeopleController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def subject_record
+    @person
+  end
 end

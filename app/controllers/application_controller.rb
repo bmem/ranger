@@ -1,3 +1,5 @@
-class ApplicationController < ActionController::Base
+class ApplicationController < Bmem::ApplicationController
+  helper Bmem::TitleHelper
+
   protect_from_forgery
 end

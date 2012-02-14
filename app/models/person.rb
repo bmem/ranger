@@ -16,4 +16,8 @@ class Person < ActiveRecord::Base
     :message => "is not a valid status" }
   validates :callsign, :uniqueness => true, :length => { :in => 1..32 }
   validates :full_name, :length => { :in => 2..64 }
+
+  def display_name
+    callsign
+  end
 end
