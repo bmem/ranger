@@ -3,6 +3,8 @@ Ranger::Application.routes.draw do
 
   mount Schedule::Engine => '/schedule'
 
+  root :to => "home#index"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

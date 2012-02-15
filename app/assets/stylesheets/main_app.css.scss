@@ -1,0 +1,66 @@
+$khaki: #C3B091;
+
+body {
+  margin: 0;
+}
+
+address {
+  background-color: $khaki;
+  border-top: thin solid;
+  bottom: 0;
+  padding-bottom: 1em;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+}
+
+.menu_header {
+  background-color: $khaki;
+  border-bottom: thin solid;
+  margin: 0 0 1em;
+  padding: 0 1ex;
+  width: 100%;
+
+  ul.menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  ul.menu + ul.menu {
+    margin-top: 0.5em;
+  }
+
+  li {
+    display: inline;
+    margin: 0 0.5em;
+    /* margin-right: 1em; */
+  }
+
+  li:first-child {
+    margin-left: 0;
+  }
+
+  a {
+    font-weight: bolder;
+    text-decoration: none;
+  }
+}
+
+.notifications {
+  text-align: center;
+
+  .alert, .notice {
+    background-color: yellow;
+    border: thin solid black;
+    display: inline-block;
+    padding: {
+      left: 0.75ex;
+      right: 0.75ex;
+    }
+  }
+}
+
+.content {
+  margin: 1em;
+}

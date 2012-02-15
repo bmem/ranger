@@ -1,0 +1,31 @@
+!!!
+%html
+  %head
+    %title= page_title
+    = yield :assets
+    = stylesheet_link_tag "application", :media => "all"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+  %body
+    .menu_header
+      %ul.menu#main_menu
+        %li= link_to t('site_name'), main_app_routes.root_path
+        = yield :main_menu
+        %li= link_to t('module.schedule'), schedule_routes.root_path
+        -# TODO account and sign in/out
+      - if content_for? :section_menu
+        %ul.menu#section_menu
+          = yield :section_menu
+
+    - if alert or notice
+      .notifications
+        - if alert
+          .alert= alert
+        - if notice
+          .notice= notice
+
+    .content= yield
+
+  %address
+    Is clicking the mouse pushing your buttons?  Kick it sideways to
+    %a(href="mailto:#{t('support.email')}") #{t('support.name')} (#{t('support.email')})

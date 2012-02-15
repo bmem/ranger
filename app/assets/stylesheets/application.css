@@ -10,5 +10,6 @@
  *
  *= require_self
  *= require formtastic
+ *= require bmem/application
  *= require_tree .
 */
