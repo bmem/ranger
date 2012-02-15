@@ -1,6 +1,8 @@
 Ranger::Application.routes.draw do
   resources :people
 
+  mount Schedule::Engine => '/schedule'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
