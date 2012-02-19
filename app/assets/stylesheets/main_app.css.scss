@@ -19,7 +19,7 @@ address {
   border-bottom: thin solid;
   margin: 0 0 1em;
   padding: 0 1ex;
-  width: 100%;
+  #width: 100%;
 
   ul.menu {
     list-style: none;
@@ -41,9 +41,15 @@ address {
     margin-left: 0;
   }
 
-  a {
+  a,a:visited {
+    color: black;
     font-weight: bolder;
     text-decoration: none;
+    &:hover {
+      background-color: $khaki;
+      color: white;
+      text-decoration: underline;
+    }
   }
 }
 
