@@ -1,4 +1,6 @@
 Ranger::Application.routes.draw do
+  devise_for :users
+
   resources :people
 
   mount Schedule::Engine => '/schedule'

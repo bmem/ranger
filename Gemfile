@@ -33,6 +33,7 @@ gem 'formtastic'
 gem "rails_sql_views", :git => "git://github.com/flwyd/rails_sql_views"
 
 gem 'cancan'
+gem 'devise'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
