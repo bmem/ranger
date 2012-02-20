@@ -41,6 +41,15 @@ address {
     margin-left: 0;
   }
 
+  li.account,li.session {
+    a,a.visited {
+      color: maroon
+    }
+    a:hover {
+      color: white
+    }
+  }
+
   a,a:visited {
     color: black;
     font-weight: bolder;
