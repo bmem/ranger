@@ -15,7 +15,7 @@
         %li= link_to t('module.schedule'), schedule_routes.root_path
         - if user_signed_in?
           %li= link_to 'Personal info', main_app_routes.edit_person_path(current_user.person)
-          %li.account= link_to 'My account', main_app_routes.edit_user_registration_path
+          %li.account= link_to current_user.to_s, main_app_routes.edit_user_registration_path, :title => "My account"
           %li.session= link_to 'Sign out', main_app_routes.destroy_user_session_path, :method => :delete
         - else
           %li.account= link_to 'Create account', main_app_routes.new_user_registration_path
