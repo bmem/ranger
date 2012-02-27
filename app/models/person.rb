@@ -26,4 +26,12 @@ class Person < ActiveRecord::Base
   def to_s
     display_name
   end
+
+  before_validation do |p|
+    if p.new_record?
+      p.callsign = "#{p.full_name} (new #{Date.new.year})" if p.callsign.blank?
+      p.status = 'prospective' if p.status.blank?
+      p.email = p.user.email if p.email.blank? && p.user
+    end
+  end
 end
