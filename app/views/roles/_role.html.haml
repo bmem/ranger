@@ -1,0 +1,18 @@
+%h2.role_title
+  - if role_link
+    = link_to role.name, "/roles/#{role.to_sym}"
+  - else
+    = role
+  %span.description= role.description
+= form_tag("/roles/#{role.to_sym}", :method => :put) do
+  %table
+    %tr
+      - @users.in_groups(3) do |user_list|
+        %td
+          - user_list.reject(&:nil?).each do |u|
+            .user_role
+              - check_id = "#{role.to_sym}_#{u.id}"
+              - present = u.has_role?(role)
+              = check_box_tag 'users[]', u.id, present, :id => check_id
+              = label_tag check_id, u.to_s, :class => (present ? 'present' : 'absent')
+  = submit_tag "Save #{role} changes", :disable_with => 'Saving...'

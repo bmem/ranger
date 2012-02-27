@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+admin1:
+  user: adminuser
+  role: admin
+
+hq1:
+  user: hquser
+  role: hq
+
+hq2:
+  user: hqmentor
+  role: hq
+
+mentor1:
+  user: hqmentor
+  role: mentor
+
+trainer1:
+  user: trainer
+  role: trainer

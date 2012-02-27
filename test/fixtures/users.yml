@@ -1,5 +1,17 @@
-one:
-  email: one@example.com
+normaluser1:
+  email: user1@example.com
 
-two:
-  email: two@example.com
+normaluser2:
+  email: user2@example.com
+
+adminuser:
+  email: admin@example.com
+
+hquser:
+  email: hq@example.com
+
+hqmentoruser:
+  email: hqmentor@example.com
+
+traineruser:
+  email: trainer@example.com

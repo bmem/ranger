@@ -1,0 +1,3 @@
+%h1 User Roles
+- @roles.each do |role, user_ids|
+  = render :partial => 'role', :locals => {:role => role, :user_ids => user_ids, :role_link => true}

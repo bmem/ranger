@@ -1,4 +1,6 @@
 Ranger::Application.routes.draw do
+  resources :roles, :only => [:index, :show, :update], :id => /\w+/
+
   devise_for :users
 
   resources :people

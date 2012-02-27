@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120219204934) do
+ActiveRecord::Schema.define(:version => 20120226165401) do
 
   create_table "people", :force => true do |t|
     t.string   "callsign"
@@ -84,6 +84,15 @@ ActiveRecord::Schema.define(:version => 20120219204934) do
 
   add_index "schedule_slots", ["position_id"], :name => "index_schedule_slots_on_position_id"
   add_index "schedule_slots", ["shift_id"], :name => "index_schedule_slots_on_shift_id"
+
+  create_table "user_roles", :force => true do |t|
+    t.integer  "user_id",    :null => false
+    t.string   "role",       :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "user_roles", ["user_id"], :name => "index_user_roles_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false

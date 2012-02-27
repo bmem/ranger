@@ -1,0 +1,13 @@
+%h1
+  Edit Roles for
+  / #TODO when there's a real user controller = link_to @user.to_s, user_path(@user)
+  = @user.to_s
+= form_tag("/roles/#{@user.id}", :method => :put) do
+  - Role::ALL.each do |role|
+    .user_role
+      - check_id = "#{role.to_sym}_#{@user.id}"
+      - present = @user.has_role?(role)
+      = check_box_tag 'roles[]', role.to_sym, present, :id => check_id
+      = label_tag check_id, "#{role.name} (#{role.description})", :class => (present ? 'present' : 'absent')
+  = submit_tag "Save changes", :disable_with => 'Saving...'
+%p= link_to 'All roles', roles_path

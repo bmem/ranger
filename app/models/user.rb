@@ -6,4 +6,18 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
+
+  has_many :user_roles
+
+  def roles
+    user_roles.map {|ur| Role[ur.role]}
+  end
+
+  def has_role?(role)
+    Role[role].in? roles
+  end
+
+  def to_s
+    email
+  end
 end
