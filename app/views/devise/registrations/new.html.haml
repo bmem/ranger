@@ -1,0 +1,14 @@
+%h1= "Create a #{t :site_name} account"
+
+/= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
+= semantic_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
+  = devise_error_messages!
+
+  - resource.build_person
+  = f.inputs :for => :person do |person_form|
+    = person_form.input :full_name
+  = f.inputs :email, :password, :password_confirmation
+  = f.buttons do
+    = f.commit_button
+
+= render "links"
