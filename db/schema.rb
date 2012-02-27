@@ -10,22 +10,24 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120226165401) do
+ActiveRecord::Schema.define(:version => 20120227021739) do
 
   create_table "people", :force => true do |t|
+    t.integer  "user_id"
     t.string   "callsign"
     t.string   "full_name"
     t.string   "status"
     t.string   "barcode"
     t.boolean  "on_site"
     t.text     "details"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
   end
 
   add_index "people", ["barcode"], :name => "index_people_on_barcode"
   add_index "people", ["callsign"], :name => "index_people_on_callsign"
   add_index "people", ["full_name"], :name => "index_people_on_full_name"
+  add_index "people", ["user_id"], :name => "index_people_on_user_id"
 
   create_table "schedule_events", :force => true do |t|
     t.string   "name",                          :null => false

@@ -17,7 +17,7 @@ class RolesControllerTest < ActionController::TestCase
   end
 
   test "should update user" do
-    id = users(:adminuser).id
+    id = users(:normaluser1).id
     put :update, :id => id, :roles => %w(admin hq mentor)
     assert_redirected_to "/roles/#{id}", flash[:notice]
     user = User.find(id)

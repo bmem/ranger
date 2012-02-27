@@ -21,6 +21,7 @@ class PeopleControllerTest < ActionController::TestCase
       attrs = @person.attributes.clone
       attrs['callsign'] = attrs['callsign'] + ' (Retired 2010)'
       post :create, :person => attrs
+      puts "attrs: #{attrs}"
     end
 
     assert_redirected_to person_path(assigns(:person))

@@ -9,6 +9,8 @@ class Person < ActiveRecord::Base
     :has_personnel_note
   ]
 
+  belongs_to :user
+
   store :details, :accessors => DETAIL_ATTRS
 
   validates :status, :callsign, :full_name, :presence => true
@@ -19,5 +21,9 @@ class Person < ActiveRecord::Base
 
   def display_name
     callsign
+  end
+
+  def to_s
+    display_name
   end
 end

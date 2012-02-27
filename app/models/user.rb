@@ -7,6 +7,9 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
 
+  has_one :person
+  accepts_nested_attributes_for :person
+  # TODO don't let person change after creation
   has_many :user_roles
 
   def roles
@@ -18,6 +21,6 @@ class User < ActiveRecord::Base
   end
 
   def to_s
-    email
+    person ? person.to_s : email
   end
 end
