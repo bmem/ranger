@@ -1,0 +1,23 @@
+%h1= "Edit #{resource_name.to_s.humanize}"
+
+= semantic_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
+  = devise_error_messages!
+
+  = f.inputs :for => :person do |person_form|
+    = person_form.input :full_name
+  = f.inputs :email
+  = f.inputs :name => 'Change your password (or leave these blank)' do
+    = f.input :password
+    = f.input :password_confirmation
+    = f.input :current_password
+  = f.buttons do
+    = f.commit_button
+
+- unless resource.roles.empty?
+  %p
+  Roles
+  %ul
+    - resource.roles.each do |role|
+      %li= "#{role.name} (#{role.description})"
+
+= render "links"
