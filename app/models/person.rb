@@ -10,6 +10,10 @@ class Person < ActiveRecord::Base
   ]
 
   belongs_to :user
+  has_and_belongs_to_many :positions, :class_name => Schedule::Position,
+    :join_table => :schedule_people_positions
+  has_and_belongs_to_many :slots, :class_name => Schedule::Slot,
+    :join_table => :schedule_people_slots
 
   store :details, :accessors => DETAIL_ATTRS
 
@@ -29,7 +33,8 @@ class Person < ActiveRecord::Base
 
   before_validation do |p|
     if p.new_record?
-      p.callsign = "#{p.full_name} (new #{Date.new.year})" if p.callsign.blank?
+      p.callsign =
+        "#{p.full_name} (new #{Date.today.year})" if p.callsign.blank?
       p.status = 'prospective' if p.status.blank?
       p.email = p.user.email if p.email.blank? && p.user
     end

@@ -2,8 +2,37 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    # TODO replace this with an actual permissions system
-    can :manage, :all
+    if user.nil?
+      can :create, User
+    else
+      # TODO investigate trusted-params gem so HQ et al. can change person
+      # fields like status but a normal user can't change his own status
+      can :update, User, :id => user.id
+      can :read, Schedule::Event, :signup_open => true
+      if user.person
+        can [:read, :update], [Person, Schedule::Person], :id => user.person.id
+        can :read, Schedule::Position, :id => user.person.position_ids
+        can :read, Schedule::Slot, :position_id => user.person.position_ids
+      end
+
+      if user.has_role? :mentor
+        # nothing yet
+      end
+
+      if user.has_role? :trainer
+        # nothing yet
+      end
+
+      if user.has_role? :hq
+        can :read, :all
+        can :manage, [Person, Schedule::Person]
+        can :update, Schedule::Slot
+      end
+
+      if user.has_role? :admin
+        can :manage, :all
+      end
+    end
 
     # Define abilities for the passed in user here. For example:
     #
