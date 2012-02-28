@@ -13,6 +13,10 @@
         %li= link_to t('site_name'), main_app_routes.root_path
         = yield :main_menu
         %li= link_to t('module.schedule'), schedule_routes.root_path
+        - if can? :manage, Person
+          %li= link_to Person.model_name.human.pluralize, main_app_routes.people_path
+        - if can? :manage, User
+          %li= link_to User.model_name.human.pluralize, main_app_routes.roles_path
         - if user_signed_in?
           %li= link_to 'Personal info', main_app_routes.edit_person_path(current_user.person)
           %li.account= link_to current_user.to_s, main_app_routes.edit_user_registration_path, :title => "My account"
