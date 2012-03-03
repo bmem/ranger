@@ -36,3 +36,31 @@ you consent for that code to be used under the BMEM license.
 
 If you are interested in contributing to this project, send a message to
 ranger-tech-cadre at burningman dot com and explain your interest.
+
+BMEM and Khaki Clubhouse are hosted on GitHub.  Git is a distributed source
+control system that lets you make unlimited local edits and branches and
+effectively merge your changes with others working on the same project.
+If you're new to Git or GitHub, read the *Beginner* section of
+http://help.github.com/
+
+When you're ready to hack on BMEM, fork http://github.com/bmem/schedule and
+http://github.com/bmem/ranger and send pull requests to bmem with your changes.
+(If you're working on something significant, please discuss it first in an
+issue or on the mailing list.)  If you don't have +schedule+ in the same parent
+directory as +ranger+, you'll need to update the +ranger+ Gemfile.
+
+To check out and run the code (assuming you have installed Ruby, Rails, Ruby
+Gems, and Bundler):
+  mkdir bmem && cd bmem
+  git clone git@github.com:bmem/schedule.git
+  ls schedule # the code's all there
+  git clone git@github.com:bmem/ranger.git
+  cd ranger
+  bundle install
+  rails server
+  # visit http://localhost:3000/ and take a look around
+
+The maintainers would love it if you included tests along with your changes.
+Also, please keep most code to 80 columns wide in a readable style.  An
+exception is made for files that are mostly markup (HAML, ERB), since they're
+often more readable when they're > 80 columns.
