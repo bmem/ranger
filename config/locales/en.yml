@@ -8,3 +8,15 @@ en:
   support:
     email: ranger-tech-ninjas@burningman.com
     name: Ranger Tech Ninjas
+
+  date:
+    formats:
+      default: "%a %Y-%m-%d"
+      short: "%a %-m/%-d"
+      long: "%a %b %-d, %Y"
+
+  time:
+    formats:
+      default: "%a %Y-%m-%d %H:%M"
+      short: "%a %m/%d %H:%M"
+      long: "%a %b %d, %Y %H:%M"
