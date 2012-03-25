@@ -29,6 +29,8 @@ gem 'haml-rails'
 
 gem 'formtastic'
 
+gem 'acts-as-taggable-on'
+
 # Patched to fix various stack overflow and sqlite compatibility errors
 gem "rails_sql_views", :git => "git://github.com/flwyd/rails_sql_views"
 
