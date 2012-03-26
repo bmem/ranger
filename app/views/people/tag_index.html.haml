@@ -1,0 +1,13 @@
+%h1 Person tags
+
+- @tag_counts.sort.each do |tag, counts|
+  %h2= link_to tag.titlecase, tag_people_path(tag)
+  %ul
+    - counts.sort_by(&:name).each do |t|
+      %li
+        = link_to t.name, tag_people_path(tag, t.name)
+        = "(#{t.count} people)"
+
+%br
+
+= link_to 'All people', people_path

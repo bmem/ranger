@@ -3,7 +3,8 @@ Ranger::Application.routes.draw do
 
   devise_for :users
 
-  resources :people
+  resources :people, :constraints => {:id => /\d+/}
+  match 'people/tag(/:tag(/:name))' => 'people#tag', :as => :tag_people
 
   mount Schedule::Engine => '/schedule'
 

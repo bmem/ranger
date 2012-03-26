@@ -1,0 +1,28 @@
+%h1= "Listing people by #{@tag.singularize}"
+
+- @tagged_people.sort.each do |tag, people|
+  %h2
+    = link_to tag, tag_people_path(@tag, tag)
+    = "(#{people.count} people)"
+
+  %table.people
+    %tr
+      %th Callsign
+      %th On site
+      %th Status
+      %th= @tag.titlecase
+
+    - people.each do |person|
+      %tr
+        %td= link_to person.callsign, person_path(person)
+        %td= person.on_site
+        %td= person.status
+        %td= person.tag_list_on(@tag)
+
+%br
+
+= link_to "People by #{@tag.singularize}", tag_people_path(@tag)
+|
+= link_to 'People by tag', tag_people_path
+|
+= link_to 'All people', people_path

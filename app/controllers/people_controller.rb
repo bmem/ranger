@@ -10,6 +10,40 @@ class PeopleController < ApplicationController
     end
   end
 
+  # GET /people/tag/language
+  # GET /people/tag/language.json
+  # GET /people/tag/language/english
+  # GET /people/tag/language/english.json
+  def tag
+    @tag = params['tag'].try &:pluralize
+    tag_name = params['name']
+    people = Person.accessible_by(current_ability).order(:callsign)
+    people = people.where(:on_playa => true) if params['on_playa']
+    if tag_name.present?
+      @tagged_people =
+          {tag_name => people.tagged_with(tag_name, :on => @tag, :wild => true)}
+    elsif @tag.present?
+      @tagged_people = Hash.new
+      people.tag_counts_on(@tag).each do |t|
+        @tagged_people[t.name] = people.tagged_with(t.name, :on => @tag)
+      end
+    else
+      @tag_counts = Hash.new
+      people.tag_types.each do |tag|
+        @tag_counts[tag.to_s] = people.tag_counts_on(tag)
+      end
+    end
+    respond_to do |format|
+      if @tagged_people
+        format.html # bylanguage.html.haml
+        format.json { render :json => @tagged_people }
+      else
+        format.html { render :action => 'tag_index' }
+        format.json { render :json => @tag_counts }
+      end
+    end
+  end
+
   # GET /people/1
   # GET /people/1.json
   def show

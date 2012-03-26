@@ -23,6 +23,10 @@
     = f.input :birth_date, :as => :date_picker
     = f.input :shirt_size, :as => :select, :collection => Person::SHIRT_SIZES
 
+  = f.inputs :name => 'Tags' do
+    = f.input :language_list
+    = f.input :qualification_list
+
   = f.inputs :name => 'On Playa' do
     = f.input :emergency_contact, :as => :text, :input_html => { :rows => 8, :cols => 30 }
     = f.input :camp_location

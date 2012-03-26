@@ -23,6 +23,8 @@ class Person < ActiveRecord::Base
   validates :callsign, :uniqueness => true, :length => { :in => 1..32 }
   validates :full_name, :length => { :in => 2..64 }
 
+  acts_as_taggable_on :languages, :qualifications
+
   def display_name
     callsign
   end
