@@ -35,5 +35,5 @@
     = f.input :vehicle_blacklisted, :as => :boolean
     = f.input :has_personnel_note, :as => :boolean
 
-  = f.buttons do
-    = f.commit_button
+  = f.actions do
+    = f.action(:submit)
