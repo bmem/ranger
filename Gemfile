@@ -34,7 +34,7 @@ gem 'acts-as-taggable-on'
 # Patched to fix various stack overflow and sqlite compatibility errors
 gem "rails_sql_views", :git => "git://github.com/flwyd/rails_sql_views"
 
-gem 'cancan'
+gem 'cancan', "= 1.6.7" # TODO update to mainline when schedule does
 gem 'devise'
 
 # To use ActiveModel has_secure_password
