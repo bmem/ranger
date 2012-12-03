@@ -13,6 +13,7 @@
     = f.input :status, :as => :select, :collection => Person::STATUSES.map(&:to_s)
     = f.input :status_date, :as => :date_picker
     = f.input :callsign_approved, :as => :boolean
+    = f.input :has_personnel_note, :as => :boolean
 
   = f.inputs :name => 'Personal and Contact' do
     = f.input :mailing_address, :as => :text, :input_html => { :rows => 5, :cols => 30 }
@@ -25,14 +26,6 @@
   = f.inputs :name => 'Tags' do
     = f.input :language_list
     = f.input :qualification_list
-
-  = f.inputs :name => 'On Playa' do
-    = f.input :emergency_contact, :as => :text, :input_html => { :rows => 8, :cols => 30 }
-    = f.input :camp_location
-    = f.input :asset_authorized, :as => :boolean
-    = f.input :vehicle_paperwork, :as => :boolean
-    = f.input :vehicle_blacklisted, :as => :boolean
-    = f.input :has_personnel_note, :as => :boolean
 
   = f.actions do
     = f.action(:submit)

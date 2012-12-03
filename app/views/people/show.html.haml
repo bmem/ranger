@@ -5,6 +5,11 @@
     %dt{:id => "label_#{attr}"}= Person.human_attribute_name attr
     %dd{:id => "value_#{attr}"}= @person.send attr
 
+%h3 Event participation
+%ul
+  - @person.participants.sort_by(&:event).each do |p|
+    %li= link_to p.event, event_participant_path(p)
+
 = link_to 'Edit', edit_person_path(@person)
 \|
 = link_to 'Back', people_path

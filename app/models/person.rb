@@ -4,9 +4,7 @@ class Person < ActiveRecord::Base
   SHIRT_SIZES = %w(XS S M L XL 2XL 3XL 4XL)
   DETAIL_ATTRS = [
     :email, :mailing_address, :main_phone, :alt_phone, :birth_date, :shirt_size,
-    :camp_location, :emergency_contact, :status_date, :callsign_approved,
-    :asset_authorized, :vehicle_paperwork, :vehicle_blacklisted,
-    :has_personnel_note
+    :status_date, :callsign_approved, :has_personnel_note
   ]
 
   belongs_to :user

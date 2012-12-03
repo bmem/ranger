@@ -1,6 +1,21 @@
 = semantic_form_for @participant do |f|
-  = f.inputs do
+  = f.inputs :name => 'Basic Information' do
     = f.input :name
+    = f.input :full_name
+    = f.input :barcode
+    = f.input :on_site
+    = f.input :participation_status, :as => :select, :collection => Participant::STATUSES.map(&:to_s)
+    = f.input :personnel_status, :as => :select, :collection => Person::STATUSES.map(&:to_s)
+
+  = f.inputs :name => 'On Site Details' do
+    = f.input :on_site_planned
+    = f.input :on_site_actual
+    = f.input :off_site_planned
+    = f.input :off_site_actual
+    = f.input :camp_location
+    = f.input :emergency_contact_info, :as => :text,
+      :input_html => { :rows => 8, :cols => 60 },
+      :hint => "On and off-site; name, phone number, address, etc."
 
   = f.actions do
     = f.action(:submit)

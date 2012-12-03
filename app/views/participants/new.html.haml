@@ -1,5 +1,11 @@
 %h1 New participant
 
-= render 'form'
+= semantic_form_for @participant do |f|
+  = f.inputs do
+    = f.input :event
+    = f.input :person
 
-= link_to 'Back', participants_path
+  = f.actions do
+    = f.action :submit
+
+= link_to 'Back', @event ? event_participants_path(@event) : participants_path

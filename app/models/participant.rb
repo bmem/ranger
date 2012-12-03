@@ -11,7 +11,7 @@ class Participant < ActiveRecord::Base
   has_and_belongs_to_many :slots
   has_many :work_logs
 
-  store :details, :accesors => DETAIL_ATTRS
+  store :details, :accessors => DETAIL_ATTRS
 
   validates :name, :full_name, :participation_status, :personnel_status,
     :presence => true

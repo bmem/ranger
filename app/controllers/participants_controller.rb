@@ -20,6 +20,7 @@ class ParticipantsController < EventBasedController
   # GET /participants/new
   # GET /participants/new.json
   def new
+    @participant.event ||= @event
     respond_to do |format|
       format.html # new.html.erb
       format.json { render :json => @participant }

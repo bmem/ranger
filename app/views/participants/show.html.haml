@@ -1,6 +1,42 @@
+%h1= "#{@participant.name} participating in #{@participant.event}"
+
 %p
   %b Name:
   = @participant.name
+
+%p
+  %b Full name:
+  = @participant.full_name
+
+%p
+  %b Barcode:
+  = @participant.barcode
+
+%p
+  %b On site:
+  = @participant.on_site
+
+%p
+  %b Participation status:
+  = @participant.participation_status
+
+%p
+  %b Personnel status:
+  = @participant.personnel_status
+
+%p
+  %b Full Name:
+  = @participant.full_name
+
+%h3 On site details
+%dl.attributes[@participant]
+  - Participant::DETAIL_ATTRS.each do |attr|
+    %dt{:id => "label_#{attr}"}<= Participant.human_attribute_name attr
+    %dd{:id => "value_#{attr}"}<= @participant.send attr
+
+%p
+  %b More details about this person:
+  = link_to @participant.person, @participant.person
 
 = link_to 'Edit', edit_participant_path(@participant)
 \|
