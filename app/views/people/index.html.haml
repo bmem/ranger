@@ -6,7 +6,6 @@
     %th Full name
     %th Status
     %th Barcode
-    %th On site
     %th
     %th
     %th
@@ -17,7 +16,6 @@
       %td= person.full_name
       %td= person.status
       %td= person.barcode
-      %td= person.on_site
       %td= link_to 'Show', person
       %td= link_to 'Edit', edit_person_path(person)
       %td= link_to 'Destroy', person, :confirm => 'Are you sure?', :method => :delete

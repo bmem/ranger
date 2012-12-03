@@ -1,0 +1,9 @@
+- if @event && !@event.new_record?
+  - content_for :section_menu do
+    %li.currentevent= link_to @event.name, event_path(@event)
+    %li= link_to 'Shifts', event_shifts_path(@event)
+    %li= link_to 'Slots', event_slots_path(@event)
+    %li= link_to 'Work Logs', event_work_logs_path(@event)
+    -if can? :manage, Participant
+      %li= link_to 'Participants', event_participants_path(@event)
+= render 'layouts/main_app'

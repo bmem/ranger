@@ -10,10 +10,9 @@ class Person < ActiveRecord::Base
   ]
 
   belongs_to :user
-  has_and_belongs_to_many :positions, :class_name => Schedule::Position,
-    :join_table => :schedule_people_positions
-  has_and_belongs_to_many :slots, :class_name => Schedule::Slot,
-    :join_table => :schedule_people_slots
+  has_many :participants
+  has_many :events, :through => :participants
+  has_and_belongs_to_many :positions
 
   store :details, :accessors => DETAIL_ATTRS
 

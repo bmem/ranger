@@ -1,0 +1,8 @@
+= semantic_form_for @position do |f|
+  = f.inputs do
+    = f.input :name
+    = f.input :description, :input_html => {:rows => 5}
+    = f.input :new_user_eligible
+
+  = f.actions do
+    = f.action(:submit)

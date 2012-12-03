@@ -8,11 +8,11 @@ class Ability
       # TODO investigate trusted-params gem so HQ et al. can change person
       # fields like status but a normal user can't change his own status
       can :update, User, :id => user.id
-      can :read, Schedule::Event, :signup_open => true
+      can :read, Event, :signup_open => true
       if user.person
-        can [:read, :update], [Person, Schedule::Person], :id => user.person.id
-        can :read, Schedule::Position, :id => user.person.position_ids
-        can :read, Schedule::Slot, :position_id => user.person.position_ids
+        can [:read, :update], Person, :id => user.person.id
+        can :read, Position, :id => user.person.position_ids
+        can :read, Slot, :position_id => user.person.position_ids
       end
 
       if user.has_role? :mentor
@@ -25,8 +25,8 @@ class Ability
 
       if user.has_role? :hq
         can :read, :all
-        can :manage, [Person, Schedule::Person]
-        can :update, Schedule::Slot
+        can :manage, Person
+        can :update, Slot
       end
 
       if user.has_role? :admin

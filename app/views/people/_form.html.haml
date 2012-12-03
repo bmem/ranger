@@ -13,7 +13,6 @@
     = f.input :status, :as => :select, :collection => Person::STATUSES.map(&:to_s)
     = f.input :status_date, :as => :date_picker
     = f.input :callsign_approved, :as => :boolean
-    = f.input :on_site
 
   = f.inputs :name => 'Personal and Contact' do
     = f.input :mailing_address, :as => :text, :input_html => { :rows => 5, :cols => 30 }

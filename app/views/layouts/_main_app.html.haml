@@ -10,21 +10,24 @@
   %body
     .menu_header
       %ul.menu#main_menu
-        %li= link_to t('site_name'), main_app_routes.root_path
+        %li= link_to t('site_name'), root_path
         = yield :main_menu
-        %li= link_to t('module.schedule'), schedule_routes.root_path
+        %li= link_to 'Schedule', schedule_home_path
+        %li= link_to 'Events', events_path
         - if can? :manage, Person
-          %li= link_to Person.model_name.human.pluralize, main_app_routes.people_path
+          %li= link_to Person.model_name.human.pluralize, people_path
         - if can? :manage, User
-          %li= link_to User.model_name.human.pluralize, main_app_routes.roles_path
+          %li= link_to User.model_name.human.pluralize, roles_path
+        - if can? :manage, Position
+          %li= link_to Position.model_name.human.pluralize, positions_path
         - if user_signed_in?
           - if current_user.person
-            %li= link_to 'Personal info', main_app_routes.edit_person_path(current_user.person)
-          %li.account= link_to current_user.to_s, main_app_routes.edit_user_registration_path, :title => "My account"
-          %li.session= link_to 'Sign out', main_app_routes.destroy_user_session_path, :method => :delete
+            %li= link_to 'Personal info', edit_person_path(current_user.person)
+          %li.account= link_to current_user.to_s, edit_user_registration_path, :title => "My account"
+          %li.session= link_to 'Sign out', destroy_user_session_path, :method => :delete
         - else
-          %li.account= link_to 'Create account', main_app_routes.new_user_registration_path
-          %li.session= link_to 'Sign in', main_app_routes.new_user_session_path
+          %li.account= link_to 'Create account', new_user_registration_path
+          %li.session= link_to 'Sign in', new_user_session_path
       - if content_for? :section_menu
         %ul.menu#section_menu
           = yield :section_menu

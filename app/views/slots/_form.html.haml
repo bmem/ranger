@@ -1,0 +1,9 @@
+= semantic_form_for @slot do |f|
+  = f.inputs do
+    = f.input :shift, :member_label => :to_s_with_date
+    = f.input :position
+    = f.input :min_people, :input_html => {:size => 3}
+    = f.input :max_people, :input_html => {:size => 3}
+
+  = f.actions do
+    = f.action(:submit)

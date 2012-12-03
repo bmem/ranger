@@ -1,0 +1,12 @@
+= semantic_form_for @work_log do |f|
+  = f.inputs do
+    = f.input :participant, :as => :select, :collection => @participants
+    = f.input :position, :as => :select, :collection => @positions
+    = f.input :shift, :as => :select, :collection => Hash[@shifts.map {|s| [s.to_s_with_date, s.id]}]
+    = f.input :event, :as => :select, :collection => @events
+    / TODO :as => datetime_picker
+    = f.input :start_time
+    = f.input :end_time
+    = f.input :note
+  = f.actions do
+    = f.action(:submit)

@@ -1,0 +1,32 @@
+%p
+  %b Name:
+  = @event.name
+%p
+  %b Description:
+  = @event.description
+%p
+  %b Start date:
+  = @event.start_date
+%p
+  %b End date:
+  = @event.end_date
+%p
+  %b Signup open:
+  = @event.signup_open
+%p
+  %h3= link_to 'Shifts', event_shifts_path(@event)
+  = link_to 'New shift', new_event_shift_path(@event)
+  %table
+    %tr
+      %th= Shift.human_attribute_name(:name)
+      %th= Shift.human_attribute_name(:start_time)
+      %th= Shift.human_attribute_name(:end_time)
+    - @event.shifts.each do |shift|
+      %tr
+        %td= link_to shift.name, event_shift_path(@event, shift)
+        %td= l shift.start_time
+        %td= l shift.end_time
+
+= link_to 'Edit', edit_event_path(@event)
+\|
+= link_to 'Back', events_path

@@ -1,0 +1,13 @@
+%h1 Schedule
+- unless @current_events.empty?
+  #current_events
+    %h3 Current events
+    = render :partial => 'events', :locals => {:events => @current_events}
+- unless @upcoming_events.empty?
+  #upcoming_events
+    %h3 Upcoming events
+    = render :partial => 'events', :locals => {:events => @upcoming_events}
+- unless @completed_events.empty?
+  #completed_events
+    %h3 Completed events
+    = render :partial => 'events', :locals => {:events => @completed_events}

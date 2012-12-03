@@ -1,0 +1,15 @@
+%table
+  %tr
+    %th Name
+    %th Start date
+    %th End date
+    %th Signup open?
+    %th Description
+
+  - events.each do |event|
+    %tr
+      %td= link_to event.name, event
+      %td= event.start_date
+      %td= event.end_date
+      %td= event.signup_open
+      %td= event.description

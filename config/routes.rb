@@ -6,7 +6,26 @@ Ranger::Application.routes.draw do
   resources :people, :constraints => {:id => /\d+/}
   match 'people/tag(/:tag(/:name))' => 'people#tag', :as => :tag_people
 
-  mount Schedule::Engine => '/schedule'
+  resources :positions
+
+  # Schedule/Event routes
+  resources :participants
+  resources :work_logs, :path => 'worklogs'
+  resources :slots do
+    resources :work_logs, :path => 'worklogs'
+  end
+  resources :shifts do
+    resources :slots
+    resources :work_logs, :path => 'worklogs'
+    post 'copy', :on => :member
+  end
+  resources :events do
+    resources :shifts, :slots, :participants
+    resources :work_logs, :path => 'worklogs'
+    post 'copy', :on => :member
+  end
+
+  match 'schedule' => 'schedule_home#index', :as => :schedule_home
 
   root :to => "home#index"
 

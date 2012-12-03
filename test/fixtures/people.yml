@@ -6,7 +6,6 @@ one:
   full_name: Hubert C. Appleton
   status: active
   barcode:
-  on_site: false
   details:
 
 two:
@@ -15,5 +14,4 @@ two:
   full_name: Suzy Creamcheese
   status: alpha
   barcode: 223344
-  on_site: true
   details:

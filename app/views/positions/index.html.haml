@@ -1,0 +1,23 @@
+%h1 Listing positions
+
+%table
+  %tr
+    %th Name
+    %th Description
+    %th New user eligible
+    %th
+    %th
+    %th
+
+  - @positions.each do |position|
+    %tr
+      %td= position.name
+      %td= position.description
+      %td= position.new_user_eligible
+      %td= link_to 'Show', position
+      %td= link_to 'Edit', edit_position_path(position)
+      %td= link_to 'Destroy', position, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Position', new_position_path

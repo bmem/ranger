@@ -1,0 +1,18 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  participant: e1p1
+  position: one
+  event: one
+  shift:
+  start_time: 2012-04-07 16:00:00
+  end_time: 2012-04-07 22:00:00
+  note: MyText
+
+two:
+  participant: e1p2
+  position: one
+  event: one
+  shift:
+  start_time: 2012-04-07 16:00:00
+  end_time:

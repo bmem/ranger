@@ -1,0 +1,31 @@
+%h1 Listing Work Logs
+
+%table
+  %tr
+    %th Participant
+    %th Position
+    %th Event
+    %th Shift
+    %th Start time
+    %th End time
+    %th Note
+    %th
+    %th
+    %th
+
+  - @work_logs.each do |work_log|
+    %tr
+      %td= work_log.participant
+      %td= work_log.position
+      %td= work_log.event
+      %td= work_log.shift
+      %td= l work_log.start_time, :format => :short
+      %td= work_log.end_time.try { |time| l time, :format => :short }
+      %td= 'Yes' if work_log.note.present?
+      %td= link_to 'Show', work_log
+      %td= link_to 'Edit', edit_work_log_path(work_log)
+      %td= link_to 'Destroy', work_log, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Work Log', @event ? new_event_work_log_path(@event) : new_work_log_path

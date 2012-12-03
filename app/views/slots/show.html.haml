@@ -1,0 +1,17 @@
+%p
+  %b Shift:
+  = link_to @slot.shift.to_s_with_date, event_shift_path(@slot.shift.event, @slot.shift) if @slot.shift
+  = link_to @slot.shift.event.name, event_path(@slot.shift.event) if @slot.shift.event
+%p
+  %b Position:
+  = link_to @slot.position.name, position_path(@slot.position) if @slot.position
+%p
+  %b Min people:
+  = @slot.min_people
+%p
+  %b Max people:
+  = @slot.max_people
+
+= link_to 'Edit', edit_slot_path(@slot)
+\|
+= link_to 'Back', slots_path

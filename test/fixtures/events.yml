@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: 2011 Event
+  description: This event is over.
+  start_date: 2011-01-01
+  end_date: 2011-12-31
+  signup_open: false
+
+two:
+  name: Current Event
+  description: Ongoing event.
+  start_date: <%= Date.yesterday %>
+  end_date: <%= Date.tomorrow %>
+  signup_open: true

@@ -1,4 +1,6 @@
 class RolesController < ApplicationController
+  skip_load_and_authorize_resource
+
   def index
     load_users
     @roles = ActiveSupport::OrderedHash.new

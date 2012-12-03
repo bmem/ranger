@@ -10,15 +10,34 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120422164737) do
+ActiveRecord::Schema.define(:version => 20121202134700) do
+
+  create_table "participants", :force => true do |t|
+    t.integer  "event_id", :null => false
+    t.integer  "person_id", :null => false
+    t.string   "name", :null => false
+    t.string   "full_name", :null => false
+    t.string   "barcode"
+    t.boolean  "on_site", :null => false, :default => false
+    t.string   "participation_status", :null => false
+    t.string   "personnel_status", :null => false
+    t.text     "details"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "participants", ["barcode"], :name => "index_participants_on_barcode"
+  add_index "participants", ["event_id"], :name => "index_participants_on_event_id"
+  add_index "participants", ["full_name"], :name => "index_participants_on_full_name"
+  add_index "participants", ["name"], :name => "index_participants_on_name"
+  add_index "participants", ["person_id"], :name => "index_participants_on_person_id"
 
   create_table "people", :force => true do |t|
     t.integer  "user_id"
-    t.string   "callsign"
-    t.string   "full_name"
-    t.string   "status"
+    t.string   "callsign", :null => false
+    t.string   "full_name", :null => false
+    t.string   "status", :null => false
     t.string   "barcode"
-    t.boolean  "on_site"
     t.text     "details"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
@@ -29,7 +48,7 @@ ActiveRecord::Schema.define(:version => 20120422164737) do
   add_index "people", ["full_name"], :name => "index_people_on_full_name"
   add_index "people", ["user_id"], :name => "index_people_on_user_id"
 
-  create_table "schedule_events", :force => true do |t|
+  create_table "events", :force => true do |t|
     t.string   "name",                          :null => false
     t.text     "description"
     t.date     "start_date",                    :null => false
@@ -39,23 +58,23 @@ ActiveRecord::Schema.define(:version => 20120422164737) do
     t.datetime "updated_at",                    :null => false
   end
 
-  create_table "schedule_people_positions", :id => false, :force => true do |t|
+  create_table "people_positions", :id => false, :force => true do |t|
     t.integer "person_id",   :null => false
     t.integer "position_id", :null => false
   end
 
-  add_index "schedule_people_positions", ["person_id", "position_id"], :name => "index_schedule_people_positions_on_person_id_and_position_id", :unique => true
-  add_index "schedule_people_positions", ["position_id"], :name => "index_schedule_people_positions_on_position_id"
+  add_index "people_positions", ["person_id", "position_id"], :name => "index_people_positions_on_person_id_and_position_id", :unique => true
+  add_index "people_positions", ["position_id"], :name => "index_people_positions_on_position_id"
 
-  create_table "schedule_people_slots", :id => false, :force => true do |t|
-    t.integer "person_id", :null => false
+  create_table "participants_slots", :id => false, :force => true do |t|
+    t.integer "participant_id", :null => false
     t.integer "slot_id",   :null => false
   end
 
-  add_index "schedule_people_slots", ["person_id", "slot_id"], :name => "index_schedule_people_slots_on_person_id_and_slot_id", :unique => true
-  add_index "schedule_people_slots", ["slot_id"], :name => "index_schedule_people_slots_on_slot_id"
+  add_index "participants_slots", ["participant_id", "slot_id"], :name => "index_participants_slots_on_participant_id_and_slot_id", :unique => true
+  add_index "participants_slots", ["slot_id"], :name => "index_participants_slots_on_slot_id"
 
-  create_table "schedule_positions", :force => true do |t|
+  create_table "positions", :force => true do |t|
     t.string   "name",                                 :null => false
     t.text     "description"
     t.boolean  "new_user_eligible", :default => false, :null => false
@@ -63,7 +82,7 @@ ActiveRecord::Schema.define(:version => 20120422164737) do
     t.datetime "updated_at",                           :null => false
   end
 
-  create_table "schedule_shifts", :force => true do |t|
+  create_table "shifts", :force => true do |t|
     t.string   "name",        :null => false
     t.text     "description"
     t.integer  "event_id"
@@ -73,9 +92,9 @@ ActiveRecord::Schema.define(:version => 20120422164737) do
     t.datetime "updated_at",  :null => false
   end
 
-  add_index "schedule_shifts", ["event_id"], :name => "index_schedule_shifts_on_event_id"
+  add_index "shifts", ["event_id"], :name => "index_shifts_on_event_id"
 
-  create_table "schedule_slots", :force => true do |t|
+  create_table "slots", :force => true do |t|
     t.integer  "shift_id",                   :null => false
     t.integer  "position_id",                :null => false
     t.integer  "min_people",  :default => 0, :null => false
@@ -84,11 +103,11 @@ ActiveRecord::Schema.define(:version => 20120422164737) do
     t.datetime "updated_at",                 :null => false
   end
 
-  add_index "schedule_slots", ["position_id"], :name => "index_schedule_slots_on_position_id"
-  add_index "schedule_slots", ["shift_id"], :name => "index_schedule_slots_on_shift_id"
+  add_index "slots", ["position_id"], :name => "index_slots_on_position_id"
+  add_index "slots", ["shift_id"], :name => "index_slots_on_shift_id"
 
-  create_table "schedule_work_logs", :force => true do |t|
-    t.integer  "person_id",                   :null => false
+  create_table "work_logs", :force => true do |t|
+    t.integer  "participant_id",                   :null => false
     t.integer  "position_id",                 :null => false
     t.integer  "event_id"
     t.integer  "shift_id"
@@ -99,11 +118,11 @@ ActiveRecord::Schema.define(:version => 20120422164737) do
     t.datetime "updated_at",                  :null => false
   end
 
-  add_index "schedule_work_logs", ["event_id"], :name => "index_schedule_work_logs_on_event_id"
-  add_index "schedule_work_logs", ["person_id"], :name => "index_schedule_work_logs_on_person_id"
-  add_index "schedule_work_logs", ["position_id"], :name => "index_schedule_work_logs_on_position_id"
-  add_index "schedule_work_logs", ["shift_id"], :name => "index_schedule_work_logs_on_shift_id"
-  add_index "schedule_work_logs", ["start_time"], :name => "index_schedule_work_logs_on_start_time"
+  add_index "work_logs", ["event_id"], :name => "index_work_logs_on_event_id"
+  add_index "work_logs", ["participant_id"], :name => "index_work_logs_on_participant_id"
+  add_index "work_logs", ["position_id"], :name => "index_work_logs_on_position_id"
+  add_index "work_logs", ["shift_id"], :name => "index_work_logs_on_shift_id"
+  add_index "work_logs", ["start_time"], :name => "index_work_logs_on_start_time"
 
   create_table "taggings", :force => true do |t|
     t.integer  "tag_id"
@@ -148,29 +167,5 @@ ActiveRecord::Schema.define(:version => 20120422164737) do
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
-
-  create_table "work_logs", :force => true do |t|
-    t.integer  "person_id",                   :null => false
-    t.integer  "position_id",                 :null => false
-    t.integer  "event_id"
-    t.integer  "shift_id"
-    t.datetime "start_time",                  :null => false
-    t.datetime "end_time"
-    t.text     "note",        :default => "", :null => false
-    t.datetime "created_at",                  :null => false
-    t.datetime "updated_at",                  :null => false
-  end
-
-  add_index "work_logs", ["event_id"], :name => "index_work_logs_on_event_id"
-  add_index "work_logs", ["person_id"], :name => "index_work_logs_on_person_id"
-  add_index "work_logs", ["position_id"], :name => "index_work_logs_on_position_id"
-  add_index "work_logs", ["shift_id"], :name => "index_work_logs_on_shift_id"
-
-  create_view "schedule_people", "SELECT id, callsign AS name, created_at, updated_at FROM people", :force => true do |v|
-    v.column :id
-    v.column :name
-    v.column :created_at
-    v.column :updated_at
-  end
 
 end

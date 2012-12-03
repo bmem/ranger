@@ -1,0 +1,31 @@
+%h1
+  Listing shifts
+  - if @event
+    for
+    = link_to @event.name, @event if @event
+
+%table
+  %tr
+    %th Name
+    - unless @event
+      %th Event
+    %th Start time
+    %th End time
+    %th
+    %th
+    %th
+
+  - @shifts.each do |shift|
+    %tr
+      %td= link_to shift.name, shift
+      - unless @event
+        %td= shift.event.name
+      %td= l shift.start_time, :format => :short
+      %td= l shift.end_time, :format => :short
+      %td= link_to 'Show', shift
+      %td= link_to 'Edit', edit_shift_path(shift)
+      %td= link_to 'Destroy', shift, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Shift', new_shift_path
