@@ -8,7 +8,7 @@
 %h3 Event participation
 %ul
   - @person.participants.sort_by(&:event).each do |p|
-    %li= link_to p.event, event_participant_path(p)
+    %li= link_to p.event, event_participant_path(p.event, p)
 
 = link_to 'Edit', edit_person_path(@person)
 \|

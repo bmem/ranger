@@ -34,6 +34,22 @@
     %dt{:id => "label_#{attr}"}<= Participant.human_attribute_name attr
     %dd{:id => "value_#{attr}"}<= @participant.send attr
 
+%h3 Work logs
+%table.worklogs[@participant]
+  %tr
+    %th Position
+    %th Shift
+    %th Start time
+    %th End time
+    %th Note
+  - @participant.work_logs.order(:start_time).each do |w|
+    %tr
+      %td= w.position
+      %td= w.shift
+      %td= l w.start_time
+      %td= l w.end_time
+      %td= w.note
+
 %p
   %b More details about this person:
   = link_to @participant.person, @participant.person
