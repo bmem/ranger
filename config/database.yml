@@ -23,3 +23,11 @@ production:
   database: db/production.sqlite3
   pool: 5
   timeout: 5000
+
+# secretclubhouse database used for converting legacy data
+secretclubhouse:
+  adapter: mysql2
+  host: localhost
+  database: rangers
+  username: rangers
+  password: rangers
