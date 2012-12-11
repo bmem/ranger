@@ -1,0 +1,10 @@
+= semantic_form_for [@credit_scheme.event, @credit_scheme, @credit_delta] do |f|
+  %h3= @credit_scheme
+  = f.inputs do
+    = f.input :name
+    = f.input :hourly_rate
+    = f.input :start_time
+    = f.input :end_time
+
+  = f.actions do
+    = f.action(:submit)

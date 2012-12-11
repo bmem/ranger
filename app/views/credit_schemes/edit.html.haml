@@ -1,0 +1,10 @@
+%h1 Editing credit_scheme
+
+= render 'form'
+
+/= link_to 'Show', @credit_scheme
+/\|
+/= link_to 'Back', credit_schemes_path
+= link_to_record @credit_scheme
+\|
+= link_to 'Back', event_credit_schemes_path(@event)

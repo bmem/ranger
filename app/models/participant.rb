@@ -34,4 +34,21 @@ class Participant < ActiveRecord::Base
       end
     end
   end
+
+  def total_credits
+    work_logs.reduce(0) {|sum, work| sum + work.credit_value}
+  end
+
+  def total_seconds
+    work_logs.map(&:duration_seconds).reduce(0, :+)
+  end
+
+  def total_hours
+    total_seconds.to_f / 1.hour
+  end
+
+  def total_hours_formatted
+    hoursmins = (total_seconds / 60).divmod(60)
+    format('%d:%02d', hoursmins[0], hoursmins[1].round)
+  end
 end

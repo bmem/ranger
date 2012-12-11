@@ -10,43 +10,38 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121202134700) do
+ActiveRecord::Schema.define(:version => 20121209235956) do
 
-  create_table "participants", :force => true do |t|
-    t.integer  "event_id", :null => false
-    t.integer  "person_id", :null => false
-    t.string   "name", :null => false
-    t.string   "full_name", :null => false
-    t.string   "barcode"
-    t.boolean  "on_site", :null => false, :default => false
-    t.string   "participation_status", :null => false
-    t.string   "personnel_status", :null => false
-    t.text     "details"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+  create_table "credit_deltas", :force => true do |t|
+    t.integer  "credit_scheme_id", :null => false
+    t.string   "name"
+    t.decimal  "hourly_rate",      :null => false
+    t.datetime "start_time",       :null => false
+    t.datetime "end_time",         :null => false
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
   end
 
-  add_index "participants", ["barcode"], :name => "index_participants_on_barcode"
-  add_index "participants", ["event_id"], :name => "index_participants_on_event_id"
-  add_index "participants", ["full_name"], :name => "index_participants_on_full_name"
-  add_index "participants", ["name"], :name => "index_participants_on_name"
-  add_index "participants", ["person_id"], :name => "index_participants_on_person_id"
+  add_index "credit_deltas", ["credit_scheme_id"], :name => "index_credit_deltas_on_credit_scheme_id"
 
-  create_table "people", :force => true do |t|
-    t.integer  "user_id"
-    t.string   "callsign", :null => false
-    t.string   "full_name", :null => false
-    t.string   "status", :null => false
-    t.string   "barcode"
-    t.text     "details"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+  create_table "credit_schemes", :force => true do |t|
+    t.integer  "event_id",         :null => false
+    t.string   "name",             :null => false
+    t.decimal  "base_hourly_rate", :null => false
+    t.text     "description"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
   end
 
-  add_index "people", ["barcode"], :name => "index_people_on_barcode"
-  add_index "people", ["callsign"], :name => "index_people_on_callsign"
-  add_index "people", ["full_name"], :name => "index_people_on_full_name"
-  add_index "people", ["user_id"], :name => "index_people_on_user_id"
+  add_index "credit_schemes", ["event_id"], :name => "index_credit_schemes_on_event_id"
+
+  create_table "credit_schemes_positions", :force => true do |t|
+    t.integer "credit_scheme_id"
+    t.integer "position_id"
+  end
+
+  add_index "credit_schemes_positions", ["credit_scheme_id", "position_id"], :name => "credit_schemes_positions_on_scheme_position", :unique => true
+  add_index "credit_schemes_positions", ["position_id", "credit_scheme_id"], :name => "credit_schemes_positions_on_position_scheme"
 
   create_table "events", :force => true do |t|
     t.string   "name",                          :null => false
@@ -58,6 +53,50 @@ ActiveRecord::Schema.define(:version => 20121202134700) do
     t.datetime "updated_at",                    :null => false
   end
 
+  create_table "participants", :force => true do |t|
+    t.integer  "event_id",                                :null => false
+    t.integer  "person_id",                               :null => false
+    t.string   "name",                                    :null => false
+    t.string   "full_name",                               :null => false
+    t.string   "barcode"
+    t.boolean  "on_site",              :default => false, :null => false
+    t.string   "participation_status",                    :null => false
+    t.string   "personnel_status",                        :null => false
+    t.text     "details"
+    t.datetime "created_at",                              :null => false
+    t.datetime "updated_at",                              :null => false
+  end
+
+  add_index "participants", ["barcode"], :name => "index_participants_on_barcode"
+  add_index "participants", ["event_id"], :name => "index_participants_on_event_id"
+  add_index "participants", ["full_name"], :name => "index_participants_on_full_name"
+  add_index "participants", ["name"], :name => "index_participants_on_name"
+  add_index "participants", ["person_id"], :name => "index_participants_on_person_id"
+
+  create_table "participants_slots", :id => false, :force => true do |t|
+    t.integer "participant_id", :null => false
+    t.integer "slot_id",        :null => false
+  end
+
+  add_index "participants_slots", ["participant_id", "slot_id"], :name => "index_participants_slots_on_participant_id_and_slot_id", :unique => true
+  add_index "participants_slots", ["slot_id"], :name => "index_participants_slots_on_slot_id"
+
+  create_table "people", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "callsign",   :null => false
+    t.string   "full_name",  :null => false
+    t.string   "status",     :null => false
+    t.string   "barcode"
+    t.text     "details"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "people", ["barcode"], :name => "index_people_on_barcode"
+  add_index "people", ["callsign"], :name => "index_people_on_callsign"
+  add_index "people", ["full_name"], :name => "index_people_on_full_name"
+  add_index "people", ["user_id"], :name => "index_people_on_user_id"
+
   create_table "people_positions", :id => false, :force => true do |t|
     t.integer "person_id",   :null => false
     t.integer "position_id", :null => false
@@ -65,14 +104,6 @@ ActiveRecord::Schema.define(:version => 20121202134700) do
 
   add_index "people_positions", ["person_id", "position_id"], :name => "index_people_positions_on_person_id_and_position_id", :unique => true
   add_index "people_positions", ["position_id"], :name => "index_people_positions_on_position_id"
-
-  create_table "participants_slots", :id => false, :force => true do |t|
-    t.integer "participant_id", :null => false
-    t.integer "slot_id",   :null => false
-  end
-
-  add_index "participants_slots", ["participant_id", "slot_id"], :name => "index_participants_slots_on_participant_id_and_slot_id", :unique => true
-  add_index "participants_slots", ["slot_id"], :name => "index_participants_slots_on_slot_id"
 
   create_table "positions", :force => true do |t|
     t.string   "name",                                 :null => false
@@ -105,24 +136,6 @@ ActiveRecord::Schema.define(:version => 20121202134700) do
 
   add_index "slots", ["position_id"], :name => "index_slots_on_position_id"
   add_index "slots", ["shift_id"], :name => "index_slots_on_shift_id"
-
-  create_table "work_logs", :force => true do |t|
-    t.integer  "participant_id",                   :null => false
-    t.integer  "position_id",                 :null => false
-    t.integer  "event_id"
-    t.integer  "shift_id"
-    t.datetime "start_time",                  :null => false
-    t.datetime "end_time"
-    t.text     "note",        :default => "", :null => false
-    t.datetime "created_at",                  :null => false
-    t.datetime "updated_at",                  :null => false
-  end
-
-  add_index "work_logs", ["event_id"], :name => "index_work_logs_on_event_id"
-  add_index "work_logs", ["participant_id"], :name => "index_work_logs_on_participant_id"
-  add_index "work_logs", ["position_id"], :name => "index_work_logs_on_position_id"
-  add_index "work_logs", ["shift_id"], :name => "index_work_logs_on_shift_id"
-  add_index "work_logs", ["start_time"], :name => "index_work_logs_on_start_time"
 
   create_table "taggings", :force => true do |t|
     t.integer  "tag_id"
@@ -167,5 +180,23 @@ ActiveRecord::Schema.define(:version => 20121202134700) do
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+
+  create_table "work_logs", :force => true do |t|
+    t.integer  "participant_id",                 :null => false
+    t.integer  "position_id",                    :null => false
+    t.integer  "event_id"
+    t.integer  "shift_id"
+    t.datetime "start_time",                     :null => false
+    t.datetime "end_time"
+    t.text     "note",           :default => "", :null => false
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
+  end
+
+  add_index "work_logs", ["event_id"], :name => "index_work_logs_on_event_id"
+  add_index "work_logs", ["participant_id"], :name => "index_work_logs_on_participant_id"
+  add_index "work_logs", ["position_id"], :name => "index_work_logs_on_position_id"
+  add_index "work_logs", ["shift_id"], :name => "index_work_logs_on_shift_id"
+  add_index "work_logs", ["start_time"], :name => "index_work_logs_on_start_time"
 
 end

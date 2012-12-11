@@ -17,6 +17,13 @@
   %b End time:
   = @work_log.end_time.try { |time| l time }
 %p
+  %b Hours:
+  = @work_log.hours_formatted
+%p
+  %b Credits:
+  = @work_log.credit_value_formatted
+  = @work_log.credit_value_explained
+%p
   %b Note:
   = @work_log.note
 

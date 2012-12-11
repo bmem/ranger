@@ -1,0 +1,13 @@
+%h1 Editing credit_delta
+
+= render 'form'
+
+- if @credit_scheme
+  = link_to_resource @credit_delta
+  \|
+  = link_to 'New', event_credit_scheme_new_credit_delta_path(@credit_scheme)
+  \|
+  = link_to 'Back', event_credit_scheme_credit_deltas_path(@credit_scheme.event, @credit_scheme)
+/= link_to 'Show', @credit_delta
+/\|
+/= link_to 'Back', credit_deltas_path

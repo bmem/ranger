@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  credit_scheme: 
+  name: MyString
+  hourly_rate: 9.99
+  start_time: 2012-12-09 16:59:57
+  end_time: 2012-12-09 16:59:57
+
+two:
+  credit_scheme: 
+  name: MyString
+  hourly_rate: 9.99
+  start_time: 2012-12-09 16:59:57
+  end_time: 2012-12-09 16:59:57

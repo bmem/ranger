@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  event: 
+  name: MyString
+  base_hourly_rate: 9.99
+  description: MyText
+
+two:
+  event: 
+  name: MyString
+  base_hourly_rate: 9.99
+  description: MyText

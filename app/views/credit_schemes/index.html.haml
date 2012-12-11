@@ -1,0 +1,26 @@
+%h1 Listing credit_schemes
+
+%table
+  %tr
+    %th Event
+    %th Name
+    %th Base hourly rate
+    %th Description
+    %th
+    %th
+    %th
+
+  - @credit_schemes.each do |credit_scheme|
+    %tr
+      %td= credit_scheme.event
+      %td= credit_scheme.name
+      %td= credit_scheme.base_hourly_rate
+      %td= credit_scheme.description
+      %td= link_to 'Show', event_credit_scheme_path(@event, credit_scheme)
+      %td= link_to 'Edit', edit_event_credit_scheme_path(@event, credit_scheme)
+      %td= link_to 'Destroy', credit_scheme, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+- if @event
+  = link_to 'New Credit scheme', new_event_credit_scheme_path(@event)

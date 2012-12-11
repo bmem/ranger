@@ -1,7 +1,7 @@
 = semantic_form_for @<%= singular_name %> do |f|
   = f.inputs do
   <% attributes.each do |attribute| -%>
-    = f.input :<%= attribute.name %>
+  = f.input :<%= attribute.name %>
   <% end -%>
 
   = f.actions do

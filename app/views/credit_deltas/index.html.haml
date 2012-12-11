@@ -1,0 +1,30 @@
+%h1
+  Listing credit_deltas for
+  = link_to @credit_scheme, event_credit_scheme_path(@credit_scheme.event, @credit_scheme)
+
+%table
+  %tr
+    %th Credit scheme
+    %th Name
+    %th Hourly rate
+    %th Start time
+    %th End time
+    %th
+    %th
+    %th
+
+  - @credit_deltas.each do |credit_delta|
+    %tr
+      %td= credit_delta.credit_scheme
+      %td= credit_delta.name
+      %td= credit_delta.hourly_rate
+      %td= credit_delta.start_time
+      %td= credit_delta.end_time
+      %td= link_to 'Show', event_credit_scheme_credit_delta_path(@credit_scheme.event, @credit_scheme, credit_delta)
+      %td= link_to 'Edit', edit_event_credit_scheme_credit_delta_path(@credit_scheme.event, @credit_scheme, credit_delta)
+      %td= link_to 'Destroy', credit_delta, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+- if @credit_scheme
+  = link_to 'New Credit delta', new_event_credit_scheme_credit_delta_path(@credit_scheme.event, @credit_scheme)

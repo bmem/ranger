@@ -1,4 +1,5 @@
 Ranger::Application.routes.draw do
+
   resources :roles, :only => [:index, :show, :update], :id => /\w+/
 
   devise_for :users
@@ -7,6 +8,10 @@ Ranger::Application.routes.draw do
   match 'people/tag(/:tag(/:name))' => 'people#tag', :as => :tag_people
 
   resources :positions
+
+  # TODO require access through /events/e/credits
+  resources :credit_schemes
+  resources :credit_deltas
 
   # Schedule/Event routes
   resources :participants
@@ -22,6 +27,10 @@ Ranger::Application.routes.draw do
   resources :events do
     resources :shifts, :slots, :participants
     resources :work_logs, :path => 'worklogs'
+    # TODO /credits/ paths
+    resources :credit_schemes do
+      resources :credit_deltas
+    end
     post 'copy', :on => :member
   end
 
