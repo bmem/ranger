@@ -35,12 +35,18 @@ class Participant < ActiveRecord::Base
     end
   end
 
-  def total_credits
-    work_logs.reduce(0) {|sum, work| sum + work.credit_value}
+  def total_credits(start_t=nil, end_t=nil)
+    work_logs.reduce(0) {|sum, work| sum + work.credit_value(start_t, end_t)}
   end
 
-  def total_seconds
-    work_logs.map(&:duration_seconds).reduce(0, :+)
+  def total_credits_formatted(start_t=nil, end_t=nil)
+    format('%.2f', total_credits(start_t, end_t))
+  end
+
+  def total_seconds(start_time=Time.zone.local(1, 1, 1), end_time=Time.zone.local(10000, 1, 1))
+    # TODO more sensibly convert Deep Freeze "positions"
+    work_logs.find_all {|w| w.position.name != 'Deep Freeze'}.
+      map {|w| w.seconds_overlap(start_time, end_time)}.reduce(0, :+)
   end
 
   def total_hours

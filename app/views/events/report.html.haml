@@ -1,0 +1,9 @@
+%h1= @title
+%table.report
+  %tr
+    - @cols.each do |col|
+      %th= col
+  - @rows.each do |row|
+    %tr
+      - row.each do |val|
+        %td= val

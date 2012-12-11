@@ -53,6 +53,7 @@ GEM
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
+    fastercsv (1.5.4)
     formtastic (2.2.1)
       actionpack (>= 3.0)
     haml (3.1.7)
@@ -135,6 +136,7 @@ DEPENDENCIES
   cancan (= 1.6.7)
   coffee-rails (~> 3.2.1)
   devise
+  fastercsv
   formtastic
   haml-rails
   jquery-rails

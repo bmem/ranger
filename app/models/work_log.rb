@@ -13,8 +13,13 @@ class WorkLog < ActiveRecord::Base
     CreditScheme.find(:first, :joins => :positions, :conditions => {:event_id => event_id, 'credit_schemes_positions.position_id' => position_id})
   end
 
-  def credit_value
-    scheme.try {|s| s.credit_value(start_time, end_time)} || 0
+  def credit_value(start_t=nil, end_t=nil)
+    first = start_time
+    last = end_time
+    first = start_t if start_t and start_t > start_time
+    last = end_t if end_t and end_t < end_time
+    return 0 if first >= end_time or last <= start_time
+    scheme.try {|s| s.credit_value(first, last)} || 0
   end
 
   def credit_value_formatted
@@ -23,6 +28,14 @@ class WorkLog < ActiveRecord::Base
 
   def credit_value_explained
     scheme.try {|s| s.explained_credit_values(start_time, end_time).to_sentence}
+  end
+
+  def seconds_overlap(start_t, end_t)
+    if start_t >= end_time || end_t <= start_time
+      0
+    else
+      [end_t.to_i, end_time.to_i].min - [start_t.to_i, start_time.to_i].max
+    end
   end
 
   def duration_seconds

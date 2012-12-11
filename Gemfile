@@ -13,6 +13,9 @@ gem 'activerecord-mysql-adapter'
 
 gem 'json'
 
+# TODO this is just CSV in ruby core 1.9
+gem 'fastercsv'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

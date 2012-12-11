@@ -32,6 +32,7 @@ Ranger::Application.routes.draw do
       resources :credit_deltas
     end
     post 'copy', :on => :member
+    get 'report_hours_credits'
   end
 
   match 'schedule' => 'schedule_home#index', :as => :schedule_home

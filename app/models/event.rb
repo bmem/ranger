@@ -1,6 +1,8 @@
 class Event < ActiveRecord::Base
   has_many :shifts, :dependent => :destroy
+  has_many :participants
   has_many :work_logs
+  has_many :credit_schemes
 
   validates :name, :start_date, :end_date, :presence => true
   validates_with DateOrderValidator
