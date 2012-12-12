@@ -18,9 +18,8 @@
     - @credit_scheme.positions.order(:name).each do |p|
       %li= p
 %p
-  %b
-    = link_to 'Deltas', event_credit_scheme_credit_deltas_path(@credit_scheme.event, @credit_scheme)
-    = link_to 'New', new_event_credit_scheme_credit_delta_path(@credit_scheme.event, @credit_scheme)
+  %b Deltas
+  = render 'credit_deltas/table', :@credit_scheme => @credit_scheme, :@credit_deltas => @credit_scheme.credit_deltas
 
 = link_to 'Edit', edit_event_credit_scheme_path(@event, @credit_scheme)
 \|

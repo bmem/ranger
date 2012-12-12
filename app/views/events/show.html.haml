@@ -13,6 +13,12 @@
 %p
   %b Signup open:
   = @event.signup_open
+- if can? :manage, CreditScheme
+  %p
+    %b Credit schemes:
+    - @event.credit_schemes.order(:name).each do |scheme|
+      = link_to_record scheme
+    = link_to 'New credit scheme', new_event_credit_scheme_path(@event)
 %p
   %h3= link_to 'Shifts', event_shifts_path(@event)
   = link_to 'New shift', new_event_shift_path(@event)

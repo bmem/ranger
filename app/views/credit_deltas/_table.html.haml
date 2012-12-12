@@ -1,0 +1,28 @@
+%table
+  %tr
+    - unless @credit_scheme
+      %th Credit scheme
+    %th Name
+    %th Hourly rate change
+    %th Start time
+    %th End time
+    %th
+    %th
+    %th
+
+  - @credit_deltas.order(:start_time, :end_time => :desc).each do |delta|
+    %tr
+      - unless @credit_scheme
+        %td= delta.credit_scheme
+      %td= delta.name
+      %td= delta.hourly_rate
+      %td= l delta.start_time
+      %td= l delta.end_time
+      %td= link_to 'Show', event_credit_scheme_credit_delta_path(delta.event, delta.credit_scheme, delta)
+      %td= link_to 'Edit', edit_event_credit_scheme_credit_delta_path(delta.event, delta.credit_scheme, delta)
+      %td= link_to 'Destroy', delta, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+- if @credit_scheme
+  = link_to 'New Credit delta', new_event_credit_scheme_credit_delta_path(@credit_scheme.event, @credit_scheme)

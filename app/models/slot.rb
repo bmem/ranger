@@ -8,6 +8,19 @@ class Slot < ActiveRecord::Base
     :numericality => { :only_integer => true, :greater_than_or_equal_to => 0 }
   validate :max_at_least_min, :if => 'max_people && min_people'
 
+  def credit_scheme
+    event.credit_schemes.joins(:positions).
+      where('credit_schemes_positions.position_id' => position_id).first
+  end
+
+  def credit_value
+    credit_scheme.try {|s| s.credit_value shift.start_time, shift.end_time} || 0
+  end
+
+  def event
+    shift.event
+  end
+
   def max_at_least_min
     if max_people > 0 and max_people < min_people
       errors[:max_people] << "must not be less than min people"
