@@ -1,15 +1,15 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  credit_scheme: 
-  name: MyString
-  hourly_rate: 9.99
-  start_time: 2012-12-09 16:59:57
-  end_time: 2012-12-09 16:59:57
+  credit_scheme: one
+  name: Weekend Bonus
+  hourly_rate: 0.5
+  start_time: 2011-09-03 00:00:00
+  end_time: 2012-09-05 00:00:00
 
 two:
-  credit_scheme: 
-  name: MyString
-  hourly_rate: 9.99
-  start_time: 2012-12-09 16:59:57
-  end_time: 2012-12-09 16:59:57
+  credit_scheme: one
+  name: Small credit for pre-event
+  hourly_rate: 0.25
+  start_time: 2012-08-20 00:00:00
+  end_time: 2012-08-28 16:00:00

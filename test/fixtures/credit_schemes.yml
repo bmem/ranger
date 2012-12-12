@@ -1,13 +1,15 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  event: 
-  name: MyString
-  base_hourly_rate: 9.99
-  description: MyText
+  event: one
+  name: Main Credit Scheme
+  base_hourly_rate: 1.0
+  description: One credit per hour.
+  positions: one
 
 two:
-  event: 
-  name: MyString
-  base_hourly_rate: 9.99
-  description: MyText
+  event: one
+  name: Special Credit Scheme
+  base_hourly_rate: 1.75
+  description: For very special people.
+  positions: two

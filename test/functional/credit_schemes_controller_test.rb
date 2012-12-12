@@ -2,23 +2,24 @@ require 'test_helper'
 
 class CreditSchemesControllerTest < ActionController::TestCase
   setup do
+    sign_in users(:adminuser)
     @credit_scheme = credit_schemes(:one)
   end
 
   test "should get index" do
-    get :index
+    get :index, :event_id => @credit_scheme.event
     assert_response :success
     assert_not_nil assigns(:credit_schemes)
   end
 
   test "should get new" do
-    get :new
+    get :new, :event_id => @credit_scheme.event
     assert_response :success
   end
 
   test "should create credit_scheme" do
     assert_difference('CreditScheme.count') do
-      post :create, :credit_scheme => { :base_hourly_rate => @credit_scheme.base_hourly_rate, :description => @credit_scheme.description, :name => @credit_scheme.name }
+      post :create, :event_id => @credit_scheme.event_id, :credit_scheme => { :base_hourly_rate => @credit_scheme.base_hourly_rate, :description => @credit_scheme.description, :name => @credit_scheme.name }
     end
 
     assert_redirected_to credit_scheme_path(assigns(:credit_scheme))
