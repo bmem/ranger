@@ -29,7 +29,7 @@ class EventTest < ActiveSupport::TestCase
     event.end_date = Date.today
     assert event.valid?, "Start and end on same day was invalid"
     event.start_date = Date.tomorrow
-    event.end_date = Date.today
+    event.end_date = Date.yesterday
     assert event.invalid?, "End date before start date was valid"
   end
 end

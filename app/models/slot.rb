@@ -18,7 +18,7 @@ class Slot < ActiveRecord::Base
   end
 
   def event
-    shift.event
+    shift.try {|s| s.event}
   end
 
   def max_at_least_min
