@@ -94,7 +94,10 @@ class EventsController < EventBasedController
       'Post-Event Hours',
       'Post-Event Credits',
       'Perimeter Hours',
-      'Perimeter Credits'
+      'Perimeter Credits',
+      'Full Name',
+      'Email',
+      'Mailing Address'
     ]
     @rows = participants.map do |p|
       total_h = to_h(p.total_seconds)
@@ -119,7 +122,8 @@ class EventsController < EventBasedController
         pre_h, pre_c,
         evt_h, evt_c,
         post_h, post_c,
-        perim_h, perim_c
+        perim_h, perim_c,
+        p.person.full_name, p.person.email, p.person.mailing_address
       ]
     end
 
