@@ -1,19 +1,52 @@
-== Khaki Clubhouse, Black Rock Rangers on BMEM
+== Khaki Clubhouse, Black Rock Rangers on Rails
 
-BMEM application for managing Ranger data.
+Ruby on Rails application for managing Ranger data.
 
-This application is built on top of BMEM, http://github.com/bmem/ and uses its
-schedule engine.
+This application is built by the Rangers[http://rangers.burningman.com/] to
+manage personnel, scheduling, and operational needs of the department.
+During Burning Man, Khaki Clubhouse runs on site to manage people on duty,
+assets checked out, and upcoming shift scheduling.  Year round, it serves as
+a database about old and new volunteers and allows people to plan their
+participation in training and event work.
 
-Khaki Clubhouse manages data specific to the Ranger department.  This includes
-* People
-  * Core information: name, callsign, status
-  * Contact information: phone, address
-  * Personal information: shirt size, birth day
-  * On-playa operational information: authorizations, camp, emergency contact
-  * ID photos
+BMEM originally set out to be an application framework for managing event
+volunteers, allowing groups to plug in their own personnel and operational
+modules.  To simplify and accelerate development, the BMEM scheduling module has
+been pulled into the Rangers application.  Once we have a year or two of
+operational experience with the system we might pull it back out or non-Ranger
+groups who wish to use it.
+
+Developers and other interested parties should read the information architecture
+document[https://docs.google.com/document/d/1HJ_144SPDORU1BwFoLnnnMltO7mD45dB_EvAK3EsKwQ/edit].
+Some key concepts:
+* People (past, current, and prospective volunteers)
+  * Callsign (handle)
+  * Wallet name (John Smith)
+  * Contact information (email, phone, post)
+  * Personnel status (active, prospective, retired...)
+  * Assorted demographics (birthday, shirt size, gender, languages...)
+* Position (Dirt Ranger, Shift Lead, HQ Window...)
+  * A type of work someone can be qualified for
+  * Basis of organization for scheduling
+* Events (Burning Man, training season, special events)
+  * Organizational unit for most data in the system
+  * Defined by a name and a date range, possibly overlapping
+  * Many reports are scoped to a single Event
+* Participants (information about a Person's activity in an Event)
+  * The Person's callsign and wallet name at the time of the Event
+  * Their participation status in the Event (planned, confirmed, withdrawn...)
+  * Their personnel status at the time
+  * On-site information (camp location, emergency contact, ...)
+* Shifts (grave, morning, afternoon, swing...)
+  * Periods of time when a group of people will be working
+* Slots (Thursday grave dirt rangers, Saturday afternoon shift leads, ...)
+  * A Position within a Shift
+  * Participants sign up for these
+* Work Logs
+  * Actual sign in and sign out times for Participants
 * Users
   * Identified by email address and password
+  * Tied to a Person record, but not all People are authorized users
   * In the future we can use auth plugins to allow login via Facebook, Google,
     or other methods that don't require people to remember yet another password
   * For now there's a 1:1 correspondence between people and users, but this
@@ -24,15 +57,15 @@ Khaki Clubhouse manages data specific to the Ranger department.  This includes
     other people's information and schedules, run reports, and perform various
     tasks.  Admin users can do anything.  Mentor and Trainer roles have not yet
     been fleshed out.
-* Assets (forthcoming)
-  * Check in and check out radios and vehicles and attachments
-* Streamlined sign in/sign out mode for HQ windows (forthcoming)
+
+These concepts are discussed further in the information architecture.
 
 = Ranger Code and Development
 
 This code is copyright Black Rock City, LLC and is made available under the
 open source Apache license.  By contributing code to BMEM or Khaki Clubhouse,
 you consent for that code to be used under the BMEM license.
+See the link:LICENSE file for details.
 
 If you are interested in contributing to this project, send a message to
 ranger-tech-cadre at burningman dot com and explain your interest.
@@ -43,24 +76,32 @@ effectively merge your changes with others working on the same project.
 If you're new to Git or GitHub, read the *Beginner* section of
 http://help.github.com/
 
-When you're ready to hack on BMEM, fork http://github.com/bmem/schedule and
-http://github.com/bmem/ranger and send pull requests to bmem with your changes.
-(If you're working on something significant, please discuss it first in an
-issue or on the mailing list.)  If you don't have +schedule+ in the same parent
-directory as +ranger+, you'll need to update the +ranger+ Gemfile.
+When you're ready to hack on BMEM, fork http://github.com/bmem/ranger and send
+pull requests to bmem with your changes.  If you're working on something
+significant, please discuss it first in an issue or on the mailing list.
 
 To check out and run the code (assuming you have installed Ruby, Rails, Ruby
 Gems, and Bundler):
   mkdir bmem && cd bmem
-  git clone git@github.com:bmem/schedule.git
-  ls schedule # the code's all there
   git clone git@github.com:bmem/ranger.git
   cd ranger
   bundle install
-  rails server
+  bundle exec rails server
   # visit http://localhost:3000/ and take a look around
 
 The maintainers would love it if you included tests along with your changes.
-Also, please keep most code to 80 columns wide in a readable style.  An
-exception is made for files that are mostly markup (HAML, ERB), since they're
-often more readable when they're > 80 columns.
+Also, please keep most code to 80 columns wide in a readable style.
+Use idiomatic Ruby on Rails practices and document anything that's particularly
+tricky.  Ease of readability usuallyt trumps speed of authorship.  The next
+person who edits your code (and it may be you!) will thank you.
+
+In addition to RESTful views, Khaki Clubhouse development will focus on
+task-centric views, tailored to the needs of groups within the organization.
+For instance, volunteer coordinators and mentors will view people with a focus
+on contact information and training status while folks at the HQ window will
+have a view that makes shift sign-in and asset check-out as quick and easy as
+possible.
+
+Thanks for your interest,
+Ranger Stonebeard, stonebeard \_at_ burningman \_dot_ com
+on behalf of the Ranger Tech Team
