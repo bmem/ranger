@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  include EmailHelper
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -13,6 +15,9 @@ class User < ActiveRecord::Base
   # TODO don't let person change after creation
   has_many :user_roles
 
+  validates :email, :uniqueness => true, :presence => true,
+    :format => EmailHelper::VALID_EMAIL
+
   def roles
     user_roles.map {|ur| Role[ur.role]}
   end
@@ -23,6 +28,10 @@ class User < ActiveRecord::Base
 
   def to_s
     person ? person.to_s : email
+  end
+
+  before_validation do |u|
+    u.email = User.normalize_email u.email
   end
 
   before_create do |u|

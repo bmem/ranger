@@ -9,6 +9,9 @@ class ActiveSupport::TestCase
   # -- they do not yet inherit this setting
   fixtures :all
 
+  def assert_valid(record)
+    assert record.valid?, record.errors.full_messages.join('; ')
+  end
   # Add more helper methods to be used by all tests here...
 end
 
