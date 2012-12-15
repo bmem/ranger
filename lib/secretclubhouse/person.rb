@@ -2,8 +2,8 @@ module SecretClubhouse
   class Person < ActiveRecord::Base
     include BaseRecord
     self.table_name = 'person'
-    target ::Person, :callsign, :full_name, :barcode, :status, :position_ids,
-      *::Person::DETAIL_ATTRS
+    target ::Person, :callsign, :full_name, :email, :barcode, :status,
+      :position_ids, *::Person::DETAIL_ATTRS
 
     has_many :timesheets
     has_and_belongs_to_many :positions, :join_table => 'person_position'

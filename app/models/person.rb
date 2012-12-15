@@ -3,7 +3,7 @@ class Person < ActiveRecord::Base
     :retired, :uberbonked, :vintage, :deceased]
   SHIRT_SIZES = %w(XS S M L XL 2XL 3XL 4XL)
   DETAIL_ATTRS = [
-    :email, :mailing_address, :main_phone, :alt_phone, :birth_date, :shirt_size,
+    :mailing_address, :main_phone, :alt_phone, :birth_date, :shirt_size,
     :status_date, :callsign_approved, :has_personnel_note
   ]
 

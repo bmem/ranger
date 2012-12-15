@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121209235956) do
+ActiveRecord::Schema.define(:version => 20121215082804) do
 
   create_table "credit_deltas", :force => true do |t|
     t.integer  "credit_scheme_id", :null => false
@@ -90,6 +90,7 @@ ActiveRecord::Schema.define(:version => 20121209235956) do
     t.text     "details"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "email"
   end
 
   add_index "people", ["barcode"], :name => "index_people_on_barcode"
