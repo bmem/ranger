@@ -39,7 +39,7 @@ module SecretClubhouse
 
     def mailing_address
       "#{street1} #{apt}\n#{street2}\n#{city}, #{state} #{zip}\n#{country}".
-        strip.gsub(/\s+\n/, "\n")
+        strip.gsub(/\s+\n/, "\n").gsub(/^\s*,\s*$/, '')
     end
 
     def main_phone
