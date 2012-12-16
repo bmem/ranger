@@ -2,10 +2,16 @@
 
 = semantic_form_for @participant do |f|
   = f.inputs do
-    = f.input :event
-    = f.input :person
+    - if @participant.event
+      = f.input :event, :collection => [@participant.event]
+    - else
+      = f.input :event
+    - if @participant.person
+      = f.input :person, :collection => [@participant.person]
+    - else
+      = f.input :person
 
   = f.actions do
-    = f.action :submit
+    = f.action :submit, :label => 'Participate'
 
 = link_to 'Back', @event ? event_participants_path(@event) : participants_path

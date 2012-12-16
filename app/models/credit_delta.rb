@@ -7,6 +7,10 @@ class CreditDelta < ActiveRecord::Base
   validates_with ReasonableDateValidator,
     :attributes => [:start_time, :end_time]
 
+  def parent_records
+    [event, credit_scheme]
+  end
+
   def event
     credit_scheme.event
   end

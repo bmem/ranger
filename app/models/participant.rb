@@ -23,6 +23,8 @@ class Participant < ActiveRecord::Base
   validates :personnel_status, :inclusion =>
     { :in => Person::STATUSES.map(&:to_s), :message => "is not a valid status" }
 
+  default_scope order('LOWER(name) ASC')
+
   before_validation do |p|
     if p.new_record?
       if p.person

@@ -66,6 +66,6 @@
   %b More details about this person:
   = link_to @participant.person, @participant.person
 
-= link_to 'Edit', edit_participant_path(@participant)
+= link_to 'Edit', edit_event_participant_path(@event, @participant)
 \|
-= link_to 'Back', participants_path
+= link_to 'Back', event_participants_path(@event)

@@ -1,19 +1,38 @@
-%h1 Listing participants
+%h1
+  - if @event
+    Participants in
+    = link_to_record @event
+  - else
+    All Participants
 
 %table
   %tr
-    %th Name
+    - unless @event
+      %th Event
+    %th Callsign
+    %th Full Name
     %th
+      Participation
+      %br
+      status
+    %th
+      Personnel
+      %br
+      status
     %th
     %th
 
   - @participants.each do |participant|
     %tr
-      %td= participant.name
-      %td= link_to 'Show', participant
-      %td= link_to 'Edit', edit_participant_path(participant)
-      %td= link_to 'Destroy', participant, :confirm => 'Are you sure?', :method => :delete
+      - unless @event
+        %td= link_to_record participant.event
+      %td= link_to_record participant
+      %td= participant.full_name
+      %td= participant.participation_status
+      %td= participant.personnel_status
+      %td= link_to_edit_record participant
+      %td= link_to 'Remove', participant, :confirm => 'Are you sure?', :method => :delete
 
 %br
 
-= link_to 'New Participant', @event ? new_event_participant_path(@event) : new_participant_path
+= link_to 'Add participant', @event ? new_event_participant_path(@event) : new_participant_path

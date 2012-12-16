@@ -26,6 +26,8 @@ class Person < ActiveRecord::Base
 
   acts_as_taggable_on :languages, :qualifications
 
+  default_scope order('LOWER(callsign) ASC, LOWER(full_name) ASC')
+
   def self.find_by_email(email)
     self.where(:email => normalize_email(email))
   end

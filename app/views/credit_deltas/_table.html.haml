@@ -8,18 +8,16 @@
     %th End time
     %th
     %th
-    %th
 
   - @credit_deltas.order(:start_time, :end_time => :desc).each do |delta|
     %tr
       - unless @credit_scheme
         %td= delta.credit_scheme
-      %td= delta.name
+      %td= link_to_record delta
       %td= delta.hourly_rate
       %td= l delta.start_time
       %td= l delta.end_time
-      %td= link_to 'Show', event_credit_scheme_credit_delta_path(delta.event, delta.credit_scheme, delta)
-      %td= link_to 'Edit', edit_event_credit_scheme_credit_delta_path(delta.event, delta.credit_scheme, delta)
+      %td= link_to_edit_record delta
       %td= link_to 'Destroy', delta, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
