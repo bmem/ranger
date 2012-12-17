@@ -18,6 +18,8 @@ module SecretClubhouse
       time_by_year = timesheets.group_by {|t| t.on_duty.year}
       time_by_year.each do |year, sheets|
         event = ::Event.where(:name => "Burning Man #{year}").first
+        # TODO set participation status to bonked if they were only an alpha
+        # and did not pass mentoring
         participant = ::Participant.new :event => event, :name => callsign,
           :full_name => full_name, :barcode => barcode,
           :personnel_status => status, :participation_status => 'confirmed'
