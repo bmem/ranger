@@ -1,0 +1,2 @@
+class GeneralEvent < Event
+end

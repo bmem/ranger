@@ -3,24 +3,27 @@
 %table
   %tr
     %th Name
-    %th Description
+    %th Type
     %th Start date
     %th End date
-    %th Signup open
+    %th
+      Signup
+      %br
+      open?
     %th
     %th
-    %th
+    %th Description
 
   - @events.each do |event|
     %tr
-      %td= event.name
-      %td= event.description
+      %td= link_to_record event
+      %td= event.type
       %td= event.start_date
       %td= event.end_date
       %td= event.signup_open
-      %td= link_to 'Show', event
       %td= link_to 'Edit', edit_event_path(event)
       %td= link_to 'Destroy', event, :confirm => 'Are you sure?', :method => :delete
+      %td= event.description
 
 %br
 

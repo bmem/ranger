@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121215082804) do
+ActiveRecord::Schema.define(:version => 20121216222928) do
 
   create_table "credit_deltas", :force => true do |t|
     t.integer  "credit_scheme_id", :null => false
@@ -44,13 +45,15 @@ ActiveRecord::Schema.define(:version => 20121215082804) do
   add_index "credit_schemes_positions", ["position_id", "credit_scheme_id"], :name => "credit_schemes_positions_on_position_scheme"
 
   create_table "events", :force => true do |t|
-    t.string   "name",                          :null => false
+    t.string   "name",                                      :null => false
     t.text     "description"
-    t.date     "start_date",                    :null => false
-    t.date     "end_date",                      :null => false
-    t.boolean  "signup_open", :default => true, :null => false
-    t.datetime "created_at",                    :null => false
-    t.datetime "updated_at",                    :null => false
+    t.date     "start_date",                                :null => false
+    t.date     "end_date",                                  :null => false
+    t.boolean  "signup_open",     :default => true,         :null => false
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
+    t.string   "type",            :default => "BurningMan"
+    t.integer  "linked_event_id"
   end
 
   create_table "participants", :force => true do |t|

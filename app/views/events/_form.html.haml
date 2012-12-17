@@ -1,6 +1,8 @@
 = semantic_form_for @event do |f|
   = f.inputs do
+    = f.input :type, :as => :select, :collection => Event::TYPES
     = f.input :name
+    = f.input :linked_event, :collection => @event.linked_event_class.all, :label => "Linked #{@event.linked_event_class}"
     = f.input :description, :input_html => {:rows => 5}
     = f.input :start_date, :include_blank => false, :as => :date_picker
     = f.input :end_date, :include_blank => false, :as => :date_picker

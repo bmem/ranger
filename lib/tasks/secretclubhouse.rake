@@ -5,7 +5,7 @@ namespace :clubhouse do
     errors = []
     (1992..2012).each do |year|
       puts "Finding event for #{year}"
-      ::Event.where(:name => "Burning Man #{year}").first_or_create! do |e|
+      ::BurningMan.where(:name => "Burning Man #{year}").first_or_create! do |e|
           e.start_date = Date.new(year, 8, 1)
           e.end_date = Date.new(year, 9, 30)
           e.signup_open = false

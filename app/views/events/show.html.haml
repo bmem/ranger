@@ -1,6 +1,12 @@
-%p
-  %b Name:
+%h1
   = @event.name
+%p
+  %b Type:
+  = @event.type
+- if @event.linked_event
+  %p
+    %b= "Linked #{@event.linked_event.class}:"
+    = link_to_record @event.linked_event
 %p
   %b Description:
   = @event.description

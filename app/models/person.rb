@@ -40,6 +40,13 @@ class Person < ActiveRecord::Base
     display_name
   end
 
+  def years_rangered
+    @years_rangered ||= participants.
+      where(:participation_status => 'confirmed').
+      joins(:event).where('events.type' => 'BurningMan').
+      count
+  end
+
   before_validation do |p|
     if p.new_record?
       # assign default values
