@@ -13,6 +13,8 @@ gem 'activerecord-mysql-adapter'
 
 gem 'json'
 
+gem 'will_paginate', '~> 3.0'
+
 # TODO this is just CSV in ruby core 1.9
 gem 'fastercsv'
 

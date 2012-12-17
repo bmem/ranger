@@ -1,9 +1,11 @@
 class PeopleController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource :except => :index
 
   # GET /people
   # GET /people.json
   def index
+    @people = Person.accessible_by(current_ability).
+      paginate(:page => params[:page], :per_page => params[:page_size] || 100)
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @people }

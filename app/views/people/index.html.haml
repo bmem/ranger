@@ -1,24 +1,24 @@
 %h1 Listing people
 
+= will_paginate @people, :inner_window => 10
+
 %table
   %tr
     %th Callsign
     %th Full name
     %th Status
-    %th Barcode
-    %th
     %th
     %th
 
   - @people.each do |person|
     %tr
-      %td= person.callsign
+      %td= link_to_record person
       %td= person.full_name
       %td= person.status
-      %td= person.barcode
-      %td= link_to 'Show', person
-      %td= link_to 'Edit', edit_person_path(person)
+      %td= link_to_edit_record person
       %td= link_to 'Destroy', person, :confirm => 'Are you sure?', :method => :delete
+
+= will_paginate @people, :inner_window => 10
 
 %br
 
