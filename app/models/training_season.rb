@@ -1,4 +1,4 @@
-class Training < Event
+class TrainingSeason < Event
   belongs_to :linked_event, :class_name => 'BurningMan'
 
   def self.linked_event_class

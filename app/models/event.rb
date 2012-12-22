@@ -1,5 +1,5 @@
 class Event < ActiveRecord::Base
-  TYPES = %w(BurningMan Training GeneralEvent)
+  TYPES = %w(BurningMan TrainingSeason GeneralEvent)
 
   attr_accessible :type, :name, :description, :signup_open, :start_date, :end_date, :linked_event_id
 
