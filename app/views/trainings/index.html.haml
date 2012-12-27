@@ -1,0 +1,25 @@
+%h1
+  Trainings for
+  = link_to_record @event
+
+%table
+  %tr
+    %th Name
+    %th Date
+    %th Location
+    %th
+    %th
+    %th
+
+  - @trainings.each do |training|
+    %tr
+      %td= link_to_record training
+      %td= l training.shift.start_time.to_date
+      %td.text-attribute= training.location
+      %td= link_to_edit_record training
+      %td= link_to 'Shift', training.shift
+      %td= link_to 'Destroy', training, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Training', new_event_training_path(@event)

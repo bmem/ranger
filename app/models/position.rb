@@ -3,4 +3,6 @@ class Position < ActiveRecord::Base
   has_many :work_logs
 
   validates :name, :presence => true
+
+  default_scope order('LOWER(name)')
 end

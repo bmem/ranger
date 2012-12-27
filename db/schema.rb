@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121216222928) do
+ActiveRecord::Schema.define(:version => 20121227032819) do
 
   create_table "credit_deltas", :force => true do |t|
     t.integer  "credit_scheme_id", :null => false
@@ -157,6 +157,20 @@ ActiveRecord::Schema.define(:version => 20121216222928) do
   create_table "tags", :force => true do |t|
     t.string "name"
   end
+
+  create_table "trainings", :force => true do |t|
+    t.integer  "training_season_id"
+    t.integer  "shift_id"
+    t.string   "name"
+    t.string   "map_link"
+    t.text     "location"
+    t.text     "instructions"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
+  add_index "trainings", ["shift_id"], :name => "index_trainings_on_shift_id"
+  add_index "trainings", ["training_season_id"], :name => "index_trainings_on_training_season_id"
 
   create_table "user_roles", :force => true do |t|
     t.integer  "user_id",    :null => false

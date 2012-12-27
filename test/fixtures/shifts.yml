@@ -4,12 +4,26 @@ one:
   name: MyString
   description: MyText
   event: one
-  start_time: 2011-12-25 15:59:53
-  end_time: 2011-12-25 15:59:53
+  start_time: 2011-08-31 12:00:00
+  end_time: 2011-08-31 18:00:00
 
 two:
   name: MyString
   description: MyText
   event: one
-  start_time: 2011-12-25 15:59:53
-  end_time: 2011-12-25 15:59:53
+  start_time: 2011-09-01 22:00:00
+  end_time: 2011-09-02 04:00:00
+
+training_one_one:
+  event: training_one
+  name: New York Training
+  description: Training in New York City
+  start_time: 2011-05-01 10:00:00
+  end_time: 2011-05-01 17:00:00
+
+training_one_two:
+  event: training_one
+  name: "San Francisco #1"
+  description: Training at BMHQ
+  start_time: 2011-05-15 10:00:00
+  end_time: 2011-05-15 17:00:00

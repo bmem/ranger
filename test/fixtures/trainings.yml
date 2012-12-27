@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  training_season: training_one
+  shift: training_one_one
+  name: New York Training
+  map_link: "http://maps.google.com/somewhere"
+  location: Pigeon Bistro\n123 Main St\nBrooklyn, NY 10123
+  instructions: Pack a lunch and bring a chair.
+
+two:
+  training_season: training_one
+  shift: training_one_two
+  name: "San Francisco #1"
+  map_link: "http://burningman.com/location"
+  location: Burning Man Headquarters\n6th Floor\n995 Market St\nSan Francisco, CA 94103
+  instructions: Call us if the door is locked.

@@ -11,6 +11,22 @@
 %p
   %b Max people:
   = @slot.max_people
+%p
+  %b Participants:
+  %table
+    %tr
+      %th Participant
+      %th Signed in?
+      %th Signed out?
+    - @slot.participants.accessible_by(current_ability).each do |p|
+      %tr
+        %td= link_to_record p
+        - if work = p.work_logs.where(:shift_id => @slot.shift_id).first
+          %td Yes
+          %td= work.end_time.present? ? "Yes" : "No"
+        - else
+          %td No
+          %td No
 
 = link_to 'Edit', edit_slot_path(@slot)
 \|

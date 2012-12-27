@@ -1,0 +1,9 @@
+%h1
+  Editing training in
+  = link_to_record @event
+
+= render 'form'
+
+= link_to 'Show', @training
+\|
+= link_to 'Back', event_trainings_path(@event)

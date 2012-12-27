@@ -1,0 +1,36 @@
+%p
+  %b Name:
+  = @training.name
+%p
+  %b Training season:
+  = link_to_record @training.training_season
+%p
+  %b Shift:
+  = link_to_record @training.shift
+%p
+  %b Start time:
+  = l @training.shift.start_time
+%p
+  %b End time:
+  = l @training.shift.end_time
+%p
+  %b Location:
+  - if @training.map_link.present?
+    = link_to 'Map', @training.map_link
+  %span.text-attribute= @training.location
+%p
+  %b Instructions:
+  %span.text-attribute= @training.instructions
+%p
+  %b Slots:
+  %table
+    - @training.shift.slots.each do |slot|
+      %tr
+        %td
+          %b= link_to slot.position.name, slot
+        %td= "#{slot.participants.count} participants"
+        %td= "(#{slot.max_people} max)"
+
+= link_to_edit_record @training
+\|
+= link_to 'Back', event_trainings_path(@event)

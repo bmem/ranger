@@ -13,3 +13,11 @@ two:
   start_date: <%= Date.yesterday %>
   end_date: <%= Date.tomorrow %>
   signup_open: true
+
+training_one:
+  type: TrainingSeason
+  name: 2011 Training
+  description: Training season for 2011
+  start_date: 2011-04-01
+  end_date: 2011-08-31
+  signup_open: false

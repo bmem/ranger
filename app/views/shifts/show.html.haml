@@ -1,6 +1,9 @@
 %p
   %b Name:
   = @shift.name
+- if @shift.training
+  %b Training details:
+  = link_to_record @shift.training
 %p
   %b Description:
   = @shift.description
@@ -9,10 +12,10 @@
   = link_to @shift.event.name, event_path(@shift.event) if @shift.event
 %p
   %b Start time:
-  = @shift.start_time
+  = l @shift.start_time
 %p
   %b End time:
-  = @shift.end_time
+  = l @shift.end_time
 %p
   %h3= link_to 'Slots', shift_slots_path(@shift)
   = link_to 'New slot', new_shift_slot_path(@shift)
