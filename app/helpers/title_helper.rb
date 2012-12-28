@@ -23,4 +23,11 @@ module TitleHelper
       controller.subject_record.try { |item| item.to_title }
     end
   end
+
+  # The record being displayed or edited or nill
+  def subject_record
+    if controller.respond_to? :subject_record then
+      controller.subject_record
+    end
+  end
 end
