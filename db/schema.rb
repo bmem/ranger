@@ -159,18 +159,15 @@ ActiveRecord::Schema.define(:version => 20121227032819) do
   end
 
   create_table "trainings", :force => true do |t|
-    t.integer  "training_season_id"
     t.integer  "shift_id"
-    t.string   "name"
     t.string   "map_link"
     t.text     "location"
     t.text     "instructions"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   add_index "trainings", ["shift_id"], :name => "index_trainings_on_shift_id"
-  add_index "trainings", ["training_season_id"], :name => "index_trainings_on_training_season_id"
 
   create_table "user_roles", :force => true do |t|
     t.integer  "user_id",    :null => false

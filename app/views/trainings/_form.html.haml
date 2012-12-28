@@ -1,10 +1,13 @@
 = semantic_form_for [@event, @training] do |f|
-  = f.inputs do
-    = f.input :name
-    = f.input :map_link, :as => :url, :hint => "Copy from Google Maps"
+  = f.inputs :for => :shift, :name => "Shift Details" do |s|
+    = s.input :name
+    = s.input :start_time
+    = s.input :end_time
+    = s.input :description
+  = f.inputs :name => "Training Details" do
     = f.input :location, :input_html => {:rows => 6}
+    = f.input :map_link, :as => :url, :hint => "Copy from Google Maps"
     = f.input :instructions
-  = f.inputs :start_time, :end_time, :description, :for => :shift, :name => "Shift Details"
 
   = f.actions do
     = f.action(:submit)

@@ -2,7 +2,7 @@ class TrainingsController < EventBasedController
   # GET /trainings
   # GET /trainings.json
   def index
-    @trainings = @event.trainings
+    @trainings = @trainings.includes(:shift).where('shifts.event_id = ?', @event.id)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -24,8 +24,7 @@ class TrainingsController < EventBasedController
   # GET /trainings/new
   # GET /trainings/new.json
   def new
-    @training.training_season = @event
-    @training.build_shift
+    @training.build_shift(:event => @event)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -41,9 +40,9 @@ class TrainingsController < EventBasedController
   # POST /trainings
   # POST /trainings.json
   def create
-    @training.training_season ||= @event
+    @training.build_shift(:event => @event) unless @training.shift
     @training.shift.event ||= @event
-    @training.shift.name ||= @training.name
+    @training.shift.training = @training
 
     respond_to do |format|
       if @training.save
