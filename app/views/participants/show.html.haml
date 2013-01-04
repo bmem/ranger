@@ -63,6 +63,10 @@
     %td
 
 %p
+  %b Positions:
+  = @participant.positions.to_sentence
+
+%p
   %b More details about this person:
   = link_to @participant.person, @participant.person
 

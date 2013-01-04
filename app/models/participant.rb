@@ -7,7 +7,7 @@ class Participant < ActiveRecord::Base
 
   belongs_to :person
   belongs_to :event
-  #has_and_belongs_to_many :positions, :through => :person
+  has_many :positions, :through => :person
   has_and_belongs_to_many :slots
   has_many :work_logs
 
