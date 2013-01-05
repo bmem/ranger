@@ -1,5 +1,7 @@
 class CreditDelta < ActiveRecord::Base
   belongs_to :credit_scheme
+  has_one :event, :through => :credit_scheme
+
   attr_accessible :end_time, :hourly_rate, :name, :start_time
 
   validates_presence_of :name, :hourly_rate, :start_time, :end_time
@@ -9,13 +11,5 @@ class CreditDelta < ActiveRecord::Base
 
   def parent_records
     [event, credit_scheme]
-  end
-
-  def event
-    credit_scheme.event
-  end
-
-  def event_id
-    credit_scheme.event_id
   end
 end

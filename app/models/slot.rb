@@ -2,6 +2,7 @@ class Slot < ActiveRecord::Base
   belongs_to :shift
   belongs_to :position
   has_and_belongs_to_many :participants
+  has_one :event, :through => :shift
 
   validates :shift_id, :position_id, :presence => true
   validates :min_people, :max_people, :presence => true,
@@ -15,10 +16,6 @@ class Slot < ActiveRecord::Base
 
   def credit_value
     credit_scheme.try {|s| s.credit_value shift.start_time, shift.end_time} || 0
-  end
-
-  def event
-    shift.try {|s| s.event}
   end
 
   def max_at_least_min
