@@ -21,8 +21,8 @@ gem 'fastercsv'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
+  gem 'sass-rails',   '~> 3.2'
+  gem 'coffee-rails', '~> 3.2'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer'
@@ -41,7 +41,7 @@ gem 'acts-as-taggable-on'
 # Patched to fix various stack overflow and sqlite compatibility errors
 #gem "rails_sql_views", :git => "git://github.com/flwyd/rails_sql_views"
 
-gem 'cancan', "= 1.6.7" # TODO update to mainline when schedule does
+gem 'cancan'
 gem 'devise'
 
 # To use ActiveModel has_secure_password
