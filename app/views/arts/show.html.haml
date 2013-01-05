@@ -1,0 +1,23 @@
+%p
+  %b Name:
+  = @art.name
+%p
+  %b Prerequisite:
+  = @art.prerequisite
+%p
+  %b Description:
+  = @art.description
+%p
+  %b Trainings:
+  %table
+    %tr
+      %th Training
+      %th Event
+    - @art.trainings.joins(:training_season).order('shifts.start_time DESC').each do |training|
+      %tr
+        %td= link_to_record training
+        %td= link_to_record training.training_season
+
+= link_to 'Edit', edit_art_path(@art)
+\|
+= link_to 'Back', arts_path

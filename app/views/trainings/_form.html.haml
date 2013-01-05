@@ -8,6 +8,8 @@
     = f.input :location, :input_html => {:rows => 6}
     = f.input :map_link, :as => :url, :hint => "Copy from Google Maps"
     = f.input :instructions
+  = f.inputs :name => "Available ARTs" do
+    = f.input :arts, :as => :check_boxes
 
   = f.actions do
     = f.action(:submit)

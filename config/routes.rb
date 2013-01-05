@@ -9,6 +9,8 @@ Ranger::Application.routes.draw do
 
   resources :positions
 
+  resources :arts
+
   # TODO require access through /events/e/credits
   resources :credit_schemes
   resources :credit_deltas

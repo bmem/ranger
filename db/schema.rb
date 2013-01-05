@@ -11,7 +11,33 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121227032819) do
+ActiveRecord::Schema.define(:version => 20130104050330) do
+
+  create_table "arts", :force => true do |t|
+    t.string   "name",         :null => false
+    t.string   "prerequisite"
+    t.text     "description"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "arts", ["name"], :name => "index_arts_on_name"
+
+  create_table "arts_participants", :id => false, :force => true do |t|
+    t.integer "art_id",         :null => false
+    t.integer "participant_id", :null => false
+  end
+
+  add_index "arts_participants", ["art_id"], :name => "index_arts_participants_on_art_id"
+  add_index "arts_participants", ["participant_id", "art_id"], :name => "index_arts_participants_on_participant_id_and_art_id", :unique => true
+
+  create_table "arts_trainings", :id => false, :force => true do |t|
+    t.integer "art_id",      :null => false
+    t.integer "training_id", :null => false
+  end
+
+  add_index "arts_trainings", ["art_id"], :name => "index_arts_trainings_on_art_id"
+  add_index "arts_trainings", ["training_id", "art_id"], :name => "index_arts_trainings_on_training_id_and_art_id", :unique => true
 
   create_table "credit_deltas", :force => true do |t|
     t.integer  "credit_scheme_id", :null => false

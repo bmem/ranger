@@ -10,6 +10,7 @@ class Participant < ActiveRecord::Base
   has_many :positions, :through => :person
   has_and_belongs_to_many :slots
   has_many :work_logs
+  has_and_belongs_to_many :arts
 
   store :details, :accessors => DETAIL_ATTRS
 

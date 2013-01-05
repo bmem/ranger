@@ -1,0 +1,23 @@
+%h1 Arts
+
+%table
+  %tr
+    %th Name
+    %th Prerequisite
+    %th Description
+    %th
+    %th
+    %th
+
+  - @arts.each do |art|
+    %tr
+      %td= art.name
+      %td= art.prerequisite
+      %td= art.description
+      %td= link_to 'Show', art
+      %td= link_to 'Edit', edit_art_path(art)
+      %td= link_to 'Destroy', art, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Art', new_art_path

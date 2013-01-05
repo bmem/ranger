@@ -31,6 +31,10 @@
         %td= "#{slot.participants.count} participants"
         %td= "(#{slot.max_people} max)"
 
+%p
+  %b Available ARTs:
+  = @training.arts.to_sentence
+
 = link_to_edit_record @training
 \|
 = link_to 'Back', event_trainings_path(@event)
