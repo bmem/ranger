@@ -1,0 +1,10 @@
+- if content_for? :main_action_list_items
+  #main-actions
+    - if content_for? :main_actions_header
+      %h2.actions-header
+        = yield :main_actions_header
+    - else
+      %h2.actions-header Actions
+    %ul.action-list
+      = yield :main_action_list_items
+      %li= link_to 'Back', :back

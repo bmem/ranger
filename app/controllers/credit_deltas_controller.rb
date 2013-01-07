@@ -1,5 +1,4 @@
-class CreditDeltasController < ApplicationController
-  load_and_authorize_resource
+class CreditDeltasController < EventBasedController
   load_and_authorize_resource :credit_scheme
 
   # GET /credit_deltas

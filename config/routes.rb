@@ -27,13 +27,17 @@ Ranger::Application.routes.draw do
     post 'copy', :on => :member
   end
   resources :events do
-    resources :shifts, :slots, :participants, :trainings
+    resources :shifts do
+      resources :slots
+      resources :work_logs, :path => 'worklogs'
+      post 'copy', :on => :member
+    end
+    resources  :slots, :participants, :trainings
     resources :work_logs, :path => 'worklogs'
     # TODO /credits/ paths
     resources :credit_schemes do
       resources :credit_deltas
     end
-    post 'copy', :on => :member
     get 'report_hours_credits'
   end
 

@@ -1,0 +1,11 @@
+- content_for :main_action_list_items do
+  - if @event and @credit_scheme
+    %li= link_to "#{@credit_scheme} credit scheme", @credit_scheme
+    %li= link_to "Credit deltas in #{@credit_scheme}", event_credit_scheme_credit_deltas_path(@event, @credit_scheme)
+    - if can? :create, :credit_deltas
+      %li= link_to "New credit delta in #{@credit_scheme}", new_event_credit_scheme_credit_delta_path(@event, @credit_scheme)
+      - if @credit_delta and !@credit_delta.new_record?
+        %li= link_to 'New credit delta +24 hours', new_event_credit_scheme_credit_delta_path(@event, @credit_scheme, :credit_delta => {:name => @credit_delta.name, :hourly_rate => @credit_delta.hourly_rate, :start_time => @credit_delta.start_time.tomorrow, :end_time => @credit_delta.end_time.tomorrow})
+  - else
+    %li= link_to 'All credit deltas', credit_deltas_path
+  = render 'record_actions'

@@ -1,0 +1,11 @@
+- content_for :main_action_list_items do
+  - if @event and @shift
+    %li= link_to "#{@shift} slots", event_shift_slots_path(@event, @shift)
+    - if can? :create, :slots
+      %li= link_to "New slot in #{@shift}", new_event_shift_slot_path(@event, @shift)
+  - elsif @event
+    %li= link_to_record @event
+    %li= link_to "Slots in #{@event}", event_slots_path(@event)
+  - else
+    %li= link_to 'All slots', slots_path
+  = render 'record_actions'

@@ -9,6 +9,10 @@ class Slot < ActiveRecord::Base
     :numericality => { :only_integer => true, :greater_than_or_equal_to => 0 }
   validate :max_at_least_min, :if => 'max_people && min_people'
 
+  def parent_records
+    [event, shift]
+  end
+
   def credit_scheme
     event.credit_schemes.joins(:positions).
       where('credit_schemes_positions.position_id' => position_id).first
@@ -16,6 +20,10 @@ class Slot < ActiveRecord::Base
 
   def credit_value
     credit_scheme.try {|s| s.credit_value shift.start_time, shift.end_time} || 0
+  end
+
+  def to_title
+    position && position.to_title
   end
 
   def max_at_least_min

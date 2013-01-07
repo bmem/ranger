@@ -32,6 +32,9 @@
         %ul.menu#section_menu
           = yield :section_menu
 
+    = render 'main_actions'
+    = render 'layouts/main_action_list'
+
     - if alert or notice
       .notifications
         - if alert

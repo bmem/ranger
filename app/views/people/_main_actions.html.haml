@@ -1,0 +1,5 @@
+- content_for :main_action_list_items do
+  %li= link_to 'All people', people_path
+  - if can? :create, :people
+    %li= link_to 'New person', new_person_path
+  = render 'record_actions'

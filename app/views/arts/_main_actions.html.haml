@@ -1,0 +1,6 @@
+- content_for :main_action_list_items do
+  %li= link_to 'All ARTs', arts_path
+  - if can? :create, :arts
+    %li= link_to 'New ART', new_art_path
+  = render 'record_actions'
+

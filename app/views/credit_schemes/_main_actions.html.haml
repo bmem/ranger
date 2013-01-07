@@ -1,0 +1,12 @@
+- content_for :main_action_list_items do
+  - if @event
+    %li= link_to "#{@event} credit schemes", event_credit_schemes_path(@event)
+    - if can? :create, :credit_schemes
+      %li= link_to "New credit scheme in #{@event}", new_event_credit_scheme_path(@event)
+    - if @credit_scheme and not @credit_scheme.new_record?
+      %li= link_to "Credit deltas in #{@credit_scheme}", event_credit_scheme_credit_deltas_path(@event, @credit_scheme)
+      - if can? :create, :credit_deltas
+        %li= link_to "New credit delta in #{@credit_scheme}", new_event_credit_scheme_credit_delta_path(@event, @credit_scheme)
+  - else
+    %li= link_to 'All credit schemes', credit_schemes_path
+  = render 'record_actions'

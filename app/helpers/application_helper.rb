@@ -7,8 +7,9 @@ module ApplicationHelper
     link_to record.to_title, record, *args
   end
 
-  def link_to_edit_record(record, options = {})
-    link_to 'Edit', polymorphic_path(record, options.merge(:action => :edit))
+  def link_to_edit_record(record, options = {}, &block)
+    name = block_given? ? capture(&block) : 'Edit'
+    link_to name, polymorphic_path(record, options.merge(:action => :edit))
   end
 
   def polymorphic_url(record_hash_array, options = {})

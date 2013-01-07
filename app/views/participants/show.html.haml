@@ -34,6 +34,7 @@
     %dt{:id => "label_#{attr}"}<= Participant.human_attribute_name attr
     %dd{:id => "value_#{attr}"}<= @participant.send attr
 
+%a{:name => 'worklogs'}
 %h3 Work logs
 %table.worklogs[@participant]
   %tr
