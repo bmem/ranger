@@ -2,7 +2,7 @@
 
 %table
   %tr
-    %th Participant
+    %th Person
     %th Position
     %th Event
     %th Shift
@@ -15,7 +15,7 @@
 
   - @work_logs.each do |work_log|
     %tr
-      %td= work_log.participant
+      %td= work_log.involvement
       %td= work_log.position
       %td= work_log.event
       %td= work_log.shift

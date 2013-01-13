@@ -1,10 +1,10 @@
 class WorkLog < ActiveRecord::Base
-  belongs_to :participant
+  belongs_to :involvement
   belongs_to :position
   belongs_to :event
   belongs_to :shift
 
-  validates_presence_of :participant, :position, :event, :start_time
+  validates_presence_of :involvement, :position, :event, :start_time
 
   def scheme
   #CreditScheme.joinwhere(:event_id => event.id).to_a.find do |cs|

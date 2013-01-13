@@ -73,7 +73,7 @@ class EventsController < EventBasedController
   # GET /events/1/report_hours_credits.csv
   def report_hours_credits
     @event = Event.find(params[:event_id])
-    participants = @event.participants.order(:name)
+    involvements = @event.involvements.order(:name)
     # TODO don't hard-code perimeters
     perim_ids = @event.credit_schemes.where(:name => 'Perimeters').first.position_ids
     pre_start = @event.start_date.to_time_in_current_zone
@@ -99,7 +99,7 @@ class EventsController < EventBasedController
       'Email',
       'Mailing Address'
     ]
-    @rows = participants.map do |p|
+    @rows = involvements.map do |p|
       total_h = to_h(p.total_seconds)
       total_c = p.total_credits_formatted
       pre_h = to_h(p.total_seconds(pre_start, evt_start))

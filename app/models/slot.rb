@@ -1,7 +1,7 @@
 class Slot < ActiveRecord::Base
   belongs_to :shift
   belongs_to :position
-  has_and_belongs_to_many :participants
+  has_and_belongs_to_many :involvements
   has_one :event, :through => :shift
 
   validates :shift_id, :position_id, :presence => true

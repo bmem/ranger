@@ -1,4 +1,4 @@
-class Participant < ActiveRecord::Base
+class Involvement < ActiveRecord::Base
   STATUSES = [:planned, :confirmed, :bonked, :withdrawn]
   DETAIL_ATTRS = [
     :camp_location, :emergency_contact_info,

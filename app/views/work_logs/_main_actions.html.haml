@@ -2,12 +2,12 @@
   - if @event
     %li= link_to_record @event
     - if subject_record
-      - participant = subject_record.participant
+      - involvement = subject_record.involvement
     - elsif person_me
-      - @event.participants.find_by_person_id(person_me.id).try do |p|
-        - participant = p
-    - if participant
-      %li= link_to "Work logs for #{participant} in #{@event}", event_participant_path(@event, participant, :anchor => 'worklogs')
+      - @event.involvements.find_by_person_id(person_me.id).try do |p|
+        - involvement = p
+    - if involvement
+      %li= link_to "Work logs for #{involvement} in #{@event}", event_involvement_path(@event, involvement, :anchor => 'worklogs')
     - if @shift
       %li= link_to "#{@shift} work_logs", event_shift_work_logs_path(@event, @shift)
       - if can? :create, :work_logs

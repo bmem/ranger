@@ -13,7 +13,7 @@ namespace :clubhouse do
           puts "Creating Event #{e}"
       end
     end
-    target_models = [::Position, ::Person, ::Participant, ::WorkLog]
+    target_models = [::Position, ::Person, ::Involvement, ::WorkLog]
     ::Person.connection.transaction do
       target_models.each {|model| model.delete_all}
       # TODO truncate the join table or do destroy_all

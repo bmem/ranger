@@ -20,15 +20,15 @@ module SecretClubhouse
         event = ::Event.where(:name => "Burning Man #{year}").first
         # TODO set participation status to bonked if they were only an alpha
         # and did not pass mentoring
-        participant = ::Participant.new :event => event, :name => callsign,
+        involvement = ::Involvement.new :event => event, :name => callsign,
           :full_name => full_name, :barcode => barcode,
           :personnel_status => status, :participation_status => 'confirmed'
-        p.participants << participant
+        p.involvements << involvement
         sheets.each do |ts|
           worklog = ts.to_bmem_model
           worklog.event = event
-          worklog.participant = participant
-          participant.work_logs << worklog
+          worklog.involvement = involvement
+          involvement.work_logs << worklog
         end
       end
       p

@@ -1,0 +1,8 @@
+- content_for :main_action_list_items do
+  - if @event
+    %li= link_to "People in #{@event}", event_involvements_path(@event)
+    - if @event and can? :create, :involvements
+      %li= link_to "Add someone to #{@event}", new_event_involvement_path(@event)
+  - else
+    %li= link_to 'All event involvements', involvements_path
+  = render 'record_actions'

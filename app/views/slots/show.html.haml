@@ -12,13 +12,13 @@
   %b Max people:
   = @slot.max_people
 %p
-  %b Participants:
+  %b People signed up:
   %table
     %tr
-      %th Participant
+      %th Name
       %th Signed in?
       %th Signed out?
-    - @slot.participants.accessible_by(current_ability).each do |p|
+    - @slot.involvements.accessible_by(current_ability).each do |p|
       %tr
         %td= link_to_record p
         - if work = p.work_logs.where(:shift_id => @slot.shift_id).first
