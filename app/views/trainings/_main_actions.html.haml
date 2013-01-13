@@ -3,7 +3,7 @@
     %li= link_to "#{@event} trainings", event_trainings_path(@event)
     - if can? :create, :trainings
       %li= link_to "New training in #{@event}", new_event_training_path(@event)
-    - if @training and can? :create, :slots
+    - if not @training.new_record? and can? :create, :slots
       %li= link_to "New slot in #{@training}", new_event_shift_slot_path(@event, @training.shift)
   - else
     %li= link_to 'All trainings', trainings_path
