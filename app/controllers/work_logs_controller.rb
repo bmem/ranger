@@ -5,7 +5,7 @@ class WorkLogsController < EventBasedController
     ex = select_options
     @work_logs = @work_logs.where(:event_id => @event.id) if @event
     @work_logs = @work_logs.where(:shift_id => ex.shift) if ex.shift
-    @work_logs = @work_logs.where(:participant_id => ex.participant) if ex.participant
+    @work_logs = @work_logs.where(:involvement_id => ex.involvement) if ex.involvement
     @work_logs = @work_logs.where(:position_id => ex.position) if ex.position
     @work_logs = @work_logs.order('start_time DESC')
 
@@ -101,11 +101,11 @@ class WorkLogsController < EventBasedController
     elsif slot
       work.shift ||= slot.shift
     end
-    work.participant ||= readable(Participant.find(params[:participant_id])) if params[:participant_id]
+    work.involvement ||= readable(Involvement.find(params[:involvement_id])) if params[:involvement_id]
     @event ||= work.shift.event if work.shift
     work.event ||= @event
-    @positions = @participant ? @participant.positions : readable(Position).order(:name)
-    @participants = @participant ? [@participant] : readable(Participant).order(:name)
+    @positions = @involvement ? @involvement.positions : readable(Position).order(:name)
+    @involvements = @involvement ? [@involvement] : readable(Involvement).order(:name)
     @shifts = work.shift ? [work.shift] :
       @event ? @event.shifts : readable(Shift).order(:start_time)
     @events = @event ? [@event] : readable(Event).order('end_date DESC')

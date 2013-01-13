@@ -1,5 +1,5 @@
 class Art < ActiveRecord::Base
-  has_and_belongs_to_many :participants
+  has_and_belongs_to_many :involvements
   has_and_belongs_to_many :trainings
 
   attr_accessible :description, :name, :prerequisite

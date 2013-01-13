@@ -10,8 +10,8 @@ class Person < ActiveRecord::Base
   ]
 
   belongs_to :user
-  has_many :participants
-  has_many :events, :through => :participants
+  has_many :involvements
+  has_many :events, :through => :involvements
   has_and_belongs_to_many :positions
 
   store :details, :accessors => DETAIL_ATTRS
@@ -41,8 +41,8 @@ class Person < ActiveRecord::Base
   end
 
   def years_rangered
-    @years_rangered ||= participants.
-      where(:participation_status => 'confirmed').
+    @years_rangered ||= involvements.
+      where(:involvement_status => 'confirmed').
       joins(:event).where('events.type' => 'BurningMan').
       count
   end

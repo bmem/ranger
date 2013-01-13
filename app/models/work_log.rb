@@ -1,10 +1,11 @@
 class WorkLog < ActiveRecord::Base
-  belongs_to :participant
+  include TimeHelper
+  belongs_to :involvement
   belongs_to :position
   belongs_to :event
   belongs_to :shift
 
-  validates_presence_of :participant, :position, :event, :start_time
+  validates_presence_of :involvement, :position, :event, :start_time
 
   def scheme
   #CreditScheme.joinwhere(:event_id => event.id).to_a.find do |cs|
@@ -43,8 +44,6 @@ class WorkLog < ActiveRecord::Base
   end
 
   def hours_formatted
-    secs = end_time.utc.to_time - start_time.utc.to_time
-    hoursmins = (secs / 60).divmod(60)
-    format('%d:%02d', hoursmins[0], hoursmins[1].round)
+    distance_of_time_hours_minutes(start_time, end_time)
   end
 end

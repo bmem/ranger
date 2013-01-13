@@ -1,7 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  participant: e1p1
+  involvement: e1p1
   position: one
   event: one
   shift:
@@ -10,7 +10,7 @@ one:
   note: MyText
 
 two:
-  participant: e1p2
+  involvement: e1p2
   position: one
   event: one
   shift:

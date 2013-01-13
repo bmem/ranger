@@ -1,4 +1,4 @@
-class Participant < ActiveRecord::Base
+class Involvement < ActiveRecord::Base
   STATUSES = [:planned, :confirmed, :bonked, :withdrawn]
   DETAIL_ATTRS = [
     :camp_location, :emergency_contact_info,
@@ -14,12 +14,11 @@ class Participant < ActiveRecord::Base
 
   store :details, :accessors => DETAIL_ATTRS
 
-  validates :name, :full_name, :participation_status, :personnel_status,
-    :presence => true
+  validates :name, :involvement_status, :personnel_status, :presence => true
   validates_uniqueness_of :person_id, :scope => :event_id,
     :message => 'is already participating in this event'
   validates_uniqueness_of :name, :scope => :event_id
-  validates :participation_status, :inclusion =>
+  validates :involvement_status, :inclusion =>
     { :in => STATUSES.map(&:to_s), :message => "is not a valid status" }
   validates :personnel_status, :inclusion =>
     { :in => Person::STATUSES.map(&:to_s), :message => "is not a valid status" }
@@ -30,10 +29,9 @@ class Participant < ActiveRecord::Base
     if p.new_record?
       if p.person
         p.name = p.person.callsign if p.name.blank?
-        p.full_name = p.person.full_name if p.full_name.blank?
         p.barcode = p.person.barcode if p.barcode.blank?
         p.personnel_status = p.person.status if p.personnel_status.blank?
-        p.participation_status ||= 'planned'
+        p.involvement_status ||= 'planned'
       end
     end
   end

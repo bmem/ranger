@@ -16,7 +16,7 @@ Ranger::Application.routes.draw do
   resources :credit_deltas
 
   # Schedule/Event routes
-  resources :participants
+  resources :involvements
   resources :work_logs, :path => 'worklogs'
   resources :slots do
     resources :work_logs, :path => 'worklogs'
@@ -32,7 +32,7 @@ Ranger::Application.routes.draw do
       resources :work_logs, :path => 'worklogs'
       post 'copy', :on => :member
     end
-    resources  :slots, :participants, :trainings
+    resources  :slots, :involvements, :trainings
     resources :work_logs, :path => 'worklogs'
     # TODO /credits/ paths
     resources :credit_schemes do

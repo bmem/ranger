@@ -1,0 +1,17 @@
+%h1= "Add a person to #{@involvement.event || 'an event'}"
+
+= semantic_form_for @involvement do |f|
+  = f.inputs do
+    - if @involvement.event
+      = f.input :event, :collection => [@involvement.event]
+    - else
+      = f.input :event
+    - if @involvement.person
+      = f.input :person, :collection => [@involvement.person]
+    - else
+      = f.input :person
+
+  = f.actions do
+    = f.action :submit, :label => 'Get involved'
+
+= link_to 'Back', @event ? event_involvements_path(@event) : involvements_path

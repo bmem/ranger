@@ -2,8 +2,7 @@ e1p1:
   person: one
   event: one
   name: Hubcap
-  full_name: Hubert C. Appleton
-  participation_status: planned
+  involvement_status: planned
   personnel_status: active
   barcode:
   details:
@@ -12,8 +11,7 @@ e1p2:
   person: one
   event: two
   name: Tire Iron
-  full_name: Hubert C. Appleton
-  participation_status: confirmed
+  involvement_status: confirmed
   personnel_status: active
   barcode: 4242
   on_site: true
@@ -23,8 +21,7 @@ e1p2:
   person: two
   event: one
   name: Snarkle Pony
-  full_name: Suzy Creamcheese
-  participation_status: confirmed
+  involvement_status: confirmed
   personnel_status: alpha
   barcode: 223344
   details:

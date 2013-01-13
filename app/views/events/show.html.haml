@@ -21,13 +21,13 @@
   = @event.signup_open
 - if person_me
   %p
-    %b= "Participation status (#{person_me}):"
-    - if participant = participant_for_event_person(@event, person_me)
-      = link_to participant.participation_status, event_participant_path(@event, participant)
+    %b= "Involvement status (#{person_me}):"
+    - if involvement = involvement_for_event_person(@event, person_me)
+      = link_to involvement.involvement_status, event_involvement_path(@event, involvement)
     - else
-      = 'none'
+      none
       - if @event.signup_open
-        = link_to 'Participate', new_event_participant_path(@event, :person_id => person_me.id)
+        = link_to 'Get involved', new_event_involvement_path(@event, :person_id => person_me.id)
 
 
 - if can? :manage, CreditScheme

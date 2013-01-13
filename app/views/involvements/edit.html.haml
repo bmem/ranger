@@ -1,0 +1,7 @@
+%h1= "Editing involvement of #{@involvement} in #{@involvement.event}"
+
+= render 'form'
+
+= link_to 'Show', @involvement
+\|
+= link_to 'Back', event_involvements_path(@event)

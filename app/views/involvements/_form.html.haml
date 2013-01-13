@@ -1,10 +1,9 @@
-= semantic_form_for @participant do |f|
+= semantic_form_for @involvement do |f|
   = f.inputs :name => 'Basic Information' do
     = f.input :name
-    = f.input :full_name
     = f.input :barcode
     = f.input :on_site
-    = f.input :participation_status, :as => :select, :collection => Participant::STATUSES.map(&:to_s)
+    = f.input :involvement_status, :as => :select, :collection => Involvement::STATUSES.map(&:to_s)
     = f.input :personnel_status, :as => :select, :collection => Person::STATUSES.map(&:to_s)
 
   = f.inputs :name => 'On Site Details' do

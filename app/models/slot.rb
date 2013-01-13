@@ -1,7 +1,7 @@
 class Slot < ActiveRecord::Base
   belongs_to :shift
   belongs_to :position
-  has_and_belongs_to_many :participants
+  has_and_belongs_to_many :involvements
   has_one :event, :through => :shift
 
   validates :shift_id, :position_id, :presence => true
@@ -20,6 +20,10 @@ class Slot < ActiveRecord::Base
 
   def credit_value
     credit_scheme.try {|s| s.credit_value shift.start_time, shift.end_time} || 0
+  end
+
+  def credit_value_formatted
+    format('%.2f', credit_value)
   end
 
   def to_title
