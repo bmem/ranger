@@ -20,8 +20,8 @@ module SecretClubhouse
         event = ::Event.where(:name => "Burning Man #{year}").first
         # TODO set participation status to bonked if they were only an alpha
         # and did not pass mentoring
-        involvement = ::Involvement.new :event => event, :name => callsign,
-          :full_name => full_name, :barcode => barcode,
+        involvement = ::Involvement.new :event => event,
+          :name => callsign, :barcode => barcode,
           :personnel_status => status, :participation_status => 'confirmed'
         p.involvements << involvement
         sheets.each do |ts|

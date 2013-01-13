@@ -1,7 +1,6 @@
 = semantic_form_for @involvement do |f|
   = f.inputs :name => 'Basic Information' do
     = f.input :name
-    = f.input :full_name
     = f.input :barcode
     = f.input :on_site
     = f.input :involvement_status, :as => :select, :collection => Involvement::STATUSES.map(&:to_s)

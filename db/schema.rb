@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130112221140) do
+ActiveRecord::Schema.define(:version => 20130113031929) do
 
   create_table "arts", :force => true do |t|
     t.string   "name",         :null => false
@@ -86,7 +86,6 @@ ActiveRecord::Schema.define(:version => 20130112221140) do
     t.integer  "event_id",                              :null => false
     t.integer  "person_id",                             :null => false
     t.string   "name",                                  :null => false
-    t.string   "full_name",                             :null => false
     t.string   "barcode"
     t.boolean  "on_site",            :default => false, :null => false
     t.string   "involvement_status",                    :null => false
@@ -98,7 +97,6 @@ ActiveRecord::Schema.define(:version => 20130112221140) do
 
   add_index "involvements", ["barcode"], :name => "index_participants_on_barcode"
   add_index "involvements", ["event_id"], :name => "index_participants_on_event_id"
-  add_index "involvements", ["full_name"], :name => "index_participants_on_full_name"
   add_index "involvements", ["name"], :name => "index_participants_on_name"
   add_index "involvements", ["person_id"], :name => "index_participants_on_person_id"
 

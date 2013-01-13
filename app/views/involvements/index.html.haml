@@ -10,7 +10,6 @@
     - unless @event
       %th Event
     %th Callsign
-    %th Full Name
     %th
       Involvement
       %br
@@ -19,6 +18,7 @@
       Personnel
       %br
       status
+    %th On site?
     %th
     %th
 
@@ -27,12 +27,12 @@
       - unless @event
         %td= link_to_record involvement.event
       %td= link_to_record involvement
-      %td= involvement.full_name
       %td= involvement.involvement_status
       %td= involvement.personnel_status
+      %td= involvement.on_site? ? 'yes' : ''
       %td= link_to_edit_record involvement
       %td= link_to 'Remove', involvement, :confirm => 'Are you sure?', :method => :delete
 
 %br
 
-= link_to 'Add involvement', @event ? new_event_involvement_path(@event) : new_involvement_path
+= link_to 'Add a person', @event ? new_event_involvement_path(@event) : new_involvement_path
