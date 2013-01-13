@@ -32,18 +32,18 @@ Some key concepts:
   * Organizational unit for most data in the system
   * Defined by a name and a date range, possibly overlapping
   * Many reports are scoped to a single Event
-* Participants (information about a Person's activity in an Event)
-  * The Person's callsign and wallet name at the time of the Event
-  * Their participation status in the Event (planned, confirmed, withdrawn...)
+* Involvements (information about a Person's activity in an Event)
+  * The Person's callsign and barcode at the time of the Event
+  * Their involvement status in the Event (planned, confirmed, withdrawn...)
   * Their personnel status at the time
   * On-site information (camp location, emergency contact, ...)
 * Shifts (grave, morning, afternoon, swing...)
   * Periods of time when a group of people will be working
 * Slots (Thursday grave dirt rangers, Saturday afternoon shift leads, ...)
   * A Position within a Shift
-  * Participants sign up for these
+  * Linked to a Person through an Involvement
 * Work Logs
-  * Actual sign in and sign out times for Participants
+  * Actual sign in and sign out times for People (through Involvements)
 * Users
   * Identified by email address and password
   * Tied to a Person record, but not all People are authorized users
