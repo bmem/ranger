@@ -22,6 +22,10 @@ class Slot < ActiveRecord::Base
     credit_scheme.try {|s| s.credit_value shift.start_time, shift.end_time} || 0
   end
 
+  def credit_value_formatted
+    format('%.2f', credit_value)
+  end
+
   def to_title
     position && position.to_title
   end

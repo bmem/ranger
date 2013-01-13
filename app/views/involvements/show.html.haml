@@ -1,4 +1,6 @@
-%h1= "#{@involvement.name} involvement in #{@involvement.event}"
+%h1
+  = "#{@involvement.name} involvement in "
+  = link_to_record @involvement.event
 
 %p
   %b Name:
@@ -25,6 +27,25 @@
   - Involvement::DETAIL_ATTRS.each do |attr|
     %dt{:id => "label_#{attr}"}<= Involvement.human_attribute_name attr
     %dd{:id => "value_#{attr}"}<= @involvement.send attr
+
+%a{:name => 'schedule'}
+%h3 Schedule
+%table.schedule[@involvement]
+  %tr
+    %th Position
+    %th Shift
+    %th Start time
+    %th End time
+    %th Hours
+    %th Credits
+  - @involvement.slots.each do |s|
+    %tr
+      %td= s.position
+      %td= link_to_record s.shift
+      %td= l s.shift.start_time
+      %td= l s.shift.end_time
+      %td= distance_of_time_hours_minutes(s.shift.start_time, s.shift.end_time)
+      %td= s.credit_value_formatted
 
 %a{:name => 'worklogs'}
 %h3 Work logs
