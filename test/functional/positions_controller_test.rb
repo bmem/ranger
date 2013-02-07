@@ -3,7 +3,7 @@ require 'test_helper'
 class PositionsControllerTest < ActionController::TestCase
   setup do
     sign_in users(:adminuser)
-    @position = positions(:one)
+    @position = positions(:dirt)
   end
 
   test "should get index" do

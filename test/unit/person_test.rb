@@ -39,7 +39,14 @@ class PersonTest < ActiveSupport::TestCase
   test "find by email" do
     p1 = Person.new :email => 'fbe@example.com', :callsign => 'FindByEmail', :full_name => 'Find Me'
     assert p1.save
-    assert p1 == Person.find_by_email(p1.email).first, "DIdn't find #{p1.email}"
-    assert p1 == Person.find_by_email(p1.email.upcase).first, "DIdn't find #{p1.email.upcase}"
-  end
+    assert p1 == Person.find_by_email(p1.email).first, "Didn't find #{p1.email}"
+    assert p1 == Person.find_by_email(p1.email.upcase).first, "Didn't find #{p1.email.upcase}" end
+
+  # TODO Fixtures do direct SQL insertion so don't go through details store :-(
+  #test "details store" do
+  #  able_baker = people(:able_baker)
+  #  assert_equal 'L', able_baker.shirt_size
+  #  assert_equal '205-555-2253', able_baker.main_phone
+  #  assert_equal Time.zone.local(1946, 4, 8), able_baker.birth_date
+  #end
 end

@@ -6,20 +6,17 @@ class SlotTest < ActiveSupport::TestCase
     shift = Shift.new :name => 'Day',
       :start_time => 1.hour.ago, :end_time => 1.hour.from_now
     shift = shifts(:one)
-    position = Position.new :name => 'Manager'
-    position = positions(:one)
+    position = positions(:dirt)
     assert Slot.new(:shift => shift).invalid?, "Just shift was valid"
     assert Slot.new(:position => position).invalid?, "Just position was valid"
-    assert Slot.new(:shift => shift, :position => position).valid?,
-      "Full slot was invalid"
+    assert Slot.new(:shift => shift, :position => position).valid?, "Full slot was invalid"
   end
 
   test "validates numericality" do
     shift = Shift.new :name => 'Day',
       :start_time => 1.hour.ago, :end_time => 1.hour.from_now
     shift = shifts(:one)
-    position = Position.new :name => 'Manager'
-    position = positions(:one)
+    position = positions(:dirt)
     slot = Slot.new(:shift => shift, :position => position,
       :min_people => 0, :max_people => 0)
     assert slot.valid?, "Full slot was invalid #{slot.errors.full_messages}"

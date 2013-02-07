@@ -1,17 +1,24 @@
 normaluser1:
   email: user1@example.com
+  encrypted_password: <%= User.new.send(:password_digest, 'user1') %>
 
 normaluser2:
   email: user2@example.com
+  encrypted_password: <%= User.new.send(:password_digest, 'user2') %>
 
 adminuser:
   email: admin@example.com
+  encrypted_password: <%= User.new.send(:password_digest, 'admin') %>
 
 hquser:
   email: hq@example.com
+  encrypted_password: <%= User.new.send(:password_digest, 'hq') %>
+
 
 hqmentoruser:
   email: hqmentor@example.com
+  encrypted_password: <%= User.new.send(:password_digest, 'hqmentor') %>
 
 traineruser:
   email: trainer@example.com
+  encrypted_password: <%= User.new.send(:password_digest, 'trainer') %>

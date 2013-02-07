@@ -2,7 +2,7 @@
 
 one:
   involvement: e1p1
-  position: one
+  position: dirt
   event: one
   shift:
   start_time: 2012-04-07 16:00:00
@@ -11,7 +11,7 @@ one:
 
 two:
   involvement: e1p2
-  position: one
+  position: intercept
   event: one
   shift:
   start_time: 2012-04-07 16:00:00

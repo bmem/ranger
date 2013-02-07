@@ -1,11 +1,131 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+# A (somewhat limited) set of positions used by the Rangers is included to make
+# test data more realistic.
 
-one:
-  name: MyString
-  description: MyText
-  new_user_eligible: false
+alpha:
+  name: Alpha
+  description: New volunteers who are ready for mentoring.
 
-two:
-  name: MyString
-  description: MyText
-  new_user_eligible: false
+burn_perimeter:
+  name: Burn Perimeter
+  description: Maintaining safety around a large object on fire.
+
+dirt:
+  name: Dirt
+  description: The fundamental Ranger practice--walking around and talking.
+
+doubleohseven:
+  name: "007"
+  description: Wise old folks called in to the stickiest situations.
+
+eschelon_field:
+  name: Eschelon Field
+  description: Taking care of the Rangers who take care of the city.
+
+green_dot:
+  name: Green Dot Ranger
+  description: Handling situations that need more kleenex than duct tape.
+
+green_dot_long:
+  name: Green Dot Long
+  description: Overseeing green dot operations for a day.
+
+green_dot_sanctuary:
+  name: Green Dot Sanctuary
+  description: Being present with people who need to take a break from chaos.
+
+green_dot_short:
+  name: Green Dot Short
+  description: Overseeing green dot operations for a shift.
+
+hot_springs:
+  name: Hot Springs Patrol
+  description: Ensuring preservation of natural resources.
+
+hq_long:
+  name: HQ Long
+  description: Overseeing HQ for a day.
+
+hq_runner:
+  name: HQ Runner
+  description: Lubricating HQ functionality.
+
+hq_short:
+  name: HQ Short
+  description: Overseeing HQ for a shift.
+
+hq_training:
+  name: HQ Training
+  description: Learn how to work in HQ.
+
+hq_window:
+  name: HQ Window
+  description: Check folks in and out, give them a radio and a battery.
+
+intercept:
+  name: Intercept
+  description: Vehicle safety and Rangering the inner playa.
+
+intercept_dispatch:
+  name: Intercept Dispatch
+  description: Overseeing an Intercept shift.
+
+leal:
+  name: LEAL
+  description: Law Enforcement Agency Liason
+
+leal_trainee:
+  name: LEAL Trainee
+  description: Learning to LEAL
+
+mentor:
+  name: Mentor
+  description: Showing alphas the ropes.
+
+mentor_long:
+  name: Mentor Long
+  description: "Overseeing a day's mentoring."
+
+mentor_short:
+  name: Mentor Short
+  description: Overseeing a mentor shift.
+
+ood:
+  name: OOD
+  description: Officer of the Day
+
+operations_manager:
+  name: Operations Manager
+  description: Where all the sticky stuff flows.
+
+rnr:
+  name: RNR
+  description: Rapid Night Response
+
+rsc_envoy:
+  name: RSC Envoy
+  description: Helping out the shift command team.
+
+rsci:
+  name: RSCI
+  description: Shift command intern.
+
+sandman:
+  name: Sandman
+  description: The last line of defense between crazies and fire.
+
+shift_lead:
+  name: Shift Lead
+  description: Orchestrating a symphony of chaos.
+
+tow_truck_driver:
+  name: Tow Truck Driver
+  description: Helping relocate medium-sized objects.
+
+trainee:
+  name: Trainee
+  description: Sign up to learn about the Rangers.
+  new_user_eligible: true
+
+trainer:
+  name: Trainer
+  description: Educating prospective and returning volunteers.

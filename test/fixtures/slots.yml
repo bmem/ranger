@@ -2,12 +2,12 @@
 
 one:
   shift: one
-  position: one
+  position: dirt
   min_people: 0
   max_people: 0
 
 two:
   shift: one
-  position: two
-  min_people: 3
+  position: rnr
+  min_people: 4
   max_people: 10
