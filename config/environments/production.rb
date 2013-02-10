@@ -4,8 +4,9 @@ Ranger::Application.configure do
   # Code is not reloaded between requests
   config.cache_classes = true
 
-  # Full error reports are disabled and caching is turned on
-  config.consider_all_requests_local       = false
+  # Default: Full error reports are disabled and caching is turned on
+  # Getting full error reports from users is great
+  config.consider_all_requests_local       = true
   config.action_controller.perform_caching = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
@@ -14,8 +15,9 @@ Ranger::Application.configure do
   # Compress JavaScripts and CSS
   config.assets.compress = true
 
-  # Don't fallback to assets pipeline if a precompiled asset is missed
-  config.assets.compile = false
+  # Default: Don't fallback to assets pipeline if a precompiled asset is missed
+  # We might be changing assets on the fly; it's okay to take the hit
+  config.assets.compile = true
 
   # Generate digests for assets URLs
   config.assets.digest = true
