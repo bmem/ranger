@@ -1,11 +1,10 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  name: MyString
-  prerequisite: MyString
-  description: MyText
+  name: ART of Dangerous Art
+  description: Perimeters, fires, and things that go boom.
 
 two:
-  name: MyString
-  prerequisite: MyString
-  description: MyText
+  name: ART of RSCI
+  prerequisite: Two years as a Ranger
+  description: Learn how to be a Ranger Shift Command Intern.

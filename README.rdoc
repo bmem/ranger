@@ -81,7 +81,7 @@ pull requests to bmem with your changes.  If you're working on something
 significant, please discuss it first in an issue or on the mailing list.
 
 To check out and run the code (assuming you have installed Ruby, Rails, Ruby
-Gems, and Bundler):
+Gems, Bundler, and perhaps RVM[https://rvm.io/]):
   mkdir bmem && cd bmem
   git clone git@github.com:bmem/ranger.git
   cd ranger

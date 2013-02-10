@@ -2,12 +2,19 @@
 
 one:
   shift: training_one_one
-  map_link: "http://maps.google.com/somewhere"
-  location: Pigeon Bistro\n123 Main St\nBrooklyn, NY 10123
-  instructions: Pack a lunch and bring a chair.
+  map_link: http://maps.google.com/maps?q=Brooklyn, NY
+  location: |-
+    Pigeon Bistro
+    123 Main St
+    Brooklyn, NY 10123
+  instructions: Pack a lunch and bring a chair, if you can fit it on the subway.
 
 two:
   shift: training_one_two
-  map_link: "http://burningman.com/location"
-  location: Burning Man Headquarters\n6th Floor\n995 Market St\nSan Francisco, CA 94103
-  instructions: Call us if the door is locked.
+  map_link: http://burningman.com/location
+  location: |-
+    Burning Man Headquarters
+    6th Floor
+    995 Market St
+    San Francisco, CA 94103
+  instructions: Call 415-555-1212 if the door is locked.
