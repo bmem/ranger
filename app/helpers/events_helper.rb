@@ -1,6 +1,8 @@
+require 'csv'
+
 module EventsHelper
   def report_csv
-    FasterCSV.generate do |csv|
+    CSV.generate do |csv|
       csv << @cols
       @rows.each {|row| csv << row}
     end

@@ -21,3 +21,11 @@ training_one:
   start_date: 2011-04-01
   end_date: 2011-08-31
   signup_open: false
+
+burning_man_2012:
+  type: BurningMan
+  name: Burning Man 2012
+  description: Burning Man event, Black Rock City, 2012
+  start_date: 2012-08-19
+  end_date: 2012-09-08
+  signup_open: false

@@ -97,6 +97,10 @@ operations_manager:
   name: Operations Manager
   description: Where all the sticky stuff flows.
 
+pre_team:
+  name: Pre-Team (Dirt Ranger)
+  description: Rangering long before the gates open.
+
 rnr:
   name: RNR
   description: Rapid Night Response

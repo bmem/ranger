@@ -9,7 +9,7 @@ class ScheduleHomeControllerTest < ActionController::TestCase
     get :index
     assert_response :success
     assert_equal 1, assigns(:current_events).size
-    assert_equal 2, assigns(:completed_events).size
+    assert_equal 3, assigns(:completed_events).size
     assert_equal 0, assigns(:upcoming_events).size
   end
 end

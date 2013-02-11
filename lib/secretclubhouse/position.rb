@@ -5,7 +5,7 @@ module SecretClubhouse
     self.target ::Position, :name, :new_user_eligible
 
     def name
-      title
+      title.strip
     end
   end
 end

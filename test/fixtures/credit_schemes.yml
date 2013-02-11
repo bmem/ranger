@@ -13,3 +13,78 @@ two:
   base_hourly_rate: 1.75
   description: For very special people.
   positions: two
+
+bm2012_007s:
+  event: burning_man_2012
+  name: 007s
+  base_hourly_rate: 1.75
+  description: Not shift based
+  positions: doubleohseven
+
+bm2012_alphas:
+  event: burning_man_2012
+  name: Alphas
+  base_hourly_rate: 0.25
+  description: Quarter credit, regardless of time
+  positions: alpha
+
+bm2012_mentoring:
+  event: burning_man_2012
+  name: Mentoring
+  base_hourly_rate: 1.0
+  description: Normal rate every day
+  positions: [cheetah, cheetah_cub, mentor, mentor_long, mentor_short]
+
+bm2012_trainings:
+  event: burning_man_2012
+  name: Trainings
+  base_hourly_rate: 1.0
+  description: Base rate for trainers and special skills trainees
+  positions: [hq_full_training, hq_refresher_training, hq_trainer, trainer]
+
+bm2012_misc:
+  event: burning_man_2012
+  name: Misc Positions
+  base_hourly_rate: 1.0
+  description: Various positions that only get the base rate
+  positions: [hot_springs_patrol, tow_truck_driver]
+
+bm2012_operations:
+  event: burning_man_2012
+  name: Operations
+  base_hourly_rate: 1.0
+  description: Main configuration for operational positions
+  positions: [ art_safety,
+               dirt,
+               echelon_field,
+               gate_opening,
+               green_dot_long,
+               green_dot_mentee,
+               green_dot_mentor,
+               green_dot_ranger,
+               green_dot_sanctuary,
+               green_dot_short,
+               hq_long,
+               hq_runner,
+               hq_short,
+               hq_window,
+               intercept,
+               intercept_dispatch,
+               leal,
+               leal_trainee,
+               logistics,
+               ood,
+               operator,
+               pre_team,
+               rnr,
+               rsc_envoy,
+               rsci,
+               shift_lead,
+               tech_team ]
+
+bm2012_perimeters:
+  event: burning_man_2012
+  name: Perimeters
+  base_hourly_rate: 0.25
+  description: Burn perimeters
+  positions: [burn_perimeter, sandman, special_burn]

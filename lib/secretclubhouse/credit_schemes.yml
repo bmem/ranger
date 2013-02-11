@@ -1,0 +1,51 @@
+# Credit Schemes from past events because the legacy data model is hard to
+# convert to the new scheme.
+
+bm2012_007s:
+  event: burning_man_2012
+  name: 007s
+  base_hourly_rate: 1.75
+  description: Not shift based
+  position_names: ['007']
+
+bm2012_alphas:
+  event: burning_man_2012
+  name: Alphas
+  base_hourly_rate: 0.25
+  description: Quarter credit, regardless of time
+  position_names: [Alpha]
+
+bm2012_mentoring:
+  event: burning_man_2012
+  name: Mentoring
+  base_hourly_rate: 1.0
+  description: Normal rate every day
+  position_names: [Cheetah, Cheetah - Cub, Mentor, Mentor - Long, Mentor - Short]
+
+bm2012_trainings:
+  event: burning_man_2012
+  name: Trainings
+  base_hourly_rate: 1.0
+  description: Base rate for trainers and special skills trainees
+  position_names: [HQ Full Training, HQ Refresher Training, HQ Trainer, Trainer]
+
+bm2012_misc:
+  event: burning_man_2012
+  name: Misc Positions
+  base_hourly_rate: 1.0
+  description: Various positions that only get the base rate
+  position_names: [Hot Springs Patrol, Tow Truck Driver]
+
+bm2012_operations:
+  event: burning_man_2012
+  name: Operations
+  base_hourly_rate: 1.0
+  description: Main configuration for operational positions
+  position_names: [Art Safety, Dirt, Echelon - Field, Gate Opening, Green Dot Long, Green Dot Mentee, Green Dot Mentor, Green Dot Ranger, Green Dot Sanctuary, Green Dot Short, HQ Long, HQ Runner, HQ Short, HQ Window, Intercept, Intercept Dispatch, LEAL, LEAL Trainee, Logistics, OOD, Operator, "Pre-Team (Dirt Ranger)", RNR, RSC Envoy, RSCI, Shift Lead, Tech Team]
+
+bm2012_perimeters:
+  event: burning_man_2012
+  name: Perimeters
+  base_hourly_rate: 0.25
+  description: Burn perimeters
+  position_names: [Burn Perimeter, Sandman, Special Burn]

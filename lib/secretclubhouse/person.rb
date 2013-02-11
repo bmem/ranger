@@ -22,7 +22,7 @@ module SecretClubhouse
         # and did not pass mentoring
         involvement = ::Involvement.new :event => event,
           :name => callsign, :barcode => barcode,
-          :personnel_status => status, :participation_status => 'confirmed'
+          :personnel_status => status, :involvement_status => 'confirmed'
         p.involvements << involvement
         sheets.each do |ts|
           worklog = ts.to_bmem_model

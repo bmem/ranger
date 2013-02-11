@@ -15,7 +15,9 @@ gem 'json'
 
 gem 'will_paginate', '~> 3.0'
 
-# TODO this is just CSV in ruby core 1.9
+# TODO this is just CSV in 1.9 and it complains loudly if you try to use
+# FasterCSV.  Figure out how to dispatch appropriately or whether to ditch
+# 1.8 support entirely.
 gem 'fastercsv'
 
 # Gems used only for assets and not required

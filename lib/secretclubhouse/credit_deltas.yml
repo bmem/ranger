@@ -1,18 +1,5 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
-
-one:
-  credit_scheme: one
-  name: Weekend Bonus
-  hourly_rate: 0.5
-  start_time: 2011-09-03 00:00:00
-  end_time: 2012-09-05 00:00:00
-
-two:
-  credit_scheme: one
-  name: Small credit for pre-event
-  hourly_rate: 0.25
-  start_time: 2012-08-20 00:00:00
-  end_time: 2012-08-28 16:00:00
+# Credit Schemes from past events because the legacy data model is hard to
+# convert to the new scheme.
 
 bm2012_operations_pre_event:
   credit_scheme: bm2012_operations
@@ -23,10 +10,10 @@ bm2012_operations_pre_event:
 
 bm2012_operations_sunday_pre:
   credit_scheme: bm2012_operations
-  name: Sunday pre
+  name: Sunday Pre
   hourly_rate: -0.5
   start_time: 2012-08-26 00:00:00 -07:00
-  end_time: 2012-08-27 00:00:00 -07:00
+  end_time: 2012-08-26 18:00:00 -07:00
 
 bm2012_operations_thursday_friday:
   credit_scheme: bm2012_operations
