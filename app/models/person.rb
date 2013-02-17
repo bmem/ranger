@@ -9,7 +9,7 @@ class Person < ActiveRecord::Base
     :status_date, :callsign_approved, :has_personnel_note
   ]
 
-  belongs_to :user
+  belongs_to :user, :autosave => true
   has_many :involvements
   has_many :events, :through => :involvements
   has_and_belongs_to_many :positions

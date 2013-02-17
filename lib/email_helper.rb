@@ -1,5 +1,5 @@
 module EmailHelper
-  VALID_EMAIL = /\S+@([a-z0-9\-]+\.)+[a-z0-9\-]+/
+  VALID_EMAIL = /^\S+@([a-z0-9\-]+\.)+[a-z0-9\-]{2,}$/i
 
   def self.append_features(base)
     super

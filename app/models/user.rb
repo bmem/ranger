@@ -1,6 +1,9 @@
 class User < ActiveRecord::Base
   include EmailHelper
 
+  # If true, the first user created is an admin. Disable for conversion.
+  cattr_accessor :first_user_is_admin do true end
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -8,15 +11,23 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me,
-    :person_attributes
+    :person_attributes, :disabled, :disabled_message
 
   has_one :person
   accepts_nested_attributes_for :person, :update_only => true
   # TODO don't let person change after creation
-  has_many :user_roles
+  has_many :user_roles, :dependent => :destroy
 
   validates :email, :uniqueness => true, :presence => true,
     :format => EmailHelper::VALID_EMAIL
+
+  def active_for_authentication?
+    super and not disabled?
+  end
+
+  def inactive_message
+    disabled? ? disabled_message || super : super
+  end
 
   def roles
     user_roles.map {|ur| Role[ur.role]}
@@ -36,7 +47,7 @@ class User < ActiveRecord::Base
 
   before_create do |u|
     # Make the first user an admin
-    if u.roles.empty? and User.count == 0
+    if first_user_is_admin and u.roles.empty? and User.count == 0
       u.user_roles.build(:role => :admin)
     end
   end

@@ -3,6 +3,7 @@ namespace :clubhouse do
   task :convert => :environment do
     basedir = './lib/secretclubhouse'
     Dir.glob("#{basedir}/*.rb") {|file| require file}
+    User.first_user_is_admin = false
     errors = []
     schemes_hash = YAML.load(IO.read("#{basedir}/credit_schemes.yml")).group_by {|k,v| v['event']}
     deltas_hash = YAML.load(IO.read("#{basedir}/credit_deltas.yml")).group_by {|k,v| v['credit_scheme']}
@@ -16,9 +17,12 @@ namespace :clubhouse do
         puts "Creating Event #{e.name}"
       end
     end
-    target_models = [::Position, ::Person, ::Involvement, ::WorkLog]
+    target_models = [::Position, ::Person, ::Involvement, ::User, ::WorkLog]
     ::Person.connection.transaction do
-      target_models.each {|model| model.delete_all}
+      target_models.each do |model|
+        puts "Deleting old #{model} records"
+        model.destroy_all
+      end
       # TODO truncate the join table or do destroy_all
       [SecretClubhouse::Position, SecretClubhouse::Person].each do |from_table|
         human_name = from_table.model_name.human

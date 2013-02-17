@@ -15,4 +15,13 @@ class UserTest < ActiveSupport::TestCase
     u2.email = u2.email.upcase
     assert u2.invalid?, "Upper case duplicate was valid"
   end
+
+  test "disabled user cannot authenticate" do
+    u1 = users(:normaluser1)
+    u1.disabled = true
+    assert !u1.active_for_authentication?, "disabled user was active"
+    assert_not_nil u1.inactive_message
+    u1.disabled_message = 'User is deceased'
+    assert_equal 'User is deceased', u1.inactive_message
+  end
 end
