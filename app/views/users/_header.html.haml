@@ -1,0 +1,9 @@
+%h1
+  User
+  = @user.email
+  - if @user.person
+    (
+    %span>= link_to_record @user.person
+    )
+  - if @user.disabled?
+    %em disabled

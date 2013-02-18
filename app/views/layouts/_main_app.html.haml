@@ -17,7 +17,7 @@
         - if can? :manage, Person
           %li= link_to Person.model_name.human.pluralize, people_path
         - if can? :manage, User
-          %li= link_to User.model_name.human.pluralize, roles_path
+          %li= link_to User.model_name.human.pluralize, users_path
         - if can? :manage, Position
           %li= link_to Position.model_name.human.pluralize, positions_path
         - if user_signed_in?

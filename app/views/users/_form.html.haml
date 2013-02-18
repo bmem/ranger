@@ -1,0 +1,33 @@
+= semantic_form_for @user, :namespace => 'email' do |f|
+  = f.inputs :name => 'Change email' do
+    = f.input :email, :as => :email
+  = f.actions do
+    = f.action(:submit)
+
+- if can? :disable, @user
+  = semantic_form_for @user, :namespace => 'disable' do |f|
+    = f.inputs :name => 'Enable/disable user' do
+      = f.input :disabled
+      = f.input :disabled_message, :hint => 'Disabled user will see this when trying to log in'
+    = f.actions do
+      = f.action(:submit)
+
+- if can? :manage, :roles
+  / not a semantic form since Role isn't a relation; pretend it's formtastic for stylistic reasons
+  = form_tag role_path(@user.id), :method => :put, :class => 'formtastic user' do
+    %fieldset.inputs
+      %legend
+        %span Roles
+      %ol
+        - Role::ALL.each do |role|
+          %li.boolean.input.optional
+            - id = "role_#{role.to_sym}"
+            - present = @user.has_role?(role)
+            = label_tag id, :class => (present ? 'present' : 'absent') do
+              = check_box_tag 'roles[]', role.to_sym, present, :id => id
+              = role.name
+            %p.inline-hints= role.description
+    %fieldset.actions
+      %ol
+        %li.action.input_action#user_roles_submit_action
+          = submit_tag 'Update Roles', :disable_with => 'Saving...', :name => 'commit'

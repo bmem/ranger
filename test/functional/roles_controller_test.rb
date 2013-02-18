@@ -19,7 +19,7 @@ class RolesControllerTest < ActionController::TestCase
   test "should update user" do
     id = users(:normaluser1).id
     put :update, :id => id, :roles => %w(admin hq mentor)
-    assert_redirected_to "/roles/#{id}", flash[:notice]
+    assert_redirected_to "/users/#{id}", flash[:notice]
     user = User.find(id)
     [:admin, :hq, :mentor].each do |r|
       assert user.has_role?(r), "User is missing #{r}"

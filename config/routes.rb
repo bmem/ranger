@@ -2,7 +2,9 @@ Ranger::Application.routes.draw do
 
   resources :roles, :only => [:index, :show, :update], :id => /\w+/
 
-  devise_for :users
+  devise_for :users, :path => 'user'
+
+  resources :users, :except => 'create'
 
   resources :people, :constraints => {:id => /\d+/}
   match 'people/tag(/:tag(/:name))' => 'people#tag', :as => :tag_people

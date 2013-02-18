@@ -1,0 +1,29 @@
+= render 'header'
+
+%dl.attributes[@user]
+  %dt{:id => "label_email"} Email
+  %dd{:id => "value_email"}= @user.email
+  %dt{:id => "label_roles"} Roles
+  %dd{:id => "value_roles"}= @user.roles.to_sentence
+  - if @user.disabled?
+    %dt{:id => "label_disabled_message"} Disabled message
+    %dd{:id => "value_disabled_message"}= @user.disabled_message
+  %dt{:id => "label_sign_in_count"} Signed in
+  %dd{:id => "value_sign_in_count"}= pluralize @user.sign_in_count, 'time'
+  - if @user.current_sign_in_at
+    %dt{:id => "label_current_sign_in_at"} Currently signed in
+    %dd{:id => "value_current_sign_in_at"}
+      = l @user.current_sign_in_at
+      = "from #{@user.current_sign_in_ip}"
+  %dt{:id => "label_last_sign_in_at"} Last signed in
+  %dd{:id => "value_last_sign_in_at"}
+    - if @user.last_sign_in_at
+      = l @user.last_sign_in_at
+      = "from #{@user.last_sign_in_ip}"
+    - else
+      Never
+  %dt{:id => "label_created_at"} Created
+  %dd{:id => "value_created_at"}= l @user.created_at
+  %dt{:id => "label_updated_at"} Updated
+  %dd{:id => "value_updated_at"}= l @user.updated_at
+

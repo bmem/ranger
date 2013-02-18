@@ -1,15 +1,56 @@
 %h1= "#{@person.callsign} (#{@person.full_name})"
 
-%dl.attributes[@person]
-  - ([:callsign, :full_name, :email, :barcode, :status, :status_date, :years_rangered, :callsign_approved, :language_list, :qualification_list] + Person::DETAIL_ATTRS + [:created_at, :updated_at]).uniq.each do |attr|
-    %dt{:id => "label_#{attr}"}= Person.human_attribute_name attr
-    %dd{:id => "value_#{attr}"}= @person.send attr
+.tab-container
+  %ul
+    %li.tab-title
+      %a.tab-link{:href => '#tab-core'} Core
+    %li.tab-title
+      %a.tab-link{:href => '#tab-contact'} Contact
+    %li.tab-title
+      %a.tab-link{:href => '#tab-details'} Details
+    %li.tab-title
+      %a.tab-link{:href => '#tab-involvement'} Events
+    %li.tab-title
+      %a.tab-link{:href => '#tab-user'} User
 
-%h3 Event involvement
-%ul
-  - @person.involvements.sort_by(&:event).each do |p|
-    %li= link_to p.event, event_involvement_path(p.event, p)
+  .tab-content#tab-core
+    %dl.attributes[@person]
+      - [:callsign, :full_name, :barcode, :status, :status_date, :years_rangered].each do |attr|
+        %dt{:id => "label_#{attr}"}= Person.human_attribute_name attr
+        %dd{:id => "value_#{attr}"}= @person.send attr
 
-= link_to 'Edit', edit_person_path(@person)
-\|
-= link_to 'Back', people_path
+  .tab-content#tab-contact
+    %dl.attributes[@person]
+      - [:email, :main_phone, :alt_phone, :mailing_address].each do |attr|
+        %dt{:id => "label_#{attr}"}= Person.human_attribute_name attr
+        %dd.text-attribute{:id => "value_#{attr}"}<= @person.send attr
+
+  .tab-content#tab-details
+    %dl.attributes[@person]
+      - [:callsign_approved, :has_personnel_note, :shirt_size, :birth_date, :language_list, :qualification_list, :created_at, :updated_at].each do |attr|
+        %dt{:id => "label_#{attr}"}= Person.human_attribute_name attr
+        %dd{:id => "value_#{attr}"}<= @person.send attr
+
+  .tab-content#tab-involvement
+    - if @person.involvements.empty?
+      = "#{@person} has not been involved in any events"
+    - else
+      = "#{@person}'s involvement in"
+      %ul
+        - @person.involvements.sort_by(&:event).each do |p|
+          %li
+            = link_to p.event, event_involvement_path(p.event, p)
+            = "(#{p.involvement_status})"
+
+  .tab-content#tab-user
+    - @person.user.try do |user|
+      %dl.attributes[user]
+        %dt{:id => "label_user_roles"} Roles
+        %dd{:id => "value_user_roles"}= user.roles.to_sentence
+        - [:email, :disabled, :disabled_message, :sign_in_count, :current_sign_in_at, :last_sign_in_at, :created_at, :updated_at].each do |attr|
+          %dt{:id => "label_user_#{attr}"}= User.human_attribute_name attr
+          %dd{:id => "value_user_#{attr}"}= user.send attr
+%div
+  = link_to 'Edit', edit_person_path(@person)
+  \|
+  = link_to 'Back', people_path

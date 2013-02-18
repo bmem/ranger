@@ -1,0 +1,24 @@
+%h1 Listing users
+
+= will_paginate @users, :inner_window => 10
+
+%table
+  %tr
+    %th Callsign
+    %th Full name
+    %th Email
+    %th Disabled?
+    %th Last login
+    %th
+
+  - @users.each do |user|
+    - person = user.person || Person.new
+    %tr
+      %td= link_to person.callsign, user
+      %td= person.full_name
+      %td= link_to user.email, user
+      %td= 'Disabled' if user.disabled?
+      %td= user.last_sign_in_at.try {|time| l time}
+      %td= link_to_edit_record user
+
+= will_paginate @users, :inner_window => 10

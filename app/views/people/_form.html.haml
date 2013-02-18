@@ -1,31 +1,46 @@
-= semantic_form_for @person do |f|
-  -if @person.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@person.errors.count, "error")} prohibited this person from being saved:"
-      %ul
-        - @person.errors.full_messages.each do |msg|
-          %li= msg
+-if @person.errors.any?
+  #error_explanation
+    %h2= "#{pluralize(@person.errors.count, "error")} prohibited this person from being saved:"
+    %ul
+      - @person.errors.full_messages.each do |msg|
+        %li= msg
 
-  = f.inputs :name => 'Basic Information' do
-    = f.input :callsign
-    = f.input :full_name
-    = f.input :barcode
-    = f.input :status, :as => :select, :collection => Person::STATUSES.map(&:to_s)
-    = f.input :status_date, :as => :date_picker
-    = f.input :callsign_approved, :as => :boolean
-    = f.input :has_personnel_note, :as => :boolean
+.tab-container
+  %ul
+    %li.tab-title
+      %a.tab-link{:href => '#tab-core'} Core
+    %li.tab-title
+      %a.tab-link{:href => '#tab-contact-details'} Contact &amp; Details
+    %li.tab-title
+      %a.tab-link{:href => '#tab-user'} User
 
-  = f.inputs :name => 'Personal and Contact' do
-    = f.input :mailing_address, :as => :text, :input_html => { :rows => 5, :cols => 30 }
-    = f.input :email, :as => :email
-    = f.input :main_phone
-    = f.input :alt_phone
-    = f.input :birth_date, :as => :date_picker
-    = f.input :shirt_size, :as => :select, :collection => Person::SHIRT_SIZES
+  .tab-content#tab-core
+    = semantic_form_for(@person, :namespace => 'details_form') do |f|
+      = f.inputs do
+        = f.input :callsign
+        = f.input :full_name
+        = f.input :barcode
+        = f.input :status, :as => :select, :collection => Person::STATUSES.map(&:to_s)
+        = f.input :status_date, :as => :date_picker
+        = f.input :callsign_approved, :as => :boolean
+        = f.input :has_personnel_note, :as => :boolean
+      = f.actions do
+        = f.action(:submit)
 
-  = f.inputs :name => 'Tags' do
-    = f.input :language_list
-    = f.input :qualification_list
+  .tab-content#tab-contact-details
+    = semantic_form_for(@person, :namespace => 'details_form') do |f|
+      = f.inputs do
+        = f.input :email, :as => :email
+        = f.input :main_phone
+        = f.input :alt_phone
+        = f.input :mailing_address, :as => :text, :input_html => { :rows => 5, :cols => 30 }
+        = f.input :birth_date, :as => :date_picker
+        = f.input :shirt_size, :as => :select, :collection => Person::SHIRT_SIZES
+        = f.input :language_list
+        = f.input :qualification_list
+      = f.actions do
+        = f.action(:submit)
 
-  = f.actions do
-    = f.action(:submit)
+  .tab-content#tab-user
+    - @person.user.try do |user|
+      = render :partial => 'users/form', :locals => {:@user => user}

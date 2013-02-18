@@ -74,7 +74,7 @@ class RolesController < ApplicationController
       if @user.save
         respond_to do |format|
           flash[:notice] = 'User was updated successfully'
-          format.html { redirect_to :action => 'show', :id => @user.id }
+          format.html { redirect_to user_path(@user) }
           format.json { head :no_content }
         end
       else
