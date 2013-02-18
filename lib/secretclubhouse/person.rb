@@ -7,6 +7,7 @@ module SecretClubhouse
       :position_ids, *::Person::DETAIL_ATTRS
 
     has_many :timesheets
+    has_many :languages
     has_and_belongs_to_many :positions, :join_table => 'person_position'
     has_and_belongs_to_many :roles, :join_table => 'person_role'
 
@@ -26,10 +27,13 @@ module SecretClubhouse
         end
         puts "Replacing #{callsign} invalid email #{email} with #{p.email}"
       end
-      if p.shirt_size = 'Unknown'
+      if p.shirt_size == 'Unknown'
         p.shirt_size = nil
       elsif p.shirt_size =~ /XX+L/
-        p.shirt_size = "#{p.shirt_size.split(//).count {|c| c == 'X'}}L"
+        p.shirt_size = "#{p.shirt_size.split(//).count {|c| c == 'X'}}XL"
+      end
+      languages.map(&:language_name).each do |lang|
+        p.language_list << lang.strip.downcase if lang.present?
       end
       # TODO set disabled based on status and user_authorized
       p.build_user :email => p.email, :password => @@rand.bytes(16),
