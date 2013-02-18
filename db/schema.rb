@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130216214803) do
+ActiveRecord::Schema.define(:version => 20130218200956) do
 
   create_table "arts", :force => true do |t|
     t.string   "name",         :null => false
@@ -40,24 +40,24 @@ ActiveRecord::Schema.define(:version => 20130216214803) do
   add_index "arts_trainings", ["training_id", "art_id"], :name => "index_arts_trainings_on_training_id_and_art_id", :unique => true
 
   create_table "credit_deltas", :force => true do |t|
-    t.integer  "credit_scheme_id", :null => false
+    t.integer  "credit_scheme_id",                                :null => false
     t.string   "name"
-    t.decimal  "hourly_rate",      :null => false
-    t.datetime "start_time",       :null => false
-    t.datetime "end_time",         :null => false
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.decimal  "hourly_rate",      :precision => 10, :scale => 2, :null => false
+    t.datetime "start_time",                                      :null => false
+    t.datetime "end_time",                                        :null => false
+    t.datetime "created_at",                                      :null => false
+    t.datetime "updated_at",                                      :null => false
   end
 
   add_index "credit_deltas", ["credit_scheme_id"], :name => "index_credit_deltas_on_credit_scheme_id"
 
   create_table "credit_schemes", :force => true do |t|
-    t.integer  "event_id",         :null => false
-    t.string   "name",             :null => false
-    t.decimal  "base_hourly_rate", :null => false
+    t.integer  "event_id",                                        :null => false
+    t.string   "name",                                            :null => false
+    t.decimal  "base_hourly_rate", :precision => 10, :scale => 2, :null => false
     t.text     "description"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at",                                      :null => false
+    t.datetime "updated_at",                                      :null => false
   end
 
   add_index "credit_schemes", ["event_id"], :name => "index_credit_schemes_on_event_id"
