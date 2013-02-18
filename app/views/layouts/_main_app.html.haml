@@ -35,18 +35,19 @@
     = render 'main_actions'
     = render 'layouts/main_action_list'
 
-    - if alert or notice
-      .notifications
-        - if alert
-          .alert= alert
-        - if notice
-          .notice= notice
-    - elsif subject_record and subject_record.errors.present?
-      .notifications
-        .notice= subject_record.errors.full_messages.to_sentence
+    #body-container
+      - if alert or notice
+        .notifications
+          - if alert
+            .alert= alert
+          - if notice
+            .notice= notice
+      - elsif subject_record and subject_record.errors.present?
+        .notifications
+          .notice= subject_record.errors.full_messages.to_sentence
 
-    .content= yield
+      .content= yield
 
-  %address
-    Is clicking the mouse pushing your buttons?  Kick it sideways to
-    %a(href="mailto:#{t('support.email')}") #{t('support.name')} (#{t('support.email')})
+    %address
+      Is clicking the mouse pushing your buttons? Kick it sideways to
+      %a(href="mailto:#{t('support.email')}") #{t('support.name')} (#{t('support.email')})
