@@ -17,6 +17,34 @@ namespace :clubhouse do
         puts "Creating Event #{e.name}"
       end
     end
+
+    CreditScheme.transaction do
+      CreditScheme.destroy_all
+      schemes_hash.each do |eid, schemes|
+        puts "Adding credit schemes to #{eid.titleize}"
+        e = Event.find_by_name(eid.titleize)
+        if e.credit_schemes.empty?
+          schemes.each do |s_key, s_attrs|
+            position_names = s_attrs.delete 'position_names'
+            positions = Position.where(:name => position_names)
+            raise "Missing positions in #{position_names} for #{s_key}" unless position_names.count == positions.count
+            s_attrs.delete 'event'
+            puts "Adding scheme #{s_attrs['name']} to #{e.name}"
+            scheme = e.credit_schemes.build s_attrs
+            scheme.position_ids = positions.map &:id
+            deltas_hash[s_key].try do |deltas|
+              deltas.each do |d_key, d_attrs|
+                d_attrs.delete 'credit_scheme'
+                puts "Adding delta #{d_attrs['name']} to #{s_attrs['name']}"
+                delta = scheme.credit_deltas.build d_attrs
+              end
+            end
+          e.save!
+          end
+        end
+      end
+    end
+
     target_models = [::Position, ::Person, ::Involvement, ::User, ::WorkLog]
     ::Person.connection.transaction do
       target_models.each do |model|
@@ -36,29 +64,6 @@ namespace :clubhouse do
             err = "Error converting #{ident}: #{to.errors.full_messages}"
             errors << err
             puts err
-          end
-        end
-      end
-      schemes_hash.each do |eid, schemes|
-        puts "Adding credit schemes to #{eid.titleize}"
-        e = Event.find_by_name(eid.titleize)
-        if e.credit_schemes.empty?
-          schemes.each do |s_key, s_attrs|
-            position_names = s_attrs.delete 'position_names'
-            positions = Position.where(:name => position_names)
-            raise "Missing positions in #{position_names} for #{s_key}" unless position_names.count == positions.count
-            s_attrs.delete 'event'
-            puts "Adding scheme #{s_attrs['name']} to #{e.name}"
-            scheme = e.credit_schemes.build s_attrs
-            scheme.position_ids = positions.map &:id
-            deltas_hash[s_key].try do |deltas|
-              deltas.each do |d_key, d_attrs|
-                d_attrs.delete 'credit_scheme'
-                puts "Adding scheme #{d_attrs['name']} to #{s_attrs['name']}"
-                delta = scheme.credit_deltas.build d_attrs
-              end
-            end
-          e.save!
           end
         end
       end
