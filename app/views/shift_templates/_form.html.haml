@@ -1,0 +1,13 @@
+= semantic_form_for @shift_template do |f|
+  = f.inputs do
+    = f.input :title
+    = f.input :event_type, :as => :select, :collection => Event::TYPES
+    = f.input :name
+    = f.input :description
+    = f.input :start_hour, :as => :select, :collection => 0..23
+    = f.input :start_minute, :as => :select, :collection => [0, 15, 30, 45]
+    = f.input :end_hour, :as => :select, :collection => 0..23
+    = f.input :end_minute, :as => :select, :collection => [0, 15, 30, 45]
+
+  = f.actions do
+    = f.action(:submit)

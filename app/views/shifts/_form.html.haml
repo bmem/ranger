@@ -1,4 +1,6 @@
 = semantic_form_for @shift do |f|
+  - if @shift_template
+    = hidden_field_tag 'template', @shift_template.id
   = f.inputs do
     = f.input :name
     = f.input :description, :input_html => {:rows => 5}
@@ -8,4 +10,8 @@
     = f.input :event
 
   = f.actions do
+    - if @shift_template and @shift_template.slot_templates.present?
+      %p.inline-hints
+        New shift will have slots with position(s)
+        = @shift_template.slot_templates.to_sentence
     = f.action(:submit)

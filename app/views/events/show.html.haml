@@ -38,7 +38,8 @@
     = link_to 'New credit scheme', new_event_credit_scheme_path(@event)
 %p
   %h3= link_to 'Shifts', event_shifts_path(@event)
-  = link_to 'New shift', new_event_shift_path(@event)
+  - if can? :create, Shift
+    = render 'shifts/template_picker'
   %table
     %tr
       %th= Shift.human_attribute_name(:name)

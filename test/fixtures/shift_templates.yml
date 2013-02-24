@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  title: Shift Template 1
+  event_type: BurningMan
+  name: Test Shift
+  description:
+  start_hour: 12
+  start_minute: 30
+  end_hour: 18
+  end_minute: 45
+
+training:
+  title: Training Template
+  event_type: TrainingSeason
+  name:
+  description: Bring a chair and a lunch
+  start_hour: 10
+  start_minute: 0
+  end_hour: 17
+  end_minute: 0

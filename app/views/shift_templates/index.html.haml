@@ -1,0 +1,25 @@
+%h1 Listing shift templates
+
+%table
+  %tr
+    %th Template
+    %th Name
+    %th Start time
+    %th End time
+    %th Slots
+    %th
+    %th
+
+  - @shift_templates.each do |shift|
+    %tr
+      %td= link_to_record shift
+      %td= shift.name
+      %td= format_hours_minutes shift.start_hour, shift.start_minute
+      %td= format_hours_minutes shift.end_hour, shift.end_minute
+      %td= link_to shift.slot_templates.to_sentence, shift_template_slot_templates_path(shift)
+      %td= link_to 'Edit', edit_shift_template_path(shift)
+      %td= link_to 'Destroy', shift, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Shift template', new_shift_template_path

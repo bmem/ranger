@@ -20,6 +20,8 @@
           %li= link_to User.model_name.human.pluralize, users_path
         - if can? :manage, Position
           %li= link_to Position.model_name.human.pluralize, positions_path
+        - if can? :manage, ShiftTemplate
+          %li= link_to ShiftTemplate.model_name.human.pluralize, shift_templates_path
         - if user_signed_in?
           - if current_user.person
             %li= link_to 'Personal info', edit_person_path(current_user.person)

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130218200956) do
+ActiveRecord::Schema.define(:version => 20130224202445) do
 
   create_table "arts", :force => true do |t|
     t.string   "name",         :null => false
@@ -141,6 +141,19 @@ ActiveRecord::Schema.define(:version => 20130218200956) do
     t.datetime "updated_at",                           :null => false
   end
 
+  create_table "shift_templates", :force => true do |t|
+    t.string   "title",                                  :null => false
+    t.string   "name"
+    t.text     "description"
+    t.integer  "start_hour",   :default => 0,            :null => false
+    t.integer  "start_minute", :default => 0,            :null => false
+    t.integer  "end_hour",     :default => 0,            :null => false
+    t.integer  "end_minute",   :default => 0,            :null => false
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
+    t.string   "event_type",   :default => "BurningMan", :null => false
+  end
+
   create_table "shifts", :force => true do |t|
     t.string   "name",        :null => false
     t.text     "description"
@@ -152,6 +165,17 @@ ActiveRecord::Schema.define(:version => 20130218200956) do
   end
 
   add_index "shifts", ["event_id"], :name => "index_shifts_on_event_id"
+
+  create_table "slot_templates", :force => true do |t|
+    t.integer  "shift_template_id",                :null => false
+    t.integer  "position_id",                      :null => false
+    t.integer  "min_people",        :default => 0, :null => false
+    t.integer  "max_people",        :default => 0, :null => false
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
+  end
+
+  add_index "slot_templates", ["shift_template_id"], :name => "index_slot_templates_on_shift_template_id"
 
   create_table "slots", :force => true do |t|
     t.integer  "shift_id",                   :null => false

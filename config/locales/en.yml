@@ -20,3 +20,16 @@ en:
       default: "%a %Y-%m-%d %H:%M"
       short: "%a %m/%d %H:%M"
       long: "%a %b %d, %Y %H:%M"
+
+  formtastic:
+    titles:
+      shift_template: Shift template
+    labels:
+      shift_template:
+        name: Shift name
+    hints:
+      shift_template:
+        title: Name of the template
+        name: Name of the shift, or blank
+    placeholders:
+    actions:

@@ -22,7 +22,7 @@ class ShiftsControllerTest < ActionController::TestCase
       post :create, :shift => @shift.attributes
     end
 
-    assert_redirected_to shift_path(assigns(:shift))
+    assert_redirected_to event_shift_path(assigns(:event), assigns(:shift))
   end
 
   test "should show shift" do
@@ -37,7 +37,7 @@ class ShiftsControllerTest < ActionController::TestCase
 
   test "should update shift" do
     put :update, :id => @shift, :shift => @shift.attributes
-    assert_redirected_to shift_path(assigns(:shift))
+    assert_redirected_to event_shift_path(assigns(:event), assigns(:shift))
   end
 
   test "should destroy shift" do

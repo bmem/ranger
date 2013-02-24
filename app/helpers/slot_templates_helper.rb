@@ -1,0 +1,2 @@
+module SlotTemplatesHelper
+end

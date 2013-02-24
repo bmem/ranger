@@ -1,0 +1,2 @@
+module ShiftTemplatesHelper
+end

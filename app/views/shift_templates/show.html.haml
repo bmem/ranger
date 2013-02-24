@@ -1,0 +1,25 @@
+%h1
+  Shift template
+  = @shift_template.title
+%p
+  %b Event type:
+  = @shift_template.event_type
+%p
+  %b Shift name:
+  = @shift_template.name
+%p
+  %b Description:
+  .text-attribute<= @shift_template.description
+%p
+  %b Start time:
+  = format_hours_minutes(@shift_template.start_hour, @shift_template.start_minute)
+%p
+  %b End time:
+  = format_hours_minutes(@shift_template.end_hour, @shift_template.end_minute)
+%p
+  %b Slots:
+  = render 'slots'
+
+= link_to 'Edit', edit_shift_template_path(@shift_template)
+\|
+= link_to 'Back', shift_templates_path

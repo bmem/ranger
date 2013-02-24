@@ -133,3 +133,7 @@ trainee:
 trainer:
   name: Trainer
   description: Educating prospective and returning volunteers.
+
+training_auditor:
+  name: Training Auditor
+  description: Attending a training but not planning to be a Black Rock Ranger.

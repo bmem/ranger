@@ -25,6 +25,13 @@ class TrainingsController < EventBasedController
   # GET /trainings/new.json
   def new
     @training.build_shift(:event => @event)
+    if params[:date].present? and d = Time.zone.parse(params[:date])
+      @training.shift.end_time = @training.shift.start_time = d
+    end
+    if params[:template].present? and t = ShiftTemplate.find(params[:template])
+      @shift_template = t
+      @training.shift.merge_from_template! t, params[:date]
+    end
 
     respond_to do |format|
       format.html # new.html.erb
@@ -46,6 +53,10 @@ class TrainingsController < EventBasedController
 
     respond_to do |format|
       if @training.save
+        if params[:template].present? and t = ShiftTemplate.find(params[:template])
+          @shift_template = t
+          @training.shift.create_slots_from_template t
+        end
         format.html { redirect_to [@event, @training], :notice => 'Training was successfully created.' }
         format.json { render :json => @training, :status => :created, :location => @training }
       else

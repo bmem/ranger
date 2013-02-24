@@ -1,0 +1,27 @@
+%h1
+  Slot templates in
+  = link_to_record @shift_template
+
+%table
+  %tr
+    %th Shift template
+    %th Position
+    %th Min people
+    %th Max people
+    %th
+    %th
+    %th
+
+  - @slot_templates.each do |slot|
+    %tr
+      %td= link_to_record slot.shift_template
+      %td= slot.position
+      %td= slot.min_people
+      %td= slot.max_people
+      %td= link_to 'Show', slot
+      %td= link_to 'Edit', edit_shift_template_slot_template_path(slot.shift_template, slot)
+      %td= link_to 'Destroy', slot, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Slot template', new_shift_template_slot_template_path(@shift_template)

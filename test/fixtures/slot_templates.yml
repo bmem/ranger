@@ -1,0 +1,31 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  shift_template: one
+  position: dirt
+  min_people: 10
+  max_people: 30
+
+two:
+  shift_template: one
+  position: rsc_envoy
+  min_people: 0
+  max_people: 2
+
+trainer:
+  shift_template: training
+  position: trainer
+  min_people: 1
+  max_people: 3
+
+trainee:
+  shift_template: training
+  position: trainee
+  min_people: 6
+  max_people: 50
+
+training_auditor:
+  shift_template: training
+  position: training_auditor
+  min_people: 0
+  max_people: 25

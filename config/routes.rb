@@ -1,5 +1,4 @@
 Ranger::Application.routes.draw do
-
   resources :roles, :only => [:index, :show, :update], :id => /\w+/
 
   devise_for :users, :path => 'user'
@@ -10,6 +9,10 @@ Ranger::Application.routes.draw do
   match 'people/tag(/:tag(/:name))' => 'people#tag', :as => :tag_people
 
   resources :positions
+
+  resources :shift_templates do
+    resources :slot_templates
+  end
 
   resources :arts
 

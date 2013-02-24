@@ -1,0 +1,19 @@
+%h1
+  Slot template in
+  = link_to_record @slot_template.shift_template
+%p
+  %b Shift template:
+  = link_to_record @slot_template.shift_template
+%p
+  %b Position:
+  = link_to_record @slot_template.position
+%p
+  %b Min people:
+  = @slot_template.min_people
+%p
+  %b Max people:
+  = @slot_template.max_people
+
+= link_to 'Edit', edit_shift_template_slot_template_path(@slot_template.shift_template, @slot_template)
+\|
+= link_to 'Back', shift_template_slot_templates_path(@slot_template.shift_template)

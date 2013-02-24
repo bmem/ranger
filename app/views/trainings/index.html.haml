@@ -21,5 +21,4 @@
       %td= link_to 'Destroy', training, :method => :delete, data: { confirm: 'Are you sure?' }
 
 %br
-
-= link_to 'New Training', new_event_training_path(@event)
+= render 'shifts/template_picker'

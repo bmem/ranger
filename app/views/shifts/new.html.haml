@@ -1,5 +1,11 @@
-%h1 New shift
+%h1
+  New shift
+  - if @event
+    in
+    = link_to_record @event
 
 = render 'form'
 
-= link_to 'Back', shifts_path
+%br
+
+= render 'template_picker'

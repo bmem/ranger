@@ -24,7 +24,14 @@ class ShiftsController < EventBasedController
   def new
     if @event
       @shift.event = @event
-      @shift.end_time = @shift.start_time = @event.start_date.to_datetime
+      @shift.end_time = @shift.start_time = Time.zone.parse(@event.start_date.to_s)
+    end
+    if params[:date].present? and d = Time.zone.parse(params[:date])
+      @shift.end_time = @shift.start_time = d
+    end
+    if params[:template].present? and t = ShiftTemplate.find(params[:template])
+      @shift_template = t
+      @shift.merge_from_template! t, params[:date]
     end
     respond_to do |format|
       format.html # new.html.erb
@@ -41,7 +48,11 @@ class ShiftsController < EventBasedController
   def create
     respond_to do |format|
       if @shift.save
-        format.html { redirect_to @shift, :notice => 'Shift was successfully created.' }
+        if params[:template].present? and t = ShiftTemplate.find(params[:template])
+          @shift_template = t
+          @shift.create_slots_from_template t
+        end
+        format.html { redirect_to [@shift.event, @shift], :notice => 'Shift was successfully created.' }
         format.json { render :json => @shift, :status => :created, :location => @shift }
       else
         format.html { render :action => "new" }
@@ -69,7 +80,7 @@ class ShiftsController < EventBasedController
             end # slots.each
             unless c.save
               failed = true
-              format.html { redirect_to @shift, :alert => "Copy shift failed: #{c.errors.full_messages.to_sentence}" }
+              format.html { redirect_to [@shift.event, @shift], :alert => "Copy shift failed: #{c.errors.full_messages.to_sentence}" }
               format.json { render :json => c.errors, :status => :unprocessable_entity }
               raise ActiveRecord::Rollback
             end # unless c.save
@@ -89,7 +100,7 @@ class ShiftsController < EventBasedController
   def update
     respond_to do |format|
       if @shift.update_attributes(params[:shift])
-        format.html { redirect_to @shift, :notice => 'Shift was successfully updated.' }
+        format.html { redirect_to [@shift.event, @shift], :notice => 'Shift was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render :action => "edit" }

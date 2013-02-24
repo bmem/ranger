@@ -1,4 +1,6 @@
 = semantic_form_for [@event, @training] do |f|
+  - if @shift_template
+    = hidden_field_tag 'template', @shift_template.id
   = f.inputs :for => :shift, :name => "Shift Details" do |s|
     = s.input :name
     = s.input :start_time
@@ -12,4 +14,8 @@
     = f.input :arts, :as => :check_boxes
 
   = f.actions do
+    - if @shift_template and @shift_template.slot_templates.present?
+      %p.inline-hints
+        New shift will have slots with position(s)
+        = @shift_template.slot_templates.to_sentence
     = f.action(:submit)
