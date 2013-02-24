@@ -74,6 +74,7 @@ address {
   padding: 1ex;
   padding-top: 1em;
   vertical-align: top;
+  width: 25%;
   .actions-header {
     margin-top: 0;
   }
@@ -104,7 +105,9 @@ address {
 #body-container {
   background-color: white;
   display: table-cell;
+  margin-left: 25%;
   padding: 1ex;
+  width: 100%;
 }
 
 .content {
