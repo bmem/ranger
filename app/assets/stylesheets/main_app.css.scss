@@ -113,6 +113,14 @@ address {
 .content {
 }
 
+th, td {
+  padding-right: 1em;
+}
+
+tr:hover td {
+  background-color: #eee;
+}
+
 fieldset legend {
   font-size: larger;
   font-weight: bolder;
