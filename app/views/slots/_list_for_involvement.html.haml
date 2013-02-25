@@ -1,0 +1,18 @@
+- slots ||= slots # force interpretation as local variable
+%table.slots
+  %tr
+    %th Position
+    %th Shift
+    %th Start
+    %th End
+    %th Hours
+    %th Credits
+  - (slots || involvement.slots).each do |slot|
+    %tr
+      %td= link_to slot.position.name, slot
+      %td= link_to_record(slot.shift.training || slot.shift)
+      %td= l slot.shift.start_time
+      %td= l slot.shift.end_time
+      %td= distance_of_time_hours_minutes slot.shift.start_time, slot.shift.end_time
+      %td= slot.credit_value_formatted
+      %td= link_to 'Remove', leave_event_slot_path(slot.event, slot, :involvement_id => involvement.id), :confirm => 'Are you sure?', :method => :post

@@ -1,0 +1,26 @@
+%table.worklogs[involvement]
+  %tr
+    %th Position
+    %th Shift
+    %th Start time
+    %th End time
+    %th Hours
+    %th Credits
+    %th Note
+  - involvement.work_logs.order(:start_time).each do |w|
+    %tr
+      %td= link_to w.position, event_work_log_path(w.event, w)
+      %td= w.shift
+      %td= l w.start_time
+      %td= l w.end_time
+      %td= w.hours_formatted
+      %td= w.credit_value_formatted
+      %td= w.note
+  %tr
+    %td(colspan=4)
+      %b Total
+    %td
+      %b= involvement.total_hours_formatted
+    %td
+      %b= format('%.2f', involvement.total_credits)
+    %td

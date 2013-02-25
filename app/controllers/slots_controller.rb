@@ -62,6 +62,60 @@ class SlotsController < EventBasedController
     end
   end
 
+  # POST /slots/1/join
+  # POST /sots/1/join.json
+  def join
+    if params[:involvement_id].present?
+      @involvement = Involvement.find(params[:involvement_id])
+    elsif params[:person_id].present?
+      person = Person.find(params[:person_id])
+      @involvement = person.involvements.find_by_event_id @shift.event_id
+    end
+    authorize! :edit, @involvement
+    respond_to do |format|
+      unless @slot.position_id.in? @involvement.position_ids
+        format.html { redirect_to :back, :alert => "#{@involvement} does not have position #{@slot.position}. Cannot add to slot." }
+        format.json { render :json => @slot.errors, :status => :unprocessable_entity }
+      else
+        @slot.involvements << @involvement
+        if @slot.save
+          format.html { redirect_to :back, :notice => "#{@involvement} was added to slot."}
+          format.json { head :no_content }
+        else
+          format.html { redirect_to :back, :alert => "Could not add #{@involvement} to slot" }
+          format.json { render :json => @slot.errors, :status => :unprocessable_entity }
+        end
+      end
+    end
+  end
+
+  # POST /slots/1/leave
+  # POST /sots/1/leave.json
+  def leave
+    if params[:involvement_id].present?
+      @involvement = Involvement.find(params[:involvement_id])
+    elsif params[:person_id].present?
+      person = Person.find(params[:person_id])
+      @involvement = person.involvements.find_by_event_id @shift.event_id
+    end
+    authorize! :edit, @involvement
+    respond_to do |format|
+      unless @slot.id.in? @involvement.slot_ids
+        format.html { redirect_to :back, :alert => "#{@involvement} is not signed up for #{@slot}." }
+        format.json { render :json => @slot.errors, :status => :unprocessable_entity }
+      else
+        @slot.involvements.delete @involvement
+        if @slot.save
+          format.html { redirect_to :back, :notice => "#{@involvement} was removed from slot."}
+          format.json { head :no_content }
+        else
+          format.html { redirect_to :back, :alert => "Could not remove #{@involvement} from slot." }
+          format.json { render :json => @slot.errors, :status => :unprocessable_entity }
+        end
+      end
+    end
+  end
+
   # DELETE /slots/1
   # DELETE /slots/1.json
   def destroy

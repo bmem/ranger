@@ -1,0 +1,11 @@
+- involvements = slot.position.involvements.where(:event_id => slot.event.id)
+- if slot.involvement_ids.present?
+  - involvements = involvements.where('involvements.id NOT IN (?)', slot.involvement_ids)
+- if involvements.empty?
+  = "No people available for #{slot.position} in #{slot.shift}"
+- else
+  = form_tag join_event_slot_path(slot.event, slot), :method => :post do |f|
+    Add
+    = select_tag 'involvement_id', options_from_collection_for_select(involvements, 'id', 'name')
+    = "to #{slot.position} in #{slot.shift}"
+    = submit_tag 'Sign up'

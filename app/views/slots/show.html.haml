@@ -12,21 +12,34 @@
   %b Max people:
   = @slot.max_people
 %p
+  %b Sign up:
+  = render :partial => 'add', :locals => {:slot => @slot}
+%p
   %b People signed up:
   %table
     %tr
       %th Name
       %th Signed in?
       %th Signed out?
+      %th
+      %th
     - @slot.involvements.accessible_by(current_ability).each do |p|
       %tr
         %td= link_to_record p
         - if work = p.work_logs.where(:shift_id => @slot.shift_id).first
           %td Yes
-          %td= work.end_time.present? ? "Yes" : "No"
+          - if work.end_time.present?
+            %td Yes
+            %td
+          - else
+            %td No
+            %td= link_to 'Sign out', work
+          %td
         - else
           %td No
           %td No
+          %td= link_to 'Sign in', work
+          %td= link_to 'Remove', leave_event_slot_path(@slot.event, @slot, :involvement_id => p.id), :confirm => 'Are you sure?', :method => :post
 
 = link_to 'Edit', edit_slot_path(@slot)
 \|

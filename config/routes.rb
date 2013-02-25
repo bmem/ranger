@@ -25,19 +25,31 @@ Ranger::Application.routes.draw do
   resources :work_logs, :path => 'worklogs'
   resources :slots do
     resources :work_logs, :path => 'worklogs'
+    post 'join', :on => :member
+    post 'leave', :on => :member
   end
   resources :shifts do
-    resources :slots
+    resources :slots do
+      post 'join', :on => :member
+      post 'leave', :on => :member
+    end
     resources :work_logs, :path => 'worklogs'
     post 'copy', :on => :member
   end
   resources :events do
     resources :shifts do
-      resources :slots
+      resources :slots do
+        post 'join', :on => :member
+        post 'leave', :on => :member
+      end
       resources :work_logs, :path => 'worklogs'
       post 'copy', :on => :member
     end
-    resources  :slots, :involvements, :trainings
+    resources  :slots do
+      post 'join', :on => :member
+      post 'leave', :on => :member
+    end
+    resources :involvements, :trainings
     resources :work_logs, :path => 'worklogs'
     # TODO /credits/ paths
     resources :credit_schemes do

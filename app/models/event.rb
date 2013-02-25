@@ -32,6 +32,12 @@ class Event < ActiveRecord::Base
   validates :linked_event, :allow_nil => true,
     :link_type => true, :link_match => true
 
+  default_scope order('start_date DESC, end_date DESC')
+  scope :signup_open, where(:signup_open => true)
+  scope :upcoming, lambda {where('start_date > ?', Date.today)}
+  scope :current, lambda {where('? BETWEEN start_date AND end_date', Date.today)}
+  scope :completed, lambda {where('end_date < ?', Date.today)}
+
   after_save do |e|
     # When setting a linked event, link the other one to this one
     if e.linked_event_id and e.linked_event.linked_event_id.blank?
@@ -43,9 +49,9 @@ class Event < ActiveRecord::Base
   def <=>(other)
     if other.is_a?(Event)
       if start_date == other.start_date
-        end_date <=> other.end_date
+        other.end_date <=> end_date
       else
-        start_date <=> other.start_date
+        other.start_date <=> start_date
       end
     else
       nil
