@@ -11,6 +11,8 @@
     %li.tab-title
       %a.tab-link{:href => '#tab-involvement'} Events
     %li.tab-title
+      %a.tab-link{:href => '#tab-positions'} Positions
+    %li.tab-title
       %a.tab-link{:href => '#tab-user'} User
 
   .tab-content#tab-core
@@ -41,6 +43,11 @@
           %li
             = link_to p.event, event_involvement_path(p.event, p)
             = "(#{p.involvement_status})"
+
+  .tab-content#tab-positions
+    %ul
+      - @person.positions.each do |position|
+        %li{:title => position.description}= position.name
 
   .tab-content#tab-user
     - @person.user.try do |user|

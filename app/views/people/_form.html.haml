@@ -11,6 +11,9 @@
       %a.tab-link{:href => '#tab-core'} Core
     %li.tab-title
       %a.tab-link{:href => '#tab-contact-details'} Contact &amp; Details
+    - if can? :edit, Position
+      %li.tab-title
+        %a.tab-link{:href => '#tab-positions'} Positions
     %li.tab-title
       %a.tab-link{:href => '#tab-user'} User
 
@@ -40,6 +43,14 @@
         = f.input :qualification_list
       = f.actions do
         = f.action(:submit)
+
+  - if can? :edit, Position
+    .tab-content#tab-positions
+      = semantic_form_for(@person, :namespace => 'positions_form') do |f|
+        = f.inputs do
+          = f.input :positions, :as => :check_boxes
+        = f.actions do
+          = f.action(:submit)
 
   .tab-content#tab-user
     - @person.user.try do |user|
