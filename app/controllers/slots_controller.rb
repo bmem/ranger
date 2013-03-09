@@ -1,5 +1,6 @@
 class SlotsController < EventBasedController
   load_and_authorize_resource :shift, :class => Shift
+  skip_authorize_resource :only => [:join, :leave]
 
   # GET /slots
   # GET /slots.json
@@ -73,7 +74,11 @@ class SlotsController < EventBasedController
     end
     authorize! :edit, @involvement
     respond_to do |format|
-      unless @slot.position_id.in? @involvement.position_ids
+      if not @event.signup_open?
+        error = "#{@event} is not open for signups."
+        format.html { redirect_to :back, :alert => error }
+        format.json { render :json => error, :status => :unprocessable_entity }
+      elsif not @slot.position_id.in? @involvement.position_ids
         format.html { redirect_to :back, :alert => "#{@involvement} does not have position #{@slot.position}. Cannot add to slot." }
         format.json { render :json => @slot.errors, :status => :unprocessable_entity }
       else

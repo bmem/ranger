@@ -1,0 +1,16 @@
+%h1 Listing user roles
+
+%table
+  %tr
+    %th Role
+    %th User
+    %th
+    %th
+
+  - @user_roles.each do |user_role|
+    - role = Role[user_role.role]
+    %tr
+      %td{:title => role.description}= link_to role.name, user_roles_path(:role => role.to_sym)
+      %td= link_to user_role.user, user_role_path(user_role.user) if user_role.user
+      %td= link_to 'Edit', edit_user_role_path(user_role.user) if user_role.user
+      %td= link_to 'Revoke', user_role, :method => :delete, :data => { :confirm => "Revoke #{role} for #{user_role.user}?" }

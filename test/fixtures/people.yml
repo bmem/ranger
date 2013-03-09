@@ -11,6 +11,7 @@ one:
   status: active
   barcode:
   details:
+  positions: burn_perimeter, dirt, intercept, trainee
 
 two:
   user: normaluser2
@@ -19,6 +20,35 @@ two:
   status: alpha
   barcode: 223344
   details:
+  positions: alpha, trainee
+
+admin:
+  user: adminuser
+  callsign: Root
+  full_name: Adam In
+  status: active
+  positions: burn_perimeter, dirt, intercept, tech_team, trainee
+
+hq:
+  user: hquser
+  callsign: Heathen Queen
+  full_name: Hera Quinn
+  status: active
+  positions: burn_perimeter, dirt, hq_window, hq_training, intercept, trainee
+
+hqmentor:
+  user: hqmentoruser
+  callsign: Homunculus
+  full_name: Hugh Moritz
+  status: active
+  positions: burn_perimeter, dirt, hq_window, hq_trainer, hq_training, mentor, mentor_short, trainee
+
+trainer:
+  user: traineruser
+  callsign: Professor
+  full_name: Trey Treynor
+  status: active
+  positions: burn_perimeter, dirt, intercept, trainee, trainer
 
 # Ranger Able Baker is a veteran shift lead
 able_baker:

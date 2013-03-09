@@ -1,6 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
+  type: GeneralEvent
   name: 2011 Event
   description: This event is over.
   start_date: 2011-01-01
@@ -8,6 +9,7 @@ one:
   signup_open: false
 
 two:
+  type: GeneralEvent
   name: Current Event
   description: Ongoing event.
   start_date: <%= Date.yesterday %>

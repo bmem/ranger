@@ -3,9 +3,9 @@
 %table
   %tr
     %th Shift
+    %th Position
     %th Start time
     %th End time
-    %th Position
     %th Credits
     %th
       Min
@@ -21,10 +21,10 @@
 
   - @slots.each do |slot|
     %tr
-      %td= link_to slot.shift.name, slot.shift
+      %td= link_to_record slot.shift
+      %td= link_to_record slot
       %td= l slot.shift.start_time
       %td= l slot.shift.end_time
-      %td= link_to slot.position.name, edit_slot_path(slot)
       %td= format('%.2f', slot.credit_value)
       %td= slot.min_people
       %td= slot.max_people

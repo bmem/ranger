@@ -1,15 +1,15 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  name: MyString
-  description: MyText
+  name: Afternoon
+  description: Wednesday afternoon
   event: one
   start_time: 2011-08-31 12:00:00
   end_time: 2011-08-31 18:00:00
 
 two:
-  name: MyString
-  description: MyText
+  name: Grave
+  description: Intercept grave
   event: one
   start_time: 2011-09-01 22:00:00
   end_time: 2011-09-02 04:00:00

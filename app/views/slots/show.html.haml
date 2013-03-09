@@ -6,6 +6,9 @@
   %b Position:
   = link_to @slot.position.name, position_path(@slot.position) if @slot.position
 %p
+  %b Credits:
+  = format('%.2f', @slot.credit_value)
+%p
   %b Min people:
   = @slot.min_people
 %p

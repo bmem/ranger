@@ -3,6 +3,8 @@ class UserRole < ActiveRecord::Base
   validates :user_id, :presence => true
   validate :valid_role
 
+  default_scope order(:role)
+
   def role_sym
     role.to_sym
   end

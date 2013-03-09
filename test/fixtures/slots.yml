@@ -8,6 +8,18 @@ one:
 
 two:
   shift: one
-  position: rnr
+  position: hq_window
   min_people: 4
   max_people: 10
+
+two_one:
+  shift: two
+  position: intercept
+  min_people: 6
+  max_people: 16
+
+two_two:
+  shift: two
+  position: intercept_dispatch
+  min_people: 1
+  max_people: 1

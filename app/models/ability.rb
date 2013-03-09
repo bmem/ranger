@@ -1,60 +1,98 @@
+# Role-based permission definitions.
+# See the CanCan wiki to learn how to declare abilities.
+# https://github.com/ryanb/cancan/wiki/Defining-Abilities
 class Ability
   include CanCan::Ability
 
   def initialize(user)
     if user.nil?
       can :create, User
-    else
-      # TODO investigate trusted-params gem so HQ et al. can change person
-      # fields like status but a normal user can't change his own status
+    elsif user.person
+      me = user.person
+      # TODO figure out use cases for non-person users
+
+      if Rails.configuration.users_can_choose_roles_dangerous
+        can [:read, :create, :delete], UserRole, :user_id => user.id
+      end
+
+      # == Abilities available to everyone ==
+
+      # Personnel abilities
+      # TODO investigate a way for HQ et al. to change person fields like status
+      # but prevent a normal user from changing his own status
       can :update, User, :id => user.id
-      can :read, Event, :signup_open => true
-      if user.person
-        can [:read, :update], Person, :id => user.person.id
-        can :read, Position, :id => user.person.position_ids
-        can :read, Slot, :position_id => user.person.position_ids
+      can [:read, :update], Person, :id => me.id
+      can :read, Position, :id => me.position_ids
+
+      # Event abilities
+      # TODO consider restricting view on events where signup isn't open
+      # and historic events a person wasn't involved in
+      can :read, Event
+      can :create, Involvement, :person_id => me.id, :event => {:signup_open => true}
+      can [:read, :update], Involvement, :person_id => me.id
+      can :read, WorkLog, :involvement => {:person_id => me.id}
+      can :read, Shift, :slots => {:position_id => me.position_ids}
+      can :read, Slot, :position_id => me.position_ids
+      # Everyone can see trainings since anyone can attend as a sit-in
+      can :read, Training
+      # Anyone who can see an event can see credit schemes
+      can :read, [CreditScheme, CreditDelta]
+      # Anyone can see what an ART is about
+      can :read, Art
+
+      if user.has_role? :vc
+        # Volunteer coordinators can see everyone's data and manage personal
+        # information, callsign, and status
+        can [:read, :create, :update], [Person, Involvement]
+        can [:read, :update], User
+        can :read, [Event, Shift, Slot, WorkLog, Training]
       end
 
       if user.has_role? :mentor
-        # nothing yet
+        # Mentor cadre can change callsigns and personnel status.
+        # They can see involvements in all BM and training events, but can only
+        # make changes to BurningMan involvements.
+        can [:read, :update], Person
+        can :read, Involvement
+        can [:create, :update], Involvement, :event => {:type => 'BurningMan'}
+        can :read, [Event, Shift, Slot, WorkLog, Training]
+        # TODO can manage mentor/alpha history
       end
 
-      if user.has_role? :trainer
-        # nothing yet
+      if user.has_role? :trainer or user.has_role? :trainer_lead
+        can :manage, UserRole, :role => ['trainer', 'trainer_lead']
+        can :read, Event, :type => 'TrainingSeason'
+        # TODO consider only allowing trainers assigned to a training to manage
+        can [:read, :update], Training
+        # Trainers can create people to record info from folks who show up at
+        # a training without creating an account first.
+        # TODO consider handling this case with a special controller action
+        can [:read, :create], Person
+        can :manage, Involvement, :event => {:type => 'TrainingSeason'}
+        can :read, Shift, :event => {:type => 'TrainingSeason'}
+        can :read, Slot, :event => {:type => 'TrainingSeason'}
+        can [:read, :create], WorkLog, :event => {:type => 'TrainingSeason'}
+        # TODO manage training outcome model
+      end
+
+      if user.has_role? :trainer_lead
+        # Trainer leads create trainings
+        can :manage, Event, :type => 'TrainingSeason'
+        can :manage, [Shift, Slot, WorkLog], :event => {:type => 'TrainingSeason'}
+        can :manage, [Training, Art]
       end
 
       if user.has_role? :hq
-        can :read, :all
-        can :manage, Person
-        can :update, Slot
+        # TODO Restrict access to callsign, name, barcode, status
+        can [:read, :update], Person
+        can :manage, Involvement, :event => {:type => 'BurningMan'}
+        # TODO more fine-grained controls on deleting and changing start time
+        can :manage, WorkLog, :event => {:type => 'BurningMan'}
       end
 
       if user.has_role? :admin
         can :manage, :all
       end
     end
-
-    # Define abilities for the passed in user here. For example:
-    #
-    #   user ||= User.new # guest user (not logged in)
-    #   if user.admin?
-    #     can :manage, :all
-    #   else
-    #     can :read, :all
-    #   end
-    #
-    # The first argument to `can` is the action you are giving the user permission to do.
-    # If you pass :manage it will apply to every action. Other common actions here are
-    # :read, :create, :update and :destroy.
-    #
-    # The second argument is the resource the user can perform the action on. If you pass
-    # :all it will apply to every resource. Otherwise pass a Ruby class of the resource.
-    #
-    # The third argument is an optional hash of conditions to further filter the objects.
-    # For example, here the user can only update published articles.
-    #
-    #   can :update, Article, :published => true
-    #
-    # See the wiki for details: https://github.com/ryanb/cancan/wiki/Defining-Abilities
   end
 end
