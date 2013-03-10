@@ -4,7 +4,11 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   rescue_from CanCan::AccessDenied do |ex|
-    redirect_back :alert => ex.message
+    if current_user
+      redirect_back :alert => ex.message
+    else
+      redirect_to new_user_session_path, :alert => ex.message
+    end
   end
 
   protected
