@@ -47,7 +47,10 @@
       %th= Shift.human_attribute_name(:end_time)
     - @event.shifts.each do |shift|
       %tr
-        %td= link_to shift.name, event_shift_path(@event, shift)
+        - if @event.is_a? TrainingSeason and shift.training
+          %td= link_to_record shift.training
+        - else
+          %td= link_to_record shift
         %td= l shift.start_time
         %td= l shift.end_time
 
