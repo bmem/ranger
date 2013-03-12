@@ -41,7 +41,7 @@ class Event < ActiveRecord::Base
   after_save do |e|
     # When setting a linked event, link the other one to this one
     if e.linked_event_id and e.linked_event.linked_event_id.blank?
-      e.linked_event.linked_event = e
+      e.linked_event.linked_event_id = e.id
       e.linked_event.save
     end
   end
