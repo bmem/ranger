@@ -73,17 +73,22 @@ class ShiftsController < EventBasedController
         (startday..endday).each do |day|
           if day != @shift.start_time.to_date
             c = Shift.new @shift.attributes
-            @shift.slots.each do |slot|
-              c.start_time = date_and_time(day, @shift.start_time)
-              c.end_time = c.start_time + delta_t
-              c.slots.build slot.attributes
-            end # slots.each
+            c.start_time = date_and_time(day, @shift.start_time)
+            c.end_time = c.start_time + delta_t
             unless c.save
               failed = true
               format.html { redirect_to [@shift.event, @shift], :alert => "Copy shift failed: #{c.errors.full_messages.to_sentence}" }
               format.json { render :json => c.errors, :status => :unprocessable_entity }
               raise ActiveRecord::Rollback
             end # unless c.save
+            @shift.slots.each do |slot|
+              unless c.slots.create(slot.attributes)
+                failed = true
+                format.html { redirect_to [@shift.event, @shift], :alert => "Copy shift failed: #{c.slots.last.errors.full_messages.to_sentence}" }
+                format.json { render :json => c.errors, :status => :unprocessable_entity }
+                raise ActiveRecord::Rollback
+              end # c.slots.create
+            end # slots.each
             results << c
           end # if day
         end # days.each
@@ -115,7 +120,7 @@ class ShiftsController < EventBasedController
     @shift.destroy
 
     respond_to do |format|
-      format.html { redirect_to shifts_url }
+      format.html { redirect_to event_shifts_url(@event) }
       format.json { head :no_content }
     end
   end
