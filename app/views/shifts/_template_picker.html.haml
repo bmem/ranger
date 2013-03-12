@@ -3,9 +3,10 @@
   when TrainingSeason then new_event_training_path(@event) |
   else new_event_shift_path(@event) |
   end |
+- start_date = [Date.tomorrow, @event.try {|e| e.start_date} || Date.new(0)].max
 = form_tag url, :method => :get do
   = label_tag 'template', 'Shift template'
   = select_tag 'template', options_from_collection_for_select(ShiftTemplate.for_event_type(@event), 'id', 'title'), {:include_blank => true}
   = label_tag 'date', 'Start date'
-  = text_field_tag 'date', Date.today, :class => 'datepicker'
+  = text_field_tag 'date', start_date, :class => 'datepicker'
   = submit_tag "New #{@event.is_a?(TrainingSeason) ? 'training' : 'shift'} with template", :disable_with => 'Building...'
