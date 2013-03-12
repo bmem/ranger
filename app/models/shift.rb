@@ -12,6 +12,9 @@ class Shift < ActiveRecord::Base
     :attributes => [:start_time, :end_time]
   # TODO validate start/end overlap with event's start/end?
 
+  scope :with_positions, lambda {|position_ids|
+    includes(:slots).where('slots.position_id IN (?)', position_ids).uniq}
+
   before_validation do |shift|
     if shift.event.is_a? TrainingSeason and shift.training.blank?
       shift.build_training

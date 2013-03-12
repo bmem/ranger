@@ -31,7 +31,7 @@ class Ability
       can :create, Involvement, :person_id => me.id, :event => {:signup_open => true}
       can [:read, :update], Involvement, :person_id => me.id
       can :read, WorkLog, :involvement => {:person_id => me.id}
-      can :read, Shift, :slots => {:position_id => me.position_ids}
+      can :read, Shift.with_positions(me.position_ids)
       can :read, Slot, :position_id => me.position_ids
       # Everyone can see trainings since anyone can attend as a sit-in
       can :read, Training
