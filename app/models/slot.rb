@@ -34,7 +34,7 @@ class Slot < ActiveRecord::Base
   end
 
   def in_need?
-    min_people > 0 && involvements.count <= min_people
+    min_people > 0 && involvements.count < min_people
   end
 
   def to_title

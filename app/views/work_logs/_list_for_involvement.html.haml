@@ -16,11 +16,8 @@
       %td= w.hours_formatted
       %td= w.credit_value_formatted
       %td= w.note
-  %tr
-    %td(colspan=4)
-      %b Total
-    %td
-      %b= involvement.total_hours_formatted
-    %td
-      %b= format('%.2f', involvement.total_credits)
+  %tr.total
+    %td(colspan=4) Total
+    %td= involvement.total_hours_formatted
+    %td= format('%.2f', involvement.total_credits)
     %td

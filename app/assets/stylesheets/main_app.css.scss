@@ -117,6 +117,10 @@ th, td {
   padding-right: 1em;
 }
 
+tr.total td {
+  font-weight: bolder;
+}
+
 tr:hover td {
   background-color: #eee;
 }

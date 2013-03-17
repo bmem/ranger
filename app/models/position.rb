@@ -6,4 +6,8 @@ class Position < ActiveRecord::Base
   validates :name, :presence => true
 
   default_scope order('LOWER(name)')
+
+  def <=>(x)
+    name.downcase <=> x.name.downcase
+  end
 end

@@ -4,8 +4,10 @@
 
 %h2 By position
 .collapse-container#position-slots{:data => {:collapse => ''}}
-  - @slots.group_by(&:position).each do |position, slots|
-    %h3.slot-header= position
+  - @slots.group_by(&:position).sort_by(&:first).each do |position, slots|
+    %h3.slot-header
+      = position
+      (#{slots.count {|s| not s.full?}} open slots)
     %table.slots
       %tr
         %th Shift
@@ -13,42 +15,48 @@
         %th End
         %th Hours
         %th Credits
-        %th Min
-        %th Max
+        %th People
         %th
+      - toggle = DateToggle.new
       - slots.each do |s|
+        - toggle.check(s.shift.start_time)
+        - rowclass = [ "day-#{toggle.state ? 'a' : 'b'}" ]
         - signed_up = s.id.in? @involvement.slot_ids
         - if signed_up
-          - rowclass = 'signedup'
+          - rowclass << 'signedup'
         - elsif s.full?
-          - rowclass = 'full'
+          - rowclass << 'full'
         - elsif s.in_need?
-          - rowclass = 'inneed'
+          - rowclass << 'inneed'
         - else
-          - rowclass = 'available'
+          - rowclass << 'available'
         %tr{:class => rowclass}
-          %td= link_to_record s.shift
+          %td{:title => s.shift.description}
+            - if s.shift.training
+              = link_to_record s.shift.training
+            - else
+              = s.shift
           %td= l s.shift.start_time
           %td= l s.shift.end_time
           %td= distance_of_time_hours_minutes s.shift.start_time, s.shift.end_time
           %td= s.credit_value_formatted
           %td
-            - if s.min_people > 0
-              = s.min_people
-          %td
+            - num_people = s.involvements.count
             - if s.max_people > 0
-              = s.max_people
-          - if signed_up
-            %td= link_to 'Remove', leave_event_slot_path(s.event, s, :involvement_id => @involvement.id), :confirm => 'Are you sure?', :method => :post
-          - elsif s.full?
-            %td Slot full
-          - else
-            %td
+              #{num_people}/#{s.max_people}
+            - else
+              = num_people
+            - if s.in_need?
+              %nobr (need #{s.min_people - num_people} more)
+          %td.signup
+            - if signed_up
+              = link_to 'Remove', leave_event_slot_path(s.event, s, :involvement_id => @involvement.id), :confirm => 'Are you sure?', :method => :post
+            - elsif s.full?
+              Slot full
+            - else
               = link_to 'Sign up', join_event_slot_path(s.event, s, :involvement_id => @involvement.id), :method => :post
-              - if s.in_need?
-                (needs more people)
 
-%h2 By shift
+%h2 By day
 %table#shift-slots
   %tr
     %th Shift
@@ -57,21 +65,28 @@
     %th Hours
     %th Credits
     %th Sign up
+  - toggle = DateToggle.new
   - @slots.group_by(&:shift).each do |shift, slots|
+    - toggle.check(shift.start_time)
     - signed_up = slots.map(&:id).to_set.intersection(@involvement.slot_ids).present?
     - full = !slots.find {|s| not s.full?}
-    - rowclass = signed_up ? 'signedup' : (full ? 'full' : 'available')
+    - rowclass = [signed_up ? 'signedup' : (full ? 'full' : 'available')]
+    - rowclass << "day-#{toggle.state ? 'a' : 'b'}"
     %tr{:class => rowclass}
-      %td= link_to_record shift
+      %td{:title => shift.description}
+        - if shift.training
+          = link_to_record shift.training
+        - else
+          = shift
       %td= l shift.start_time
       %td= l shift.end_time
       %td= distance_of_time_hours_minutes shift.start_time, shift.end_time
       -# TODO handle different credit values in one shift
       %td= slots.first.credit_value_formatted
-      %td
+      %td.signup
         - slots.each do |s|
           - unless s == slots.first
-            &nbsp;
+            %br
           %nobr<
             - if signed_up
               = s.position
@@ -81,3 +96,5 @@
               #{s.position} (full)
             - else
               = link_to s.position.name, join_event_slot_path(s.event, s, :involvement_id => @involvement.id), :method => :post
+            - if s.in_need?
+              %nobr (need #{s.min_people - s.involvements.count} more)

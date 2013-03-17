@@ -22,6 +22,10 @@ class Shift < ActiveRecord::Base
     end
   end
 
+  def duration_seconds
+    end_time.to_i - start_time.to_i
+  end
+
   def create_slots_from_template(shift_template)
     shift_template.slot_templates.map do |t|
       slots.create :shift => self, :position_id => t.position_id, :min_people => t.min_people, :max_people => t.max_people
