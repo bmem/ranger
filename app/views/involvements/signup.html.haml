@@ -87,7 +87,7 @@
         - slots.each do |s|
           - unless s == slots.first
             %br
-          %nobr<
+          %nobr
             - if signed_up
               = s.position
               - if s.id.in? @involvement.slot_ids
