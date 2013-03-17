@@ -7,6 +7,10 @@ class WorkLog < ActiveRecord::Base
 
   validates_presence_of :involvement, :position, :event, :start_time
 
+  def end_time_or_now
+    end_time || Time.zone.now
+  end
+
   def scheme
   #CreditScheme.joinwhere(:event_id => event.id).to_a.find do |cs|
       #position_id.in? cs.position_ids
@@ -16,10 +20,10 @@ class WorkLog < ActiveRecord::Base
 
   def credit_value(start_t=nil, end_t=nil)
     first = start_time
-    last = end_time
+    last = end_time_or_now
     first = start_t if start_t and start_t > start_time
-    last = end_t if end_t and end_t < end_time
-    return 0 if first >= end_time or last <= start_time
+    last = end_t if end_t and end_t < end_time_or_now
+    return 0 if first >= end_time_or_now or last <= start_time
     scheme.try {|s| s.credit_value(first, last)} || 0
   end
 
@@ -32,10 +36,10 @@ class WorkLog < ActiveRecord::Base
   end
 
   def seconds_overlap(start_t, end_t)
-    if start_t >= end_time || end_t <= start_time
+    if start_t >= end_time_or_now || end_t <= start_time
       0
     else
-      [end_t.to_i, end_time.to_i].min - [start_t.to_i, start_time.to_i].max
+      [end_t.to_i, end_time_or_now.to_i].min - [start_t.to_i, start_time.to_i].max
     end
   end
 

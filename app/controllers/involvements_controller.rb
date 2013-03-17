@@ -72,6 +72,19 @@ class InvolvementsController < EventBasedController
     end
   end
 
+  def signup
+    authorize! :update, @involvement
+    if @involvement.positions.empty?
+      @slots = []
+    else
+      @slots = @event.slots.where(:position_id => @involvement.position_ids)
+    end
+    respond_to do |format|
+      format.html { render :action => "signup" }
+      format.json { head :no_content }
+    end
+  end
+
   def subject_record
     @involvement
   end

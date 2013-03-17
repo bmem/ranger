@@ -1,0 +1,20 @@
+.collapse-container {
+  .close {
+    background-color: #bbb;
+  }
+  .open {
+    background-color: #ddd;
+  }
+  .open a, .close a {
+    background: url("collapse-sprite.png") 15px 13px no-repeat;
+    color: black;
+    display: block;
+    padding: 10px;
+    padding-left: 32px;
+    margin: 0;
+    text-decoration: none;
+  }
+  .open a {
+    background-position: 13px -25px;
+  }
+}

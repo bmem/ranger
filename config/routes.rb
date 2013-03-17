@@ -50,7 +50,10 @@ Ranger::Application.routes.draw do
       post 'join', :on => :member
       post 'leave', :on => :member
     end
-    resources :involvements, :trainings
+    resources :involvements do
+      get 'signup', :on => :member
+    end
+    resources :trainings
     resources :work_logs, :path => 'worklogs'
     # TODO /credits/ paths
     resources :credit_schemes do

@@ -1,89 +1,41 @@
 %h1
-  = "#{@involvement.name} involvement in "
-  = link_to_record @involvement.event
-
-%p
-  %b Name:
   = @involvement.name
+  - if @involvement.person.callsign != @involvement.name
+    (now known as #{@involvement.person.callsign})
+%h2 involvement in #{link_to_record @involvement.event}
 
-%p
-  %b Barcode:
-  = @involvement.barcode
+.tab-container
+  %ul
+    %li.tab-title
+      %a.tab-link(href='#tab-status') Status
+    %li.tab-title
+      %a.tab-link(href='#tab-schedule') Schedule
+    %li.tab-title
+      %a.tab-link(href='#tab-worklogs') Work Logs
+    %li.tab-title
+      %a.tab-link(href='#tab-onsite') On-Site Details
 
-%p
-  %b On site:
-  = @involvement.on_site
+  .tab-content#tab-status
+    %dl.attributes[@involvement]
+      - [:name, :barcode, :on_site, :involvement_status, :personnel_status, :prior_years_rangered].each do |attr|
+        %dt{:id => "label_#{attr}"}<= Involvement.human_attribute_name attr
+        %dd{:id => "value_#{attr}"}<= @involvement.send attr
+      %dt#label_positions< Positions
+      %dd#value_positions<= @involvement.positions.to_sentence
+      %dt#label_person< More details about this person
+      %dd#value_person<= link_to_record @involvement.person
 
-%p
-  %b Involvement status:
-  = @involvement.involvement_status
+  .tab-content#tab-schedule
+    = render :partial => 'slots/list_for_involvement', :locals => {:involvement => @involvement}
+    - if can? :update, @involvement
+      %br
+      = link_to 'Sign up for more', signup_event_involvement_path(@event, @involvement)
 
-%p
-  %b Personnel status:
-  = @involvement.personnel_status
+  .tab-content#tab-worklogs
+    = render :partial => 'work_logs/list_for_involvement', :locals => {:involvement => @involvement}
 
-%h3 On site details
-%dl.attributes[@involvement]
-  - Involvement::DETAIL_ATTRS.each do |attr|
-    %dt{:id => "label_#{attr}"}<= Involvement.human_attribute_name attr
-    %dd{:id => "value_#{attr}"}<= @involvement.send attr
-
-%a{:name => 'schedule'}
-%h3 Schedule
-%table.schedule[@involvement]
-  %tr
-    %th Position
-    %th Shift
-    %th Start time
-    %th End time
-    %th Hours
-    %th Credits
-  - @involvement.slots.each do |s|
-    %tr
-      %td= s.position
-      %td= link_to_record s.shift
-      %td= l s.shift.start_time
-      %td= l s.shift.end_time
-      %td= distance_of_time_hours_minutes(s.shift.start_time, s.shift.end_time)
-      %td= s.credit_value_formatted
-
-%a{:name => 'worklogs'}
-%h3 Work logs
-%table.worklogs[@involvement]
-  %tr
-    %th Position
-    %th Shift
-    %th Start time
-    %th End time
-    %th Hours
-    %th Credits
-    %th Note
-  - @involvement.work_logs.order(:start_time).each do |w|
-    %tr
-      %td= link_to w.position, event_work_log_path(@event, w)
-      %td= w.shift
-      %td= l w.start_time
-      %td= l w.end_time
-      %td= w.hours_formatted
-      %td= w.credit_value_formatted
-      %td= w.note
-  %tr
-    %td(colspan=4)
-      %b Total
-    %td
-      %b= @involvement.total_hours_formatted
-    %td
-      %b= format('%.2f', @involvement.total_credits)
-    %td
-
-%p
-  %b Positions:
-  = @involvement.positions.to_sentence
-
-%p
-  %b More details about this person:
-  = link_to_record @involvement.person
-
-= link_to 'Edit', edit_event_involvement_path(@event, @involvement)
-\|
-= link_to 'Back', event_involvements_path(@event)
+  .tab-content#tab-onsite
+    %dl.attributes[@involvement]
+      - Involvement::DETAIL_ATTRS.each do |attr|
+        %dt{:id => "label_#{attr}"}<= Involvement.human_attribute_name attr
+        %dd{:id => "value_#{attr}"}<= @involvement.send attr

@@ -9,6 +9,9 @@ class Slot < ActiveRecord::Base
     :numericality => { :only_integer => true, :greater_than_or_equal_to => 0 }
   validate :max_at_least_min, :if => 'max_people && min_people'
 
+  # select * so the results aren't readonly
+  default_scope select('slots.*').joins(:shift).order('shifts.start_time')
+
   def parent_records
     [event, shift]
   end
@@ -24,6 +27,14 @@ class Slot < ActiveRecord::Base
 
   def credit_value_formatted
     format('%.2f', credit_value)
+  end
+
+  def full?
+    max_people > 0 && involvements.count >= max_people
+  end
+
+  def in_need?
+    min_people > 0 && involvements.count <= min_people
   end
 
   def to_title

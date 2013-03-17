@@ -1,3 +1,17 @@
 .attributes.involvement #value_emergency_contact_info {
   white-space: pre-line;
 }
+
+#position-slots, #shift-slots {
+  tr.available td {
+  }
+  tr.full td {
+    color: #999;
+  }
+  tr.inneed td {
+    font-style: italic;
+  }
+  tr.signedup td {
+    font-weight: bolder;
+  }
+}

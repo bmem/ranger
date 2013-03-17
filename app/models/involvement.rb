@@ -1,8 +1,8 @@
 class Involvement < ActiveRecord::Base
   STATUSES = [:planned, :confirmed, :bonked, :withdrawn]
   DETAIL_ATTRS = [
-    :camp_location, :emergency_contact_info,
-    :on_site_planned, :on_site_actual, :off_site_planned, :off_site_actual
+    :camp_location, :on_site_planned, :on_site_actual,
+    :off_site_planned, :off_site_actual, :emergency_contact_info
   ]
 
   belongs_to :person
@@ -57,5 +57,15 @@ class Involvement < ActiveRecord::Base
   def total_hours_formatted
     hoursmins = (total_seconds / 60).divmod(60)
     format('%d:%02d', hoursmins[0], hoursmins[1].round)
+  end
+
+  def prior_years_rangered
+    @prior_years_rangered ||= Involvement.
+      where(:person_id => person_id).
+      where(:involvement_status => 'confirmed').
+      joins(:event).
+      where('events.type' => 'BurningMan').
+      where('events.start_date < ?', event.start_date).
+      count
   end
 end

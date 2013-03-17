@@ -4,6 +4,7 @@ class Event < ActiveRecord::Base
   attr_accessible :type, :name, :description, :signup_open, :start_date, :end_date, :linked_event_id
 
   has_many :shifts, :dependent => :destroy
+  has_many :slots, :through => :shifts
   has_many :involvements
   has_many :work_logs
   has_many :credit_schemes

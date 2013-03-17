@@ -9,4 +9,7 @@
     %li= link_to 'Work Logs', event_work_logs_path(@event)
     -if can? :manage, Involvement
       %li= link_to 'People involved', event_involvements_path(@event)
+    - person_me.try do |person|
+      - involvement_for_event_person(@event, person).try do |involvement|
+        %li.currentevent= link_to 'My involvement', involvement
 = render 'layouts/main_app'

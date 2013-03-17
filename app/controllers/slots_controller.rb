@@ -81,14 +81,18 @@ class SlotsController < EventBasedController
       elsif not @slot.position_id.in? @involvement.position_ids
         format.html { redirect_to :back, :alert => "#{@involvement} does not have position #{@slot.position}. Cannot add to slot." }
         format.json { render :json => @slot.errors, :status => :unprocessable_entity }
+      elsif @slot.shift_id.in? @involvement.slots.map(&:shift_id)
+        error = "#{@involvement} is already signed up for #{@slot.shift}. Cannot add to slot."
+        format.html { redirect_to :back, :alert => error}
+        format.json { render :json => error, :status => :unprocessable_entity }
       else
-        @slot.involvements << @involvement
-        if @slot.save
+        @involvement.slots << @slot
+        if @involvement.save
           format.html { redirect_to :back, :notice => "#{@involvement} was added to slot."}
           format.json { head :no_content }
         else
           format.html { redirect_to :back, :alert => "Could not add #{@involvement} to slot" }
-          format.json { render :json => @slot.errors, :status => :unprocessable_entity }
+          format.json { render :json => @involvement.errors, :status => :unprocessable_entity }
         end
       end
     end
@@ -109,13 +113,13 @@ class SlotsController < EventBasedController
         format.html { redirect_to :back, :alert => "#{@involvement} is not signed up for #{@slot}." }
         format.json { render :json => @slot.errors, :status => :unprocessable_entity }
       else
-        @slot.involvements.delete @involvement
-        if @slot.save
+        @involvement.slots.delete @slot
+        if @involvement.save
           format.html { redirect_to :back, :notice => "#{@involvement} was removed from slot."}
           format.json { head :no_content }
         else
           format.html { redirect_to :back, :alert => "Could not remove #{@involvement} from slot." }
-          format.json { render :json => @slot.errors, :status => :unprocessable_entity }
+          format.json { render :json => @involvement.errors, :status => :unprocessable_entity }
         end
       end
     end

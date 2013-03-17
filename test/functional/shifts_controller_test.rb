@@ -44,7 +44,6 @@ class ShiftsControllerTest < ActionController::TestCase
     assert_difference('Shift.count', -1) do
       delete :destroy, :id => @shift
     end
-
-    assert_redirected_to shifts_path
+    assert_redirected_to event_shifts_path(assigns(:event))
   end
 end
