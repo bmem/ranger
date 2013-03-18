@@ -74,13 +74,13 @@ class RolesController < ApplicationController
       if @user.save
         respond_to do |format|
           flash[:notice] = 'User was updated successfully'
-          format.html { redirect_to user_path(@user) }
+          format.html { redirect_to :back }
           format.json { head :no_content }
         end
       else
         respond_to do |format|
           flash[:notice] = "invalid roles"
-          format.html { render :template => "roles/show_user" }
+          format.html { redirect_to :back }
           format.json { render :json => @user.errors,
             :status => :unprocessable_entity }
         end

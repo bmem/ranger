@@ -12,7 +12,7 @@
     = f.actions do
       = f.action(:submit)
 
-- if can? :manage, :roles
+- if can? :manage, :roles or Rails.configuration.users_can_choose_roles_dangerous && current_user == @user
   / not a semantic form since Role isn't a relation; pretend it's formtastic for stylistic reasons
   = form_tag role_path(@user.id), :method => :put, :class => 'formtastic user' do
     %fieldset.inputs

@@ -65,5 +65,10 @@ module Ranger
       # Don't generate scaffold or empty view CSS files
       g.stylesheets false
     end
+
+    # Set this true in config/environments/development.rb to make it easy to
+    # test users with different sets of roles
+    config.users_can_choose_roles_dangerous = false
+
   end
 end

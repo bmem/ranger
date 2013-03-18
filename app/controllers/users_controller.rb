@@ -45,7 +45,11 @@ class UsersController < ApplicationController
         format.html { redirect_to target, :notice => 'User was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render :action => "edit" }
+        if can? :edit, @user
+          format.html { render :action => "edit" }
+        else
+          format.html { redirect_to @user.person, :notice => @user.errors.full_messages.join(', ') }
+        end
         format.json { render :json => @user.errors, :status => :unprocessable_entity }
       end
     end
