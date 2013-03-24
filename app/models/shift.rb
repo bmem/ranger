@@ -12,6 +12,7 @@ class Shift < ActiveRecord::Base
     :attributes => [:start_time, :end_time]
   # TODO validate start/end overlap with event's start/end?
 
+  default_scope order('start_time, end_time, name')
   scope :with_positions, lambda {|position_ids|
     includes(:slots).where('slots.position_id IN (?)', position_ids).uniq}
 
