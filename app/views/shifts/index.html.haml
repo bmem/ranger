@@ -11,6 +11,7 @@
       %th Event
     %th Start time
     %th End time
+    %th Description
     %th
     %th
     %th
@@ -22,6 +23,7 @@
         %td= shift.event.name
       %td= l shift.start_time, :format => :short
       %td= l shift.end_time, :format => :short
+      %td= shift.description
       %td= link_to 'Show', shift
       %td= link_to 'Edit', edit_shift_path(shift)
       %td= link_to 'Destroy', shift, :confirm => 'Are you sure?', :method => :delete

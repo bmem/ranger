@@ -45,6 +45,7 @@
       %th= Shift.human_attribute_name(:name)
       %th= Shift.human_attribute_name(:start_time)
       %th= Shift.human_attribute_name(:end_time)
+      %th= Shift.human_attribute_name(:description)
     - @event.shifts.each do |shift|
       %tr
         - if @event.is_a? TrainingSeason and shift.training
@@ -53,6 +54,7 @@
           %td= link_to_record shift
         %td= l shift.start_time
         %td= l shift.end_time
+        %td= shift.description
 
 = link_to 'Edit', edit_event_path(@event)
 \|
