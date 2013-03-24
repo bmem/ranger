@@ -10,6 +10,7 @@ module SecretClubhouse
     has_many :languages
     has_and_belongs_to_many :positions, :join_table => 'person_position'
     has_and_belongs_to_many :roles, :join_table => 'person_role'
+    has_and_belongs_to_many :slots, :join_table => 'person_slot'
 
     def to_bmem_model
       p = super
