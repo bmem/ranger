@@ -4,8 +4,7 @@ class PeopleController < ApplicationController
   # GET /people
   # GET /people.json
   def index
-    @people = Person.accessible_by(current_ability).
-      paginate(:page => params[:page], :per_page => params[:page_size] || 100)
+    @people = Person.accessible_by(current_ability).page(params[:page])
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @people }

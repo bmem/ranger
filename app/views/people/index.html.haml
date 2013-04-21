@@ -1,24 +1,6 @@
 %h1 Listing people
 
-= will_paginate @people, :inner_window => 10
-
-%table
-  %tr
-    %th Callsign
-    %th Full name
-    %th Status
-    %th
-    %th
-
-  - @people.each do |person|
-    %tr
-      %td= link_to_record person
-      %td= person.full_name
-      %td= person.status
-      %td= link_to_edit_record person
-      %td= link_to 'Destroy', person, :confirm => 'Are you sure?', :method => :delete
-
-= will_paginate @people, :inner_window => 10
+= render :partial => 'paginated_list'
 
 %br
 

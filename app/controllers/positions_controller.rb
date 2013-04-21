@@ -71,6 +71,16 @@ class PositionsController < ApplicationController
     end
   end
 
+  # GET /positions/1/people
+  # GET /positions/1/people.json
+  def people
+    @people = @position.people.accessible_by(current_ability).page(params[:page])
+    respond_to do |format|
+      format.html # people.html.haml
+      format.json { render :json => @people }
+    end
+  end
+
   def subject_record
     @position
   end

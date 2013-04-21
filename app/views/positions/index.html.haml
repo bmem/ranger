@@ -11,7 +11,7 @@
 
   - @positions.each do |position|
     %tr
-      %td= position.name
+      %td= link_to_record position
       %td= position.description
       %td= position.new_user_eligible
       %td= link_to 'Show', position

@@ -1,0 +1,19 @@
+= page_entries_info @people, :model => 'people'
+%br
+= will_paginate @people, :inner_window => 10
+
+%table.people-list
+  %tr
+    %th Callsign
+    %th Full name
+    %th Status
+    %th
+
+  - @people.each do |person|
+    %tr.person
+      %td= link_to_record person
+      %td= person.full_name
+      %td= person.status
+      %td= link_to_edit_record person
+
+= will_paginate @people, :inner_window => 10

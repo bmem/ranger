@@ -9,7 +9,9 @@ Ranger::Application.routes.draw do
   resources :people, :constraints => {:id => /\d+/}
   match 'people/tag(/:tag(/:name))' => 'people#tag', :as => :tag_people
 
-  resources :positions
+  resources :positions do
+    get 'people', :on => :member
+  end
 
   resources :shift_templates do
     resources :slot_templates

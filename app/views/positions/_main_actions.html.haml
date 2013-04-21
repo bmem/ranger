@@ -3,3 +3,5 @@
   - if can? :create, :positions
     %li= link_to 'New position', new_position_path
   = render 'record_actions'
+  - if @position and not @position.new_record? and can? :read, :people
+    %li= link_to "People with #{@position}", people_position_path(@position)
