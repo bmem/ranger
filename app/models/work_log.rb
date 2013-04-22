@@ -7,14 +7,13 @@ class WorkLog < ActiveRecord::Base
 
   validates_presence_of :involvement, :position, :event, :start_time
 
+  self.per_page = 100
+
   def end_time_or_now
     end_time || Time.zone.now
   end
 
   def scheme
-  #CreditScheme.joinwhere(:event_id => event.id).to_a.find do |cs|
-      #position_id.in? cs.position_ids
-    #end
     CreditScheme.find(:first, :joins => :positions, :conditions => {:event_id => event_id, 'credit_schemes_positions.position_id' => position_id})
   end
 
@@ -32,7 +31,11 @@ class WorkLog < ActiveRecord::Base
   end
 
   def credit_value_explained
-    scheme.try {|s| s.explained_credit_values(start_time, end_time).to_sentence}
+    if scheme
+      scheme.explained_credit_values(start_time, end_time_or_now).to_sentence
+    else
+      nil
+    end
   end
 
   def seconds_overlap(start_t, end_t)

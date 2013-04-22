@@ -1,31 +1,48 @@
 %h1 Listing Work Logs
+- form_path = @event ? event_work_logs_path(@event) : work_logs_path
+= form_tag form_path, :method => :get do
+  - @param_prototype.event.try do |e|
+    Event:
+    = link_to e, event_work_logs_path(e)
+  - @param_prototype.shift.try do |s|
+    = hidden_field_tag 'shift_id', s.id
+    Shift: #{link_to_record s}
+  - @param_prototype.position.tap do |p|
+    - positions = @param_prototype.involvement.try {|i| i.positions} || Position.all
+    Position:
+    = select_tag 'position_id', options_from_collection_for_select(positions, :id, :name, p && p.id),
+      :include_blank => true, :onchange => 'this.form.submit()'
+  - @param_prototype.involvement.try do |i|
+    = hidden_field_tag 'involvement_id', i.id
+    Person: #{link_to_record i}
+
+%br
+
+= page_entries_info :model => 'work logs'
+%br
+= will_paginate @work_logs
 
 %table
   %tr
     %th Person
     %th Position
-    %th Event
     %th Shift
     %th Start time
     %th End time
-    %th Note
-    %th
-    %th
-    %th
+    %th Hours
+    %th Credits
+    %th Note?
 
   - @work_logs.each do |work_log|
-    %tr
-      %td= work_log.involvement
+    - rowclass = 'worklog ' + (work_log.end_time ? 'complete' : 'ongoing')
+    %tr{:class => rowclass}
+      %td= link_to work_log.involvement, work_log
       %td= work_log.position
-      %td= work_log.event
-      %td= work_log.shift
+      %td= link_to_record work_log.shift
       %td= l work_log.start_time, :format => :short
       %td= work_log.end_time.try { |time| l time, :format => :short }
+      %td= work_log.hours_formatted
+      %td= work_log.credit_value_formatted
       %td= 'Yes' if work_log.note.present?
-      %td= link_to 'Show', work_log
-      %td= link_to 'Edit', edit_work_log_path(work_log)
-      %td= link_to 'Destroy', work_log, :confirm => 'Are you sure?', :method => :delete
 
-%br
-
-= link_to 'New Work Log', @event ? new_event_work_log_path(@event) : new_work_log_path
+= will_paginate @work_logs

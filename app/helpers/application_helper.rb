@@ -4,7 +4,11 @@ module ApplicationHelper
   end
 
   def link_to_record(record, *args)
-    link_to record.to_title, record, *args
+    if record.nil?
+      ''
+    else
+      link_to record.to_title, record, *args
+    end
   end
 
   def link_to_edit_record(record, options = {}, &block)

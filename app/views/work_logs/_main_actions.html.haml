@@ -7,7 +7,7 @@
       - @event.involvements.find_by_person_id(person_me.id).try do |p|
         - involvement = p
     - if involvement
-      %li= link_to "Work logs for #{involvement} in #{@event}", event_involvement_path(@event, involvement, :anchor => 'worklogs')
+      %li= link_to "Work logs for #{involvement} in #{@event}", event_work_logs_path(@event, :involvement_id => involvement.id)
     - if @shift
       %li= link_to "#{@shift} work_logs", event_shift_work_logs_path(@event, @shift)
       - if can? :create, :work_logs

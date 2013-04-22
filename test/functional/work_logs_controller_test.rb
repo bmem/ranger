@@ -45,6 +45,6 @@ class WorkLogsControllerTest < ActionController::TestCase
       delete :destroy, :id => @work_log
     end
 
-    assert_redirected_to work_logs_path
+    assert_redirected_to event_work_logs_path(@work_log.event)
   end
 end
