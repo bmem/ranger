@@ -8,7 +8,7 @@ class WorkLogsController < EventBasedController
     @work_logs = @work_logs.where(:involvement_id => p.involvement) if p.involvement
     @work_logs = @work_logs.where(:position_id => p.position) if p.position
     # sort with outstanding work logs (end time null) first
-    @work_logs = @work_logs.order('end_time NOT NULL, end_time DESC, start_time DESC')
+    @work_logs = @work_logs.order('end_time IS NOT NULL, end_time DESC, start_time DESC')
     @work_logs = @work_logs.page(params[:page])
 
     respond_to do |format|
