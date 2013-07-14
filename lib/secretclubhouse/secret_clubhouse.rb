@@ -86,8 +86,7 @@ module SecretClubhouse
       ::BurningMan.all.each do |bm|
         puts "Creating shifts for #{bm} year #{bm.start_date.year}"
         grouped_slots = Slot.in_year(bm.start_date.year).group_by do |s|
-          [s.start_time, s.end_time,
-            s.description || s.start_time.strftime('%A')]
+          [s.start_time, s.end_time, shift_name(s)]
         end
         grouped_slots.each do |key, slots|
           raise "#{key[0]} - #{key[1]} vs. #{bm.start_date} - #{bm.end_date}" unless key[0].year == bm.start_date.year
@@ -107,5 +106,13 @@ module SecretClubhouse
         puts "#{bm.shifts.count} shifts and #{bm.slots.count} slots in #{bm}"
       end # BurningMan
     end # convert_slots
+
+    def self.shift_name(slot)
+      if slot.description.blank?
+        slot.start_time.strftime('%A')
+      else
+        slot.description
+      end
+    end
   end # class Convert
 end # module SecretClubhouse
