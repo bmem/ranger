@@ -33,6 +33,9 @@ module SecretClubhouse
       elsif p.shirt_size =~ /XX+L/
         p.shirt_size = "#{p.shirt_size.split(//).count {|c| c == 'X'}}XL"
       end
+      if p.shirt_style =~ /Unknown/
+        p.shirt_style = nil
+      end
       languages.map(&:language_name).each do |lang|
         p.language_list << lang.strip.downcase if lang.present?
       end

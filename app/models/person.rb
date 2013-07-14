@@ -4,7 +4,7 @@ class Person < ActiveRecord::Base
   STATUSES = [:prospective, :alpha, :bonked, :active, :inactive,
     :retired, :uberbonked, :vintage, :deceased]
   SHIRT_SIZES = %w(XS S M L XL 2XL 3XL 4XL)
-  SHIRT_STYLES = ['Unknown Style', 'Ladies', 'Mens Regular', 'Mens Tall']
+  SHIRT_STYLES = ['Ladies', 'Mens Regular', 'Mens Tall']
   DETAIL_ATTRS = [
     :mailing_address, :main_phone, :alt_phone, :birth_date, :shirt_size,
     :shirt_style, :gender, :status_date, :callsign_approved, :has_personnel_note
