@@ -32,7 +32,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'jquery-rails'
+gem 'jquery-rails', '< 3.0' # TODO jquery-ui-rails, jquery-ui-sass-rails
 
 gem 'haml-rails'
 
@@ -43,7 +43,7 @@ gem 'acts-as-taggable-on'
 # Patched to fix various stack overflow and sqlite compatibility errors
 #gem "rails_sql_views", :git => "git://github.com/flwyd/rails_sql_views"
 
-gem 'cancan'
+gem 'cancan', '= 1.6.9' # due to https://github.com/ryanb/cancan/pull/864
 gem 'devise'
 
 # To use ActiveModel has_secure_password
