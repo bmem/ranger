@@ -38,7 +38,9 @@
         = f.input :alt_phone
         = f.input :mailing_address, :as => :text, :input_html => { :rows => 5, :cols => 30 }
         = f.input :birth_date, :as => :date_picker
+        = f.input :gender
         = f.input :shirt_size, :as => :select, :collection => Person::SHIRT_SIZES
+        = f.input :shirt_style, :as => :select, :collection => Person::SHIRT_STYLES
         = f.input :language_list
         = f.input :qualification_list
       = f.actions do
