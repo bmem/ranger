@@ -24,11 +24,13 @@
       %th= Slot.human_attribute_name(:position)
       %th= Slot.human_attribute_name(:min_people)
       %th= Slot.human_attribute_name(:max_people)
+      %th= Slot.human_attribute_name(:credit_value)
     - @shift.slots.each do |slot|
       %tr
         %td= link_to slot.position.name, shift_slot_path(@shift, slot)
         %td= slot.min_people
         %td= slot.max_people
+        %td= slot.credit_value_formatted
 
 .copy
   %h3 Copy this shift and its slots

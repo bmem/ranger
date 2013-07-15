@@ -1,5 +1,7 @@
 %h1 Listing slots
 
+= will_paginate @slots, :inner_window => 10, :outer_window => 5
+
 %table
   %tr
     %th Shift
@@ -32,6 +34,4 @@
       %td= link_to 'Edit', edit_slot_path(slot)
       %td= link_to 'Destroy', slot, :confirm => 'Are you sure?', :method => :delete
 
-%br
-
-= link_to 'New Slot', new_slot_path
+= will_paginate @slots, :inner_window => 10, :outer_window => 5

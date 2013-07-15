@@ -10,7 +10,7 @@ class Slot < ActiveRecord::Base
   validate :max_at_least_min, :if => 'max_people && min_people'
 
   # select * so the results aren't readonly
-  default_scope select('slots.*').joins(:shift).order('shifts.start_time')
+  scope :with_shift, select('slots.*').joins(:shift).order('shifts.start_time')
 
   def parent_records
     [event, shift]

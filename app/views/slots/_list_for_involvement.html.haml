@@ -9,7 +9,7 @@
     %th End
     %th Hours
     %th Credits
-  - (slots || involvement.slots).each do |slot|
+  - (slots || involvement.slots.with_shift).each do |slot|
     - total_seconds += slot.shift.duration_seconds
     - total_credits += slot.credit_value
     %tr

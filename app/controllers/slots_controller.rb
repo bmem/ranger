@@ -5,7 +5,9 @@ class SlotsController < EventBasedController
   # GET /slots
   # GET /slots.json
   def index
-    @slots = @slots.joins(:shift).where('shifts.event_id' => @event.id) if @event
+    @slots = @slots.with_shift
+    @slots = @slots.where('shifts.event_id' => @event.id) if @event
+    @slots = @slots.page(params[:page])
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @slots }
