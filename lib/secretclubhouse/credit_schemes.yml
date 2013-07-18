@@ -43,7 +43,7 @@ bm2013_operations:
   name: Operations
   base_hourly_rate: 1.0
   description: Main configuration for operational positions
-  position_names: [Art Safety, Dirt, Echelon - Field, Gate Opening, Green Dot Long, Green Dot Mentee, Green Dot Mentor, Green Dot Ranger, Green Dot Sanctuary, Green Dot Short, HQ Long, HQ Runner, HQ Short, HQ Window, Intercept, Intercept Dispatch, LEAL, LEAL Trainee, Logistics, OOD, Operator, "Pre-Team (Dirt Ranger)", RNR, RSC Envoy, RSCI, Shift Lead, Tech Team]
+  position_names: [Art Safety, Dirt, Echelon - Field, Gate Opening, Green Dot Long, Green Dot Mentee, Green Dot Mentor, Green Dot Ranger, Green Dot Sanctuary, Green Dot Short, HQ Long, HQ Runner, HQ Short, HQ Window, Intercept, Intercept Dispatch, LEAL, LEAL Trainee, Logistics, OOD, Operator, "Pre-Team (Dirt Ranger)", RNR, RSC Envoy, RSCI, Shift Lead, SITE - Teardown, Tech Team]
 
 bm2013_perimeters:
   event: burning_man_2013
