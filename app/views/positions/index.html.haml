@@ -3,6 +3,7 @@
 %table
   %tr
     %th Name
+    %th Team
     %th Description
     %th New user eligible
     %th
@@ -12,6 +13,7 @@
   - @positions.each do |position|
     %tr
       %td= link_to_record position
+      %td= link_to_record position.team
       %td= position.description
       %td= position.new_user_eligible
       %td= link_to 'Show', position

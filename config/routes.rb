@@ -13,6 +13,8 @@ Ranger::Application.routes.draw do
     get 'people', :on => :member
   end
 
+  resources :teams
+
   resources :shift_templates do
     resources :slot_templates
   end

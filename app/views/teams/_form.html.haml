@@ -1,0 +1,22 @@
+= semantic_form_for @team do |f|
+  = f.inputs do
+    = f.input :name
+    = f.input :description
+
+  - if @team.new_record?
+    = f.inputs 'Positions' do
+      = f.input :positions, label: '', as: :check_boxes, collection: Position.teamless
+
+  = f.inputs 'Managers' do
+    - if @team.managers.any?
+      = f.input :managers, label: 'Current', as: :check_boxes, collection: @team.managers
+    = f.input :managers, label: 'Add more', input_html: {size: 10}, collection: Person.active_rangers, selected: nil
+
+  -# TODO "filter by person status" and maybe by event
+  = f.inputs 'Members' do
+    - if @team.members.any?
+      = f.input :members, label: 'Current', as: :check_boxes, collection: @team.members
+    = f.input :members, label: 'Add more', input_html: {size: 10}, selected: nil
+
+  = f.actions do
+    = f.action(:submit)

@@ -13,6 +13,8 @@
     %li.tab-title
       %a.tab-link{:href => '#tab-positions'} Positions
     %li.tab-title
+      %a.tab-link{:href => '#tab-teams'} Teams
+    %li.tab-title
       %a.tab-link{:href => '#tab-user'} User
 
   .tab-content#tab-core
@@ -48,6 +50,14 @@
     %ul
       - @person.positions.each do |position|
         %li{:title => position.description}= position.name
+
+  .tab-content#tab-teams
+    %ul
+      - @person.teams.each do |team|
+        %li{:title => team.description}
+          = link_to_record team
+          - if team.in? @person.managed_teams
+            (manager)
 
   .tab-content#tab-user
     - @person.user.try do |user|

@@ -56,6 +56,7 @@ GEM
     fastercsv (1.5.5)
     formtastic (2.2.1)
       actionpack (>= 3.0)
+    friendly_id (4.0.9)
     haml (4.0.3)
       tilt
     haml-rails (0.4)
@@ -144,6 +145,7 @@ DEPENDENCIES
   devise
   fastercsv
   formtastic
+  friendly_id
   haml-rails
   jquery-rails (< 3.0)
   json

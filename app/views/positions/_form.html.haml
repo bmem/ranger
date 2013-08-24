@@ -1,8 +1,10 @@
 = semantic_form_for @position do |f|
   = f.inputs do
     = f.input :name
+    = f.input :team, as: :select
     = f.input :description, :input_html => {:rows => 5}
     = f.input :new_user_eligible
+    = f.input :all_team_members_eligible
 
   = f.actions do
     = f.action(:submit)

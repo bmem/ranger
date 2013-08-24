@@ -2,10 +2,16 @@
   %b Name:
   = @position.name
 %p
+  %b Team:
+  = link_to_record @position.team
+%p
   %b Description:
   = @position.description
 %p
   %b New user eligible:
-  = @position.new_user_eligible
+  = @position.new_user_eligible?
+%p
+  %b All team members eligible:
+  = @position.all_team_members_eligible?
 
 = link_to 'People', people_position_path(@position)

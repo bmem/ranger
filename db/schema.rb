@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130224202445) do
+ActiveRecord::Schema.define(:version => 20130721214445) do
 
   create_table "arts", :force => true do |t|
     t.string   "name",         :null => false
@@ -134,11 +134,13 @@ ActiveRecord::Schema.define(:version => 20130224202445) do
   add_index "people_positions", ["position_id"], :name => "index_people_positions_on_position_id"
 
   create_table "positions", :force => true do |t|
-    t.string   "name",                                 :null => false
+    t.string   "name",                                         :null => false
     t.text     "description"
-    t.boolean  "new_user_eligible", :default => false, :null => false
-    t.datetime "created_at",                           :null => false
-    t.datetime "updated_at",                           :null => false
+    t.boolean  "new_user_eligible",         :default => false, :null => false
+    t.datetime "created_at",                                   :null => false
+    t.datetime "updated_at",                                   :null => false
+    t.integer  "team_id"
+    t.boolean  "all_team_members_eligible", :default => false
   end
 
   create_table "shift_templates", :force => true do |t|
@@ -205,6 +207,32 @@ ActiveRecord::Schema.define(:version => 20130224202445) do
   create_table "tags", :force => true do |t|
     t.string "name"
   end
+
+  create_table "team_managers", :id => false, :force => true do |t|
+    t.integer "team_id",   :null => false
+    t.integer "person_id", :null => false
+  end
+
+  add_index "team_managers", ["person_id"], :name => "index_team_managers_on_person_id"
+  add_index "team_managers", ["team_id", "person_id"], :name => "index_team_managers_on_team_id_and_person_id", :unique => true
+
+  create_table "team_members", :id => false, :force => true do |t|
+    t.integer "team_id",   :null => false
+    t.integer "person_id", :null => false
+  end
+
+  add_index "team_members", ["person_id"], :name => "index_team_members_on_person_id"
+  add_index "team_members", ["team_id", "person_id"], :name => "index_team_members_on_team_id_and_person_id", :unique => true
+
+  create_table "teams", :force => true do |t|
+    t.string   "slug",        :null => false
+    t.string   "name",        :null => false
+    t.text     "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "teams", ["slug"], :name => "index_teams_on_slug", :unique => true
 
   create_table "trainings", :force => true do |t|
     t.integer  "shift_id"

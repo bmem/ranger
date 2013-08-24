@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  slug: my-first-team
+  name: My First Team
+  description: They do a lot of stuff.
+
+two:
+  slug: team-2
+  name: Team \#2
+  description: They do more stuff.

@@ -1,0 +1,27 @@
+%h1 #{@team.name} Team
+
+%p
+  %b Name:
+  = @team.name
+%p
+  %b Description:
+  %span.text-attribute= @team.description
+%p
+  %b Positions
+  %ul
+    - @team.positions.sort.each do |position|
+      %li= link_to_record position
+%p
+  %b Managers
+  %ul
+    - @team.managers.each do |person|
+      %li
+        = link_to_record person
+        - unless person.id.in?(@team.member_ids)
+          %em not a member
+
+%p
+  %b Members
+  %ul
+    - @team.members.each do |person|
+      %li= link_to_record person

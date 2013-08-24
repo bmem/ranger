@@ -14,6 +14,9 @@ class Person < ActiveRecord::Base
   has_many :involvements
   has_many :events, :through => :involvements
   has_and_belongs_to_many :positions
+  has_and_belongs_to_many :teams, join_table: :team_members
+  has_and_belongs_to_many :managed_teams,
+    join_table: :team_managers, class_name: 'Team'
 
   store :details, :accessors => DETAIL_ATTRS
 
@@ -29,7 +32,8 @@ class Person < ActiveRecord::Base
 
   self.per_page = 100
 
-  default_scope order('LOWER(callsign) ASC, LOWER(full_name) ASC')
+  default_scope { order('LOWER(callsign) ASC, LOWER(full_name) ASC') }
+  scope :active_rangers, -> { where(status: [:active, :vintage]) }
 
   def self.find_by_email(email)
     self.where(:email => normalize_email(email))

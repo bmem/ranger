@@ -24,6 +24,10 @@ class Ability
       can [:read, :update], Person, :id => me.id
       can :read, Position, :id => me.position_ids
 
+      # Team abilities
+      can :read, Team, :id => me.team_ids
+      can :edit, Team, :id => me.managed_team_ids
+
       # Event abilities
       # TODO consider restricting view on events where signup isn't open
       # and historic events a person wasn't involved in
