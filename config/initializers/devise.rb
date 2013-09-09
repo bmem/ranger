@@ -3,6 +3,10 @@
 Devise.setup do |config|
   Devise.router_name = :main_app
 
+  # As determined by an error message from Devise 3.1.0
+  # TODO should this be overridden in other environments, since it's in github?
+  config.secret_key = '80a819fa0ebc0a446a9c8e2b8c6f23f1a7d93ac28cf4e039d62aa627e43f0a54cf51b811a6ab86d7650f519e24bf93a3c918667f5097d5668d3d7798001c6dda'
+
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
