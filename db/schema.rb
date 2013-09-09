@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130721214445) do
+ActiveRecord::Schema.define(:version => 20130911030419) do
 
   create_table "arts", :force => true do |t|
     t.string   "name",         :null => false
@@ -80,7 +80,10 @@ ActiveRecord::Schema.define(:version => 20130721214445) do
     t.datetime "updated_at",                                :null => false
     t.string   "type",            :default => "BurningMan"
     t.integer  "linked_event_id"
+    t.string   "slug"
   end
+
+  add_index "events", ["slug"], :name => "index_events_on_slug", :unique => true
 
   create_table "involvements", :force => true do |t|
     t.integer  "event_id",                              :null => false

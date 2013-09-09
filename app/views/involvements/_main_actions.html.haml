@@ -3,8 +3,8 @@
     %li= link_to "People in #{@event}", event_involvements_path(@event)
     - if @event and can? :create, :involvements
       %li= link_to "Add someone to #{@event}", new_event_involvement_path(@event)
+    - if @involvement and not @involvement.new_record? and can? :update, @involvement
+      %li= link_to "Sign up #{@involvement} for slots", signup_event_involvement_path(@event, @involvement)
   - else
     %li= link_to 'All event involvements', involvements_path
-  - if @event and not @involvement.new_record? and can? :update, @involvement
-    %li= link_to "Sign up #{@involvement} for slots", signup_event_involvement_path(@event, @involvement)
   = render 'record_actions'
