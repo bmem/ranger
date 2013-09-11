@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130911030419) do
+ActiveRecord::Schema.define(:version => 20130911033111) do
 
   create_table "arts", :force => true do |t|
     t.string   "name",         :null => false
@@ -144,7 +144,10 @@ ActiveRecord::Schema.define(:version => 20130911030419) do
     t.datetime "updated_at",                                   :null => false
     t.integer  "team_id"
     t.boolean  "all_team_members_eligible", :default => false
+    t.string   "slug"
   end
+
+  add_index "positions", ["slug"], :name => "index_positions_on_slug", :unique => true
 
   create_table "shift_templates", :force => true do |t|
     t.string   "title",                                  :null => false
