@@ -3,7 +3,8 @@ module SecretClubhouse
     def self.ensure_events_created
       (1992..2013).each do |year|
         puts "Finding events for #{year}"
-        bm = ::BurningMan.where(:name => "Burning Man #{year}").first_or_create! do |e|
+        bm = ::BurningMan.where(slug: "burning-man-#{year}").first_or_create! do |e|
+          e.name = "Burning Man #{year}"
           e.start_date = Date.new(year, 8, 1)
           e.end_date = Date.new(year, 9, 30)
           e.signup_open = false
@@ -11,7 +12,8 @@ module SecretClubhouse
           puts "Creating Event #{e.name}"
         end
         if year >= 2008 # first year with saved shifts
-          ::TrainingSeason.where(:name => "Training Season #{year}").first_or_create! do |e|
+          ::TrainingSeason.where(slug: "training-season-#{year}").first_or_create! do |e|
+            e.name = "Training Season #{year}"
             e.start_date = Date.new(year, 4, 1)
             e.end_date = Date.new(year, 9, 1)
             e.signup_open = false
@@ -27,12 +29,12 @@ module SecretClubhouse
       ::CreditScheme.transaction do
         ::CreditScheme.destroy_all
         schemes_hash.each do |eid, schemes|
-          puts "Adding credit schemes to #{eid.titleize}"
-          e = ::Event.find_by_name(eid.titleize)
+          puts "Adding credit schemes to #{eid}"
+          e = ::Event.find_by_slug(eid)
           if e.credit_schemes.empty?
             schemes.each do |s_key, s_attrs|
               position_names = s_attrs.delete 'position_names'
-              positions = ::Position.where(:name => position_names)
+              positions = ::Position.find_all_by_slug(position_names)
               raise "Missing positions in #{position_names} for #{s_key}" unless position_names.count == positions.count
               s_attrs.delete 'event'
               puts "Adding scheme #{s_attrs['name']} to #{e.name}"
@@ -54,7 +56,7 @@ module SecretClubhouse
 
     def self.convert_shifts
       (2008..2013).each do |year|
-        ts = ::TrainingSeason.find_by_name("Training Season #{year}")
+        ts = ::TrainingSeason.find("training-season-#{year}")
         puts "Creating shifts for #{ts}"
         training_slots = Slot.with_position(Position::TRAINING).in_year(year)
         training_slots.each do |t|

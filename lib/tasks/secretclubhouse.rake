@@ -56,7 +56,7 @@ namespace :clubhouse do
   end
 
   desc "Import credit scheme definitions"
-  task :credits do
+  task :credits => :environment do
     with_timing 'creating credit deltas' do
       schemes_hash = YAML.load(IO.read("#{BASEDIR}/credit_schemes.yml")).group_by {|k,v| v['event']}
       deltas_hash = YAML.load(IO.read("#{BASEDIR}/credit_deltas.yml")).group_by {|k,v| v['credit_scheme']}

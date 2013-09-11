@@ -3,102 +3,102 @@
 
 ### Burning Man 2013 ###
 
-bm2013_007s:
-  event: burning_man_2013
+bm2013-007s:
+  event: burning-man-2013
   name: 007s
   base_hourly_rate: 1.75
   description: Not shift based
   position_names: ['007']
 
-bm2013_alphas:
-  event: burning_man_2013
+bm2013-alphas:
+  event: burning-man-2013
   name: Alphas
   base_hourly_rate: 0.25
   description: Quarter credit, regardless of time
-  position_names: [Alpha]
+  position_names: [alpha]
 
-bm2013_mentoring:
-  event: burning_man_2013
+bm2013-mentoring:
+  event: burning-man-2013
   name: Mentoring
   base_hourly_rate: 1.0
   description: Normal rate every day
-  position_names: [Cheetah, Cheetah - Cub, Mentor, Mentor - Long, Mentor - Short]
+  position_names: [cheetah, cheetah-cub, mentor, mentor-long, mentor-short]
 
-bm2013_trainings:
-  event: burning_man_2013
+bm2013-trainings:
+  event: burning-man-2013
   name: Trainings
   base_hourly_rate: 1.0
   description: Base rate for trainers and special skills trainees
-  position_names: [HQ Full Training, HQ Refresher Training, HQ Trainer, Trainer]
+  position_names: [hq-full-training, hq-refresher-training, hq-trainer, trainer]
 
-bm2013_misc:
-  event: burning_man_2013
+bm2013-misc:
+  event: burning-man-2013
   name: Misc Positions
   base_hourly_rate: 1.0
   description: Various positions that only get the base rate
-  position_names: [Hot Springs Patrol, Tow Truck Driver]
+  position_names: [hot-springs-patrol, tow-truck-driver]
 
-bm2013_operations:
-  event: burning_man_2013
+bm2013-operations:
+  event: burning-man-2013
   name: Operations
   base_hourly_rate: 1.0
   description: Main configuration for operational positions
-  position_names: [Art Safety, Dirt, Echelon - Field, Gate Opening, Green Dot Long, Green Dot Mentee, Green Dot Mentor, Green Dot Ranger, Green Dot Sanctuary, Green Dot Short, HQ Long, HQ Runner, HQ Short, HQ Window, Intercept, Intercept Dispatch, LEAL, LEAL Trainee, Logistics, OOD, Operator, "Pre-Team (Dirt Ranger)", RNR, RSC Envoy, RSCI, Shift Lead, SITE - Teardown, Tech Team]
+  position_names: [art-safety, dirt, echelon-field, gate-opening, green-dot-long, green-dot-mentee, green-dot-mentor, green-dot-ranger, green-dot-sanctuary, green-dot-short, hq-long, hq-runner, hq-short, hq-window, intercept, intercept-dispatch, leal, leal-trainee, logistics, ood, operator, pre-team-dirt-ranger, rnr, rsc-envoy, rsci, shift-lead, site-teardown, tech-team]
 
-bm2013_perimeters:
-  event: burning_man_2013
+bm2013-perimeters:
+  event: burning-man-2013
   name: Perimeters
   base_hourly_rate: 1.0
   description: Burn perimeters
-  position_names: [Art Safety, Burn Perimeter, Sandman, Special Burn]
+  position_names: [art-safety, burn-perimeter, sandman, special-burn]
 
 ### Burning Man 2012 ###
 
-bm2012_007s:
-  event: burning_man_2012
+bm2012-007s:
+  event: burning-man-2012
   name: 007s
   base_hourly_rate: 1.75
   description: Not shift based
   position_names: ['007']
 
-bm2012_alphas:
-  event: burning_man_2012
+bm2012-alphas:
+  event: burning-man-2012
   name: Alphas
   base_hourly_rate: 0.25
   description: Quarter credit, regardless of time
-  position_names: [Alpha]
+  position_names: [alpha]
 
-bm2012_mentoring:
-  event: burning_man_2012
+bm2012-mentoring:
+  event: burning-man-2012
   name: Mentoring
   base_hourly_rate: 1.0
   description: Normal rate every day
-  position_names: [Cheetah, Cheetah - Cub, Mentor, Mentor - Long, Mentor - Short]
+  position_names: [cheetah, cheetah-cub, mentor, mentor-long, mentor-short]
 
-bm2012_trainings:
-  event: burning_man_2012
+bm2012-trainings:
+  event: burning-man-2012
   name: Trainings
   base_hourly_rate: 1.0
   description: Base rate for trainers and special skills trainees
-  position_names: [HQ Full Training, HQ Refresher Training, HQ Trainer, Trainer]
+  position_names: [hq-full-training, hq-refresher-training, hq-trainer, trainer]
 
-bm2012_misc:
-  event: burning_man_2012
+bm2012-misc:
+  event: burning-man-2012
   name: Misc Positions
   base_hourly_rate: 1.0
   description: Various positions that only get the base rate
-  position_names: [Hot Springs Patrol, Tow Truck Driver]
+  position_names: [hot-springs-patrol, tow-truck-driver]
 
-bm2012_operations:
-  event: burning_man_2012
+bm2012-operations:
+  event: burning-man-2012
   name: Operations
   base_hourly_rate: 1.0
   description: Main configuration for operational positions
-  position_names: [Art Safety, Dirt, Echelon - Field, Gate Opening, Green Dot Long, Green Dot Mentee, Green Dot Mentor, Green Dot Ranger, Green Dot Sanctuary, Green Dot Short, HQ Long, HQ Runner, HQ Short, HQ Window, Intercept, Intercept Dispatch, LEAL, LEAL Trainee, Logistics, OOD, Operator, "Pre-Team (Dirt Ranger)", RNR, RSC Envoy, RSCI, Shift Lead, Tech Team]
+  position_names: [art-safety, dirt, echelon-field, gate-opening, green-dot-long, green-dot-mentee, green-dot-mentor, green-dot-ranger, green-dot-sanctuary, green-dot-short, hq-long, hq-runner, hq-short, hq-window, intercept, intercept-dispatch, leal, leal-trainee, logistics, ood, operator, pre-team-dirt-ranger, rnr, rsc-envoy, rsci, shift-lead, tech-team]
 
-bm2012_perimeters:
-  event: burning_man_2012
+bm2012-perimeters:
+  event: burning-man-2012
   name: Perimeters
   base_hourly_rate: 0.25
   description: Burn perimeters
-  position_names: [Burn Perimeter, Sandman, Special Burn]
+  position_names: [burn-perimeter, sandman, special-burn]
