@@ -1,0 +1,17 @@
+%h1 Listing assets in #{@event}
+
+%table
+  %tr
+    %th Type
+    %th Name
+    %th Designation
+    %th Description
+    %th
+
+  - @assets.each do |asset|
+    %tr
+      %td= asset.type
+      %td= link_to_record asset.becomes(Asset)
+      %td= asset.designation
+      %td= asset.description
+      %td= link_to 'Edit', edit_event_asset_path(@event, asset)

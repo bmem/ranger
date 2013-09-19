@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  type: Asset
+  event: one
+  name: TEST1
+  description: A test asset
+
+two:
+  type: Radio
+  event: one
+  name: TEST2
+  designation: Event Radio

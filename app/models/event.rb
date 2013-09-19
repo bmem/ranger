@@ -11,6 +11,7 @@ class Event < ActiveRecord::Base
   has_many :involvements
   has_many :work_logs
   has_many :credit_schemes
+  has_many :assets
   belongs_to :linked_event, :class_name => 'Event'
 
   class LinkTypeValidator < ActiveModel::EachValidator

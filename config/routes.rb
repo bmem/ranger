@@ -1,4 +1,5 @@
 Ranger::Application.routes.draw do
+
   resources :roles, :only => [:index, :show, :update], :id => /\w+/
   resources :user_roles, :except => [:new, :update]
 
@@ -63,6 +64,7 @@ Ranger::Application.routes.draw do
     resources :credit_schemes do
       resources :credit_deltas
     end
+    resources :assets
     get 'report_hours_credits'
   end
 
