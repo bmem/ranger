@@ -65,6 +65,9 @@ Ranger::Application.routes.draw do
       resources :credit_deltas
     end
     resources :assets
+    [:radios, :vehicles, :keys].each do |asset_type|
+      resources asset_type, :controller => 'assets'
+    end
     get 'report_hours_credits'
   end
 

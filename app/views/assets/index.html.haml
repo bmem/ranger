@@ -11,7 +11,7 @@
   - @assets.each do |asset|
     %tr
       %td= asset.type
-      %td= link_to_record asset.becomes(Asset)
+      %td= link_to_record asset
       %td= asset.designation
       %td= asset.description
       %td= link_to 'Edit', edit_event_asset_path(@event, asset)

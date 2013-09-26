@@ -4,8 +4,6 @@ class Vehicle < Asset
   GOLF_CART = 'Golf Cart'
   DESIGNATIONS = [RENTAL, GATOR, GOLF_CART].freeze
 
-  validates :designation, inclusion: { in: DESIGNATIONS }
-
   def possible_designations
     DESIGNATIONS
   end

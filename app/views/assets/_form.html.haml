@@ -1,6 +1,7 @@
-= semantic_form_for [@event, @asset.becomes(Asset)] do |f|
+= semantic_form_for [@event, @asset], as: :asset do |f|
   = f.inputs do
-    = f.input :type, as: :radio, collection: [Radio, Vehicle, Key, Asset]
+    - if @asset.new_record?
+      = f.input :type, as: :radio, collection: %w[Radio Vehicle Key Asset]
     = f.input :name
     = f.input :designation, as: :radio, collection: @asset.possible_designations
     = f.input :description

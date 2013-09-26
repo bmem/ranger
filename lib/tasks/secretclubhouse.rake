@@ -25,13 +25,19 @@ namespace :clubhouse do
       errors = []
       SecretClubhouse::Conversion.ensure_events_created
 
-      target_models = [::Position, ::Person, ::Involvement, ::User, ::WorkLog]
+      target_models = [
+        ::Position, ::Person, ::Involvement, ::User, ::Asset, ::WorkLog
+      ]
       ::Person.connection.transaction do
         target_models.each do |model|
           puts "Deleting old #{model} records"
           model.destroy_all
         end
-        [SecretClubhouse::Position, SecretClubhouse::Person].each do |from_table|
+        [
+          SecretClubhouse::Position,
+          SecretClubhouse::Person,
+          SecretClubhouse::Asset
+        ].each do |from_table|
           human_name = from_table.model_name.human
           puts "Converting #{from_table.count} #{human_name.pluralize}"
           from_table.all.each do |from|

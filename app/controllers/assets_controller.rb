@@ -4,6 +4,11 @@ class AssetsController < EventBasedController
   # GET /assets
   # GET /assets.json
   def index
+    if request.fullpath =~ %r{/(radios|vehicles|keys)\b}
+      @assets = @assets.where(type: $1.singularize.capitalize)
+    end
+    @assets = @assets.where(event_id: @event.id) if @event
+    @assets = @assets.order([:type, :name])
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @assets }
@@ -24,8 +29,10 @@ class AssetsController < EventBasedController
   def new
     params[:type].try do |type|
       # Create Asset of the right type so view can use instance methods
-      @asset = type.constantize.new
+      @asset = @asset.becomes(type.constantize)
+      @asset.type = type
     end
+    @asset.event = @event
 
     respond_to do |format|
       format.html # new.html.erb
@@ -40,6 +47,9 @@ class AssetsController < EventBasedController
   # POST /assets
   # POST /assets.json
   def create
+    @asset.event = @event
+    # TODO consider a controller for each asset type, with their own reports
+    @asset = @asset.becomes(@asset.type.constantize)
     respond_to do |format|
       if @asset.save
         format.html { redirect_to [@event, @asset], notice: 'Asset was successfully created.' }
