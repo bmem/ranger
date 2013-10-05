@@ -1,0 +1,34 @@
+- excludes ||= []
+%table.asset-use-list
+  %tr
+    - unless :asset.in? excludes
+      %th Asset
+    - unless :involvement.in? excludes
+      %th Person
+    %th Checked out
+    %th Checked in
+    %th Due in
+    %th Extra
+    - unless :note.in? excludes
+      %th Note
+
+  - uses.each do |au|
+    %tr.asset-use
+      - unless :asset.in? excludes
+        %td= link_to_record au.asset
+      - unless :involvement.in? excludes
+        %td= link_to_record au.involvement
+      %td= link_to l(au.checked_out), au
+      %td
+        - if au.currently_out?
+          %strong Still out
+        - else
+          = l au.checked_in
+      %td{title: time_ago_in_words(au.due_in)}
+        - if au.currently_out? and au.due_in.past?
+          %strong= l au.due_in
+        - else
+          = l au.due_in
+      %td= au.extra
+      - unless :note.in? excludes
+        %td= au.note

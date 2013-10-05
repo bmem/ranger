@@ -1,5 +1,24 @@
 module SecretClubhouse
   class Conversion
+    def self.convert_model(from_model)
+      errors = []
+      human_name = from_model.model_name.human
+      puts "Converting #{from_model.count} #{human_name.pluralize}"
+      from_model.all.each do |from|
+        ident = "#{human_name} #{from.id} (#{from.to_s})"
+        puts "Converting #{ident}"
+        to = from.to_bmem_model
+        to.id = from.id
+        unless to.save
+          err =
+            "Error converting #{ident}: #{to.errors.full_messages.to_sentence}"
+          errors << err
+          puts err
+        end
+      end # from_model.all
+      errors
+    end
+
     def self.ensure_events_created
       (1992..2013).each do |year|
         puts "Finding events for #{year}"

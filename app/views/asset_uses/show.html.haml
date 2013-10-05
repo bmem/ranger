@@ -1,0 +1,36 @@
+- asset = @asset_use.asset
+%h1 Use of #{asset.class.model_name.human} #{link_to_record asset}
+
+%p
+  %b Event:
+  = link_to_record @asset_use.event
+%p
+  %b Asset:
+  = link_to_record asset
+%p
+  %b Extra:
+  = @asset_use.extra
+%p
+  %b Used by:
+  = link_to_record @asset_use.involvement
+%p
+  %b Checked out:
+  = l @asset_use.checked_out
+%p
+  %b Checked in:
+  - if @asset_use.currently_out?
+    %i Still checked out
+  - else
+    = l @asset_use.checked_in
+    (#{distance_of_time_in_words @asset_use.checked_out, @asset_use.checked_in})
+%p
+  %b Due in:
+  = l @asset_use.due_in
+  = surround '(', ')' do
+    = distance_of_time_in_words_to_now @asset_use.due_in
+    = @asset_use.due_in.past? ? 'ago' : 'from now'
+  - if @asset_use.due_in.past? and not @asset_use.checked_in
+    %strong Overdue
+%p
+  %b Note:
+  = @asset_use.note

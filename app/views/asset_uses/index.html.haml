@@ -1,0 +1,6 @@
+%h1 Asset uses in #{link_to_record @event}
+
+= page_entries_info @asset_uses, :model => 'asset_uses'
+= will_paginate @asset_uses, :inner_window => 10
+= render partial: 'use_list', locals: {uses: @asset_uses, excludes: [:note]}
+= will_paginate @asset_uses, :inner_window => 10

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130912050238) do
+ActiveRecord::Schema.define(:version => 20130928203239) do
 
   create_table "arts", :force => true do |t|
     t.string   "name",         :null => false
@@ -38,6 +38,23 @@ ActiveRecord::Schema.define(:version => 20130912050238) do
 
   add_index "arts_trainings", ["art_id"], :name => "index_arts_trainings_on_art_id"
   add_index "arts_trainings", ["training_id", "art_id"], :name => "index_arts_trainings_on_training_id_and_art_id", :unique => true
+
+  create_table "asset_uses", :force => true do |t|
+    t.integer  "asset_id"
+    t.integer  "involvement_id"
+    t.integer  "event_id"
+    t.datetime "checked_out"
+    t.datetime "checked_in"
+    t.datetime "due_in"
+    t.string   "extra"
+    t.text     "note"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  add_index "asset_uses", ["asset_id"], :name => "index_asset_uses_on_asset_id"
+  add_index "asset_uses", ["event_id"], :name => "index_asset_uses_on_event_id"
+  add_index "asset_uses", ["involvement_id"], :name => "index_asset_uses_on_involvement_id"
 
   create_table "assets", :force => true do |t|
     t.string   "type"

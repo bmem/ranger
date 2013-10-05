@@ -4,11 +4,23 @@ module SecretClubhouse
     self.table_name = 'asset'
     target ::Asset, :type, :name, :designation, :description
 
+    has_many :asset_people
+
     def to_bmem_model
       a = super
       a = a.becomes(a.type.constantize)
       a.description = temp_id
       a.event = ::BurningMan.find("burning-man-#{year}")
+      asset_people.each do |ap|
+        au = ap.to_bmem_model
+        au.event = a.event
+        au.asset = a
+        au.involvement = a.event.involvements.find_by_person_id ap.person_id
+          #Person::CONVERTED_PEOPLE[ap.person_id].
+          #involvements.to_a.find {|i| i.event_id == a.event.id}
+        print au.errors.full_messages.to_sentence unless au.valid?
+        a.asset_uses << au
+      end
       return a
     end
 

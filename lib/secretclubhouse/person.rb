@@ -49,8 +49,12 @@ module SecretClubhouse
         p.user.user_roles.build :user_id => id, :role => 'admin'
       end
       time_by_year = timesheets.group_by {|t| t.on_duty.year}
+      # People like Danger Ranger get a radio but don't work any shifts
+      AssetPerson.select(:checked_out).where(person_id: id).each do |ap|
+        time_by_year[ap.checked_out.year] ||= []
+      end
       time_by_year.each do |year, sheets|
-        event = ::Event.where(:name => "Burning Man #{year}").first
+        event = ::BurningMan.find("burning-man-#{year}")
         # TODO set participation status to bonked if they were only an alpha
         # and did not pass mentoring
         involvement = ::Involvement.new :event => event,

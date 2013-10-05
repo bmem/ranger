@@ -13,6 +13,8 @@
     %li.tab-title
       %a.tab-link(href='#tab-worklogs') Work Logs
     %li.tab-title
+      %a.tab-link(href='#tab-assets') Assets
+    %li.tab-title
       %a.tab-link(href='#tab-onsite') On-Site Details
 
   .tab-content#tab-status
@@ -33,6 +35,9 @@
 
   .tab-content#tab-worklogs
     = render :partial => 'work_logs/list_for_involvement', :locals => {:involvement => @involvement}
+
+  .tab-content#tab-assets
+    = render :partial => 'asset_uses/use_list', :locals => {uses: @involvement.asset_uses, excludes: [:involvement]}
 
   .tab-content#tab-onsite
     %dl.attributes[@involvement]

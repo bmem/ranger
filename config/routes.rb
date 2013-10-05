@@ -42,6 +42,7 @@ Ranger::Application.routes.draw do
     resources :work_logs, :path => 'worklogs'
     post 'copy', :on => :member
   end
+
   resources :events do
     resources :shifts do
       resources :slots do
@@ -64,10 +65,13 @@ Ranger::Application.routes.draw do
     resources :credit_schemes do
       resources :credit_deltas
     end
+
     resources :assets
     [:radios, :vehicles, :keys].each do |asset_type|
       resources asset_type, :controller => 'assets'
     end
+    resources :asset_uses
+
     get 'report_hours_credits'
   end
 

@@ -1,0 +1,14 @@
+- extras = @asset_use.asset.try {|a| a.possible_extras} || []
+= semantic_form_for [@event, @asset_use] do |f|
+  = f.inputs do
+    = f.input :event, input_html: { disabled: @asset_use.event.present? }
+    = f.input :asset, input_html: { disabled: @asset_use.asset.present? }
+    = f.input :involvement, input_html: { disabled: @asset_use.involvement.present? }
+    = f.input :extra, as: :select, collection: extras
+    = f.input :checked_out
+    = f.input :checked_in
+    = f.input :due_in
+    = f.input :note
+
+  = f.actions do
+    = f.action(:submit)

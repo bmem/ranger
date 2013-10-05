@@ -1,5 +1,6 @@
 class Asset < ActiveRecord::Base
   belongs_to :event
+  has_many :asset_uses, dependent: :destroy
   attr_accessible :description, :designation, :name, :type
 
   validates :name, :type, :event_id, presence: true
@@ -8,6 +9,10 @@ class Asset < ActiveRecord::Base
     in: ->(asset) { asset.possible_designations }
 
   def possible_designations
+    []
+  end
+
+  def possible_extras
     []
   end
 end

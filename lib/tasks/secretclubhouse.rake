@@ -16,7 +16,7 @@ namespace :clubhouse do
   end
 
   desc "Convert everything from Secret Clubhouse to BMEM"
-  task :convert => [:convertmain, :schedules, :credits]
+  task :convert => [:convertmain, :assets, :schedules, :credits]
 
   desc "Convert people and more from Secret Clubhouse to BMEM"
   task :convertmain => :environment do
@@ -26,7 +26,7 @@ namespace :clubhouse do
       SecretClubhouse::Conversion.ensure_events_created
 
       target_models = [
-        ::Position, ::Person, ::Involvement, ::User, ::Asset, ::WorkLog
+        ::Position, ::Person, ::Involvement, ::User, ::WorkLog
       ]
       ::Person.connection.transaction do
         target_models.each do |model|
@@ -36,21 +36,8 @@ namespace :clubhouse do
         [
           SecretClubhouse::Position,
           SecretClubhouse::Person,
-          SecretClubhouse::Asset
         ].each do |from_table|
-          human_name = from_table.model_name.human
-          puts "Converting #{from_table.count} #{human_name.pluralize}"
-          from_table.all.each do |from|
-            ident = "#{human_name} #{from.id} (#{from.to_s})"
-            puts "Converting #{ident}"
-            to = from.to_bmem_model
-            to.id = from.id
-            unless to.save
-              err = "Error converting #{ident}: #{to.errors.full_messages}"
-              errors << err
-              puts err
-            end
-          end # from_table
+          errors += SecretClubhouse::Conversion::convert_model(from_table)
         end # convert models each
       end # transaction
       puts "#{errors.count} errors"
@@ -58,6 +45,23 @@ namespace :clubhouse do
       target_models.each do |model|
         puts "#{model.model_name.human}: #{model.count}"
       end
+    end
+  end
+
+  desc "Convert assets"
+  task :assets => :environment do
+    with_timing 'converting assets' do
+      model = ::Asset
+      errors = []
+      model.connection.transaction do
+        puts "Deleting old #{model} records"
+        model.destroy_all
+        errors +=
+          SecretClubhouse::Conversion::convert_model(SecretClubhouse::Asset)
+      end # transaction
+      puts "#{errors.count} errors"
+      puts errors.join("\n")
+      puts "#{model.model_name.human}: #{model.count}"
     end
   end
 

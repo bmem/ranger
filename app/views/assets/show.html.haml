@@ -8,3 +8,6 @@
 %p
   %b Description:
   = @asset.description
+%p
+  %b Uses:
+  = render partial: 'asset_uses/use_list', locals: {uses: @asset.asset_uses, excludes: [:asset]}

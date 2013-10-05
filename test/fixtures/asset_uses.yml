@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  asset: one
+  involvement: e1p1
+  event: one
+  checked_out: 2013-09-28 20:32:39
+  checked_in: 2013-09-29 00:15:00
+  due_in: 2013-09-29 00:00:00
+  extra: MyString
+  note: MyText
+
+two:
+  asset: one
+  involvement: e1p2
+  event: one
+  checked_out: 2013-09-28 20:32:39
+  checked_in:
+  due_in: 2013-09-30 00:00:00
+  extra: MyString
+  note: MyText
