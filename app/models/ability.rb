@@ -23,6 +23,7 @@ class Ability
       can :update, User, :id => user.id
       can [:read, :update], Person, :id => me.id
       can :read, Position, :id => me.position_ids
+      can :manage, Report, :user_id => user.id
 
       # Team abilities
       can :read, Team, :id => me.team_ids

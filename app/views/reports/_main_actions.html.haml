@@ -1,0 +1,10 @@
+- content_for :main_action_list_items do
+  %li= link_to 'All your reports', reports_path
+  - if @event
+    %li= link_to "Your #{@event} reports", event_reports_path(@event)
+  - if @report
+    %li
+      Download #{@report.name}
+      - [:csv].each do |format|
+        = link_to format.to_s.upcase, report_path(@report, format: format), download: ''
+  = render 'record_actions'

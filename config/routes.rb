@@ -7,6 +7,9 @@ Ranger::Application.routes.draw do
 
   resources :users, :except => 'create'
 
+  resources :reports
+  match 'reports/generate/:report_name(.:format)' => 'reports#generate', as: :generate_report, via: :post
+
   resources :people, :constraints => {:id => /\d+/}
   match 'people/tag(/:tag(/:name))' => 'people#tag', :as => :tag_people
 
@@ -44,6 +47,9 @@ Ranger::Application.routes.draw do
   end
 
   resources :events do
+    resources :reports
+    match 'reports/generate/:report_name(.:format)' => 'reports#generate', as: :generate_report, via: :post
+
     resources :shifts do
       resources :slots do
         post 'join', :on => :member

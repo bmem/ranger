@@ -1,0 +1,32 @@
+/ TODO dynamically get available reports based on Ability
+%h1 Run a report
+%dl
+  - %w(Birthday).each do |name|
+    - path = @event ? event_generate_report_path(@event, report_name: name) : generate_report_path(report_name: name)
+    = form_tag path, method: :post do
+      %dt
+        %strong= name.humanize
+        = submit_tag 'Generate'
+        / TODO parameters in %dd
+- if @event
+  %h1 Your reports in #{link_to_record @event}
+- else
+  %h1 Your reports
+
+%table
+  %tr
+    - unless @event
+      %th Event
+    %th Name
+    %th Results
+    %th Generated at
+    %th Note
+
+  - @reports.each do |report|
+    %tr
+      - unless @event
+        %td= link_to_record report.event
+      %td= link_to report.name, report
+      %td= report.num_results
+      %td= l report.created_at
+      %td= report.note

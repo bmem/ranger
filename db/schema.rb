@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130928203239) do
+ActiveRecord::Schema.define(:version => 20131006195017) do
 
   create_table "arts", :force => true do |t|
     t.string   "name",         :null => false
@@ -177,6 +177,20 @@ ActiveRecord::Schema.define(:version => 20130928203239) do
   end
 
   add_index "positions", ["slug"], :name => "index_positions_on_slug", :unique => true
+
+  create_table "reports", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "event_id"
+    t.string   "name"
+    t.integer  "num_results"
+    t.text     "note"
+    t.text     "report_object"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "reports", ["event_id"], :name => "index_reports_on_event_id"
+  add_index "reports", ["user_id"], :name => "index_reports_on_user_id"
 
   create_table "shift_templates", :force => true do |t|
     t.string   "title",                                  :null => false

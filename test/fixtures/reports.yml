@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  user: adminuser
+  event: one
+  name: My Cool Report
+  num_results: 2
+  note: The final version of this thing.
+  report_object: "!ruby/Reporting::KeyValueReport
+    title: Cool Report
+    key_order:
+    - :fruit
+    - :color
+    - :amount
+    key_labels:
+      :fruit: Fruit
+      :color: Color
+      :amount: Number
+    entries:
+      :fruit: Apple
+      :color: Red
+      :amount: 12
+    - :fruit: Banana
+      :color: Yellow
+      :amount: 6"

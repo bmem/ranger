@@ -1,0 +1,19 @@
+- if @report.event
+  %p
+    %b Event:
+    = link_to_record @report.event
+%p
+  %b Name:
+  = @report.name
+%p
+  %b Number of results:
+  = @report.num_results
+%p
+  %b Download:
+  - [:csv].each do |format|
+    = link_to format.to_s.upcase, report_path(@report, format: format), download: ''
+%p
+  %b Note:
+  = @report.note
+
+-# TODO @report.report_object.to_html
