@@ -1,11 +1,11 @@
 / TODO dynamically get available reports based on Ability
 %h1 Run a report
 %dl
-  - %w(Birthday).each do |name|
+  - %w(Birthday ThankYouCard).each do |name|
     - path = @event ? event_generate_report_path(@event, report_name: name) : generate_report_path(report_name: name)
     = form_tag path, method: :post do
       %dt
-        %strong= name.humanize
+        %strong= name.tableize.humanize
         = submit_tag 'Generate'
         / TODO parameters in %dd
 - if @event

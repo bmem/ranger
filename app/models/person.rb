@@ -3,6 +3,7 @@ class Person < ActiveRecord::Base
 
   STATUSES = [:prospective, :alpha, :bonked, :active, :inactive,
     :retired, :uberbonked, :vintage, :deceased]
+  RANGER_STATUSES = [:active, :inactive, :retired, :vintage]
   SHIRT_SIZES = %w(XS S M L XL 2XL 3XL 4XL)
   SHIRT_STYLES = ['Ladies', 'Mens Regular', 'Mens Tall']
   DETAIL_ATTRS = [
@@ -41,6 +42,44 @@ class Person < ActiveRecord::Base
 
   def display_name
     callsign
+  end
+
+  def first_name
+    split_name.first
+  end
+
+  def last_name
+    split_name.last
+  end
+
+  # A really dirty way to split someone's freeform name into a given name and a
+  # family name.  Among countless other problems, this impelmentation doesn't
+  # handle Iberian/Latin American double surnames, people who are 9th+ in a
+  # family name chain, people whose last name is "Jr", people whose middle name
+  # is "Mac", people whose last name is "Fond du Lac", people whose last name
+  # is "DEL SOL", people who didn't capitalize MD, and so forth.
+  # It does, however, handle people with a one-word name, returning empty string
+  # for their last name.
+  def split_name
+    suffixes = %w(JR Jr SR Sr II III IV V VI VII VIII ESQ MD PHD PhD HHP)
+    designations = %w(al ben d' de del der dit du la Mac Mc van von)
+    words = full_name.strip.split
+    case words.length
+    when 1
+      words << ''
+    when 2
+      words
+    else
+      last_words = []
+      while words.length > 2 and words.last.gsub(/[,.]/, '').in? suffixes do
+        last_words.unshift words.pop
+      end
+      last_words.unshift words.pop
+      while words.length > 1 and words.last.in? designations do
+        last_words.unshift words.pop
+      end
+      [words.join(' '), last_words.join(' ')]
+    end
   end
 
   def to_s
