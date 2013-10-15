@@ -6,10 +6,7 @@ class Person < ActiveRecord::Base
   RANGER_STATUSES = [:active, :inactive, :retired, :vintage]
   SHIRT_SIZES = %w(XS S M L XL 2XL 3XL 4XL)
   SHIRT_STYLES = ['Ladies', 'Mens Regular', 'Mens Tall']
-  DETAIL_ATTRS = [
-    :mailing_address, :main_phone, :alt_phone, :birth_date, :shirt_size,
-    :shirt_style, :gender, :status_date, :callsign_approved, :has_personnel_note
-  ]
+  DETAIL_ATTRS = [:callsign_approved, :has_personnel_note]
 
   belongs_to :user, :autosave => true
   has_one :profile, autosave: true, dependent: :destroy

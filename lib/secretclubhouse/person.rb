@@ -14,6 +14,12 @@ module SecretClubhouse
 
     def to_bmem_model
       p = super
+      profile = p.build_profile full_name: full_name, email: email,
+        phone_numbers: phone_numbers, gender: gender, birth_date: birth_date,
+        shirt_size: shirt_size, shirt_style: shirt_style
+      profile.mailing_address = mailing_address
+      profile.id = id # ensure relations remain aligned
+      profile.person = p # TODO why is this needed?
       if p.email.blank?
         p.email = p.callsign.downcase.gsub(/\W+/, '_') + '@noemail.invalid'
       else
@@ -27,14 +33,16 @@ module SecretClubhouse
           p.email = p.email.sub /@/, '_AT_'
         end
         puts "Replacing #{callsign} invalid email #{email} with #{p.email}"
+        profile.contact_note ||= "Email converted from #{email}"
       end
-      if p.shirt_size == 'Unknown'
-        p.shirt_size = nil
-      elsif p.shirt_size =~ /XX+L/
-        p.shirt_size = "#{p.shirt_size.split(//).count {|c| c == 'X'}}XL"
+      profile.email = p.email
+      if shirt_size == 'Unknown'
+        profile.shirt_size = nil
+      elsif shirt_size =~ /XX+L/
+        profile.shirt_size = "#{shirt_size.split(//).count {|c| c == 'X'}}XL"
       end
-      if p.shirt_style =~ /Unknown/
-        p.shirt_style = nil
+      if shirt_style =~ /Unknown/
+        profile.shirt_style = nil
       end
       languages.map(&:language_name).each do |lang|
         p.language_list << lang.strip.downcase if lang.present?
@@ -76,13 +84,18 @@ module SecretClubhouse
       name.empty? ? callsign : name
     end
 
-    def mailing_address
-      "#{street1} #{apt}\n#{street2}\n#{city}, #{state} #{zip}\n#{country}".
-        strip.gsub(/\s+\n/, "\n").gsub(/^\s*,\s*$/, '')
-    end
-
     def main_phone
       home_phone
+    end
+
+    def phone_numbers
+      if main_phone.present? and alt_phone.present?
+        "main: #{main_phone}, alt: #{alt_phone}"
+      elsif main_phone.present?
+        main_phone
+      else
+        alt_phone
+      end
     end
 
     def birth_date
@@ -91,6 +104,30 @@ module SecretClubhouse
 
     def has_personnel_note
       has_note_on_file
+    end
+
+    def mailing_address
+      line1 = street1
+      line2 = street2
+      if line2 =~ /box|pmb/i
+        pobox = line2
+      elsif line1 =~ /box|pmb/i
+        pobox = line1
+        line1 = line2
+        line2 = ''
+      end
+      extra_address = line2 unless pobox == line2
+      if apt.present?
+        unit = apt
+      elsif line2 =~ /^(unit|suite|apt|lot|#|\d+$)/i
+        unit = line2
+        extra_address = ''
+      end
+      unit = "##{unit}" if unit and unit =~ /^\d+$/
+      MailingAddress.new extra_address: extra_address,
+        street_address: unit ? "#{line1} #{unit}" : line1,
+        post_office_box: pobox, locality: city, region: state,
+        postal_code: zip, country_name: country
     end
 
     def to_s
