@@ -1,0 +1,41 @@
+%h1 Listing profiles
+
+%table
+  %tr
+    %th Person
+    %th Full name
+    %th Nicknames
+    %th Email
+    %th Phone numbers
+    %th Mailing address
+    %th Contact note
+    %th Gender
+    %th Birth date
+    %th Shirt size
+    %th Shirt style
+    %th Years at burning man
+    %th
+    %th
+    %th
+
+  - @profiles.each do |profile|
+    %tr
+      %td= profile.person
+      %td= profile.full_name
+      %td= profile.nicknames
+      %td= profile.email
+      %td= profile.phone_numbers
+      %td= profile.mailing_address
+      %td= profile.contact_note
+      %td= profile.gender
+      %td= profile.birth_date
+      %td= profile.shirt_size
+      %td= profile.shirt_style
+      %td= profile.years_at_burning_man
+      %td= link_to 'Show', profile
+      %td= link_to 'Edit', edit_profile_path(profile)
+      %td= link_to 'Destroy', profile, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Profile', new_profile_path

@@ -1,3 +1,5 @@
+- @person.build_profile unless @person.profile
+
 %h1= "#{@person.callsign} (#{@person.full_name})"
 
 .tab-container
@@ -24,14 +26,17 @@
         %dd{:id => "value_#{attr}"}= @person.send attr
 
   .tab-content#tab-contact
-    %dl.attributes[@person]
-      - [:email, :main_phone, :alt_phone, :mailing_address].each do |attr|
-        %dt{:id => "label_#{attr}"}= Person.human_attribute_name attr
-        %dd.text-attribute{:id => "value_#{attr}"}<= @person.send attr
+    %dl.attributes[@person.profile]
+      - [:email, :phone_numbers, :mailing_address, :contact_note].each do |attr|
+        %dt{:id => "label_#{attr}"}= Profile.human_attribute_name attr
+        %dd.text-attribute{:id => "value_#{attr}"}<= @person.profile.send attr
 
   .tab-content#tab-details
     %dl.attributes[@person]
-      - [:callsign_approved, :has_personnel_note, :gender, :shirt_size, :shirt_style, :birth_date, :language_list, :qualification_list, :created_at, :updated_at].each do |attr|
+      - [:gender, :shirt_size, :shirt_style, :birth_date].each do |attr|
+        %dt{:id => "label_#{attr}"}= Profile.human_attribute_name attr
+        %dd{:id => "value_#{attr}"}<= @person.profile.send attr
+      - [:language_list, :qualification_list, :callsign_approved, :has_personnel_note, :created_at, :updated_at].each do |attr|
         %dt{:id => "label_#{attr}"}= Person.human_attribute_name attr
         %dd{:id => "value_#{attr}"}<= @person.send attr
 

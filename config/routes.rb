@@ -1,5 +1,8 @@
 Ranger::Application.routes.draw do
 
+  resources :profiles
+
+
   resources :roles, :only => [:index, :show, :update], :id => /\w+/
   resources :user_roles, :except => [:new, :update]
 

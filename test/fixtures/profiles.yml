@@ -1,0 +1,28 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  person: one
+  full_name: Hubert C. Appleton
+  nicknames: Hubby, Apple Boy
+  email: user1@example.com
+  phone_numbers: 123-456-7890
+  mailing_address: one
+  contact_note: Don't call before 10 AM
+  gender: Male
+  birth_date: 1991-10-12
+  shirt_size: XL
+  shirt_style: Mens Regular
+  years_at_burning_man: 2009-present
+
+two:
+  person: two
+  full_name: Suzy Creamcheese
+  nicknames:
+  email: user2@example.com
+  phone_numbers: +1 987-654-3210
+  mailing_address: two
+  gender: Woman
+  birth_date: 1967-10-12
+  shirt_size: M
+  shirt_style: Ladies
+  years_at_burning_man: 3

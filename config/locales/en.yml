@@ -25,9 +25,23 @@ en:
     titles:
       shift_template: Shift template
     labels:
+      mailing_address:
+        locality: City
+        region: State
+        postal_code: ZIP code
       shift_template:
         name: Shift name
     hints:
+      mailing_address:
+        extra_address: 'Optional: attention, care of, or other first-line address'
+        street_address: Street address, including unit, suite or apartment number
+        locality: City, town, or other locality
+        region: State, province, or other region
+        postal_code: ZIP or other postal code
+        country_name: As written on mail from the United States
+      profile:
+        contact_note: E.g. when to call which phone, alternate emails
+        phone_numbers: One or more; best number to contact you first
       shift_template:
         title: Name of the template
         name: Name of the shift, or blank

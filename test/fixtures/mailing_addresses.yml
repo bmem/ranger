@@ -1,0 +1,22 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  extra_address:
+  street_address: 123 Main St.
+  locality: Anytown
+  region: CA
+  postal_code: 98765
+
+two:
+  extra_address: c/o Media Affairs
+  street_address: 10 Downing Street
+  locality: London
+  postal_code: SW1A 2AA
+  country_name: United Kingdom
+
+three:
+  post_office_box: Box 12345
+  locality: Open Plains
+  region: Texas
+  postal_code: 54321-12345
+  country_name: U.S.A.

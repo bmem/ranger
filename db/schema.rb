@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131006195017) do
+ActiveRecord::Schema.define(:version => 20131012212238) do
 
   create_table "arts", :force => true do |t|
     t.string   "name",         :null => false
@@ -140,6 +140,18 @@ ActiveRecord::Schema.define(:version => 20131006195017) do
   add_index "involvements_slots", ["involvement_id", "slot_id"], :name => "index_participants_slots_pair", :unique => true
   add_index "involvements_slots", ["slot_id"], :name => "index_participants_slots_on_slot_id"
 
+  create_table "mailing_addresses", :force => true do |t|
+    t.string   "extra_address"
+    t.string   "street_address"
+    t.string   "post_office_box"
+    t.string   "locality"
+    t.string   "region"
+    t.string   "postal_code"
+    t.string   "country_name"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
   create_table "people", :force => true do |t|
     t.integer  "user_id"
     t.string   "callsign",   :null => false
@@ -177,6 +189,26 @@ ActiveRecord::Schema.define(:version => 20131006195017) do
   end
 
   add_index "positions", ["slug"], :name => "index_positions_on_slug", :unique => true
+
+  create_table "profiles", :force => true do |t|
+    t.integer  "person_id"
+    t.string   "full_name"
+    t.string   "nicknames"
+    t.string   "email"
+    t.string   "phone_numbers"
+    t.integer  "mailing_address_id"
+    t.text     "contact_note"
+    t.string   "gender"
+    t.date     "birth_date"
+    t.string   "shirt_size"
+    t.string   "shirt_style"
+    t.string   "years_at_burning_man"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+  end
+
+  add_index "profiles", ["mailing_address_id"], :name => "index_profiles_on_mailing_address_id"
+  add_index "profiles", ["person_id"], :name => "index_profiles_on_person_id"
 
   create_table "reports", :force => true do |t|
     t.integer  "user_id"

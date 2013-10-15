@@ -1,0 +1,40 @@
+%p
+  %b Person:
+  = @profile.person
+%p
+  %b Full name:
+  = @profile.full_name
+%p
+  %b Nicknames:
+  = @profile.nicknames
+%p
+  %b Email:
+  = @profile.email
+%p
+  %b Phone numbers:
+  = @profile.phone_numbers
+%p
+  %b Mailing address:
+  .text-attribute<= @profile.mailing_address
+%p
+  %b Contact note:
+  = @profile.contact_note
+%p
+  %b Gender:
+  = @profile.gender
+%p
+  %b Birth date:
+  = @profile.birth_date
+%p
+  %b Shirt size:
+  = @profile.shirt_size
+%p
+  %b Shirt style:
+  = @profile.shirt_style
+%p
+  %b Years at burning man:
+  = @profile.years_at_burning_man
+
+= link_to 'Edit', edit_profile_path(@profile)
+\|
+= link_to 'Back', profiles_path
