@@ -1,16 +1,16 @@
 = semantic_form_for @profile do |f|
   = f.inputs do
-    = f.input :person
     = f.input :full_name
     = f.input :nicknames
     = f.input :email
     = f.input :phone_numbers
-    = f.input :mailing_address
-    = f.input :contact_note
+    = f.semantic_fields_for :mailing_address do |a|
+      = a.inputs :extra_address, :street_address, :post_office_box, :locality, :region, :postal_code, :country_name, name: 'Mailing address'
+    = f.input :contact_note, input_html: {rows: 5}
     = f.input :gender
-    = f.input :birth_date
-    = f.input :shirt_size
-    = f.input :shirt_style
+    = f.input :birth_date, as: :date_picker
+    = f.input :shirt_size, as: :select, collection: Profile::SHIRT_SIZES
+    = f.input :shirt_style, as: :select, collection: Profile::SHIRT_STYLES
     = f.input :years_at_burning_man
 
   = f.actions do

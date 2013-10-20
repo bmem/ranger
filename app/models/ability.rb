@@ -21,7 +21,8 @@ class Ability
       # TODO investigate a way for HQ et al. to change person fields like status
       # but prevent a normal user from changing his own status
       can :update, User, :id => user.id
-      can [:read, :update], Person, :id => me.id
+      can :read, Person, :id => me.id
+      can [:read, :update], Profile, :person_id => me.id
       can :read, Position, :id => me.position_ids
       can :manage, Report, :user_id => user.id
 

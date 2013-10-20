@@ -27,7 +27,9 @@
 
   .tab-content#tab-contact
     %dl.attributes[@person.profile]
-      - [:email, :phone_numbers, :mailing_address, :contact_note].each do |attr|
+      %dt{id: "label_email"} Email
+      %dd{id: "value_email"}= mail_to @person.profile.email
+      - [:phone_numbers, :mailing_address, :contact_note].each do |attr|
         %dt{:id => "label_#{attr}"}= Profile.human_attribute_name attr
         %dd.text-attribute{:id => "value_#{attr}"}<= @person.profile.send attr
 

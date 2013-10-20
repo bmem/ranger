@@ -1,6 +1,5 @@
-%p
-  %b Person:
-  = @profile.person
+%h1 Profile for #{link_to_record @profile.person}
+
 %p
   %b Full name:
   = @profile.full_name
@@ -18,7 +17,7 @@
   .text-attribute<= @profile.mailing_address
 %p
   %b Contact note:
-  = @profile.contact_note
+  .text-attribute<= @profile.contact_note
 %p
   %b Gender:
   = @profile.gender

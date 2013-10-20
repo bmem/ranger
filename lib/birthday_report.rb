@@ -15,10 +15,10 @@ class BirthdayReport
       Person.where status: [:vintage, :active, :inactive, :retired]
     end
     people.each do |p|
-      p.birth_date.try do |birthday|
+      p.profile and p.profile.birth_date.try do |birthday|
         if @month.nil? or @month == birthday.month
           result.add_entry name: p.callsign, birthday: birthday,
-            status: p.status, email: p.email
+            status: p.status, email: p.profile.email
         end
       end
     end
