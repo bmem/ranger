@@ -7,6 +7,7 @@ class Involvement < ActiveRecord::Base
 
   belongs_to :person
   belongs_to :event
+  has_one :profile, through: :person
   has_many :positions, :through => :person
   has_and_belongs_to_many :slots
   has_many :work_logs
@@ -37,26 +38,30 @@ class Involvement < ActiveRecord::Base
     end
   end
 
-  def total_credits(start_t=nil, end_t=nil)
-    work_logs.reduce(0) {|sum, work| sum + work.credit_value(start_t, end_t)}
+  def total_credits(options = {})
+    options = options_with_defaults(options)
+    filter_work_logs(options).reduce(0) do |sum, work|
+      sum + work.credit_value(options[:start_time], options[:end_time])
+    end
   end
 
-  def total_credits_formatted(start_t=nil, end_t=nil)
-    format('%.2f', total_credits(start_t, end_t))
+  def total_credits_formatted(options = {})
+    format('%.2f', total_credits(options))
   end
 
-  def total_seconds(start_time=Time.zone.local(1, 1, 1), end_time=Time.zone.local(10000, 1, 1))
-    # TODO more sensibly convert Deep Freeze "positions"
-    work_logs.find_all {|w| w.position.name != 'Deep Freeze'}.
-      map {|w| w.seconds_overlap(start_time, end_time)}.reduce(0, :+)
+  def total_seconds(options = {})
+    options = options_with_defaults(options)
+    filter_work_logs(options).map do |w|
+      w.seconds_overlap(options[:start_time], options[:end_time])
+    end.reduce(0, :+)
   end
 
-  def total_hours
-    total_seconds.to_f / 1.hour
+  def total_hours(options = {})
+    total_seconds(options).to_f / 1.hour
   end
 
-  def total_hours_formatted
-    hoursmins = (total_seconds / 60).divmod(60)
+  def total_hours_formatted(options = {})
+    hoursmins = (total_seconds(options) / 60).divmod(60)
     format('%d:%02d', hoursmins[0], hoursmins[1].round)
   end
 
@@ -68,5 +73,29 @@ class Involvement < ActiveRecord::Base
       where('events.type' => 'BurningMan').
       where('events.start_date < ?', event.start_date).
       count
+  end
+
+  private
+  def options_with_defaults(options = {})
+    # 9999 is the maximal year for some databases
+    options.reverse_merge start_time: Time.zone.local(1, 1, 1),
+      end_time: Time.zone.local(9999, 12, 31)
+  end
+
+  def filter_work_logs(options = {})
+    options = options_with_defaults(options)
+    # Each Involvement usually has few Work Logs.  This may be called several
+    # times, so optimize for a single query to load all logs rather than lots of
+    # queries to load a range.
+    logs = work_logs.find_all do |wl|
+      wl.start_time <= options[:end_time] and
+        wl.end_time_or_now >= options[:start_time]
+    end
+    if options[:position_ids].present?
+      logs = logs.find_all {|wl| wl.position_id.in? options[:position_ids]}
+    else
+      # TODO convert Deep Freeze as an asset
+      logs = logs.find_all {|wl| wl.position.slug != 'deep-freeze'}
+    end
   end
 end

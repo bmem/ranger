@@ -1,10 +1,11 @@
+%h1 Report: #{@report.name}
 - if @report.event
   %p
     %b Event:
     = link_to_record @report.event
 %p
-  %b Name:
-  = @report.name
+  %b Generated at:
+  = l @report.created_at
 %p
   %b Number of results:
   = @report.num_results
@@ -16,4 +17,7 @@
   %b Note:
   = @report.note
 
--# TODO @report.report_object.to_html
+- report_template = @report.report_object.class.name.demodulize.underscore
+- if lookup_context.template_exists?(report_template, 'reports', true)
+  .report-inline
+    = render report_template, partial: true

@@ -9,6 +9,11 @@ class WorkLog < ActiveRecord::Base
 
   self.per_page = 100
 
+  def self.during(start_time, end_time)
+    where('start_time <= ? AND (end_time >= ? OR end_time IS NULL)',
+      end_time, start_time)
+  end
+
   def end_time_or_now
     end_time || Time.zone.now
   end

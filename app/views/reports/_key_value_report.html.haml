@@ -1,0 +1,17 @@
+- report = @report.report_object
+%table.report
+  %caption= report.title
+  %thead.report-head
+    %tr.report-head
+      - report.key_order.each do |col|
+        %th{class: "report-col-#{col}"}= report.key_labels[col]
+  %tfoot.report-summary
+    - report.summaries.each do |summary|
+      %tr.report-summary
+        - report.key_order.each do |col|
+          %td{class: "report-col-#{col}", title: report.key_labels[col]}= summary[col]
+  %tbody
+    - report.entries.each do |entry|
+      %tr.report-row
+        - report.key_order.each do |col|
+          %td{class: "report-col-#{col}", title: report.key_labels[col]}= entry[col]
