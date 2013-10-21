@@ -1,4 +1,4 @@
-- content_for :main_action_list_items do
+- provide :main_action_list_items do
   %li= link_to 'All positions', positions_path
   - if can? :create, :positions
     %li= link_to 'New position', new_position_path

@@ -1,4 +1,4 @@
-- content_for :main_action_list_items do
+- provide :main_action_list_items do
   %li= link_to "Shift template #{@shift_template}", @shift_template
   %li= link_to "Slot templates in #{@shift_template}", shift_template_slot_templates_path(@shift_template)
   - if can? :edit, :shift_templates

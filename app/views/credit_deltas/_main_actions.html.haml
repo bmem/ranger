@@ -1,4 +1,4 @@
-- content_for :main_action_list_items do
+- provide :main_action_list_items do
   - if @event and @credit_scheme
     %li= link_to "#{@credit_scheme} credit scheme", @credit_scheme
     %li= link_to "Credit deltas in #{@credit_scheme}", event_credit_scheme_credit_deltas_path(@event, @credit_scheme)

@@ -1,4 +1,4 @@
-- content_for :main_action_list_items do
+- provide :main_action_list_items do
   %li= link_to "#{@event} assets", event_assets_path(@event)
   - if can? :create, :assets
     - [Radio, Vehicle, Key, Asset].each do |type|

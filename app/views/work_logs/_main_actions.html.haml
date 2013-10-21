@@ -1,4 +1,4 @@
-- content_for :main_action_list_items do
+- provide :main_action_list_items do
   - if @event
     %li= link_to_record @event
     - if subject_record

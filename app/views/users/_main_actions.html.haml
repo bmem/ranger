@@ -1,4 +1,4 @@
-- content_for :main_action_list_items do
+- provide :main_action_list_items do
   %li= link_to 'All users', users_path
   - if can? :create, :users
     %li= link_to 'New user', new_user_path

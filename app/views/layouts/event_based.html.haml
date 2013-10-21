@@ -1,5 +1,5 @@
 - if @event && !@event.new_record?
-  - content_for :section_menu do
+  - provide :section_menu do
     %li.currentevent= link_to @event.name, event_path(@event)
     - if @event.is_a? TrainingSeason
       %li= link_to 'Trainings', event_trainings_path(@event)

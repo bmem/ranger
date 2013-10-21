@@ -1,4 +1,4 @@
-- content_for :main_action_list_items do
+- provide :main_action_list_items do
   - if @event
     %li= link_to "#{@event} shifts", event_shifts_path(@event)
     - if can? :create, :shifts

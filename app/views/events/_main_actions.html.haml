@@ -1,4 +1,4 @@
-- content_for :main_action_list_items do
+- provide :main_action_list_items do
   %li= link_to 'All events', events_path
   - if can? :create, :events
     %li= link_to 'New event', new_event_path

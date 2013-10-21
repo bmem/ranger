@@ -1,4 +1,4 @@
-- content_for :main_action_list_items do
+- provide :main_action_list_items do
   %li= link_to 'All shift templates', shift_templates_path
   - if can? :create, :shift_templates
     %li= link_to 'New shift template', new_shift_template_path

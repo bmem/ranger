@@ -1,4 +1,4 @@
-- content_for :main_action_list_items do
+- provide :main_action_list_items do
   - event = @event || (@shift && @shift.event) || (@slot && @slot.event)
   - shift = @shift || (@slot && @slot.shift)
   - if event and shift
