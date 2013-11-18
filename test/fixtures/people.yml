@@ -6,7 +6,7 @@
 
 one:
   user: normaluser1
-  callsign: Hubcap
+  display_name: Hubcap
   full_name: Hubert C. Appleton
   status: active
   barcode:
@@ -15,7 +15,7 @@ one:
 
 two:
   user: normaluser2
-  callsign: Snarkle Pony
+  display_name: Snarkle Pony
   full_name: Suzy Creamcheese
   status: alpha
   barcode: 223344
@@ -24,42 +24,42 @@ two:
 
 admin:
   user: adminuser
-  callsign: Root
+  display_name: Root
   full_name: Adam In
   status: active
   positions: burn_perimeter, dirt, intercept, tech_team, trainee
 
 hq:
   user: hquser
-  callsign: Heathen Queen
+  display_name: Heathen Queen
   full_name: Hera Quinn
   status: active
   positions: burn_perimeter, dirt, hq_window, hq_training, intercept, trainee
 
 hqmentor:
   user: hqmentoruser
-  callsign: Homunculus
+  display_name: Homunculus
   full_name: Hugh Moritz
   status: active
   positions: burn_perimeter, dirt, hq_window, hq_trainer, hq_training, mentor, mentor_short, trainee
 
 trainer:
   user: traineruser
-  callsign: Professor
+  display_name: Professor
   full_name: Trey Treynor
   status: active
   positions: burn_perimeter, dirt, intercept, trainee, trainer
 
 # Ranger Able Baker is a veteran shift lead
 able_baker:
-  callsign: Able Baker
+  display_name: Able Baker
   full_name: Aaron Baker
   email: abaker@example.com
   barcode: "010001"
   status: vintage
   details:
     status_date: 2010-01-02
-    callsign_approved: true
+    display_name_approved: true
     mailing_address: "48 Beech St.\nTuscaloosa, AL 35401"
     main_phone: 205-555-2253
     birth_date: 1946-04-08
@@ -68,14 +68,14 @@ able_baker:
 
 # Brown Cow has been a Ranger for a couple years and mostly does dirt shifts
 brown_cow:
-  callsign: Brown Cow
+  display_name: Brown Cow
   full_name: Betty L. Cleaver
   email: bettycleaver@example.org
   barcode: "100002"
   status: active
   details:
     status_date: 2011-08-31
-    callsign_approved: true
+    display_name_approved: true
     mailing_address: "819 Glacier Avenue\nJuneau, AK 99812"
     alt_phone: 907-555-5050
     shirt_size: XL
@@ -83,13 +83,13 @@ brown_cow:
 
 # Crazy Chris is a new volunteer who's in the middle of the intake process
 crazy_chris:
-  callsign: Crazy Chris
+  display_name: Crazy Chris
   full_name: Chris Topher
   email: 666chris666@example.net
   status: prospective
   details:
     status_date: 2013-01-13
-    callsign_approved: false
+    display_name_approved: false
     mailing_address: "94515 3rd Ave #666\nLittle Rock, AR 72206"
     main_phone: 501-555-6666
     birth_date: 1972-06-06
@@ -98,14 +98,14 @@ crazy_chris:
 
 # Dust Bunny is a veteran dirt ranger and trainer.
 dust_bunny:
-  callsign: Dust Bunny
+  display_name: Dust Bunny
   full_name: Jenn Fulton
   email: dustbunny@example.com
   status: active
   barcode: "030004"
   details:
     status_date: 2008-10-19
-    callsign_approved: true
+    display_name_approved: true
     mailing_address: "5890 County Rd 24\nBullhead City, AZ 86429\nUSA"
     main_phone: 928-555-5678
     alt_phone: 928-555-3877
@@ -115,14 +115,14 @@ dust_bunny:
 
 # Evangelist likes to ride bikes, preferring RNR and intercept.
 evangelist:
-  callsign: Evangelist
+  display_name: Evangelist
   full_name: Evan Martinez
   email: bike2live@example.org
   status: active
   barcode: "090005"
   details:
     status_date: 2009-09-10
-    callsign_approved: true
+    display_name_approved: true
     mailing_address: "21 Steep Hill Lane, Apt B\nSan Francisco, CA 94123"
     main_phone: 415-555-7007
     birth_date: 1982-12-02
@@ -132,26 +132,26 @@ evangelist:
 
 # FoxTrot is a brand new ranger.
 foxtrot:
-  callsign: FoxTrot
+  display_name: FoxTrot
   full_name: Angela Summers
   email: summerforever@example.net
   status: active
   barcode: "120006"
   details:
     status_date: 2012-09-01
-    callsign_approved: true
+    display_name_approved: true
     shirt_size: XS
   positions: burn_perimeter, dirt, trainee
 
 # Geranium was bonked in 2012
 geranium:
-  callsign: Geranium 12B
+  display_name: Geranium 12B
   full_name: Benjamin M. Green
   email: ben@example.com
   status: bonked
   details:
     status_date: 2012-09-01
-    callsign_approved: false
+    display_name_approved: false
     mailing_address: "5732 Elder Ct.\nOrange, CT 06477"
     main_phone: 203-555-5732
     shirt_size: XXL
@@ -159,14 +159,14 @@ geranium:
 
 # Hobart hasn't been around for a while
 hobart:
-  callsign: Hobart
+  display_name: Hobart
   full_name: Matthew Simmons
   email: tasmaniandevil@example.org
   status: inactive
   barcode: "060007"
   details:
     status_date: 2011-11-29
-    callsign_approved: true
+    display_name_approved: true
     mailing_address: "31 Aurora Ave\nHobart TAS 7000\nAustralia"
     main_phone: +61 3 5555 4321
   positions: burn_perimeter, dirt, green_dot, green_dot_sanctuary, intercept, trainee

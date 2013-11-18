@@ -13,7 +13,7 @@
 
     - people.each do |person|
       %tr
-        %td= link_to person.callsign, person_path(person)
+        %td= link_to_record person
         %td= person.status
         %td= person.tag_list_on(@tag)
 

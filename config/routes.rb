@@ -1,5 +1,8 @@
 Ranger::Application.routes.draw do
 
+  resources :callsigns
+
+
   resources :profiles
 
 

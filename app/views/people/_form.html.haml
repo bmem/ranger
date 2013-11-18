@@ -31,7 +31,7 @@
     .tab-content#tab-core
       = semantic_form_for(@person, :namespace => 'core_form') do |f|
         = f.inputs do
-          = f.input :callsign
+          = f.input :display_name
           = f.input :full_name
           = f.input :barcode
           = f.input :status, :as => :select, :collection => Person::STATUSES.map(&:to_s)

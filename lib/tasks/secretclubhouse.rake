@@ -16,7 +16,8 @@ namespace :clubhouse do
   end
 
   desc "Convert everything from Secret Clubhouse to BMEM"
-  task :convert => [:convertmain, :assets, :schedules, :credits]
+  task :convert =>
+    [:convertmain, :assets, :schedules, :credits, :reserved_callsigns]
 
   desc "Convert people and more from Secret Clubhouse to BMEM"
   task :convertmain => :environment do
@@ -26,7 +27,7 @@ namespace :clubhouse do
       SecretClubhouse::Conversion.ensure_events_created
 
       target_models = [
-        ::Position, ::Person, ::Involvement, ::User, ::WorkLog
+        ::Position, ::Person, ::Involvement, ::User, ::WorkLog, ::Callsign
       ]
       ::Person.connection.transaction do
         target_models.each do |model|
@@ -80,6 +81,24 @@ namespace :clubhouse do
       ::Shift.transaction do
         ::Shift.destroy_all
         SecretClubhouse::Conversion.convert_shifts
+      end
+    end
+  end
+
+  desc "Import reserved callsigns"
+  task :reserved_callsigns => :environment do
+    require 'csv'
+    with_timing 'importing reserved callsigns' do
+      ::Callsign.transaction do
+        csv = CSV.read "#{BASEDIR}/reserved_callsigns.csv",
+          headers: true, header_converters: :symbol
+        csv.each do |row|
+          Callsign.find_or_create_by_name!(row[:name]) do |callsign|
+            puts "Adding reserved callsign #{callsign.name}"
+            callsign.status = row[:status]
+            callsign.note = row[:note]
+          end
+        end
       end
     end
   end

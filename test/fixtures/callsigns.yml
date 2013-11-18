@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+hubcap:
+  name: Hubcap
+  status: approved
+
+appleton:
+  name: AppletonH 10
+  status: temporary
+
+zion:
+  name: Zion
+  status: pending
+
+khaki:
+  name: Khaki
+  status: reserved
+  note: On-duty shift lead
+
+lincoln:
+  name: LincolnA 09
+  status: temporary
+  note: Decided not to ranger

@@ -1,6 +1,6 @@
 - @person.build_profile unless @person.profile
 
-%h1= "#{@person.callsign} (#{@person.full_name})"
+%h1= "#{@person.display_name} (#{@person.full_name})"
 
 .tab-container
   %ul
@@ -21,9 +21,30 @@
 
   .tab-content#tab-core
     %dl.attributes[@person]
-      - [:callsign, :full_name, :barcode, :status, :status_date, :years_rangered].each do |attr|
+      - [:callsign, :callsign_status, :full_name, :barcode, :status, :status_date, :years_rangered].each do |attr|
         %dt{:id => "label_#{attr}"}= Person.human_attribute_name attr
         %dd{:id => "value_#{attr}"}= @person.send attr
+      %dt{id: "label_callsign_assignments"} Callsign history
+      %dd{id: "value_callsign_assignments"}
+        %table
+          %thead
+            %tr
+              %th Callsign
+              %th Start date
+              %th End date
+              %th
+          %tbody
+            - @person.callsign_assignments.each do |ca|
+              %tr
+                %td= link_to_record ca.callsign
+                %td= l ca.start_date
+                - if ca.current?
+                  %td Current
+                - else
+                  %td= l ca.end_date
+                %td
+                  - unless ca.primary_callsign?
+                    %td (alternate)
 
   .tab-content#tab-contact
     %dl.attributes[@person.profile]

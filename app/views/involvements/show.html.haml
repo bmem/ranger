@@ -1,7 +1,7 @@
 %h1
   = @involvement.name
-  - if @involvement.person.callsign != @involvement.name
-    (now known as #{@involvement.person.callsign})
+  - if @involvement.person.display_name != @involvement.name
+    (now known as #{@involvement.person.display_name})
 %h2 involvement in #{link_to_record @involvement.event}
 
 .tab-container

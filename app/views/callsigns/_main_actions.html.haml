@@ -1,0 +1,5 @@
+- provide :main_action_list_items do
+  %li= link_to 'All callsigns', callsigns_path
+  - if can? :create, :callsigns
+    %li= link_to 'New callsign', new_callsign_path
+  = render 'record_actions'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131012212238) do
+ActiveRecord::Schema.define(:version => 20131118002931) do
 
   create_table "arts", :force => true do |t|
     t.string   "name",         :null => false
@@ -67,6 +67,31 @@ ActiveRecord::Schema.define(:version => 20131012212238) do
   end
 
   add_index "assets", ["event_id", "type", "name"], :name => "index_assets_on_event_id_and_type_and_name", :unique => true
+
+  create_table "callsign_assignments", :force => true do |t|
+    t.integer  "callsign_id",                        :null => false
+    t.integer  "person_id",                          :null => false
+    t.date     "start_date",                         :null => false
+    t.date     "end_date"
+    t.boolean  "primary_callsign", :default => true, :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+  end
+
+  add_index "callsign_assignments", ["callsign_id"], :name => "index_callsign_assignments_on_callsign_id"
+  add_index "callsign_assignments", ["person_id"], :name => "index_callsign_assignments_on_person_id"
+
+  create_table "callsigns", :force => true do |t|
+    t.string   "name",                       :null => false
+    t.string   "status",                     :null => false
+    t.text     "note",       :default => "", :null => false
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
+    t.string   "slug"
+  end
+
+  add_index "callsigns", ["name"], :name => "index_callsigns_on_name", :unique => true
+  add_index "callsigns", ["slug"], :name => "index_callsigns_on_slug", :unique => true
 
   create_table "credit_deltas", :force => true do |t|
     t.integer  "credit_scheme_id",                                :null => false
@@ -154,18 +179,18 @@ ActiveRecord::Schema.define(:version => 20131012212238) do
 
   create_table "people", :force => true do |t|
     t.integer  "user_id"
-    t.string   "callsign",   :null => false
-    t.string   "full_name",  :null => false
-    t.string   "status",     :null => false
+    t.string   "display_name", :null => false
+    t.string   "full_name",    :null => false
+    t.string   "status",       :null => false
     t.string   "barcode"
     t.text     "details"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
     t.string   "email"
   end
 
   add_index "people", ["barcode"], :name => "index_people_on_barcode"
-  add_index "people", ["callsign"], :name => "index_people_on_callsign"
+  add_index "people", ["display_name"], :name => "index_people_on_callsign"
   add_index "people", ["full_name"], :name => "index_people_on_full_name"
   add_index "people", ["user_id"], :name => "index_people_on_user_id"
 

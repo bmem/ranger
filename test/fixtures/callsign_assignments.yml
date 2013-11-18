@@ -1,0 +1,14 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  callsign: hubcap
+  person: one
+  primary_callsign: true
+  start_date: 2010-05-01
+
+two:
+  callsign: appleton
+  person: one
+  primary_callsign: false
+  start_date: 2010-01-01
+  end_date: 2013-05-01

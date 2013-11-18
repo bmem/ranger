@@ -1,0 +1,25 @@
+%h1 Listing callsigns
+
+= page_entries_info @callsigns, :model => 'callsigns'
+%br
+= will_paginate @callsigns, :inner_window => 10
+
+%table
+  %tr
+    %th Callsign
+    %th Status
+    %th Current assignee
+    %th Note
+
+  - @callsigns.each do |callsign|
+    %tr
+      %td= link_to_record callsign
+      %td= callsign.status
+      %td
+        - callsign.current_assignee.try do |person|
+          = link_to_record person
+          - if person.full_name != person.display_name
+            %nobr (#{person.full_name})
+      %td.text-attribute= callsign.note
+
+= will_paginate @callsigns, :inner_window => 10

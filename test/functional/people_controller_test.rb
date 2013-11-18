@@ -19,8 +19,7 @@ class PeopleControllerTest < ActionController::TestCase
 
   test "should create person" do
     assert_difference('Person.count') do
-      attrs = @person.attributes.clone
-      attrs['callsign'] = attrs['callsign'] + ' (Retired 2010)'
+      attrs = {full_name: 'Test Person Create', status: 'prospective'}
       post :create, :person => attrs
     end
 

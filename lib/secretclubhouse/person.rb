@@ -3,7 +3,7 @@ module SecretClubhouse
     include BaseRecord
     @@rand = Random.new
     self.table_name = 'person'
-    target ::Person, :callsign, :full_name, :email, :barcode, :status,
+    target ::Person, :display_name, :full_name, :email, :barcode, :status,
       :position_ids, *::Person::DETAIL_ATTRS
 
     has_many :timesheets
@@ -21,7 +21,7 @@ module SecretClubhouse
       profile.id = id # ensure relations remain aligned
       profile.person = p # TODO why is this needed?
       if p.email.blank?
-        p.email = p.callsign.downcase.gsub(/\W+/, '_') + '@noemail.invalid'
+        p.email = callsign.downcase.gsub(/\W+/, '_') + '@noemail.invalid'
       else
         p.email = p.email.strip
       end
@@ -76,7 +76,34 @@ module SecretClubhouse
           involvement.work_logs << worklog
         end
       end
+      callsign_status = case status
+        when 'prospective', 'alpha', 'bonked', 'uberbonked' then
+          callsign =~ /\d{2}|\(NR\)/ ? 'temporary' : 'available'
+        when 'active', 'inactive', 'vintage' then 'approved'
+        when 'deceased', 'retired' then 'available'
+        else 'pending'
+      end
+      callsign_date = Date.new(time_by_year.keys.max) if time_by_year.any?
+      callsign_date ||= status_date
+      callsign_date ||= date_verified
+      callsign_date ||= Date.today
+      cassign = p.callsign_assignments.build(primary_callsign: true,
+        start_date: callsign_date)
+      cassign.build_callsign name: callsign, status: callsign_status
+      unless p.callsign_assignments.first.valid?
+        puts p.callsign_assignments.first.errors.full_messages.to_sentence
+      end
+      if alternate_callsign.present?
+        ac = p.callsign_assignments.build(primary_callsign: false,
+          start_date: callsign_date)
+        ac.build_callsign name: alternate_callsign, status: 'approved',
+          note: 'LEAL callsign'
+      end
       p
+    end
+
+    def display_name
+      callsign
     end
 
     def full_name

@@ -18,7 +18,7 @@ class PeopleController < ApplicationController
   def tag
     @tag = params['tag'].try &:pluralize
     tag_name = params['name']
-    people = Person.accessible_by(current_ability).order(:callsign)
+    people = Person.accessible_by(current_ability).order(:display_name)
     people = people.where(:on_playa => true) if params['on_playa']
     if tag_name.present?
       @tagged_people =

@@ -1,0 +1,31 @@
+%h1 Callsign #{link_to_record @callsign}
+%dl.attributes[@callsign]
+  %dt{id: 'label_name'} Name
+  %dd{id: 'value_name'}<= @callsign.name
+  %dt{id: 'label_status'} Status
+  %dd{id: 'value_status'}<= @callsign.status
+  %dt{id: 'label_note'} Note
+  %dd.text-attribute{id: 'value_note'}<= @callsign.note
+
+%h2 Callsign history
+%table.callsign-history
+  %thead
+    %tr
+      %th Full name
+      %th Current callsign
+      %th Start date
+      %th End date
+      %th
+  %tbody
+    - @callsign.assignments.each do |ca|
+      %tr
+        %td= link_to ca.person.full_name, ca.person
+        %td= link_to ca.person.display_name, ca.person
+        %td= l ca.start_date
+        - if ca.current?
+          %td current
+        - else
+          %td= l ca.end_date
+        %td
+          - if ca.primary_callsign?
+            primary
