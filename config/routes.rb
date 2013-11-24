@@ -1,5 +1,4 @@
 Ranger::Application.routes.draw do
-
   resources :callsigns
 
 
@@ -83,6 +82,9 @@ Ranger::Application.routes.draw do
       resources asset_type, :controller => 'assets'
     end
     resources :asset_uses
+
+    resources :mentorships
+    resources :mentors
   end
 
   match 'schedule' => 'schedule_home#index', :as => :schedule_home

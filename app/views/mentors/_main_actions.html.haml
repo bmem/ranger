@@ -1,0 +1,6 @@
+- provide :main_action_list_items do
+  %li= link_to "#{@event} mentors", event_mentors_path(@event)
+  %li= link_to "#{@event} mentorships", event_mentorships_path(@event)
+  - if @mentor.present?
+    %li= link_to "#{@mentor.mentorship} mentorship", @mentor.mentorship
+  = render 'record_actions'

@@ -1,0 +1,19 @@
+%h1 Mentorships in #{@event}
+
+%table
+  %tr
+    %th Shift
+    %th Mentee
+    %th Mentors
+    %th Outcome
+    %th Note
+
+  - @mentorships.each do |mentorship|
+    %tr
+      %td= link_to_record mentorship.shift
+      %td= link_to mentorship.mentee, mentorship
+      %td
+        - mentorship.mentors.each do |mentor|
+          %nobr= link_to_record mentor
+      %td= mentorship.outcome
+      %td.text_attribute= mentorship.note

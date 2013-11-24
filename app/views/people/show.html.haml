@@ -18,6 +18,8 @@
       %a.tab-link{:href => '#tab-teams'} Teams
     %li.tab-title
       %a.tab-link{:href => '#tab-user'} User
+    %li.tab-title
+      %a.tab-link{:href => '#tab-mentorships'} Mentorships
 
   .tab-content#tab-core
     %dl.attributes[@person]
@@ -95,7 +97,37 @@
         - [:email, :disabled, :disabled_message, :sign_in_count, :current_sign_in_at, :last_sign_in_at, :created_at, :updated_at].each do |attr|
           %dt{:id => "label_user_#{attr}"}= User.human_attribute_name attr
           %dd{:id => "value_user_#{attr}"}= user.send attr
-%div
-  = link_to 'Edit', edit_person_path(@person)
-  \|
-  = link_to 'Back', people_path
+  .tab-content#tab-mentorships
+    %dl
+      - mentors = []
+      - mentees = []
+      - @person.involvements.sort_by(&:event).each do |inv|
+        - mentors += inv.mentorships.to_a
+        - inv.mentors.each do |m|
+          - mentees << m.mentorship
+      - if mentors.any?
+        %table
+          %thead
+            %caption Mentors
+            %tr
+              %th Event
+              %th Outcome
+              %th Mentor(s)
+          - mentors.each do |mentorship|
+            %tr
+              %td= mentorship.event
+              %td= link_to mentorship.outcome, mentorship
+              %td= mentorship.mentors.to_sentence
+      - if mentees.any?
+        %table
+          %thead
+            %caption Mentees
+            %tr
+              %th Event
+              %th Outcome
+              %th Mentee
+          - mentees.each do |mentorship|
+            %tr
+              %td= mentorship.event
+              %td= link_to mentorship.outcome, mentorship
+              %td= mentorship.mentee

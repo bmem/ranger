@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131118002931) do
+ActiveRecord::Schema.define(:version => 20131118034416) do
 
   create_table "arts", :force => true do |t|
     t.string   "name",         :null => false
@@ -176,6 +176,34 @@ ActiveRecord::Schema.define(:version => 20131118002931) do
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end
+
+  create_table "mentors", :force => true do |t|
+    t.integer  "event_id"
+    t.integer  "mentorship_id"
+    t.integer  "involvement_id"
+    t.string   "vote"
+    t.text     "note"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  add_index "mentors", ["event_id"], :name => "index_mentors_on_event_id"
+  add_index "mentors", ["involvement_id"], :name => "index_mentors_on_involvement_id"
+  add_index "mentors", ["mentorship_id"], :name => "index_mentors_on_mentorship_id"
+
+  create_table "mentorships", :force => true do |t|
+    t.integer  "event_id"
+    t.integer  "shift_id"
+    t.integer  "mentee_id"
+    t.string   "outcome"
+    t.text     "note"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "mentorships", ["event_id"], :name => "index_mentorships_on_event_id"
+  add_index "mentorships", ["mentee_id"], :name => "index_mentorships_on_mentee_id"
+  add_index "mentorships", ["shift_id"], :name => "index_mentorships_on_shift_id"
 
   create_table "people", :force => true do |t|
     t.integer  "user_id"

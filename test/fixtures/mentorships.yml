@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  event: burning_man_2012
+  shift: mentoring_sunday
+  mentee: bm2012_alpha1
+  outcome: pending
+  note: Wearing cool shoes
+
+two:
+  event: burning_man_2012
+  shift: mentoring_sunday
+  mentee: bm2012_alpha2
+  outcome: pending
+  note: Checked in late

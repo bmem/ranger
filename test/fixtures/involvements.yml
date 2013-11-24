@@ -25,3 +25,82 @@ e1p2:
   personnel_status: alpha
   barcode: 223344
   details:
+
+bm2012_alpha1:
+  person: alpha1
+  event: burning_man_2012
+  name: Alpha Male
+  involvement_status: confirmed
+  personnel_status: alpha
+  barcode: "1200101"
+
+bm2012_alpha2:
+  person: alpha2
+  event: burning_man_2012
+  name: Alpha Female
+  involvement_status: confirmed
+  personnel_status: alpha
+  barcode: "1200102"
+
+bm2012_able_baker:
+  person: able_baker
+  event: burning_man_2012
+  name: Able Baker
+  involvement_status: confirmed
+  personnel_status: vintage
+  barcode: "010001"
+
+bm2012_brown_cow:
+  person: brown_cow
+  event: burning_man_2012
+  name: Brown Cow
+  involvement_status: confirmed
+  personnel_status: active
+  barcode: "1000002"
+
+bm2012_crazy_chris:
+  person: crazy_chris
+  event: burning_man_2012
+  name: Crazy Chris
+  involvement_status: planned
+  personnel_status: prospective
+
+bm2012_dust_bunny:
+  person: dust_bunny
+  event: burning_man_2012
+  name: Dust Bunny
+  involvement_status: planned
+  personnel_status: active
+
+bm2012_evangelist:
+  person: evangelist
+  event: burning_man_2012
+  name: Evangelist
+  involvement_status: confirmed
+  personnel_status: active
+  barcode: "090005"
+
+bm2012_foxtrot:
+  person: foxtrot
+  event: burning_man_2012
+  name: Fox Trot
+  involvement_status: confirmed
+  personnel_status: active
+  barcode: "120006"
+
+bm2012_geranium:
+  person: foxtrot
+  event: burning_man_2012
+  name: Geranium 12B
+  involvement_status: bonked
+  personnel_status: bonked
+  barcode: "120007"
+
+bm2012_indigo:
+  person: indigo
+  event: burning_man_2012
+  name: Indigo
+  involvement_status: confirmed
+  personnel_status: active
+  barcode: "080008"
+

@@ -7,7 +7,8 @@ class Callsign < ActiveRecord::Base
 
   attr_accessible :name, :note, :status
 
-  has_many :assignments, autosave: true, class_name: 'CallsignAssignment'
+  has_many :assignments, autosave: true, dependent: :destroy,
+    class_name: 'CallsignAssignment'
   has_many :people, through: :assignments
 
   validates :name, presence: true, length: {in: 1..32}

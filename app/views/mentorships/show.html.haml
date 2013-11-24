@@ -1,0 +1,17 @@
+%h1 Mentorship of #{@mentorship}
+
+%dl.attributes[@mentorship]
+  %dt{id: 'label_event'} Event
+  %dd{id: 'value_event'}<= link_to_record @mentorship.event
+  %dt{id: 'label_shift'} Shift
+  %dd{id: 'value_shift'}<= link_to_record @mentorship.shift
+  %dt{id: 'label_mentee'} Mentee
+  %dd{id: 'value_mentee'}<= link_to_record @mentorship.mentee
+  %dt{id: 'label_mentors'} Mentors
+  %dd{id: 'value_mentors'}
+    - @mentorship.mentors.each do |mentor|
+      %nobr= link_to_record mentor
+  %dt{id: 'label_outcome'} Outcome
+  %dd{id: 'value_outcome'}<= @mentorship.outcome
+  %dt{id: 'label_note'} Note
+  %dd.text-attribute{id: 'value_note'}<= @mentorship.note

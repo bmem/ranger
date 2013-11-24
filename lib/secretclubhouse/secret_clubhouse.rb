@@ -5,6 +5,7 @@ module SecretClubhouse
       human_name = from_model.model_name.human
       puts "Converting #{from_model.count} #{human_name.pluralize}"
       from_model.all.each do |from|
+        unless from.class == PersonMentor and from.person_id == 710 # TODO remove this data hack
         ident = "#{human_name} #{from.id} (#{from.to_s})"
         puts "Converting #{ident}"
         to = from.to_bmem_model
@@ -15,6 +16,7 @@ module SecretClubhouse
           errors << err
           puts err
         end
+        end # TODO remove hack
       end # from_model.all
       errors
     end

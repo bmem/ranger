@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one_one:
+  event: burning_man_2012
+  mentorship: one
+  involvement: bm2012_able_baker
+  vote: pending
+  note: Walked in the morning
+
+one_two:
+  event: burning_man_2012
+  mentorship: one
+  involvement: bm2012_indigo
+  vote: pending
+  note: Wakled in the afternoon
+
+two_one:
+  event: burning_man_2012
+  mentorship: two
+  involvement: bm2012_able_baker
+  vote: pending
+  note: Walked in the afternoon
+
+two_two:
+  event: burning_man_2012
+  mentorship: two
+  involvement: bm2012_indigo
+  vote: pending
+  note: Wakled in the morning

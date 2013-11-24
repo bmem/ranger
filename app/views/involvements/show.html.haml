@@ -16,6 +16,12 @@
       %a.tab-link(href='#tab-assets') Assets
     %li.tab-title
       %a.tab-link(href='#tab-onsite') On-Site Details
+    - if @involvement.mentorships.any?
+      %li.tab-title
+        %a.tab-link(href='#tab-mentors') Mentors
+    - if @involvement.mentors.any?
+      %li.tab-title
+        %a.tab-link(href='#tab-mentees') Mentees
 
   .tab-content#tab-status
     %dl.attributes[@involvement]
@@ -44,3 +50,36 @@
       - Involvement::DETAIL_ATTRS.each do |attr|
         %dt{:id => "label_#{attr}"}<= Involvement.human_attribute_name attr
         %dd{:id => "value_#{attr}"}<= @involvement.send attr
+
+  - if @involvement.mentorships.any?
+    .tab-content#tab-mentors
+      %table
+        %tr
+          %th Outcome
+          %th Shift
+          %th Mentor(s)
+        - @involvement.mentorships.each do |m|
+          %tr
+            %td= link_to m.outcome, m
+            %td
+              - if m.shift.present?
+                = link_to m.shift, m
+            %td= m.mentors.to_sentence
+
+  - if @involvement.mentors.any?
+    .tab-content#tab-mentees
+      %table
+        %tr
+          %th Outcome
+          %th Shift
+          %th Mentee
+          %th Other Mentor(s)
+        - @involvement.mentors.each do |mentor|
+          - mentor.mentorship.tap do |mentorship|
+            %tr
+              %td= link_to mentorship.outcome, mentorship
+              %td= mentor.mentorship
+              %td
+                - if mentorship.shift
+                  = mentorship.shift
+              %td= mentorship.mentors.where('involvement_id != ?', @involvement.id).to_sentence

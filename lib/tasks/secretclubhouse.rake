@@ -17,7 +17,7 @@ namespace :clubhouse do
 
   desc "Convert everything from Secret Clubhouse to BMEM"
   task :convert =>
-    [:convertmain, :assets, :schedules, :credits, :reserved_callsigns]
+    [:convertmain, :assets, :schedules, :credits, :mentors, :reserved_callsigns]
 
   desc "Convert people and more from Secret Clubhouse to BMEM"
   task :convertmain => :environment do
@@ -27,17 +27,45 @@ namespace :clubhouse do
       SecretClubhouse::Conversion.ensure_events_created
 
       target_models = [
-        ::Position, ::Person, ::Involvement, ::User, ::WorkLog, ::Callsign
+        ::Position, ::Person, ::Involvement, ::User, ::WorkLog, ::Callsign,
       ]
-      ::Person.connection.transaction do
+      # Transaction can speed things up, but with SQLite it will keep the whole
+      # transaction sequence in memory which can slow it down or OOM
+      #::Person.connection.transaction do
         target_models.each do |model|
           puts "Deleting old #{model} records"
-          model.destroy_all
+          model.connection.transaction do
+            model.destroy_all
+          end
         end
         [
           SecretClubhouse::Position,
           SecretClubhouse::Person,
         ].each do |from_table|
+          errors += SecretClubhouse::Conversion::convert_model(from_table)
+        end # convert models each
+      #end # transaction
+      puts "#{errors.count} errors"
+      puts errors.join("\n")
+      target_models.each do |model|
+        puts "#{model.model_name.human}: #{model.count}"
+      end
+    end
+  end
+
+  desc "Convert mentors"
+  task :mentors => :environment do
+    with_timing 'convert mentors' do
+      errors = []
+      target_models = [
+        ::Mentorship, ::Mentor
+      ]
+      ::Mentorship.connection.transaction do
+        target_models.each do |model|
+          puts "Deleting old #{model} records"
+          model.destroy_all
+        end
+        [SecretClubhouse::PersonMentor].each do |from_table|
           errors += SecretClubhouse::Conversion::convert_model(from_table)
         end # convert models each
       end # transaction

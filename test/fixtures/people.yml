@@ -50,6 +50,24 @@ trainer:
   status: active
   positions: burn_perimeter, dirt, intercept, trainee, trainer
 
+# A bright eyed, fresh faced volunteer
+alpha1:
+  display_name: Alpha Male
+  full_name: Alfred Cooke
+  email: fredcooke@example.com
+  barcode: "1200101"
+  status: alpha
+  positions: alpha, traininee
+
+# Another excited volunteer
+alpha2:
+  display_name: Alpha Female
+  full_name: Alice Farley
+  email: alfie@example.com
+  barcode: "1200102"
+  status: alpha
+  positions: alpha, traininee
+
 # Ranger Able Baker is a veteran shift lead
 able_baker:
   display_name: Able Baker
@@ -170,3 +188,19 @@ hobart:
     mailing_address: "31 Aurora Ave\nHobart TAS 7000\nAustralia"
     main_phone: +61 3 5555 4321
   positions: burn_perimeter, dirt, green_dot, green_dot_sanctuary, intercept, trainee
+
+# Indigo is a mentor and a green dot.
+indigo:
+  display_name: Indigo
+  full_name: Vi Black
+  email: indigo@example.com
+  status: active
+  barcode: "080008"
+  details:
+    status_date: 2008-08-31
+    display_name_approved: true
+    mailing_address: "799 West St\nLaurel, DE 19956\nUnited States"
+    main_phone: 302-555-9876
+    birth_date: 1979-09-09
+    shirt_size: S
+  positions: burn_perimeter, dirt, green_dot, green_dot_mentor, green_dot_short, hq_training, intercept, mentor, trainee, trainer

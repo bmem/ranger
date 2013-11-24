@@ -1,0 +1,9 @@
+%h1 New mentorship
+
+%dl
+  %dt Event
+  %dd= link_to_record @mentorship.event
+  %dt Mentee
+  %dd= link_to_record @mentorship.mentee
+
+= render 'form'

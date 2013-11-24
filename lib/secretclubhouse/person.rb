@@ -56,7 +56,7 @@ module SecretClubhouse
         p.user.disabled_message = nil
         p.user.user_roles.build :user_id => id, :role => 'admin'
       end
-      time_by_year = timesheets.group_by {|t| t.on_duty.year}
+      time_by_year = timesheets.group_by {|t| t.start_time.year}
       # People like Danger Ranger get a radio but don't work any shifts
       AssetPerson.select(:checked_out).where(person_id: id).each do |ap|
         time_by_year[ap.checked_out.year] ||= []
@@ -86,7 +86,7 @@ module SecretClubhouse
       callsign_date = Date.new(time_by_year.keys.max) if time_by_year.any?
       callsign_date ||= status_date
       callsign_date ||= date_verified
-      callsign_date ||= Date.today
+      callsign_date ||= Time.zone.now.to_date
       cassign = p.callsign_assignments.build(primary_callsign: true,
         start_date: callsign_date)
       cassign.build_callsign name: callsign, status: callsign_status
