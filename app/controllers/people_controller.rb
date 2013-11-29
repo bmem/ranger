@@ -16,7 +16,7 @@ class PeopleController < ApplicationController
   def search
     @query = params[:q]
     if @query.blank?
-      @people = []
+      @people = Person.where('1 = 0').page(1)
       flash.notice = 'Empty search query'
     else
       @query = @query.to_ascii

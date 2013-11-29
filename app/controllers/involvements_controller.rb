@@ -12,7 +12,7 @@ class InvolvementsController < EventBasedController
   def search
     @query = params[:q]
     if @query.blank?
-      @involvements = []
+      @involvements = Involvement.where('1 = 0')
       flash.notice = 'Empty search query'
     else
       @query = @query.to_ascii
