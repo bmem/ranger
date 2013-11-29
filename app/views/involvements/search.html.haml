@@ -1,0 +1,6 @@
+%h1
+  People matching [#{@query}]
+  - if @event
+    in #{link_to_record @event}
+
+= render partial: 'list'

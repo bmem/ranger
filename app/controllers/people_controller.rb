@@ -11,6 +11,26 @@ class PeopleController < ApplicationController
     end
   end
 
+  # GET /people/search?q=smith
+  # GET /people/search/smith.json
+  def search
+    @query = params[:q]
+    if @query.blank?
+      @people = []
+      flash.notice = 'Empty search query'
+    else
+      @query = @query.to_ascii
+      @people = @people.with_query(@query).page(params[:page])
+      if @people.none? and params[:page].blank? || params[:page] == '1'
+        flash.notice = 'No people found'
+      end
+    end
+    respond_to do |format|
+      format.html # search.html.haml
+      format.json { render json: @people }
+    end
+  end
+
   # GET /people/tag/language
   # GET /people/tag/language.json
   # GET /people/tag/language/english

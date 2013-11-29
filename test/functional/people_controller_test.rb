@@ -12,6 +12,17 @@ class PeopleControllerTest < ActionController::TestCase
     assert_not_nil assigns(:people)
   end
 
+  test "should get search" do
+    Person.build_index
+    person = people(:able_baker)
+    get :search, q: person.display_name
+    assert_response :success
+    results = assigns(:people)
+    assert_not_nil results
+    assert results.length > 0, "empty search result"
+    assert person.in?(results), "#{results} missing #{person}"
+  end
+
   test "should get new" do
     get :new
     assert_response :success

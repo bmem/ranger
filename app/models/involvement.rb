@@ -20,6 +20,8 @@ class Involvement < ActiveRecord::Base
 
   store :details, :accessors => DETAIL_ATTRS
 
+  acts_as_indexed fields: [:token_list]
+
   validates :name, :involvement_status, :personnel_status, :presence => true
   validates_uniqueness_of :person_id, :scope => :event_id,
     :message => 'is already participating in this event'
@@ -101,5 +103,12 @@ class Involvement < ActiveRecord::Base
       # TODO convert Deep Freeze as an asset
       logs = logs.find_all {|wl| wl.position.slug != 'deep-freeze'}
     end
+  end
+
+  def token_list
+    ([barcode] +
+      name.to_tokens +
+      person.token_list.split
+    ).reject(&:blank?).uniq.join(' ')
   end
 end

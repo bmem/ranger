@@ -5,33 +5,7 @@
   - else
     All person/event involvements
 
-%table
-  %tr
-    - unless @event
-      %th Event
-    %th Callsign
-    %th
-      Involvement
-      %br
-      status
-    %th
-      Personnel
-      %br
-      status
-    %th On site?
-    %th
-    %th
-
-  - @involvements.each do |involvement|
-    %tr
-      - unless @event
-        %td= link_to_record involvement.event
-      %td= link_to_record involvement
-      %td= involvement.involvement_status
-      %td= involvement.personnel_status
-      %td= involvement.on_site? ? 'yes' : ''
-      %td= link_to_edit_record involvement
-      %td= link_to 'Remove', involvement, :confirm => 'Are you sure?', :method => :delete
+= render partial: 'list'
 
 %br
 

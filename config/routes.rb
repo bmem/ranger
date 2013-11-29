@@ -15,7 +15,11 @@ Ranger::Application.routes.draw do
   resources :reports
   match 'reports/generate/:report_name(.:format)' => 'reports#generate', as: :generate_report, via: :post
 
-  resources :people, :constraints => {:id => /\d+/}
+  resources :people, :constraints => {:id => /\d+/} do
+    collection do
+      get 'search(/:q)', action: :search
+    end
+  end
   match 'people/tag(/:tag(/:name))' => 'people#tag', :as => :tag_people
 
   resources :positions do
@@ -35,7 +39,11 @@ Ranger::Application.routes.draw do
   resources :credit_deltas
 
   # Schedule/Event routes
-  resources :involvements
+  resources :involvements do
+    collection do
+      get 'search(/:q)', action: :search
+    end
+  end
   resources :work_logs, :path => 'worklogs'
   resources :slots do
     resources :work_logs, :path => 'worklogs'
@@ -69,6 +77,9 @@ Ranger::Application.routes.draw do
     end
     resources :involvements do
       get 'signup', :on => :member
+      collection do
+        get 'search(/:q)', action: :search
+      end
     end
     resources :trainings
     resources :work_logs, :path => 'worklogs'

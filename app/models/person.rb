@@ -21,6 +21,9 @@ class Person < ActiveRecord::Base
 
   store :details, :accessors => DETAIL_ATTRS
 
+  # TODO add an if: Proc that excludes uninteresting Person records
+  acts_as_indexed fields: [:token_list]
+
   #validates :status, :callsign, :full_name, :presence => true
   validates :status, :display_name, :full_name, :presence => true
   validates :status, :inclusion => { :in => STATUSES.map(&:to_s),
@@ -78,6 +81,15 @@ class Person < ActiveRecord::Base
       end
       self.display_name = target
     end
+  end
+
+  def token_list
+    ([barcode] +
+      display_name.to_tokens +
+      full_name.to_tokens +
+      ((email || '')).to_tokens +
+      callsigns.map {|c| c.name.to_tokens}
+    ).reject(&:blank?).uniq.join(' ')
   end
 
   before_validation do |p|

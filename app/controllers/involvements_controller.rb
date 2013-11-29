@@ -9,6 +9,25 @@ class InvolvementsController < EventBasedController
     end
   end
 
+  def search
+    @query = params[:q]
+    if @query.blank?
+      @involvements = []
+      flash.notice = 'Empty search query'
+    else
+      @query = @query.to_ascii
+      @involvements = @involvements.where(event_id: @event.id) if @event
+      @involvements = @involvements.with_query(@query)
+      if @involvements.none?
+        flash.notice = "No people found in #{@event}"
+      end
+    end
+    respond_to do |format|
+      format.html # search.html.haml
+      format.json { render json: @involvements }
+    end
+  end
+
   # GET /involvements/1
   # GET /involvements/1.json
   def show
