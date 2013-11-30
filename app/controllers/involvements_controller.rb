@@ -11,12 +11,18 @@ class InvolvementsController < EventBasedController
 
   def search
     @query = params[:q]
-    if @query.blank?
+    @personnel_statuses = selected_array_param(params[:status])
+    @involvement_statuses = selected_array_param(params[:involvement_status])
+    if @query.blank? and @personnel_statuses.none? and @involvement_statuses.none?
       @involvements = Involvement.where('1 = 0')
       flash.notice = 'Empty search query'
     else
       @query = @query.to_ascii
       @involvements = @involvements.where(event_id: @event.id) if @event
+      @involvements = @involvements.where(
+        personnel_status: @personnel_statuses) if @personnel_statuses.any?
+      @involvements = @involvements.where(
+        involvement_status: @involvement_statuses) if @involvement_statuses.any?
       @involvements = @involvements.with_query(@query)
       if @involvements.none?
         flash.notice = "No people found in #{@event}"

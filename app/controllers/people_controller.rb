@@ -15,11 +15,13 @@ class PeopleController < ApplicationController
   # GET /people/search/smith.json
   def search
     @query = params[:q]
-    if @query.blank?
+    @query_statuses = selected_array_param(params[:status])
+    if @query.blank? and @query_statuses.none?
       @people = Person.where('1 = 0').page(1)
       flash.notice = 'Empty search query'
     else
       @query = @query.to_ascii
+      @people = @people.where(status: @query_statuses) if @query_statuses.any?
       @people = @people.with_query(@query).page(params[:page])
       if @people.none? and params[:page].blank? || params[:page] == '1'
         flash.notice = 'No people found'

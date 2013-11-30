@@ -1,3 +1,11 @@
 %h1 People matching [#{@query}]
 
+%p
+  = form_tag search_people_path, method: :get do
+    = search_field_tag 'q', @query, class: 'search-box people-search'
+    = submit_tag 'Search again'
+    %br
+    Include people with status:
+    = render 'search_statuses', checked_statuses: @query_statuses
+
 = render :partial => 'paginated_list'

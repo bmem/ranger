@@ -1,0 +1,7 @@
+- checked_statuses ||= Involvement::STATUSES.map &:to_s
+- Involvement::STATUSES.each do |status|
+  - box_id = "query-involvement-status-#{status}"
+  %label.input{for: box_id, style: 'display: inline-block'}
+    - checked = (status.to_s.in?(checked_statuses) or checked_statuses.none?)
+    = check_box_tag "involvement_status[#{status}]", '1', checked, id: box_id
+    = status

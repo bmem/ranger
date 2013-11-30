@@ -3,4 +3,17 @@
   - if @event
     in #{link_to_record @event}
 
+%p
+  - search_target = @event ? search_event_involvements_path(@event) : search_involvements_path
+  = form_tag search_target, method: :get do
+    = search_field_tag 'q', @query, class: 'search-box involvements-search'
+    = submit_tag 'Search again'
+    = submit_tag 'Search people regardless of event', formaction: search_people_path
+    %br
+    Personnel status:
+    = render 'people/search_statuses', checked_statuses: @personnel_statuses
+    %br
+    Involvement status:
+    = render 'search_involvement_statuses', checked_statuses: @involvement_statuses
+
 = render partial: 'list'

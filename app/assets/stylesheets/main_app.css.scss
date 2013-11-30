@@ -72,12 +72,8 @@ address {
   margin-right: 1ex;
   max-width: 25%;
   padding: 1ex;
-  padding-top: 1em;
   vertical-align: top;
   width: 25%;
-  .actions-header {
-    margin-top: 0;
-  }
   .action-list {
     list-style: none;
     margin: 0;
@@ -86,6 +82,15 @@ address {
       margin: 1ex 0;
     }
   }
+}
+
+.search-box,.quick-search-box {
+  font-size: larger;
+}
+
+.quick-search-box {
+  min-width: 20ex;
+  width: 100%;
 }
 
 .notifications {

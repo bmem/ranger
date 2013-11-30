@@ -20,4 +20,18 @@ class ApplicationController < ActionController::Base
     end
     redirect_to target, *args
   end
+
+  # Useful for turning a bunch of checkboxes into an array.
+  def selected_array_param(param)
+    case param
+    when String
+      [param]
+    when Array
+      param
+    when Hash
+      param.find_all {|k, v| v.present?}.map &:first
+    else
+      []
+    end
+  end
 end

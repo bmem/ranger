@@ -1,5 +1,19 @@
-- if content_for? :main_action_list_items
-  #main-actions
+#main-actions
+  - if can? :read, Person
+    .quick-search
+      %h2.quick-search-header Search
+      - event_exists = @event && @event.persisted?
+      - search_target = event_exists ? search_event_involvements_path(@event) : search_people_path
+      - placeholder = event_exists ? "Search in #{@event}" : 'Search for people'
+      - box_class = 'quick-search-box ' + (@event ? 'involvements-search' : 'people-search')
+      = form_tag search_target, method: 'get' do
+        = search_field_tag 'q', @query, placeholder: 'Name, barcode, email...', class: box_class
+        %br
+        - if event_exists
+          = submit_tag "Find in #{@event}", formaction: search_event_involvements_path(@event)
+        = submit_tag 'Find people', formaction: search_people_path
+
+  - if content_for? :main_action_list_items
     - if content_for? :main_actions_header
       %h2.actions-header
         = yield :main_actions_header

@@ -17,7 +17,7 @@ Ranger::Application.routes.draw do
 
   resources :people, :constraints => {:id => /\d+/} do
     collection do
-      get 'search(/:q)', action: :search
+      get 'search(/:q)', action: :search, as: :search
     end
   end
   match 'people/tag(/:tag(/:name))' => 'people#tag', :as => :tag_people
@@ -41,7 +41,7 @@ Ranger::Application.routes.draw do
   # Schedule/Event routes
   resources :involvements do
     collection do
-      get 'search(/:q)', action: :search
+      get 'search(/:q)', action: :search, as: :search
     end
   end
   resources :work_logs, :path => 'worklogs'
@@ -78,7 +78,7 @@ Ranger::Application.routes.draw do
     resources :involvements do
       get 'signup', :on => :member
       collection do
-        get 'search(/:q)', action: :search
+        get 'search(/:q)', action: :search, as: :search
       end
     end
     resources :trainings

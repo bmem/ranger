@@ -3,8 +3,10 @@ module TitleHelper
     chunks = []
     if instance_variable_defined? '@page_title' then
       chunks << @page_title
-    else
-      record_title.try {|title| chunks << title}
+    elsif record_title
+      chunks << record_title
+    elsif instance_variable_defined? '@query' then
+      chunks << @query
     end
     chunks << controller_name.humanize.capitalize
     section_name = if controller.class.name.include? '::'
