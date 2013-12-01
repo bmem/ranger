@@ -4,5 +4,7 @@
       {{value}}
   %span.status {{status}}
   %br
+  %span.event-involvement {{event_name}} : {{involvement_status}}
+  %br
   %span.full-name {{full_name}}
   %span.barcode {{barcode}}

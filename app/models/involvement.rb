@@ -100,6 +100,8 @@ class Involvement < ActiveRecord::Base
       full_name: person.full_name,
       barcode: barcode,
       status: personnel_status,
+      involvement_status: involvement_status,
+      event_name: event.name,
     }
   end
 
