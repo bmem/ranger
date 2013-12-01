@@ -18,7 +18,7 @@ Ranger::Application.routes.draw do
   resources :people, :constraints => {:id => /\d+/} do
     collection do
       get 'search(/:q)', action: :search, as: :search
-      get 'typeahead_prefetch', action: :typeahead_prefetch, as: :typeahead_prefetch, constraints: {format: 'json'}
+      get 'typeahead', action: :typeahead, as: :typeahead, constraints: {format: 'json'}
     end
   end
   match 'people/tag(/:tag(/:name))' => 'people#tag', :as => :tag_people
@@ -80,7 +80,7 @@ Ranger::Application.routes.draw do
       get 'signup', :on => :member
       collection do
         get 'search(/:q)', action: :search, as: :search
-        get 'typeahead_prefetch', action: :typeahead_prefetch, as: :typeahead_prefetch, constraints: {format: 'json'}
+        get 'typeahead', action: :typeahead, as: :typeahead, constraints: {format: 'json'}
       end
     end
     resources :trainings

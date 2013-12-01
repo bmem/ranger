@@ -9,6 +9,7 @@ class InvolvementsController < EventBasedController
     end
   end
 
+  # GET /events/:event_id/involvements/search?q=foo
   def search
     @query = params[:q]
     @personnel_statuses = selected_array_param(params[:status])
@@ -40,8 +41,8 @@ class InvolvementsController < EventBasedController
     end
   end
 
-  # GET /involvements/typehead_prefetch.json
-  def typeahead_prefetch
+  # GET /events/:event_id/involvements/typehead.json
+  def typeahead
     @involvements = @involvements.where(event_id: @event.id)
     @dataset = @involvements.map &:to_typeahead_datum
     respond_to do |format|

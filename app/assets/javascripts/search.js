@@ -7,13 +7,15 @@ $(document).ready(function() {
       datasets.push({
         name: 'involvements-' + eventId,
         template: JST['search/typeahead_involvement'],
-        prefetch: {url: '/events/' + eventId + '/involvements/typeahead_prefetch.json', ttl: ttl}
+        prefetch: {url: '/events/' + eventId + '/involvements/typeahead.json', ttl: ttl}
       });
     }
     datasets.push({
       name: 'people',
       template: JST['search/typeahead_person'],
-      prefetch: {url: '/people/typeahead_prefetch.json', ttl: ttl}
+      prefetch: {url: '/people/typeahead.json', ttl: ttl},
+      // %5E is ^ (prefix search)
+      remote: '/people/typeahead.json?q=%5E%QUERY',
     });
     $(e).typeahead(datasets);
     $(e).bind('typeahead:selected', function(evt, datum, datasetName) {

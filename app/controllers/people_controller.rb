@@ -39,9 +39,14 @@ class PeopleController < ApplicationController
     end
   end
 
-  # GET /people/typehead_prefetch.json
-  def typeahead_prefetch
-    @people = @people.where(status: %w(active vintage alpha prospective))
+  # GET /people/typehead.json
+  # GET /people/typehead.json?q=%5Eprefix
+  def typeahead
+    if params[:q].present?
+      @people = @people.with_query(params[:q]).limit(10)
+    else
+      @people = @people.where(status: %w(active vintage alpha prospective))
+    end
     @dataset = @people.map &:to_typeahead_datum
     respond_to do |format|
       format.json { render :json => @dataset }
