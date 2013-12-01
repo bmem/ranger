@@ -2,7 +2,9 @@ class InvolvementsController < EventBasedController
   # GET /involvements
   # GET /involvements.json
   def index
+    set_statuses_from_params
     @involvements = @involvements.where(:event_id => @event.id) if @event
+    filter_by_status
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @involvements }
@@ -12,18 +14,14 @@ class InvolvementsController < EventBasedController
   # GET /events/:event_id/involvements/search?q=foo
   def search
     @query = params[:q]
-    @personnel_statuses = selected_array_param(params[:status])
-    @involvement_statuses = selected_array_param(params[:involvement_status])
+    set_statuses_from_params
     if @query.blank? and @personnel_statuses.none? and @involvement_statuses.none?
       @involvements = Involvement.where('1 = 0')
       flash.notice = 'Empty search query'
     else
       @query = @query.to_ascii
       @involvements = @involvements.where(event_id: @event.id) if @event
-      @involvements = @involvements.where(
-        personnel_status: @personnel_statuses) if @personnel_statuses.any?
-      @involvements = @involvements.where(
-        involvement_status: @involvement_statuses) if @involvement_statuses.any?
+      filter_by_status
       before_query = @involvements
       @involvements = @involvements.with_query(@query)
       if @involvements.none?
@@ -128,5 +126,20 @@ class InvolvementsController < EventBasedController
 
   def subject_record
     @involvement
+  end
+
+  private
+  def set_statuses_from_params
+    @personnel_statuses = selected_array_param(params[:status])
+    @involvement_statuses = selected_array_param(params[:involvement_status])
+  end
+
+  def filter_by_status
+    @personnel_statuses.try do |ps|
+      @involvements = @involvements.where(personnel_status: ps) if ps.any?
+    end
+    @involvement_statuses.try do |is|
+      @involvements = @involvements.where(involvement_status: is) if is.any?
+    end
   end
 end

@@ -1,10 +1,13 @@
 class PeopleController < ApplicationController
-  load_and_authorize_resource :except => :index
+  load_and_authorize_resource
 
   # GET /people
   # GET /people.json
   def index
-    @people = Person.accessible_by(current_ability).page(params[:page])
+    @query_statuses = selected_array_param(params[:status])
+    @people = @people.where(status: @query_statuses) if @query_statuses.any?
+    @people = @people.page(params[:page])
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @people }

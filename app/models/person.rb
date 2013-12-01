@@ -1,8 +1,8 @@
 class Person < ActiveRecord::Base
   include EmailHelper
 
-  STATUSES = [:prospective, :alpha, :bonked, :active, :inactive,
-    :retired, :uberbonked, :vintage, :deceased]
+  STATUSES = [:active, :vintage, :inactive, :retired,
+    :prospective, :alpha, :bonked, :uberbonked, :deceased]
   RANGER_STATUSES = [:active, :inactive, :retired, :vintage]
   SHIRT_SIZES = %w(XS S M L XL 2XL 3XL 4XL)
   SHIRT_STYLES = ['Ladies', 'Mens Regular', 'Mens Tall']

@@ -5,6 +5,16 @@
   - else
     All person/event involvements
 
+%p
+  = form_tag (@event ? event_involvements_path(@event) : involvements_path), method: :get do
+    Personnel:
+    = render 'people/search_statuses', checked_statuses: @personnel_statuses
+    %br
+    Involvement:
+    = render 'search_involvement_statuses', checked_statuses: @involvement_statuses
+    %br
+    = submit_tag 'Filter by status'
+
 = render partial: 'list'
 
 %br

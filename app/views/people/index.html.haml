@@ -1,5 +1,10 @@
 %h1 Listing people
 
+%p
+  = form_tag people_path, method: :get do
+    = render 'search_statuses', checked_statuses: @query_statuses
+    = submit_tag 'Filter by status'
+
 = render :partial => 'paginated_list'
 
 %br
