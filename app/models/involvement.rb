@@ -81,6 +81,26 @@ class Involvement < ActiveRecord::Base
       count
   end
 
+  def to_tokens
+    ([barcode] +
+      name.to_tokens +
+      person.to_tokens
+    ).reject(&:blank?).uniq
+  end
+
+  def tokens_list
+    to_tokens.join(' ')
+  end
+
+  def to_typeahead_datum
+    {
+      value: name,
+      tokens: to_tokens,
+      full_name: person.full_name,
+      barcode: barcode,
+    }
+  end
+
   private
   def options_with_defaults(options = {})
     # 9999 is the maximal year for some databases
@@ -103,12 +123,5 @@ class Involvement < ActiveRecord::Base
       # TODO convert Deep Freeze as an asset
       logs = logs.find_all {|wl| wl.position.slug != 'deep-freeze'}
     end
-  end
-
-  def token_list
-    ([barcode] +
-      name.to_tokens +
-      person.token_list.split
-    ).reject(&:blank?).uniq.join(' ')
   end
 end

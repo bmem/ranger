@@ -33,6 +33,15 @@ class PeopleController < ApplicationController
     end
   end
 
+  # GET /people/typehead_prefetch.json
+  def typeahead_prefetch
+    @people = @people.where(status: %w(active vintage alpha prospective))
+    @dataset = @people.map &:to_typeahead_datum
+    respond_to do |format|
+      format.json { render :json => @dataset }
+    end
+  end
+
   # GET /people/tag/language
   # GET /people/tag/language.json
   # GET /people/tag/language/english

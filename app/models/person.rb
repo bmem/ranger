@@ -83,13 +83,26 @@ class Person < ActiveRecord::Base
     end
   end
 
-  def token_list
+  def to_tokens
     ([barcode] +
       display_name.to_tokens +
       full_name.to_tokens +
       ((email || '')).to_tokens +
-      callsigns.map {|c| c.name.to_tokens}
-    ).reject(&:blank?).uniq.join(' ')
+      callsigns.map {|c| c.name.to_tokens}.flatten
+    ).reject(&:blank?).uniq
+  end
+
+  def token_list
+    to_tokens.join(' ')
+  end
+
+  def to_typeahead_datum
+    {
+      value: display_name,
+      tokens: to_tokens,
+      full_name: full_name,
+      barcode: barcode,
+    }
   end
 
   before_validation do |p|

@@ -14,4 +14,5 @@
 //= require jquery-ui
 //= require jquery_ujs
 //= require jquery.collapse.js
+//= require twitter/typeahead.min
 //= require_tree .

@@ -34,6 +34,15 @@ class InvolvementsController < EventBasedController
     end
   end
 
+  # GET /involvements/typehead_prefetch.json
+  def typeahead_prefetch
+    @involvements = @involvements.where(event_id: @event.id)
+    @dataset = @involvements.map &:to_typeahead_datum
+    respond_to do |format|
+      format.json { render :json => @dataset }
+    end
+  end
+
   # GET /involvements/1
   # GET /involvements/1.json
   def show

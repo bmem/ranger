@@ -24,6 +24,9 @@ gem 'stringex'
 # record text search without needing to configure a separate search engine
 gem 'acts_as_indexed'
 
+# autocomplete search results
+gem 'twitter-typeahead-rails'
+
 # TODO this is just CSV in 1.9 and it complains loudly if you try to use
 # FasterCSV.  Figure out how to dispatch appropriately or whether to ditch
 # 1.8 support entirely.

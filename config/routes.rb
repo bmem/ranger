@@ -18,6 +18,7 @@ Ranger::Application.routes.draw do
   resources :people, :constraints => {:id => /\d+/} do
     collection do
       get 'search(/:q)', action: :search, as: :search
+      get 'typeahead_prefetch', action: :typeahead_prefetch, as: :typeahead_prefetch, constraints: {format: 'json'}
     end
   end
   match 'people/tag(/:tag(/:name))' => 'people#tag', :as => :tag_people
@@ -39,7 +40,7 @@ Ranger::Application.routes.draw do
   resources :credit_deltas
 
   # Schedule/Event routes
-  resources :involvements do
+  resources :involvements, constraints: {:id => /\d+/} do
     collection do
       get 'search(/:q)', action: :search, as: :search
     end
@@ -75,10 +76,11 @@ Ranger::Application.routes.draw do
       post 'join', :on => :member
       post 'leave', :on => :member
     end
-    resources :involvements do
+    resources :involvements, constraints: {:id => /\d+/} do
       get 'signup', :on => :member
       collection do
         get 'search(/:q)', action: :search, as: :search
+        get 'typeahead_prefetch', action: :typeahead_prefetch, as: :typeahead_prefetch, constraints: {format: 'json'}
       end
     end
     resources :trainings
