@@ -88,7 +88,7 @@ class Involvement < ActiveRecord::Base
     ).reject(&:blank?).uniq
   end
 
-  def tokens_list
+  def token_list
     to_tokens.join(' ')
   end
 
