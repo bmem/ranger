@@ -6,7 +6,7 @@ $(document).ready(function() {
     if (eventId) {
       datasets.push({
         name: 'involvements-' + eventId,
-      template: JST['search/typeahead_involvement'],
+        template: JST['search/typeahead_involvement'],
         prefetch: {url: '/events/' + eventId + '/involvements/typeahead_prefetch.json', ttl: ttl}
       });
     }
@@ -16,5 +16,12 @@ $(document).ready(function() {
       prefetch: {url: '/people/typeahead_prefetch.json', ttl: ttl}
     });
     $(e).typeahead(datasets);
+    $(e).bind('typeahead:selected', function(evt, datum, datasetName) {
+      if (datasetName == 'people') {
+        location.assign('/people/' + datum.id);
+      } else if (eventId && datasetName == 'involvements-' + eventId) {
+        location.assign('/events/' + eventId + '/involvements/' + datum.id);
+      }
+    });
   });
 });

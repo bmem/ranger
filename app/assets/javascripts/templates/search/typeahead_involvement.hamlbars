@@ -1,7 +1,5 @@
 .typeahead-involvement
-  %span.display-name
-    %a{href: '/involvements/{{id}}'}
-      {{value}}
+  %span.display-name {{value}}
   %span.status {{status}}
   %br
   %span.event-involvement {{event_name}} : {{involvement_status}}

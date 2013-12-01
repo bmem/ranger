@@ -1,7 +1,5 @@
 .typeahead-person
-  %span.display-name
-    %a{href: '/people/{{id}}'}
-      {{value}}
+  %span.display-name {{value}}
   %span.status {{status}}
   %br
   %span.full-name {{full_name}}

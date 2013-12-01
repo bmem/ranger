@@ -36,3 +36,9 @@
     font-style: italic;
   }
 }
+
+.tt-is-under-cursor {
+  .typeahead-person, .typeahead-involvement {
+    background-color: #eeeeee;
+  }
+}
