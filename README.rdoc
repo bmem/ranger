@@ -93,6 +93,8 @@ Gems, Bundler, and perhaps RVM[https://rvm.io/]):
   # if you want some test data, run
   rake db:fixtures:load
   # you can log in as admin@example.com with password admin
+  # if you've changed how data is indexed, run
+  rake index:rebuild
 
 The maintainers would love it if you included tests along with your changes.
 Also, please keep most code to 80 columns wide in a readable style.
