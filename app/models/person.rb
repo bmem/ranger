@@ -87,7 +87,7 @@ class Person < ActiveRecord::Base
     ([barcode] +
       display_name.to_tokens +
       full_name.to_tokens +
-      ((email || '')).to_tokens +
+      ((email || '')).split(/@/) +
       callsigns.map {|c| c.name.to_tokens}.flatten
     ).reject(&:blank?).uniq
   end
