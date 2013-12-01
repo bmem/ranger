@@ -23,9 +23,15 @@ class InvolvementsController < EventBasedController
         personnel_status: @personnel_statuses) if @personnel_statuses.any?
       @involvements = @involvements.where(
         involvement_status: @involvement_statuses) if @involvement_statuses.any?
+      before_query = @involvements
       @involvements = @involvements.with_query(@query)
       if @involvements.none?
-        flash.notice = "No people found in #{@event}"
+        # try a prefix query
+        unless @query.starts_with? '^' or @query =~ /\s/
+          @query = '^' + @query
+          @involvements = before_query.with_query(@query)
+        end
+        flash.notice = "No people found in #{@event}" if @involvements.none?
       end
     end
     respond_to do |format|

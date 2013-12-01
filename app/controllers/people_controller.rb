@@ -22,9 +22,15 @@ class PeopleController < ApplicationController
     else
       @query = @query.to_ascii
       @people = @people.where(status: @query_statuses) if @query_statuses.any?
+      before_query = @people
       @people = @people.with_query(@query).page(params[:page])
       if @people.none? and params[:page].blank? || params[:page] == '1'
-        flash.notice = 'No people found'
+        # try a prefix query
+        unless @query.starts_with? '^' or @query =~ /\s/
+          @query = '^' + @query
+          @people = before_query.with_query(@query).page(params[:page])
+        end
+        flash.notice = 'No people found' if @people.none? # still
       end
     end
     respond_to do |format|
