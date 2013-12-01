@@ -10,9 +10,11 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
-//= require jquery
+//= require jquery.min
 //= require jquery-ui
 //= require jquery_ujs
 //= require jquery.collapse.js
+//= require handlebars.runtime
 //= require twitter/typeahead.min
+//= require_tree ./templates
 //= require_tree .

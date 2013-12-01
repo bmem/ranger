@@ -98,10 +98,12 @@ class Person < ActiveRecord::Base
 
   def to_typeahead_datum
     {
+      id: id,
       value: display_name,
       tokens: to_tokens,
       full_name: full_name,
       barcode: barcode,
+      status: status,
     }
   end
 

@@ -13,3 +13,23 @@
   min-width: 20ex;
   width: 100%;
 }
+
+.typeahead-person, .typeahead-involvement {
+  background-color: white;
+  border: thin solid silver;
+  .display-name {
+    font-size: larger;
+    font-weight: bold;
+  }
+  .status {
+    font-size: smaller;
+    font-style: italic;
+  }
+  .full-name {
+    font-size: smaller;
+  }
+  .barcode {
+    font-size: smaller;
+    font-style: italic;
+  }
+}

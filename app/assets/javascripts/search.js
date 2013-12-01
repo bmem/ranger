@@ -6,11 +6,13 @@ $(document).ready(function() {
     if (eventId) {
       datasets.push({
         name: 'involvements-' + eventId,
+      template: JST['search/typeahead_involvement'],
         prefetch: {url: '/events/' + eventId + '/involvements/typeahead_prefetch.json', ttl: ttl}
       });
     }
     datasets.push({
       name: 'people',
+      template: JST['search/typeahead_person'],
       prefetch: {url: '/people/typeahead_prefetch.json', ttl: ttl}
     });
     $(e).typeahead(datasets);

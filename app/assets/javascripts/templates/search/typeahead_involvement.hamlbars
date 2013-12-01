@@ -1,0 +1,8 @@
+.typeahead-involvement
+  %span.display-name
+    %a{href: '/involvements/{{id}}'}
+      {{value}}
+  %span.status {{status}}
+  %br
+  %span.full-name {{full_name}}
+  %span.barcode {{barcode}}

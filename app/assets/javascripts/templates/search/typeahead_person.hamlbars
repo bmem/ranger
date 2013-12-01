@@ -1,0 +1,8 @@
+.typeahead-person
+  %span.display-name
+    %a{href: '/people/{{id}}'}
+      {{value}}
+  %span.status {{status}}
+  %br
+  %span.full-name {{full_name}}
+  %span.barcode {{barcode}}

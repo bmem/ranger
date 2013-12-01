@@ -38,6 +38,8 @@ group :assets do
   gem 'sass-rails',   '~> 3.2'
   gem 'coffee-rails', '~> 3.2'
 
+  gem 'handlebars_assets'
+
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   gem 'therubyracer'
 

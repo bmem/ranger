@@ -94,10 +94,12 @@ class Involvement < ActiveRecord::Base
 
   def to_typeahead_datum
     {
+      id: id,
       value: name,
       tokens: to_tokens,
       full_name: person.full_name,
       barcode: barcode,
+      status: personnel_status,
     }
   end
 
