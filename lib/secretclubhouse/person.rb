@@ -21,7 +21,7 @@ module SecretClubhouse
       profile.id = id # ensure relations remain aligned
       profile.person = p # TODO why is this needed?
       if p.email.blank?
-        p.email = callsign.downcase.gsub(/\W+/, '_') + '@noemail.invalid'
+        p.email = display_name.downcase.gsub(/\W+/, '_') + '@noemail.invalid'
       else
         p.email = p.email.strip
       end
@@ -32,7 +32,7 @@ module SecretClubhouse
           # this email won't be good, but will pass validity checks
           p.email = p.email.sub /@/, '_AT_'
         end
-        puts "Replacing #{callsign} invalid email #{email} with #{p.email}"
+        puts "Replacing #{display_name} invalid email #{email} with #{p.email}"
         profile.contact_note ||= "Email converted from #{email}"
       end
       profile.email = p.email
@@ -66,7 +66,7 @@ module SecretClubhouse
         # TODO set participation status to bonked if they were only an alpha
         # and did not pass mentoring
         involvement = ::Involvement.new :event => event,
-          :name => callsign, :barcode => barcode,
+          :name => display_name, :barcode => barcode,
           :personnel_status => status, :involvement_status => 'confirmed'
         p.involvements << involvement
         sheets.each do |ts|
@@ -89,7 +89,7 @@ module SecretClubhouse
       callsign_date ||= Time.zone.now.to_date
       cassign = p.callsign_assignments.build(primary_callsign: true,
         start_date: callsign_date)
-      cassign.build_callsign name: callsign, status: callsign_status
+      cassign.build_callsign name: display_name, status: callsign_status
       unless p.callsign_assignments.first.valid?
         puts p.callsign_assignments.first.errors.full_messages.to_sentence
       end
@@ -103,11 +103,12 @@ module SecretClubhouse
     end
 
     def display_name
-      callsign
+      fix_utf8(callsign).gsub(/\\/, '')
     end
 
     def full_name
-      name = [first_name, mi, last_name].reject(&:empty?).join(' ')
+      name = [first_name, mi, last_name].map {|x| fix_utf8(x)}.gsub(/\\/, '')
+        reject(&:empty?).join(' ')
       name.empty? ? callsign : name
     end
 

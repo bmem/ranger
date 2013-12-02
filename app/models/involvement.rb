@@ -84,7 +84,7 @@ class Involvement < ActiveRecord::Base
   def to_tokens
     ([barcode] +
       name.to_tokens +
-      person.to_tokens
+      (person || '').to_tokens
     ).reject(&:blank?).uniq
   end
 
