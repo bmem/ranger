@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery
 
+  before_filter :set_default_event_id
+
   rescue_from CanCan::AccessDenied do |ex|
     if current_user
       redirect_back :alert => ex.message
@@ -33,5 +35,15 @@ class ApplicationController < ActionController::Base
     else
       []
     end
+  end
+
+  # Determine the default event ID when none is specified in the request
+  def default_event_id
+    [@default_event_id, session[:default_event_id],
+      Ranger::Application.config.default_event_id].find &:present?
+  end
+
+  def set_default_event_id
+    @default_event_id ||= default_event_id
   end
 end

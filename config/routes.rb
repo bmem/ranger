@@ -63,6 +63,9 @@ Ranger::Application.routes.draw do
   resources :events do
     resources :reports
     match 'reports/generate/:report_name(.:format)' => 'reports#generate', as: :generate_report, via: :post
+    collection do
+      post 'set_default', as: :set_default
+    end
 
     resources :shifts do
       resources :slots do

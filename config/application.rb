@@ -70,5 +70,9 @@ module Ranger
     # test users with different sets of roles
     config.users_can_choose_roles_dangerous = false
 
+    # Yearly maintenance: set default event to an appropriate TrainingSeason or
+    # BurningMan event.  Should be a slug rather than integer ID.
+    config.default_event_id = nil
+
   end
 end

@@ -51,7 +51,7 @@ address {
   }
 }
 
-.menu_header, #main-actions {
+.menu_header, #main-toolbox {
   a,a:visited {
     color: black;
     font-weight: bolder;
@@ -64,7 +64,7 @@ address {
   }
 }
 
-#main-actions {
+#main-toolbox {
   background-color: $khaki;
   border-right: thin black solid;
   display: table-cell;

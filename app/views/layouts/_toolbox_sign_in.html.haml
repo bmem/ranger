@@ -1,0 +1,14 @@
+%h2.actions-header Sign in
+= form_for :user, as: :user, url: user_session_path do |f|
+  = f.label :email
+  %br
+  = f.email_field :email, required: true, placeholder: 'Email address'
+  %br
+  = f.label :password
+  %br
+  = f.password_field :password, required: true, placeholder: 'Password'
+  %br
+  = f.label :remember_me, style: 'display: inline-block' do
+    = f.check_box :remember_me
+    Remember me
+  = f.submit 'Sign in'

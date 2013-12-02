@@ -8,6 +8,23 @@ class EventsController < EventBasedController
     end
   end
 
+  # POST /events/set_default?default_event_id=1
+  def set_default
+    respond_to do |format|
+      if params[:default_event_id].present?
+        @event = Event.find(params[:default_event_id])
+        session[:default_event_id] = @event.id
+        format.html { redirect_to @event }
+        format.json { head :no_content }
+      else
+        @event = nil
+        session[:default_event_id] = nil
+        format.html { redirect_to events_path }
+        format.json { head :no_content }
+      end
+    end
+  end
+
   # GET /events/1
   # GET /events/1.json
   def show

@@ -34,8 +34,14 @@
         %ul.menu#section_menu
           = yield :section_menu
 
-    = render 'main_actions'
-    = render 'layouts/main_action_list'
+    #main-toolbox
+      - if user_signed_in?
+        = render 'main_actions'
+        = render 'layouts/toolbox_search'
+        = render 'layouts/main_action_list'
+        = render 'layouts/toolbox_event'
+      - else
+        = render 'layouts/toolbox_sign_in'
 
     #body-container
       - if alert or notice

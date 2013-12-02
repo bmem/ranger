@@ -1,0 +1,6 @@
+- if can? :read, :events
+  %h2.actions-header Event
+  = form_tag set_default_events_path do
+    - options = options_from_collection_for_select(Event.select([:slug, :name]), :slug, :name, @event ? @event.slug : @default_event_id)
+    = select_tag 'default_event_id', options, include_blank: true, onchange: 'this.form.submit()'
+    = submit_tag 'Go'

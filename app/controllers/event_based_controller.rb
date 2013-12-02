@@ -8,5 +8,6 @@ class EventBasedController < ApplicationController
   private
   def ensure_event
     @event ||= subject_record.event if subject_record.respond_to? :event
+    @event ||= Event.find(default_event_id) if default_event_id.present?
   end
 end
