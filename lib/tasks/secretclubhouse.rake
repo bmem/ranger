@@ -4,7 +4,7 @@ namespace :clubhouse do
 
   def init
     Dir.glob("#{BASEDIR}/bootstrap.rb") {|file| require file}
-    ActsAsIndex.configuration.disable_auto_indexing = true
+    ActsAsIndexed.configuration.disable_auto_indexing = true
     puts "Indexing disabled; when finished run: rake index:rebuild"
   end
 

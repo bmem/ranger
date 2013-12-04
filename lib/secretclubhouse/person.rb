@@ -107,7 +107,7 @@ module SecretClubhouse
     end
 
     def full_name
-      name = [first_name, mi, last_name].map {|x| fix_utf8(x)}.gsub(/\\/, '')
+      name = [first_name, mi, last_name].map {|x| fix_utf8(x).gsub(/\\/, '')}.
         reject(&:empty?).join(' ')
       name.empty? ? callsign : name
     end
