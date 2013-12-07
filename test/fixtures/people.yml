@@ -5,7 +5,6 @@
 # has_and_belongs_to_many associations like people<->positions.
 
 one:
-  user: normaluser1
   display_name: Hubcap
   full_name: Hubert C. Appleton
   status: active
@@ -14,7 +13,6 @@ one:
   positions: burn_perimeter, dirt, intercept, trainee
 
 two:
-  user: normaluser2
   display_name: Snarkle Pony
   full_name: Suzy Creamcheese
   status: alpha
@@ -23,28 +21,24 @@ two:
   positions: alpha, trainee
 
 admin:
-  user: adminuser
   display_name: Root
   full_name: Adam In
   status: active
   positions: burn_perimeter, dirt, intercept, tech_team, trainee
 
 hq:
-  user: hquser
   display_name: Heathen Queen
   full_name: Hera Quinn
   status: active
   positions: burn_perimeter, dirt, hq_window, hq_training, intercept, trainee
 
 hqmentor:
-  user: hqmentoruser
   display_name: Homunculus
   full_name: Hugh Moritz
   status: active
   positions: burn_perimeter, dirt, hq_window, hq_trainer, hq_training, mentor, mentor_short, trainee
 
 trainer:
-  user: traineruser
   display_name: Professor
   full_name: Trey Treynor
   status: active

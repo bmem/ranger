@@ -8,7 +8,7 @@ class Person < ActiveRecord::Base
   SHIRT_STYLES = ['Ladies', 'Mens Regular', 'Mens Tall']
   DETAIL_ATTRS = [:callsign_approved, :has_personnel_note, :status_date]
 
-  belongs_to :user, :autosave => true
+  has_one :user, autosave: true
   has_one :profile, autosave: true, dependent: :destroy
   has_many :involvements
   has_many :events, :through => :involvements

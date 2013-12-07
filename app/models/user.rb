@@ -13,8 +13,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me,
     :person_attributes, :disabled, :disabled_message
 
-  has_one :person
-  accepts_nested_attributes_for :person, :update_only => true
+  belongs_to :person
   # TODO don't let person change after creation
   has_many :user_roles, :dependent => :destroy
 
@@ -42,6 +41,9 @@ class User < ActiveRecord::Base
   end
 
   before_validation do |u|
+    if u.new_record?
+      u.email = u.person.email if u.email.blank? && u.person
+    end
     u.email = User.normalize_email u.email
   end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131118034416) do
+ActiveRecord::Schema.define(:version => 20131207181058) do
 
   create_table "arts", :force => true do |t|
     t.string   "name",         :null => false
@@ -206,7 +206,6 @@ ActiveRecord::Schema.define(:version => 20131118034416) do
   add_index "mentorships", ["shift_id"], :name => "index_mentorships_on_shift_id"
 
   create_table "people", :force => true do |t|
-    t.integer  "user_id"
     t.string   "display_name", :null => false
     t.string   "full_name",    :null => false
     t.string   "status",       :null => false
@@ -220,7 +219,6 @@ ActiveRecord::Schema.define(:version => 20131118034416) do
   add_index "people", ["barcode"], :name => "index_people_on_barcode"
   add_index "people", ["display_name"], :name => "index_people_on_callsign"
   add_index "people", ["full_name"], :name => "index_people_on_full_name"
-  add_index "people", ["user_id"], :name => "index_people_on_user_id"
 
   create_table "people_positions", :id => false, :force => true do |t|
     t.integer "person_id",   :null => false
@@ -403,9 +401,11 @@ ActiveRecord::Schema.define(:version => 20131118034416) do
     t.datetime "updated_at",                                :null => false
     t.boolean  "disabled",               :default => false, :null => false
     t.string   "disabled_message"
+    t.integer  "person_id"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["person_id"], :name => "index_users_on_person_id", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 
   create_table "work_logs", :force => true do |t|
