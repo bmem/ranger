@@ -16,16 +16,11 @@
         %li= link_to 'Events', events_path
         - if can? :manage, Person
           %li= link_to Person.model_name.human.pluralize, people_path
-        - if can? :manage, User
-          %li= link_to User.model_name.human.pluralize, users_path
-        - if can? :manage, Position
-          %li= link_to Position.model_name.human.pluralize, positions_path
-        - if can? :manage, ShiftTemplate
-          %li= link_to ShiftTemplate.model_name.human.pluralize, shift_templates_path
+        - if can? :view, Report
+          %li= link_to Report.model_name.human.pluralize, reports_path
         - if user_signed_in?
           - if current_user.person
-            %li= link_to 'Personal info', edit_person_path(current_user.person)
-          %li.account= link_to current_user.to_s, edit_user_registration_path, :title => "My account"
+            %li.account= link_to_record current_user.person, title: 'Your profile'
           %li.session= link_to 'Sign out', destroy_user_session_path, :method => :delete
         - else
           %li.account= link_to 'Create account', new_user_registration_path
