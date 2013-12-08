@@ -18,6 +18,8 @@
       %strong End date
       = event.end_date
     - if involvement and involvement.slots.present?
+      %h3= link_to "#{event} schedule", event_involvement_path(event, involvement, anchor: 'tab-schedule')
       = render :partial => 'slots/list_for_involvement', :locals => {:involvement => involvement}
     - if involvement and involvement.work_logs.present?
+      %h3= link_to "#{event} work logs", event_involvement_path(event, involvement, anchor: 'tab-worklogs')
       = render :partial => 'work_logs/list_for_involvement', :locals => {:involvement => involvement}

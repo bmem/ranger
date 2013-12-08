@@ -6,7 +6,6 @@
     %th End time
     %th Hours
     %th Credits
-    %th Note
   - involvement.work_logs.order(:start_time).each do |w|
     %tr
       %td= link_to w.position, event_work_log_path(w.event, w)
@@ -15,9 +14,10 @@
       %td= if w.end_time then l w.end_time else 'on duty' end
       %td= w.hours_formatted
       %td= w.credit_value_formatted
-      %td= w.note
+      - if w.note.present?
+        %td= link_to 'Note', w
   %tr.total
-    %td(colspan=4) Total
+    %td(colspan=4) Total worked
     %td= involvement.total_hours_formatted
     %td= involvement.total_credits_formatted
     %td

@@ -19,10 +19,11 @@
       %td= l slot.shift.end_time
       %td= distance_of_time_hours_minutes slot.shift.start_time, slot.shift.end_time
       %td= slot.credit_value_formatted
-      %td= link_to 'Remove', leave_event_slot_path(slot.event, slot, :involvement_id => involvement.id), :confirm => 'Are you sure?', :method => :post
+      - if slot.shift.end_time > Time.zone.now
+        %td= link_to 'Remove', leave_event_slot_path(slot.event, slot, :involvement_id => involvement.id), :confirm => 'Are you sure?', :method => :post
 
   %tr.total
-    %td(colspan=4) Total
+    %td(colspan=4) Total scheduled
     %td= format_seconds_as_hours_minutes(total_seconds)
     %td= format('%.2f', total_credits)
     %td
