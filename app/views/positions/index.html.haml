@@ -4,22 +4,18 @@
   %tr
     %th Name
     %th Team
+    %th Automatic assignments
     %th Description
-    %th New user eligible
-    %th
-    %th
-    %th
 
   - @positions.each do |position|
     %tr
       %td= link_to_record position
       %td= link_to_record position.team
+      %td
+        - auto = []
+        - if position.all_team_members_eligible
+          - auto << 'team members'
+        - if position.new_user_eligible
+          - auto << 'new users'
+        = auto.to_sentence
       %td= position.description
-      %td= position.new_user_eligible
-      %td= link_to 'Show', position
-      %td= link_to 'Edit', edit_position_path(position)
-      %td= link_to 'Destroy', position, :confirm => 'Are you sure?', :method => :delete
-
-%br
-
-= link_to 'New Position', new_position_path

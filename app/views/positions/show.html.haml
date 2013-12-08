@@ -14,4 +14,4 @@
   %b All team members eligible:
   = @position.all_team_members_eligible?
 
-= link_to 'People', people_position_path(@position)
+= link_to "People with position #{@position}", people_position_path(@position)
