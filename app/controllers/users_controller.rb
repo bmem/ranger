@@ -4,7 +4,8 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.accessible_by(current_ability).includes(:person).order('people.callsign').
+    @users = User.accessible_by(current_ability).
+      includes(:person).order('people.display_name').
       paginate(:page => params[:page], :per_page => params[:page_size] || 100)
     respond_to do |format|
       format.html # index.html.erb
