@@ -1,0 +1,43 @@
+%h1 Welcome to #{t 'site_name'}, #{@person}
+%dl#home-navigation
+  %dt= link_to 'Your Profile', @person
+  %dd View or edit your contact information, personal details, Ranger status, and more.
+  %dt= link_to 'Your Schedule', schedule_home_path
+  %dd View your upcoming and past schedule, shifts worked, and credits.
+  %dt= link_to 'Events', events_path
+  %dd
+    Get involved with upcoming events or view past event information.
+    - if @interesting_events.any?
+      %br
+      - @interesting_events.each do |event|
+        %nobr= link_to_record event
+  - if can? :read, :reports
+    %dt= link_to 'Reports', reports_path
+    %dd Run or view reports.
+  - if can? :list, :people
+    %dt= link_to 'All People', people_path
+    %dd View or edit person records.
+  - if can? :list, :users
+    %dt= link_to 'All Users', users_path
+    %dd View or edit user records.
+  - if can? :edit, :user_roles
+    %dt= link_to 'User Roles', user_roles_path
+    %dd View, assign, or revoke user roles.
+  - if can? :edit, :callsigns
+    %dt= link_to 'Callsigns', callsigns_path
+    %dd Approve or manage callsigns.
+  - if can? :edit, :teams or @person.managed_teams.any?
+    %dt= link_to 'Teams', teams_path
+    %dd
+      Set up teams or manage memberships.
+      - @person.managed_teams.each do |team|
+        = link_to_record team
+  - if can? :edit, :positions
+    %dt= link_to 'Positions', positions_path
+    %dd Set up positions for scheduling.
+  - if can? :edit, :shift_templates
+    %dt= link_to 'Shift Templates', shift_templates_path
+    %dd Set up shift templates for easy creation of lots of similar shifts.
+  - if can? :edit, :arts
+    %dt= link_to 'ARTs', arts_path
+    %dd Needs work.

@@ -1,0 +1,16 @@
+%h1 Welcome to #{t 'site_name'}
+%dl#home-navigation
+  %dt= link_to 'Sign in', new_user_session_path
+  %dd if you already have an account.
+  %dt= link_to 'Reset your password', new_user_password_path
+  %dd if you forgot your password or haven't used the new system yet.
+  %dt= link_to 'Create an account', new_user_session_path
+  %dd if you don't have one yet.
+
+%p
+  This is the personnel and scheduling system for the
+  = link_to 'Black Rock Rangers.', 'http://rangers.burningman.com/becoming-a-ranger/'
+  %br
+  If you'd like to become a Ranger (you're not just here for training),
+  = link_to 'fill out a volunteer questionaire', 'http://profiles.burningman.com/participate/volunteer/'
+  first.
