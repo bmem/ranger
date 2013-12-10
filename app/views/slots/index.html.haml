@@ -1,5 +1,10 @@
 %h1 Listing slots
 
+%p
+  = form_tag (@event ? event_slots_path(@event) : slots_path), method: :get do
+    = render 'positions/search_positions', checked_ids: @query_position_ids, positions: @posible_positions
+    = submit_tag 'Filter by position'
+
 = will_paginate @slots, :inner_window => 10, :outer_window => 5
 
 %table
@@ -9,29 +14,19 @@
     %th Start time
     %th End time
     %th Credits
-    %th
-      Min
-      %br
-      people
-    %th
-      Max
-      %br
-      people
-    %th
-    %th
-    %th
+    %th(title='Minimum people required') Min
+    %th(title='Maximum people allowed') Max
+    %th(title='Number of people currently signed up') Cur
 
   - @slots.each do |slot|
     %tr
       %td= link_to_record slot.shift
       %td= link_to_record slot
-      %td= l slot.shift.start_time
-      %td= l slot.shift.end_time
+      %td= l slot.shift.start_time, format: :short
+      %td= l slot.shift.end_time, format: :short
       %td= format('%.2f', slot.credit_value)
       %td= slot.min_people
       %td= slot.max_people
-      %td= link_to 'Show', slot
-      %td= link_to 'Edit', edit_slot_path(slot)
-      %td= link_to 'Destroy', slot, :confirm => 'Are you sure?', :method => :delete
+      %td= slot.involvements.count
 
 = will_paginate @slots, :inner_window => 10, :outer_window => 5

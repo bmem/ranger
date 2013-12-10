@@ -1,0 +1,8 @@
+- positions ||= @possible_positions
+- checked_ids ||= @query_position_ids
+- positions.each do |position|
+  - box_id = "query-position-#{position}"
+  %label.input{for: box_id, style: 'display: inline-block'}
+    - checked = (position.id.in?(checked_ids) or checked_ids.none?)
+    = check_box_tag "position_id[#{position.id}]", '1', checked, id: box_id
+    = position

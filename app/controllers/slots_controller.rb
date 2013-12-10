@@ -5,8 +5,17 @@ class SlotsController < EventBasedController
   # GET /slots
   # GET /slots.json
   def index
+    @possible_positions = Position.accessible_by(current_ability)
+    @query_position_ids = selected_array_param(params[:position_id]).map(&:to_i)
+    puts "Query positions: #{@query_position_ids}"
+    if @query_position_ids.any?
+      @query_position_ids &= @possible_positions.map(&:id)
+    else
+      @query_position_ids = @possible_positions.map(&:id)
+    end
     @slots = @slots.with_shift
     @slots = @slots.where('shifts.event_id' => @event.id) if @event
+    @slots = @slots.where(position_id: @query_position_ids)
     @slots = @slots.page(params[:page])
     respond_to do |format|
       format.html # index.html.erb
