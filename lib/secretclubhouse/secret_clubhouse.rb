@@ -111,8 +111,10 @@ module SecretClubhouse
         end
         grouped_slots.each do |key, slots|
           raise "#{key[0]} - #{key[1]} vs. #{bm.start_date} - #{bm.end_date}" unless key[0].year == bm.start_date.year
-          shift = ::Shift.where(:event_id => bm.id, :name => key[2],
-            :start_time => key[0], :end_time => key[1]).first_or_create!
+          shift = ::Shift.where(event_id: bm.id, name: key[2],
+              start_time: key[0], end_time: key[1]).first_or_create! do |s|
+            s.description = slots.map {|slot| slot.position.name}.to_sentence
+          end
           puts "Creating shift #{shift.name} #{shift.start_time}"
           slots.each do |slot|
             unless ::Slot.exists? slot.id # skip training slots
