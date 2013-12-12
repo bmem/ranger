@@ -65,12 +65,13 @@ class ReportsController < EventBasedController
       @event = Event.find(parameters[:event_id])
     end
     report = klass.new parameters
-    result, num_results = report.generate
-    @report = Report.new name: result.title
+    result = report.generate
+    @report = Report.new name: result.report.title
     @report.user = current_user
     @report.event = @event
-    @report.report_object = result
-    @report.num_results = num_results
+    @report.report_object = result.report
+    @report.num_results = result.num_results
+    result.readable_parameters.try {|rp| @report.readable_parameters = rp}
 
     respond_to do |format|
       if @report.save

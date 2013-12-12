@@ -8,5 +8,7 @@ module Reporting
     end
   end
 
+  ReportResult = Struct.new(:report, :num_results, :readable_parameters)
+
   require 'reporting/key_value_report'
 end

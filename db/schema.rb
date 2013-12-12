@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131207181058) do
+ActiveRecord::Schema.define(:version => 20131212060721) do
 
   create_table "arts", :force => true do |t|
     t.string   "name",         :null => false
@@ -268,8 +268,9 @@ ActiveRecord::Schema.define(:version => 20131207181058) do
     t.integer  "num_results"
     t.text     "note"
     t.text     "report_object"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+    t.text     "readable_parameters"
   end
 
   add_index "reports", ["event_id"], :name => "index_reports_on_event_id"

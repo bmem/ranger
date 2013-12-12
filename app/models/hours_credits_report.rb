@@ -10,6 +10,7 @@ class HoursCreditsReport
 
   def generate
     event = Event.find(@event_id)
+    teams = @team_ids.map {|id| Team.find(id)}
     if event.is_a? BurningMan
       year = event.start_date.year
       labor_day = Date.new(year, 9, 6).monday # first Monday of September
@@ -22,7 +23,6 @@ class HoursCreditsReport
       event_start = event.start_date.to_time_in_current_zone
       event_end = event.end_date.to_time_in_current_zone + 1.day
     end
-    perim_ids = Position.where(slug: ['burn-perimeter', 'sandman'])
     columns = [:callsign, :status, :total_hours, :total_credits,
       :pre_event_hours, :pre_event_credits, :event_hours, :event_credits,
       :post_event_hours, :post_event_credits, :full_name, :email,
@@ -32,9 +32,12 @@ class HoursCreditsReport
       'Post-Event Hours', 'Post-Event Credits', 'Full Name', 'Email',
       'Mailing Address']
     result = Reporting::KeyValueReport.new key_order: columns,
-      key_labels: labels, title: "Hours and Credits for #{event}"
+      key_labels: labels, title: "Hours and Credits #{event}"
     involvements = event.involvements.includes(:person).includes(:profile).
       where(involvement_status: @statuses)
+    if teams.any?
+      involvements = involvements.where(person_id: teams.map(&:person_ids).uniq)
+    end
     sum = Hash.new(0)
     involvements.each do |inv|
       result.add_entry callsign: inv.name,
@@ -74,6 +77,7 @@ class HoursCreditsReport
         format_seconds_as_hours_minutes(sum[:post_event_seconds]),
       post_event_credits: format('%.2f', sum[:post_event_credits])
     result.entries.sort_by! {|e| e[:callsign].upcase}
-    return result, result.entries.length
+    return Reporting::ReportResult.new result, result.entries.length,
+      {event: event.name, teams: teams.map(&:name).to_sentence, statuses: @statuses.to_sentence}
   end
 end

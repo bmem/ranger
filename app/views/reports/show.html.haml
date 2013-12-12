@@ -14,6 +14,13 @@
   - [:csv].each do |format|
     = link_to format.to_s.upcase, report_path(@report, format: format), download: ''
 %p
+  %b Parameters:
+  %ul.readable-parameters
+    - (@report.readable_parameters || {}).each do |key, val|
+      %li
+        %strong.key #{key.to_s.titleize}:
+        %span.value= val
+%p
   %b Note:
   = @report.note
 

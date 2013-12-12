@@ -12,8 +12,9 @@ class BirthdayReport
     result = Reporting::KeyValueReport.new title: title,
       key_order: columns,
       key_labels: Hash[columns.map{|col| [col, col.to_s.capitalize]}]
+    event = nil
     people = if @event_id.present?
-      Event.find(@event_id).people.where(status: @statuses)
+      (event = Event.find(@event_id)).people.where(status: @statuses)
     else
       Person.where(status: @statuses)
     end
@@ -28,6 +29,7 @@ class BirthdayReport
     result.entries.sort_by! do |entry|
       [entry[:birthday].month, entry[:birthday].day, entry[:name]]
     end
-    return result, result.entries.length
+    return Reporting::ReportResult.new result, result.entries.length,
+      {event: event && event.name, month: Date::MONTHNAMES[@month], statuses: @statuses.to_sentence}
   end
 end
