@@ -58,8 +58,12 @@ class ReportsController < EventBasedController
   def generate
     raise 'Missing report name' unless params[:report_name].present?
     klass = (params[:report_name] + 'Report').constantize
-    parameters = params.except(
-      :report_name, :authenticity_token, :utf8, :controller, :action)
+    parameters = params[:parameters] || {}
+    if @event
+      parameters[:event_id] = @event.id
+    elsif parameters[:event_id].present?
+      @event = Event.find(parameters[:event_id])
+    end
     report = klass.new parameters
     result, num_results = report.generate
     @report = Report.new name: result.title

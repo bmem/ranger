@@ -1,22 +1,25 @@
 class BirthdayReport
   def initialize(parameters)
-    @month = parameters[:month]
+    @month = parameters[:month].to_i rescue nil
     @event_id = parameters[:event_id]
+    @statuses = parameters[:statuses] || []
+    @statuses = %w(vintage, active, inactive, retired) if @statuses.none?
   end
 
   def generate
     columns = [:name, :birthday, :status, :email]
-    result = Reporting::KeyValueReport.new title: 'Birthdays',
+    title = @month ? "#{Date::MONTHNAMES[@month]} Birthdays" : 'Birthdays'
+    result = Reporting::KeyValueReport.new title: title,
       key_order: columns,
       key_labels: Hash[columns.map{|col| [col, col.to_s.capitalize]}]
-    people = if @event_id
-      Event.find(@event_id).people
+    people = if @event_id.present?
+      Event.find(@event_id).people.where(status: @statuses)
     else
-      Person.where status: [:vintage, :active, :inactive, :retired]
+      Person.where(status: @statuses)
     end
     people.each do |p|
       p.profile and p.profile.birth_date.try do |birthday|
-        if @month.nil? or @month == birthday.month
+        if @month.blank? or @month == birthday.month
           result.add_entry name: p.callsign, birthday: birthday,
             status: p.status, email: p.profile.email
         end

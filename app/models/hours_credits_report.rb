@@ -4,6 +4,8 @@ class HoursCreditsReport
   def initialize(parameters)
     @event_id = parameters[:event_id]
     @team_ids = parameters[:team_ids] || []
+    @statuses = parameters[:involvement_statuses] || []
+    @statuses = %w(confirmed) if @statuses.none?
   end
 
   def generate
@@ -32,7 +34,7 @@ class HoursCreditsReport
     result = Reporting::KeyValueReport.new key_order: columns,
       key_labels: labels, title: "Hours and Credits for #{event}"
     involvements = event.involvements.includes(:person).includes(:profile).
-      where(involvement_status: 'confirmed')
+      where(involvement_status: @statuses)
     sum = Hash.new(0)
     involvements.each do |inv|
       result.add_entry callsign: inv.name,

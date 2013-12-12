@@ -24,4 +24,10 @@ module ApplicationHelper
     end
     super
   end
+
+  def render_if_exists(*args)
+    render *args
+  rescue ActionView::MissingTemplate
+    nil
+  end
 end

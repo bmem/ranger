@@ -6,4 +6,6 @@ class Report < ActiveRecord::Base
   serialize :report_object, Reporting::Report
 
   validates_presence_of :user, :name, :report_object
+
+  default_scope order(created_at: :desc)
 end

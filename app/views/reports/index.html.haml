@@ -1,13 +1,13 @@
 / TODO dynamically get available reports based on Ability
 %h1 Run a report
-%dl
+%dl.generate-report.accordion
   - %w(Birthday HoursCredits ThankYouCard).each do |name|
     - path = @event ? event_generate_report_path(@event, report_name: name) : generate_report_path(report_name: name)
-    = form_tag path, method: :post do
-      %dt
-        %strong= name.tableize.humanize
-        = submit_tag 'Generate', data: {disable_with: 'Generating report, be patient'}
-        / TODO parameters in %dd
+    %dt.report-name= name.tableize.humanize
+    %dd.report-parameters
+      = form_for :parameters, url: path do |form|
+        = render_if_exists "#{name.underscore}_parameter_input"
+        = form.submit "Generate report", style: 'display: block', disable_with: 'Generating report, be patient...'
 - if @event
   %h1 Your reports in #{link_to_record @event}
 - else

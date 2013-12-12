@@ -2,6 +2,16 @@
   font-size: larger;
   font-weight: bolder;
 }
+
 tfoot.report-summary {
+  font-weight: bolder;
+}
+
+dt.ui-accordion-header.ui-accordion-icons {
+  // TODO upgrade smoothness theme to make this unnecessary
+  padding-left: 2.2em;
+}
+
+.generate-report .report-name {
   font-weight: bolder;
 }

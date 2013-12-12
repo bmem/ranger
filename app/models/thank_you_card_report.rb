@@ -27,7 +27,7 @@ class ThankYouCardReport
       when 1 then line1 = lines[0]
       end
       result.add_entry team: 'Rangers', first: name[0], last: name[1],
-        callsign: person.callsign, email: p.email, address1: line1,
+        callsign: person.display_name, email: p.email, address1: line1,
         address2: line2, city: a.locality, state: a.region,
         postcode: a.postal_code, country: a.country_name
     end
