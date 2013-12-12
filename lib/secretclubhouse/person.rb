@@ -65,9 +65,20 @@ module SecretClubhouse
         event = ::BurningMan.find("burning-man-#{year}")
         # TODO set participation status to bonked if they were only an alpha
         # and did not pass mentoring
-        involvement = ::Involvement.new :event => event,
-          :name => display_name, :barcode => barcode,
-          :personnel_status => status, :involvement_status => 'confirmed'
+        inv_status = case status
+                     when 'bonked' then 'bonked'
+                     when 'prospective' then 'bonked'
+                     when 'uberbonked'
+                       if sheets.find {|s| s.position_id != 1}
+                         'confirmed'
+                       else
+                         'bonked'
+                       end
+                     else 'confirmed'
+                     end
+        involvement = ::Involvement.new event: event,
+          name: display_name, barcode: barcode,
+          personnel_status: status, involvement_status: inv_status
         p.involvements << involvement
         sheets.each do |ts|
           worklog = ts.to_bmem_model
