@@ -7,7 +7,6 @@ class SlotsController < EventBasedController
   def index
     @possible_positions = Position.accessible_by(current_ability)
     @query_position_ids = selected_array_param(params[:position_id]).map(&:to_i)
-    puts "Query positions: #{@query_position_ids}"
     if @query_position_ids.any?
       @query_position_ids &= @possible_positions.map(&:id)
     else
