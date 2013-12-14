@@ -196,8 +196,8 @@ bm2013-perimeters_man_burn:
   credit_scheme: bm2013-perimeters
   name: Man Burn
   hourly_rate: 0.25
-  start_time: 2013-09-01 18:00:00 -07:00
-  end_time: 2013-09-02 00:00:00 -07:00
+  start_time: 2013-08-31 18:00:00 -07:00
+  end_time: 2013-09-01 00:00:00 -07:00
 
 ### Burning Man 2012 ###
 
@@ -387,19 +387,19 @@ bm2012-perimeters_core:
   credit_scheme: bm2012-perimeters
   name: CORE Burn
   hourly_rate: 0.25
-  start_time: 2012-08-29 18:00:00 -07:00
-  end_time: 2012-08-30 00:00:00 -07:00
+  start_time: 2012-08-30 18:00:00 -07:00
+  end_time: 2012-08-31 00:00:00 -07:00
 
 bm2012-perimeters_man_burn:
   credit_scheme: bm2012-perimeters
   name: Man Burn
   hourly_rate: 0.25
-  start_time: 2012-08-31 18:00:00 -07:00
-  end_time: 2012-09-01 00:00:00 -07:00
+  start_time: 2012-09-01 18:00:00 -07:00
+  end_time: 2012-09-02 00:00:00 -07:00
 
 bm2012-perimeters_temple_burn:
   credit_scheme: bm2012-perimeters
   name: Temple Burn
   hourly_rate: 0.75
-  start_time: 2012-09-01 18:00:00 -07:00
-  end_time: 2012-09-02 00:00:00 -07:00
+  start_time: 2012-09-02 18:00:00 -07:00
+  end_time: 2012-09-03 00:00:00 -07:00
