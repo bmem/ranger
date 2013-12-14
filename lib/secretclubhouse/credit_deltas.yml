@@ -7,43 +7,50 @@ bm2013-operations_pre_event:
   credit_scheme: bm2013-operations
   name: Pre-event
   hourly_rate: -0.75
-  start_time: 2013-08-19 00:00:00 -07:00
-  end_time: 2013-08-26 00:00:00 -07:00
+  start_time: 2013-08-18 00:00:00 -07:00
+  end_time: 2013-08-25 00:00:00 -07:00
 
 bm2013-operations_sunday_pre:
   credit_scheme: bm2013-operations
   name: Sunday Pre
   hourly_rate: -0.5
-  start_time: 2013-08-26 00:00:00 -07:00
-  end_time: 2013-08-26 18:00:00 -07:00
+  start_time: 2013-08-25 00:00:00 -07:00
+  end_time: 2013-08-25 18:00:00 -07:00
 
 bm2013-operations_thursday_friday:
   credit_scheme: bm2013-operations
   name: Thursday/Friday
   hourly_rate: 0.25
-  start_time: 2013-08-30 00:00:00 -07:00
-  end_time: 2013-09-01 00:00:00 -07:00
+  start_time: 2013-08-29 00:00:00 -07:00
+  end_time: 2013-08-31 00:00:00 -07:00
 
 bm2013-operations_weekend:
   credit_scheme: bm2013-operations
   name: Weekend
   hourly_rate: 0.5
-  start_time: 2013-09-01 00:00:00 -07:00
-  end_time: 2013-09-04 00:00:00 -07:00
+  start_time: 2013-08-31 00:00:00 -07:00
+  end_time: 2013-09-03 00:00:00 -07:00
 
 bm2013-operations_man_burn_night:
   credit_scheme: bm2013-operations
   name: Man Burn Night
   hourly_rate: 0.25
-  start_time: 2013-09-01 18:00:00 -07:00
-  end_time: 2013-09-02 06:00:00 -07:00
+  start_time: 2013-08-31 18:00:00 -07:00
+  end_time: 2013-09-01 06:00:00 -07:00
 
 bm2013-operations_temple_burn_night:
   credit_scheme: bm2013-operations
   name: Temple Burn Night
   hourly_rate: 0.25
-  start_time: 2013-09-02 18:00:00 -07:00
-  end_time: 2013-09-03 06:00:00 -07:00
+  start_time: 2013-09-01 18:00:00 -07:00
+  end_time: 2013-09-02 06:00:00 -07:00
+
+bm2013-operations_grave_8_18:
+  credit_scheme: bm2013-operations
+  name: Grave
+  hourly_rate: 0.25
+  start_time: 2013-08-18 00:00:00 -07:00
+  end_time: 2013-08-18 06:00:00 -07:00
 
 bm2013-operations_grave_8_19:
   credit_scheme: bm2013-operations
@@ -380,19 +387,19 @@ bm2012-perimeters_core:
   credit_scheme: bm2012-perimeters
   name: CORE Burn
   hourly_rate: 0.25
-  start_time: 2012-08-30 18:00:00 -07:00
-  end_time: 2012-08-31 00:00:00 -07:00
+  start_time: 2012-08-29 18:00:00 -07:00
+  end_time: 2012-08-30 00:00:00 -07:00
 
 bm2012-perimeters_man_burn:
   credit_scheme: bm2012-perimeters
   name: Man Burn
   hourly_rate: 0.25
-  start_time: 2012-09-01 18:00:00 -07:00
-  end_time: 2012-09-02 00:00:00 -07:00
+  start_time: 2012-08-31 18:00:00 -07:00
+  end_time: 2012-09-01 00:00:00 -07:00
 
 bm2012-perimeters_temple_burn:
   credit_scheme: bm2012-perimeters
   name: Temple Burn
   hourly_rate: 0.75
-  start_time: 2012-09-02 18:00:00 -07:00
-  end_time: 2012-09-03 00:00:00 -07:00
+  start_time: 2012-09-01 18:00:00 -07:00
+  end_time: 2012-09-02 00:00:00 -07:00
