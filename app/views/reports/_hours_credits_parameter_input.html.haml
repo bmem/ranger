@@ -3,6 +3,8 @@
   - unless @event
     = f.label 'Event:'
     = f.collection_select :event_id, Event.accessible_by(current_ability), :slug, :name
+  = f.label 'Hours format:'
+  = f.collection_select :hours_format, {decimal: 'Decimal', hours_minutes: 'Hours/Minutes'}, :first, :second
   - Team.accessible_by(current_ability).try do |teams|
     - if teams.any?
       = f.label :team_ids, 'Teams:'
