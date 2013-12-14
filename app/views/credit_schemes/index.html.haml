@@ -1,24 +1,23 @@
-%h1 Listing credit_schemes
+%h1
+  Listing credit schemes
+  - if @event
+    for #{link_to_record @event}
 
 %table
   %tr
-    %th Event
+    - unless @event
+      %th Event
     %th Name
     %th Base hourly rate
     %th Description
-    %th
-    %th
-    %th
 
   - @credit_schemes.each do |credit_scheme|
     %tr
-      %td= credit_scheme.event
-      %td= credit_scheme.name
+      - unless @event
+        %td= credit_scheme.event
+      %td= link_to_record credit_scheme
       %td= credit_scheme.base_hourly_rate
-      %td= credit_scheme.description
-      %td= link_to 'Show', event_credit_scheme_path(@event, credit_scheme)
-      %td= link_to 'Edit', edit_event_credit_scheme_path(@event, credit_scheme)
-      %td= link_to 'Destroy', credit_scheme, :method => :delete, :data => { :confirm => 'Are you sure?' }
+      %td.text-attribute= credit_scheme.description
 
 %br
 

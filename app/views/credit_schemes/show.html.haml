@@ -2,7 +2,7 @@
 
 %p
   %b Event:
-  = @credit_scheme.event
+  = link_to_record @credit_scheme.event
 %p
   %b Name:
   = @credit_scheme.name
@@ -11,18 +11,12 @@
   = @credit_scheme.base_hourly_rate
 %p
   %b Description:
-  = @credit_scheme.description
+  .text-attribute= @credit_scheme.description
 %p
   %b Positions:
   %ul
     - @credit_scheme.positions.order(:name).each do |p|
-      %li= p
+      %li= link_to_record p
 %p
   %b Deltas
   = render 'credit_deltas/table', :@credit_scheme => @credit_scheme, :@credit_deltas => @credit_scheme.credit_deltas
-
-= link_to 'Edit', edit_event_credit_scheme_path(@event, @credit_scheme)
-\|
-= link_to 'New', new_event_credit_scheme_path(@event)
-\|
-= link_to 'Back', event_credit_schemes_path(@event)
