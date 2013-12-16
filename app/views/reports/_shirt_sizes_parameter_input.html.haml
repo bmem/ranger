@@ -1,0 +1,19 @@
+-# TODO collection_check_boxes in Rails 4
+= fields_for :parameters do |f|
+  - unless @event
+    = f.label 'Event:'
+    = f.collection_select :event_id, Event.accessible_by(current_ability), :slug, :name, {include_blank: true}
+    %br
+  = f.label :statuses, 'Personnel status:'
+  - Person::STATUSES.each do |status|
+    - box_id = "parameters_statuses_#{status}"
+    %label.input{for: box_id, style: 'display: inline-block'}
+      = check_box_tag "parameters[statuses][]", "#{status}", false, id: box_id
+      = status
+  %br
+  = f.label :involvement_statuses, 'Involvement status:'
+  - Involvement::STATUSES.each do |status|
+    - box_id = "parameters_involvement_statuses_#{status}"
+    %label.input{for: box_id, style: 'display: inline-block'}
+      = check_box_tag "parameters[involvement_statuses][]", "#{status}", false, id: box_id
+      = status

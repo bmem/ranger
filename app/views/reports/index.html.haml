@@ -1,7 +1,7 @@
 / TODO dynamically get available reports based on Ability
 %h1 Run a report
 %dl.generate-report.accordion
-  - %w(Birthday HoursCredits ThankYouCard).each do |name|
+  - %w(Birthday HoursCredits ShirtSizes ThankYouCard).each do |name|
     - path = @event ? event_generate_report_path(@event, report_name: name) : generate_report_path(report_name: name)
     %dt.report-name= name.tableize.humanize
     %dd.report-parameters
