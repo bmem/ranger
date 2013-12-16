@@ -5,13 +5,9 @@
     %th Name
     %th Positions
     %th Description
-    %th
-    %th
 
   - @teams.each do |team|
     %tr
       %td= link_to_record team
       %td= team.positions.count
-      %td= team.description
-      %td= link_to 'Edit', edit_team_path(team)
-      %td= link_to 'Destroy', team, :method => :delete, :data => { :confirm => 'Are you sure?' }
+      %td.text-attribute= team.description

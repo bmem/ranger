@@ -13,6 +13,7 @@
       %li= link_to_record position
 %p
   %b Managers
+  (#{@team.managers.count})
   %ul
     - @team.managers.each do |person|
       %li
@@ -22,6 +23,7 @@
 
 %p
   %b Members
+  (#{@team.members.count})
   %ul
     - @team.members.each do |person|
       %li= link_to_record person
