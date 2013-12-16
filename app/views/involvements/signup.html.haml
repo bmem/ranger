@@ -1,6 +1,28 @@
 %h1
   Schedule for
   = link_to_record @involvement
+  in
+  = link_to_record @event
+
+%table.schedule
+  %tr
+    %th Position
+    %th Shift
+    %th Start
+    %th End
+    %th Hours
+    %th Credits
+    %th Description
+  - @involvement.slots.each do |slot|
+    - shift = slot.shift
+    %tr
+      %td= link_to_record slot
+      %td= link_to_record slot.shift
+      %td= l shift.start_time, format: :short
+      %td= l shift.end_time, format: :short
+      %td= distance_of_time_hours_minutes shift.start_time, shift.end_time
+      %td= slot.credit_value_formatted
+      %td.text-attribute= shift.description
 
 %h2 By position
 .collapse-container#position-slots{:data => {:collapse => ''}}

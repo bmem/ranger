@@ -98,7 +98,7 @@ class SlotsController < EventBasedController
       else
         @involvement.slots << @slot
         if @involvement.save
-          format.html { redirect_to :back, :notice => "#{@involvement} was added to slot."}
+          format.html { redirect_to :back, :notice => "#{@involvement} was added to #{@slot}."}
           format.json { head :no_content }
         else
           format.html { redirect_to :back, :alert => "Could not add #{@involvement} to slot" }
