@@ -18,8 +18,7 @@ namespace :clubhouse do
   end
 
   desc "Convert everything from Secret Clubhouse to BMEM"
-  task :convert =>
-    [:convertmain, :assets, :schedules, :credits, :mentors, :reserved_callsigns]
+  task convert: [:convertmain, :assets, :schedules, :credits, :mentors, :reserved_callsigns, :teams]
 
   desc "Convert people and more from Secret Clubhouse to BMEM"
   task :convertmain => :environment do
@@ -129,6 +128,15 @@ namespace :clubhouse do
             callsign.note = row[:note]
           end
         end
+      end
+    end
+  end
+
+  desc "Create teams based on position possession"
+  task teams: :environment do
+    with_timing 'create teams' do
+      ::Team.transaction do
+        SecretClubhouse::Conversion.convert_teams
       end
     end
   end

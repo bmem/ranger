@@ -137,5 +137,94 @@ module SecretClubhouse
         slot.description
       end
     end
-  end # class Convert
+
+    TeamDef = Struct.new :name, :description, :positions, :manager_positions, :member_positions
+    def self.convert_teams
+      defs = [
+        TeamDef.new('Operations',
+                    "General operations shifts that aren't part of a specialized team structure.\nIt's generally unnecessary to add people as members of this group.",
+                    %w(dirt gate-opening hot-springs-patrol orange-dot pre-team-dirt-ranger),
+                    %w(operations-manager), []),
+        TeamDef.new('Training',
+                    "Trainers and training.",
+                    %w(trainer training),
+                    [],
+                    %w(trainer)),
+        TeamDef.new('Shift Command',
+                    "Shift leads operators OODs and friends.",
+                    %w(007 ims-training ood operations-manager operator rsc-envoy rsci rsci-fb-counselor shift-lead),
+                    %w(operations-manager ood),
+                    %w(ood operations-manager rsc-envoy rsci-fb-counselor shift-lead)),
+        TeamDef.new('HQ',
+                    "Ranger Headquarters.",
+                    %w(hq-full-training hq-long hq-refresher-training hq-runner hq-short hq-supervisor hq-trainer hq-window),
+                    %w(hq-long hq-supervisor),
+                    %w(hq-long hq-short hq-supervisor hq-window)),
+        TeamDef.new('Green Dots',
+                    "For situations that require more kleenex than duct tape.",
+                    %w(green-dot-long green-dot-mentee green-dot-mentor green-dot-ranger green-dot-sanctuary green-dot-short),
+                    %w(green-dot-long),
+                    nil),
+        TeamDef.new('Mentors',
+                    "Mentors and alphas.",
+                    %w(alpha cheetah cheetah-cub mentor mentor-long mentor-short),
+                    %w(mentor-long),
+                    %w(cheetah mentor mentor-long mentor-short)),
+        TeamDef.new('Intercept',
+                    "Vehicle safety and inner-playa rangering.",
+                    %w(intercept intercept-dispatch tow-truck-driver),
+                    [],
+                    %w(intercept tow-truck-driver)),
+        TeamDef.new('Fire Safety',
+                    "Burn perimeters and art safety",
+                    %w(art-safety burn-perimeter sandman special-burn),
+                    [],
+                    %w(art-safety)),
+        TeamDef.new('LEAL',
+                    "Law Enforcement Agency Liasons.",
+                    %w(leal leal-trainee),
+                    [],
+                    %w(leal)),
+        TeamDef.new('RNR',
+                    "Rapid Night Response.",
+                    %w(rnr),
+                    [],
+                    %w(rnr)),
+        TeamDef.new('Echelon',
+                    "Ranger Support.",
+                    %w(echelon-field),
+                    [],
+                    %w(echelon-field)),
+        TeamDef.new('Tech Team',
+                    "Making the bits flow and wires hold.",
+                    %w(tech-team),
+                    [],
+                    %w(tech-team)),
+        TeamDef.new('Logistics',
+                    "Logistics and SITE.",
+                    %w(logistics site-setup site-teardown),
+                    [],
+                    %w(logistics site-setup)),
+        TeamDef.new('Council',
+                    "Council-related positions.",
+                    %w(personnel-manager),
+                    %w(personnel-manager),
+                    %w(personnel-manager)),
+      ]
+      defs.each do |teamdef|
+        puts "Creating team #{teamdef.name}"
+        team = ::Team.find_or_create_by_name!(teamdef.name) do |t|
+          t.description = teamdef.description
+        end
+        team.positions = ::Position.where(slug: teamdef.positions)
+        (teamdef.manager_positions || teamdef.positions).try do |pos|
+          team.manager_ids = pos.map {|p| ::Position.find(p).person_ids}.flatten.uniq if pos.any?
+        end
+        (teamdef.member_positions || teamdef.positions).try do |pos|
+          team.member_ids = pos.map {|p| ::Position.find(p).person_ids}.flatten.uniq if pos.any?
+        end
+        team.save!
+      end
+    end
+  end # class Conversion
 end # module SecretClubhouse
