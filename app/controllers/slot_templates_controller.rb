@@ -40,7 +40,7 @@ class SlotTemplatesController < ApplicationController
   def create
     respond_to do |format|
       if @slot_template.save
-        format.html { redirect_to [shift_slot], notice: 'Slot template was successfully created.' }
+        format.html { redirect_to @shift_template, notice: 'Slot template was successfully created.' }
         format.json { render json: @slot_template, status: :created, location: @slot_template }
       else
         format.html { render action: "new" }

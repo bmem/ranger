@@ -9,6 +9,7 @@
     %th Name
     - unless @event
       %th Event
+    %th Positions
     %th Start time
     %th End time
     %th Description
@@ -18,6 +19,12 @@
       %td= link_to shift.name, shift
       - unless @event
         %td= shift.event.name
+      - shift.slots.order(max_people: :desc).tap do |slots|
+        %td{title: slots.to_sentence}
+          - if slots.any?
+            = slots.first
+            - if slots.count > 1
+              = "+#{slots.count - 1}"
       %td= l shift.start_time, :format => :short
       %td= l shift.end_time, :format => :short
       %td= shift.description

@@ -29,7 +29,7 @@ class SlotTemplatesControllerTest < ActionController::TestCase
       puts assigns(:slot_template).errors.full_messages
     end
 
-    assert_redirected_to shift_template_slot_template_path(assigns(:shift_template), assigns(:slot_template))
+    assert_redirected_to shift_template_path(assigns(:shift_template))
   end
 
   test "should show slot_template" do

@@ -7,8 +7,6 @@
     %th Start time
     %th End time
     %th Slots
-    %th
-    %th
 
   - @shift_templates.each do |shift|
     %tr
@@ -16,9 +14,7 @@
       %td= shift.name
       %td= format_hours_minutes shift.start_hour, shift.start_minute
       %td= format_hours_minutes shift.end_hour, shift.end_minute
-      %td= link_to shift.slot_templates.to_sentence, shift_template_slot_templates_path(shift)
-      %td= link_to 'Edit', edit_shift_template_path(shift)
-      %td= link_to 'Destroy', shift, method: :delete, data: { confirm: 'Are you sure?' }
+      %td= shift.slot_templates.to_sentence
 
 %br
 

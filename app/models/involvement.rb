@@ -36,7 +36,7 @@ class Involvement < ActiveRecord::Base
   before_validation do |p|
     if p.new_record?
       if p.person
-        p.name = p.person.callsign if p.name.blank?
+        p.name = p.person.display_name if p.name.blank?
         p.barcode = p.person.barcode if p.barcode.blank?
         p.personnel_status = p.person.status if p.personnel_status.blank?
         p.involvement_status ||= 'planned'
