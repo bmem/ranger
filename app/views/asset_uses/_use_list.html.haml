@@ -18,17 +18,17 @@
         %td= link_to_record au.asset
       - unless :involvement.in? excludes
         %td= link_to_record au.involvement
-      %td= link_to l(au.checked_out), au
+      %td= link_to l(au.checked_out, format: :short), au
       %td
         - if au.currently_out?
           %strong Still out
         - else
-          = l au.checked_in
+          = l au.checked_in, format: :short
       %td{title: time_ago_in_words(au.due_in)}
         - if au.currently_out? and au.due_in.past?
-          %strong= l au.due_in
+          %strong= l au.due_in, format: :short
         - else
-          = l au.due_in
+          = l au.due_in, format: :short
       %td= au.extra
       - unless :note.in? excludes
         %td= au.note

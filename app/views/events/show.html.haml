@@ -1,61 +1,75 @@
-%h1
-  = @event.name
-%p
-  %b Type:
-  = @event.type
-- if @event.linked_event
-  %p
-    %b= "Linked #{@event.linked_event.class}:"
-    = link_to_record @event.linked_event
-%p
-  %b Description:
-  = @event.description
-%p
-  %b Start date:
-  = @event.start_date
-%p
-  %b End date:
-  = @event.end_date
-%p
-  %b Signup open:
-  = @event.signup_open
+%h1= @event.name
+%p.text-attribute= @event.description
+
 - if person_me
   %p
-    %b= "Involvement status (#{person_me}):"
-    - if involvement = involvement_for_event_person(@event, person_me)
-      = link_to involvement.involvement_status, event_involvement_path(@event, involvement)
+    %h2 Involvement status
+    - if inv = involvement_for_event_person(@event, person_me)
+      = link_to "#{inv} is #{inv.involvement_status}.", event_involvement_path(@event, inv)
+      - if @event.signup_open?
+        %strong= link_to 'Sign up for shifts', signup_event_involvement_path(@event, inv)
     - else
-      none
-      - if @event.signup_open
-        = link_to 'Get involved', new_event_involvement_path(@event, :person_id => person_me.id)
+      #{person_me} is not involved.
+      - if @event.signup_open?
+        %strong= link_to 'Get involved', new_event_involvement_path(@event, :person_id => person_me.id)
+    - unless @event.signup_open?
+      (Sign up currently closed.)
 
+%h2 Details
+%dl.attributes
+  %dt Type
+  %dd
+    = @event.type.underscore.humanize
+    - if @event.linked_event
+      linked to #{@event.linked_event.type.underscore.humanize}
+      = link_to_record @event.linked_event
+  %dt Dates
+  %dd #{@event.start_date} to #{@event.end_date} (#{distance_of_time_in_words(@event.start_date, @event.end_date)})
+  - if can? :view, Report
+    %dt= link_to 'Reports', event_reports_path(@event)
+    %dd Run, view, print, or download reports
+  - if can? :view, WorkLog
+    %dt= link_to 'Work logs', event_work_logs_path(@event)
+    %dd View shift work logs
+  - if can? :manage, Asset
+    %dt
+      = link_to 'Assets', event_assets_path(@event)
+      and
+      = link_to 'uses', event_asset_uses_path(@event)
+    %dd
+      Manage assets, view asset history:
+      = link_to 'Radios', event_radios_path(@event)
+      = link_to 'Vehicles', event_vehicles_path(@event)
+      = link_to 'Keys', event_keys_path(@event)
+  - if can? :manage, Mentorship
+    %dt Mentors and alphas
+    %dd
+      = link_to 'Assign mentors, manage alphas,', event_mentorships_path(@event)
+      = link_to 'View alphas by mentor', event_mentors_path(@event)
+  - if can? :manage, CreditScheme
+    %dt= link_to 'Credit schemes', event_credit_schemes_path(@event)
+    %dd Manage credits for shifts
 
-- if can? :manage, CreditScheme
-  %p
-    %b Credit schemes:
-    - @event.credit_schemes.order(:name).each do |scheme|
-      = link_to_record scheme
-    = link_to 'New credit scheme', new_event_credit_scheme_path(@event)
-%p
-  %h3= link_to 'Shifts', event_shifts_path(@event)
-  - if can? :create, Shift
-    = render 'shifts/template_picker'
-  %table
+%h3
+  = link_to 'Shifts', event_shifts_path(@event)
+  and
+  = link_to 'Slots', event_slots_path(@event)
+- if can? :create, Shift
+  = render 'shifts/template_picker'
+%table
+  %tr
+    %th= Shift.human_attribute_name(:name)
+    %th= Shift.human_attribute_name(:start_time)
+    %th= Shift.human_attribute_name(:end_time)
+    %th= Shift.human_attribute_name(:description)
+  - @event.shifts.each do |shift|
     %tr
-      %th= Shift.human_attribute_name(:name)
-      %th= Shift.human_attribute_name(:start_time)
-      %th= Shift.human_attribute_name(:end_time)
-      %th= Shift.human_attribute_name(:description)
-    - @event.shifts.each do |shift|
-      %tr
-        - if @event.is_a? TrainingSeason and shift.training
-          %td= link_to_record shift.training
-        - else
-          %td= link_to_record shift
-        %td= l shift.start_time
-        %td= l shift.end_time
-        %td= shift.description
-
-= link_to 'Edit', edit_event_path(@event)
-\|
-= link_to 'Back', events_path
+      - if @event.is_a? TrainingSeason and shift.training
+        %td= link_to_record shift.training
+      - else
+        %td= link_to_record shift
+      %td
+        %nobr= l shift.start_time, format: :short
+      %td
+        %nobr= l shift.end_time, format: :short
+      %td.text-attribute= shift.description
