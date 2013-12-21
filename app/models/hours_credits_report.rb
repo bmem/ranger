@@ -3,7 +3,7 @@ class HoursCreditsReport
 
   def initialize(parameters)
     @event_id = parameters[:event_id]
-    @team_ids = parameters[:team_ids] || []
+    @team_ids = (parameters[:team_ids] || []).reject(&:blank?)
     @statuses = parameters[:involvement_statuses] || []
     @statuses = %w(confirmed) if @statuses.none?
     @hours_format = :decimal
@@ -14,7 +14,11 @@ class HoursCreditsReport
 
   def generate
     event = Event.find(@event_id)
-    teams = @team_ids.map {|id| Team.find(id)}
+    if @team_ids.present?
+      positions = Position.where(team_id: @team_ids)
+      position_ids = positions.map(&:id)
+      teams = Team.find(@team_ids)
+    end
     if event.is_a? BurningMan
       year = event.start_date.year
       labor_day = Date.new(year, 9, 6).monday # first Monday of September
@@ -35,29 +39,32 @@ class HoursCreditsReport
       'Pre-Event Hours', 'Pre-Event Credits', 'Event Hours', 'Event Credits',
       'Post-Event Hours', 'Post-Event Credits', 'Full Name', 'Email',
       'Mailing Address']
+    title = "Hours and Credits #{event}"
+    title += " (#{teams.to_sentence})" if teams
     result = Reporting::KeyValueReport.new key_order: columns,
-      key_labels: labels, title: "Hours and Credits #{event}"
+      key_labels: labels, title: title
     involvements = event.involvements.includes(:person).includes(:profile).
       where(involvement_status: @statuses)
-    if teams.any?
-      involvements = involvements.where(person_id: teams.map(&:person_ids).uniq)
-    end
     sum = Hash.new(0)
     involvements.each do |inv|
-      sum[:total_seconds] += total_seconds = inv.total_seconds
-      sum[:total_credits] += total_credits = inv.total_credits
+      sum[:total_seconds] += total_seconds =
+        inv.total_seconds(position_ids: position_ids)
+      # If teams were specified, only show people who worked those positions
+      next if position_ids.present? and total_seconds == 0
+      sum[:total_credits] += total_credits =
+        inv.total_credits(position_ids: position_ids)
       sum[:pre_event_seconds] += pre_seconds =
-        inv.total_seconds(end_time: event_start)
+        inv.total_seconds(end_time: event_start, position_ids: position_ids)
       sum[:pre_event_credits] += pre_credits =
-        inv.total_credits(end_time: event_start)
+        inv.total_credits(end_time: event_start, position_ids: position_ids)
       sum[:event_seconds] += event_seconds =
-        inv.total_seconds(start_time: event_start, end_time: event_end)
+        inv.total_seconds(start_time: event_start, end_time: event_end, position_ids: position_ids)
       sum[:event_credits] += event_credits =
-        inv.total_credits(start_time: event_start, end_time: event_end)
+        inv.total_credits(start_time: event_start, end_time: event_end, position_ids: position_ids)
       sum[:post_event_seconds] += post_seconds =
-        inv.total_seconds(start_time: event_end)
+        inv.total_seconds(start_time: event_end, position_ids: position_ids)
       sum[:post_event_credits] += post_credits =
-        inv.total_credits(start_time: event_end)
+        inv.total_credits(start_time: event_end, position_ids: position_ids)
       result.add_entry callsign: inv.name,
         status: inv.personnel_status,
         total_hours: format_seconds(total_seconds),
@@ -83,7 +90,8 @@ class HoursCreditsReport
       post_event_credits: format_credits(sum[:post_event_credits])
     result.entries.sort_by! {|e| e[:callsign].upcase}
     return Reporting::ReportResult.new result, result.entries.length,
-      {event: event.name, teams: teams.map(&:name).to_sentence,
+      {event: event.name, teams: (teams || []).to_sentence,
+        positions: (positions || []).to_sentence,
         statuses: @statuses.to_sentence, hours_format: @hours_format.to_s.humanize}
   end
 
