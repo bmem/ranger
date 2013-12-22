@@ -25,6 +25,9 @@
       = link_to_record @event.linked_event
   %dt Dates
   %dd #{@event.start_date} to #{@event.end_date} (#{distance_of_time_in_words(@event.start_date, @event.end_date)})
+  - if can? :manage, Involvement
+    %dt= link_to 'People', event_involvements_path(@event)
+    %dd View and manage the #{@event.involvements.count} people involved
   - if can? :view, Report
     %dt= link_to 'Reports', event_reports_path(@event)
     %dd Run, view, print, or download reports
