@@ -5,6 +5,7 @@ class InvolvementsController < EventBasedController
     set_statuses_from_params
     @involvements = @involvements.where(:event_id => @event.id) if @event
     filter_by_status
+    @involvements = order_by_params(@involvements)
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @involvements }
@@ -22,6 +23,7 @@ class InvolvementsController < EventBasedController
       @query = @query.to_ascii
       @involvements = @involvements.where(event_id: @event.id) if @event
       filter_by_status
+      @involvements = order_by_params(@involvements)
       before_query = @involvements
       @involvements = @involvements.with_query(@query)
       if @involvements.none?
@@ -126,6 +128,10 @@ class InvolvementsController < EventBasedController
 
   def subject_record
     @involvement
+  end
+
+  def default_sort_column
+    'name'
   end
 
   private

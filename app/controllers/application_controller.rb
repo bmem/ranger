@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   helper TitleHelper
+  helper_method :sort_column, :sort_direction
 
   protect_from_forgery
 
@@ -45,5 +46,63 @@ class ApplicationController < ActionController::Base
 
   def set_default_event_id
     @default_event_id ||= default_event_id
+  end
+
+  # GET /items?sort_column=name&sort_direction=desc
+  # @items = order_by_params(Item.where(...))
+
+  def order_by_params(relation, options = {})
+    options = options.reverse_merge default_sort_column: default_sort_column,
+      default_sort_column_direction: default_sort_column_direction
+    dcol = options[:default_sort_column_direction]
+    sort_column(options).try do |col|
+      relation = relation.reorder(
+        "#{tweak_sort_column col, relation} #{sort_direction(options)}")
+    end
+    relation = default_order(relation, options) if sort_column != dcol
+    relation
+  end
+
+  def sort_column(options = {})
+    options = options.reverse_merge default_sort_column: default_sort_column
+    params[:sort_column].try {|s| s if valid_sort_column? s} or
+      options[:default_sort_column]
+  end
+
+  def sort_direction(options = {})
+    params[:sort_direction].try {|dir| dir if %w(asc desc).include? dir} or
+      options[:default_sort_column_direction] or 'asc'
+  end
+
+  def valid_sort_column?(column_name)
+    column_name =~ /^\w+(\.\w+)*$/
+  end
+
+  def tweak_sort_column(column_name, relation = nil)
+    if relation and relation.columns_hash.keys.include? column_name
+      is_str = :string == relation.columns_hash[column_name].type
+    else
+      is_str = column_name =~ /name|title|description|note/
+    end
+    is_str ? "LOWER(#{column_name})" : column_name
+  end
+
+  def default_sort_column
+    nil
+  end
+
+  def default_sort_column_direction
+    nil
+  end
+
+  def default_order(relation, options = {})
+    options = options.reverse_merge default_sort_column: default_sort_column,
+      default_sort_column_direction: default_sort_column_direction,
+      sort_direction: sort_direction
+    options[:default_sort_column].try do |dcol|
+      dir = options[:default_sort_column_direction] || options[:sort_direction]
+      relation = relation.order("#{tweak_sort_column dcol} #{dir}")
+    end
+    relation
   end
 end

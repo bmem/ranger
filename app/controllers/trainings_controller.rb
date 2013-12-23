@@ -2,7 +2,9 @@ class TrainingsController < EventBasedController
   # GET /trainings
   # GET /trainings.json
   def index
-    @trainings = @trainings.includes(:shift).where('shifts.event_id = ?', @event.id)
+    @trainings = @trainings.includes(:shift)
+    @trainings = @trainings.where('shifts.event_id = ?', @event.id)
+    @trainings = order_by_params @trainings
 
     respond_to do |format|
       format.html # index.html.erb
@@ -93,5 +95,9 @@ class TrainingsController < EventBasedController
 
   def subject_record
     @training
+  end
+
+  def default_sort_column
+    'shifts.start_time'
   end
 end

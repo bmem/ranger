@@ -1,18 +1,23 @@
-%h1 Listing slots
+%h1
+  Listing slots
+  - if @event
+    in #{link_to_record @event}
 
 %p
   = form_tag (@event ? event_slots_path(@event) : slots_path), method: :get do
     = render 'positions/search_positions', checked_ids: @query_position_ids, positions: @posible_positions
     = submit_tag 'Filter by position'
 
+= page_entries_info @slots, :model => 'slots'
+%br
 = will_paginate @slots, :inner_window => 10, :outer_window => 5
 
 %table
   %tr
-    %th Shift
-    %th Position
-    %th Start time
-    %th End time
+    %th= sortable_header 'shifts.name', 'Shift'
+    %th= sortable_header 'positions.name', 'Position'
+    %th= sortable_header 'shifts.start_time'
+    %th= sortable_header 'shifts.end_time'
     %th Credits
     %th(title='Minimum people required') Min
     %th(title='Maximum people allowed') Max

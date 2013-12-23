@@ -1,12 +1,22 @@
-%h1 Listing assets in #{@event}
+%h1 Listing assets in #{link_to_record @event}
+
+= form_tag event_assets_path(@event), method: :get do
+  Filter by asset type:
+  - Asset::TYPES.each do |type|
+    - box_id = "asset-type-#{type}"
+    %label.input{for: box_id, style: 'display: inline-block'}
+      - checked = type.to_s.in?(selected_types)
+      = check_box_tag "asset_type[#{type}]", '1', checked, id: box_id
+      = type
+  = submit_tag 'Filter'
+%br
 
 %table
   %tr
-    %th Type
-    %th Name
-    %th Designation
-    %th Description
-    %th
+    %th= sortable_header 'type'
+    %th= sortable_header 'name'
+    %th= sortable_header 'designation'
+    %th= sortable_header 'description'
 
   - @assets.each do |asset|
     %tr
@@ -14,4 +24,3 @@
       %td= link_to_record asset
       %td= asset.designation
       %td= asset.description
-      %td= link_to 'Edit', edit_event_asset_path(@event, asset)

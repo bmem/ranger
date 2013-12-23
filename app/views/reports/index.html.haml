@@ -16,10 +16,10 @@
 %table
   %tr
     - unless @event
-      %th Event
-    %th Name
-    %th Results
-    %th Generated at
+      %th= sortable_header 'event_id'
+    %th= sortable_header 'name'
+    %th= sortable_header 'num_results', 'Results'
+    %th= sortable_header 'created_at', 'Generated at'
     %th Note
 
   - @reports.each do |report|

@@ -7,6 +7,7 @@ class AssetUsesController < EventBasedController
     @asset_uses = @asset_uses.where(event_id: @event.id).includes(:event)
     @asset_uses = @asset_uses.currently_out if params[:out].present?
     @asset_uses = @asset_uses.includes(:asset).includes(:involvement)
+    @asset_uses = order_by_params @asset_uses
     @asset_uses = @asset_uses.page(params[:page])
     respond_to do |format|
       format.html # index.html.erb
@@ -80,5 +81,13 @@ class AssetUsesController < EventBasedController
 
   def subject_record
     @asset_use
+  end
+
+  def default_sort_column
+    'checked_out'
+  end
+
+  def default_sort_column_direction
+    'desc'
   end
 end

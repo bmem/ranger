@@ -143,3 +143,10 @@ dl.attributes {
 dl.user-roles form {
   display: inline;
 }
+
+.sortable-header.sort-direction-asc:after {
+  content: "\25B2"; /* BLACK UP-POINTING TRIANGLE */
+}
+.sortable-header.sort-direction-desc:after {
+  content: "\25BC"; /* BLACK DOWN-POINTING TRIANGLE */
+}

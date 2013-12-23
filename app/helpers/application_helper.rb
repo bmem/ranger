@@ -30,4 +30,23 @@ module ApplicationHelper
   rescue ActionView::MissingTemplate
     nil
   end
+
+  def sortable_header(col_name, title = nil, link_options = {},
+                      html_options = {}, &block)
+    title ||= col_name.gsub(/.*\./, '').titleize
+    css_class = "sortable-header header-#{col_name.gsub(/\W+/, '_')}"
+    dir = 'asc'
+    if col_name == sort_column
+      css_class += " current-sort sort-direction-#{sort_direction}"
+      dir = 'desc' if sort_direction == 'asc'
+    end
+    options = params.merge({sort_column: col_name, sort_direction: dir}.
+                           merge(link_options))
+    html_options = html_options.merge class: css_class
+    if block
+      link_to(options, html_options, &block)
+    else
+      link_to(title, options, html_options)
+    end
+  end
 end

@@ -3,7 +3,9 @@ class MentorsController < EventBasedController
   # GET /mentors.json
   def index
     @mentors = @mentors.where(event_id: @event.id)
-    @mentors = @mentors.includes(:mentorship)
+    @mentors = @mentors.includes(:mentorship).includes(:involvement).
+      includes(:mentee).includes(:shift)
+    @mentors = order_by_params @mentors
 
     respond_to do |format|
       format.html # index.html.erb
@@ -78,5 +80,9 @@ class MentorsController < EventBasedController
 
   def subject_record
     @mentor
+  end
+
+  def default_sort_column
+    'involvements.name'
   end
 end

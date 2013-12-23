@@ -3,7 +3,7 @@ class ShiftsController < EventBasedController
   # GET /shifts.json
   def index
     @shifts = @shifts.where(:event_id => @event.id) if @event
-    @shifts = @shifts.order :start_time
+    @shifts = order_by_params @shifts
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @shifts }
@@ -127,6 +127,10 @@ class ShiftsController < EventBasedController
 
   def subject_record
     @shift
+  end
+
+  def default_sort_column
+    'start_time'
   end
 
   private

@@ -1,4 +1,6 @@
 class Asset < ActiveRecord::Base
+  TYPES = %w(Radio Vehicle Key Asset).freeze
+
   belongs_to :event
   has_many :asset_uses, dependent: :destroy
   attr_accessible :description, :designation, :name, :type

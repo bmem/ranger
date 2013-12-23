@@ -4,7 +4,7 @@ class MentorshipsController < EventBasedController
   def index
     @mentorships = @mentorships.where(event_id: @event.id)
     @mentorships = @mentorships.includes(:shift).includes(:mentee)
-    @mentorships = @mentorships.order('shifts.start_time')
+    @mentorships = order_by_params @mentorships
 
     respond_to do |format|
       format.html # index.html.erb
@@ -90,5 +90,9 @@ class MentorshipsController < EventBasedController
 
   def subject_record
     @mentorship
+  end
+
+  def default_sort_column
+    'shifts.start_time'
   end
 end

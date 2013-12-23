@@ -1,9 +1,7 @@
 Ranger::Application.routes.draw do
   resources :callsigns
 
-
   resources :profiles
-
 
   resources :roles, :only => [:index, :show, :update], :id => /\w+/
   resources :user_roles, :except => [:new, :update]
@@ -95,7 +93,7 @@ Ranger::Application.routes.draw do
 
     resources :assets
     [:radios, :vehicles, :keys].each do |asset_type|
-      resources asset_type, :controller => 'assets'
+      resources asset_type, controller: 'assets', type_plural: asset_type
     end
     resources :asset_uses
 

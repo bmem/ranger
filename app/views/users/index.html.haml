@@ -5,11 +5,11 @@
 
 %table
   %tr
-    %th Callsign
-    %th Full name
-    %th Email
-    %th Disabled?
-    %th Last login
+    %th= sortable_header 'people.display_name', 'Callsign'
+    %th= sortable_header 'people.full_name', 'Full name'
+    %th= sortable_header 'email'
+    %th= sortable_header 'disabled', 'Disabled?'
+    %th= sortable_header 'last_sign_in_at', 'Last login'
 
   - @users.each do |user|
     - person = user.person || Person.new

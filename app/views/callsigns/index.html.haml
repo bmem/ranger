@@ -6,10 +6,10 @@
 
 %table
   %tr
-    %th Callsign
-    %th Status
+    %th= sortable_header 'name', 'Callsign'
+    %th= sortable_header 'status'
     %th Current assignee
-    %th Note
+    %th= sortable_header 'note'
 
   - @callsigns.each do |callsign|
     %tr

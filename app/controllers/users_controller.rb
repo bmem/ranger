@@ -4,8 +4,8 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.accessible_by(current_ability).
-      includes(:person).order('people.display_name').
+    @users = User.accessible_by(current_ability).includes(:person)
+    @users = order_by_params(@users).
       paginate(:page => params[:page], :per_page => params[:page_size] || 100)
     respond_to do |format|
       format.html # index.html.erb
@@ -69,5 +69,9 @@ class UsersController < ApplicationController
 
   def subject_record
     @user
+  end
+
+  def default_sort_column
+    'people.display_name'
   end
 end

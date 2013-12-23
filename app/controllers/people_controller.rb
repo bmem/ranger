@@ -6,6 +6,7 @@ class PeopleController < ApplicationController
   def index
     @query_statuses = selected_array_param(params[:status])
     @people = @people.where(status: @query_statuses) if @query_statuses.any?
+    @people = order_by_params(@people)
     @people = @people.page(params[:page])
 
     respond_to do |format|
@@ -25,6 +26,7 @@ class PeopleController < ApplicationController
     else
       @query = @query.to_ascii
       @people = @people.where(status: @query_statuses) if @query_statuses.any?
+      @people = order_by_params(@people)
       before_query = @people
       @people = @people.with_query(@query).page(params[:page])
       if @people.none? and params[:page].blank? || params[:page] == '1'
@@ -153,5 +155,9 @@ class PeopleController < ApplicationController
 
   def subject_record
     @person
+  end
+
+  def default_sort_column
+    'display_name'
   end
 end

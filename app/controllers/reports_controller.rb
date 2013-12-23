@@ -5,6 +5,7 @@ class ReportsController < EventBasedController
   # GET /reports.json
   def index
     @reports = @reports.where event_id: @event.id if @event
+    @reports = order_by_params @reports
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @reports }
@@ -90,5 +91,13 @@ class ReportsController < EventBasedController
 
   def subject_record
     @report
+  end
+
+  def default_sort_column
+    'created_at'
+  end
+
+  def default_sort_column_direction
+    'desc'
   end
 end

@@ -2,15 +2,15 @@
 %table.asset-use-list
   %tr
     - unless :asset.in? excludes
-      %th Asset
+      %th= sortable_header 'assets.name', 'Asset'
     - unless :involvement.in? excludes
-      %th Person
-    %th Checked out
-    %th Checked in
-    %th Due in
-    %th Extra
+      %th= sortable_header 'involvements.name', 'Person'
+    %th= sortable_header 'checked_out'
+    %th= sortable_header 'checked_in'
+    %th= sortable_header 'due_in'
+    %th= sortable_header 'extra'
     - unless :note.in? excludes
-      %th Note
+      %th= sortable_header 'note'
 
   - uses.each do |au|
     %tr.asset-use

@@ -1,19 +1,19 @@
-%h1 Mentorships in #{@event}
+%h1 Mentorships in #{link_to_record @event}
 
 %table
   %tr
-    %th Shift
-    %th Mentee
+    %th= sortable_header 'shifts.start_time', 'Shift'
+    %th= sortable_header 'involvements.name', 'Mentee'
     %th Mentors
-    %th Outcome
-    %th Note
+    %th= sortable_header 'outcome'
+    %th= sortable_header 'note'
 
   - @mentorships.each do |mentorship|
     %tr
       %td= link_to_record mentorship.shift
       %td= link_to mentorship.mentee, mentorship
       %td
-        - mentorship.mentors.each do |mentor|
+        - mentorship.mentors.sort_by(&:display_name).each do |mentor|
           %nobr= link_to_record mentor
       %td= mentorship.outcome
       %td.text_attribute= mentorship.note

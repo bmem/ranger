@@ -13,8 +13,10 @@ class SlotsController < EventBasedController
       @query_position_ids = @possible_positions.map(&:id)
     end
     @slots = @slots.with_shift
+    @slots = @slots.includes(:position)
     @slots = @slots.where('shifts.event_id' => @event.id) if @event
     @slots = @slots.where(position_id: @query_position_ids)
+    @slots = order_by_params @slots
     @slots = @slots.page(params[:page])
     respond_to do |format|
       format.html # index.html.erb
@@ -148,5 +150,9 @@ class SlotsController < EventBasedController
 
   def subject_record
     @slot
+  end
+
+  def default_sort_column
+    'shifts.start_time'
   end
 end

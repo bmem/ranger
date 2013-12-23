@@ -12,6 +12,8 @@ class Slot < ActiveRecord::Base
   # select * so the results aren't readonly
   scope :with_shift, select('slots.*').joins(:shift).order('shifts.start_time')
 
+  self.per_page = 100
+
   def parent_records
     [event, shift]
   end

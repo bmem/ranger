@@ -1,14 +1,17 @@
 class AssetsController < EventBasedController
+  helper_method :selected_types
   load_and_authorize_resource
 
   # GET /assets
   # GET /assets.json
   def index
-    if request.fullpath =~ %r{/(radios|vehicles|keys)\b}
-      @assets = @assets.where(type: $1.singularize.capitalize)
-    end
+    @assets = @assets.where(type: selected_types)
     @assets = @assets.where(event_id: @event.id) if @event
-    @assets = @assets.order([:type, :name])
+    if params[:sort_column].present?
+      @assets = order_by_params @assets
+    else
+      @assets = @assets.order [:type, :name]
+    end
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @assets }
@@ -18,6 +21,8 @@ class AssetsController < EventBasedController
   # GET /assets/1
   # GET /assets/1.json
   def show
+    @asset_uses = @asset.asset_uses.includes(:involvement)
+    @asset_uses = order_by_params @asset_uses, default_sort_column: 'checked_out', default_sort_column_direction: 'desc'
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @asset }
@@ -88,5 +93,15 @@ class AssetsController < EventBasedController
 
   def subject_record
     @asset
+  end
+
+  def default_sort_column
+    'name'
+  end
+
+  def selected_types
+    selected_array_param(params[:asset_type]).presence ||
+      params[:type_plural].presence.try {|t| t.to_s.singularize.capitalize} ||
+      Asset::TYPES
   end
 end

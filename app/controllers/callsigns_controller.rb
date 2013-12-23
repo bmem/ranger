@@ -4,7 +4,7 @@ class CallsignsController < ApplicationController
   # GET /callsigns
   # GET /callsigns.json
   def index
-    @callsigns = @callsigns.order('LOWER(name)').page(params[:page]).
+    @callsigns = order_by_params(@callsigns).page(params[:page]).
       includes(:assignments)
     respond_to do |format|
       format.html # index.html.erb
@@ -75,5 +75,9 @@ class CallsignsController < ApplicationController
 
   def subject_record
     @callsign
+  end
+
+  def default_sort_column
+    'name'
   end
 end

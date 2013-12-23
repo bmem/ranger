@@ -6,13 +6,13 @@
 
 %table
   %tr
-    %th Name
+    %th= sortable_header 'name'
     - unless @event
       %th Event
     %th Positions
-    %th Start time
-    %th End time
-    %th Description
+    %th= sortable_header 'start_time'
+    %th= sortable_header 'end_time'
+    %th= sortable_header 'description'
 
   - @shifts.each do |shift|
     %tr
@@ -25,9 +25,12 @@
             = slots.first
             - if slots.count > 1
               = "+#{slots.count - 1}"
-      %td= l shift.start_time, :format => :short
-      %td= l shift.end_time, :format => :short
+      %td
+        %nobr= l shift.start_time, :format => :short
+      %td
+        %nobr= l shift.end_time, :format => :short
       %td= shift.description
 
-%br
-= render 'template_picker'
+- if can? :create, Shift
+  %br
+  = render 'template_picker'

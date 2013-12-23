@@ -4,21 +4,21 @@
 
 %table
   %tr
-    %th Name
-    %th Date
-    %th Location
-    %th
+    %th= sortable_header 'shifts.name'
+    %th= sortable_header 'shifts.start_time', 'Date'
+    %th= sortable_header 'location'
     %th
     %th
 
   - @trainings.each do |training|
     %tr
       %td= link_to_record training
-      %td= l training.shift.start_time.to_date
+      %td= l training.shift.start_time.to_date, format: :short
       %td.text-attribute= training.location
-      %td= link_to_edit_record training
+      %td
+        - if training.map_link.present?
+          = link_to 'Map', training.map_link
       %td= link_to 'Shift', training.shift
-      %td= link_to 'Destroy', training, :method => :delete, data: { confirm: 'Are you sure?' }
 
 - if can? :create, Training
   %br
