@@ -7,6 +7,8 @@ class Profile < ActiveRecord::Base
     %w(JR Jr SR Sr II III IV V VI VII VIII ESQ Esq MD PHD PhD HHP).to_set
   DESIGNATIONS = %w(al ben d' de del der dit du la Mac Mc van von).to_set
 
+  audited associated_with: :person
+
   belongs_to :person
   belongs_to :mailing_address
   accepts_nested_attributes_for :mailing_address, update_only: true

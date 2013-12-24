@@ -1,0 +1,12 @@
+%h1 Change history for #{link_to_record record}
+
+- audits ||= record.audits.reorder('created_at DESC')
+
+%strong
+  = audits.count
+= 'change'.pluralize(audits.count)
+= render 'audits/changes_table', audits: audits
+
+- if record.respond_to? :associated_audits
+  %h2 Associated changes
+  = render 'audits/changes_table', audits: associated_audits_for(record), include_type: true

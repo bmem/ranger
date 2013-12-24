@@ -1,6 +1,9 @@
 class Team < ActiveRecord::Base
   include FriendlyId
   friendly_id :name, use: :slugged
+
+  audited
+
   attr_accessible :description, :name, :slug, :manager_ids, :member_ids, :position_ids
   validates_presence_of :name
 

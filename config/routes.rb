@@ -1,5 +1,9 @@
 Ranger::Application.routes.draw do
-  resources :callsigns
+  resources :callsigns do
+    member do
+      get :changes
+    end
+  end
 
   resources :profiles
 
@@ -18,17 +22,34 @@ Ranger::Application.routes.draw do
       get 'search(/:q)', action: :search, as: :search
       get 'typeahead', action: :typeahead, as: :typeahead, constraints: {format: 'json'}
     end
+    member do
+      get 'changes'
+    end
   end
   match 'people/tag(/:tag(/:name))' => 'people#tag', :as => :tag_people
 
   resources :positions do
-    get 'people', :on => :member
+    member do
+      get :changes
+      get :people
+    end
   end
 
-  resources :teams
+  resources :teams do
+    member do
+      get :changes
+    end
+  end
 
   resources :shift_templates do
-    resources :slot_templates
+    member do
+      get :changes
+    end
+    resources :slot_templates do
+      member do
+        get :changes
+      end
+    end
   end
 
   resources :arts

@@ -21,6 +21,17 @@ class CallsignsController < ApplicationController
     end
   end
 
+  # GET /callsigns/1
+  # GET /callsigns/1.json
+  def changes
+    @callsign = Callsign.find(params[:id])
+    authorize! :audit, @callsign
+    respond_to do |format|
+      format.html # changes.html.erb
+      format.json { render :json => @callsign.audits }
+    end
+  end
+
   # GET /callsigns/new
   # GET /callsigns/new.json
   def new

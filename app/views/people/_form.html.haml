@@ -1,5 +1,6 @@
 - @person.build_profile unless @person.profile
 - @person.profile.build_mailing_address unless @person.profile.mailing_address
+- audit_required = @person != person_me
 
 - if @person.errors.any?
   #error_explanation
@@ -39,6 +40,7 @@
           = f.input :callsign_approved, :as => :boolean
           = f.input :has_personnel_note, :as => :boolean
         = f.actions do
+          = f.input :audit_comment, as: :audit, required: audit_required
           = f.action(:submit)
 
   - if can? :edit, @person.profile
@@ -50,6 +52,7 @@
           = f.inputs *MailingAddress::ADDRESS_ATTRS, for: :mailing_address, name: 'Mailing address'
           = f.input :contact_note, :input_html => { :rows => 5 }
         = f.actions do
+          = f.input :audit_comment, as: :audit, required: audit_required
           = f.action(:submit)
 
     .tab-content#tab-profile
@@ -62,6 +65,7 @@
           = f.input :birth_date, :as => :date_picker
           = f.input :years_at_burning_man
         = f.actions do
+          = f.input :audit_comment, as: :audit, required: audit_required
           = f.action(:submit)
 
     .tab-content#tab-skills
@@ -71,6 +75,7 @@
           = f.input :language_list
           = f.input :qualification_list
         = f.actions do
+          = f.input :audit_comment, as: :audit, required: audit_required
           = f.action(:submit)
 
   - if can? :edit, Position
@@ -79,6 +84,7 @@
         = f.inputs do
           = f.input :positions, :as => :check_boxes
         = f.actions do
+          = f.input :audit_comment, as: :audit
           = f.action(:submit)
 
   .tab-content#tab-user

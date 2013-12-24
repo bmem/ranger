@@ -150,3 +150,13 @@ dl.user-roles form {
 .sortable-header.sort-direction-desc:after {
   content: "\25BC"; /* BLACK DOWN-POINTING TRIANGLE */
 }
+
+.change-history {
+  tbody.audit {
+    outline: thin solid black;
+
+    tr:hover .rowhead {
+      background-color: white;
+    }
+  }
+}

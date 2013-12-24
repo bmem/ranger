@@ -21,6 +21,17 @@ class SlotTemplatesController < ApplicationController
     end
   end
 
+  # GET /slot_templates/1
+  # GET /slot_templates/1.json
+  def changes
+    @slot_template = SlotTemplate.find(params[:id])
+    authorize! :audit, @slot_template
+    respond_to do |format|
+      format.html # changes.html.erb
+      format.json { render :json => @slot_template.audits }
+    end
+  end
+
   # GET /slot_templates/new
   # GET /slot_templates/new.json
   def new

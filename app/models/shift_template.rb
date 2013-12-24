@@ -1,4 +1,7 @@
 class ShiftTemplate < ActiveRecord::Base
+  audited
+  has_associated_audits
+
   attr_accessible :description, :end_hour, :end_minute, :event_type, :name, :start_hour, :start_minute, :title
 
   has_many :slot_templates, :dependent => :destroy

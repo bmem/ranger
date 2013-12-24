@@ -19,6 +19,17 @@ class ShiftTemplatesController < ApplicationController
     end
   end
 
+  # GET /shift_templates/1
+  # GET /shift_templates/1.json
+  def changes
+    @shift_template = ShiftTemplate.find(params[:id])
+    authorize! :audit, @shift_template
+    respond_to do |format|
+      format.html # changes.html.erb
+      format.json { render :json => @shift_template.audits }
+    end
+  end
+
   # GET /shift_templates/new
   # GET /shift_templates/new.json
   def new

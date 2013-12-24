@@ -48,7 +48,7 @@ class PeopleControllerTest < ActionController::TestCase
   end
 
   test "should update person" do
-    put :update, :id => @person, :person => @person.attributes
+    put :update, id: @person, person: {display_name: @person.display_name, full_name: @person.full_name, email: @person.email, status: @person.status, barcode: @person.barcode}
     assert_redirected_to person_path(assigns(:person))
   end
 

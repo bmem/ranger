@@ -8,6 +8,13 @@ class Person < ActiveRecord::Base
   SHIRT_STYLES = ['Ladies', 'Mens Regular', 'Mens Tall']
   DETAIL_ATTRS = [:callsign_approved, :has_personnel_note, :status_date]
 
+  audited
+  has_associated_audits
+
+  # TODO be less permissive
+  attr_accessible :email, :display_name, :full_name, :barcode, :status,
+    :status_date, :callsign_approved, :has_personnel_note, :position_ids
+
   has_one :user, autosave: true
   has_one :profile, autosave: true, dependent: :destroy
   has_many :involvements
@@ -39,7 +46,7 @@ class Person < ActiveRecord::Base
   self.per_page = 100
 
   #default_scope { order('LOWER(callsign) ASC, LOWER(full_name) ASC') }
-  default_scope { order('LOWER(display_name) ASC, LOWER(full_name) ASC') }
+  default_scope { order('LOWER(display_name) ASC') }
   scope :active_rangers, -> { where(status: [:active, :vintage]) }
 
   def self.find_by_email(email)
