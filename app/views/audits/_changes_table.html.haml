@@ -14,7 +14,7 @@
       %th New value
   - audits.each do |audit|
     %tbody.audit
-      - (audit.change_structs.reject {|c| [c.old_value, c.new_value].all? &:blank?}.presence || ChangeStruct.new).each_with_index do |change, i|
+      - (audit.change_structs.reject {|c| [c.old_value, c.new_value].all? &:blank?}.presence || [Audited::ChangeStruct.new]).each_with_index do |change, i|
         %tr{class: i == 0 ? 'new-audit' : 'continue-audit'}
           - if i == 0
             %td.rowhead{rowspan: audit.audited_changes.size}= l audit.created_at
