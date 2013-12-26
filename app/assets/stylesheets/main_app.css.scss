@@ -152,8 +152,17 @@ dl.user-roles form {
 }
 
 .change-history {
+  width: 100%;
+
+  th {
+    min-width: 10ex;
+    white-space: nowrap;
+  }
+
   tbody.audit {
-    outline: thin solid black;
+    td.rowhead {
+      padding-bottom: 1ex;
+    }
 
     tr:hover .rowhead {
       background-color: white;
