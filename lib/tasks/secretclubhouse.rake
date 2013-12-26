@@ -28,24 +28,23 @@ namespace :clubhouse do
       SecretClubhouse::Conversion.ensure_events_created
 
       target_models = [
-        ::Position, ::Person, ::Involvement, ::User, ::WorkLog, ::Callsign,
+        ::Position, ::Person, ::Involvement, ::WorkLog, ::Callsign,
+        Audited.audit_class
       ]
       # Transaction can speed things up, but with SQLite it will keep the whole
       # transaction sequence in memory which can slow it down or OOM
-      #::Person.connection.transaction do
+      ::Person.connection.transaction do
         target_models.each do |model|
           puts "Deleting old #{model} records"
           model.connection.transaction do
             model.destroy_all
           end
         end
-        [
-          SecretClubhouse::Position,
-          SecretClubhouse::Person,
-        ].each do |from_table|
-          errors += SecretClubhouse::Conversion::convert_model(from_table)
-        end # convert models each
-      #end # transaction
+      end # transaction
+      [SecretClubhouse::Position, SecretClubhouse::Person].each do |from_table|
+        errors += SecretClubhouse::Conversion::convert_model(from_table)
+      end # convert models each
+      errors += SecretClubhouse::Conversion::convert_users
       puts "#{errors.count} errors"
       puts errors.join("\n")
       target_models.each do |model|

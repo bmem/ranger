@@ -14,28 +14,18 @@ module SecretClubhouse
 
     def to_bmem_model
       p = super
+      email = normalize_person_email p.email, self
       profile = p.build_profile full_name: full_name, email: email,
         phone_numbers: phone_numbers, gender: gender, birth_date: birth_date,
         shirt_size: shirt_size, shirt_style: shirt_style
       profile.mailing_address = mailing_address
       profile.id = id # ensure relations remain aligned
       profile.person = p # TODO why is this needed?
-      if p.email.blank?
-        p.email = display_name.downcase.gsub(/\W+/, '_') + '@noemail.invalid'
-      else
-        p.email = p.email.strip
+      if p.email.present? and p.email.strip != email
+        puts "Replacing #{display_name} email #{p.email} with #{email}"
+        profile.contact_note = "Email converted from #{p.email}"
       end
-      unless EmailHelper::VALID_EMAIL.match p.email
-        p.email = p.email.strip.gsub(/[^\w@.-]/, '_').sub(/_+$/, '')
-        while p.email.count('@') > 1
-          # usually people who list two emails
-          # this email won't be good, but will pass validity checks
-          p.email = p.email.sub /@/, '_AT_'
-        end
-        puts "Replacing #{display_name} invalid email #{email} with #{p.email}"
-        profile.contact_note ||= "Email converted from #{email}"
-      end
-      profile.email = p.email
+      p.email = email
       if shirt_size == 'Unknown'
         profile.shirt_size = nil
       elsif shirt_size =~ /XX+L/
@@ -46,15 +36,6 @@ module SecretClubhouse
       end
       languages.map(&:language_name).each do |lang|
         p.language_list << lang.strip.downcase if lang.present?
-      end
-      # TODO set disabled based on status and user_authorized
-      p.build_user :email => p.email, :password => @@rand.bytes(16),
-        :disabled => true, :disabled_message => 'Not enabled for test system'
-      p.user.id = id # ensure relations remain aligned
-      if role_ids.include? 1 # 1 = Admin
-        p.user.disabled = false
-        p.user.disabled_message = nil
-        p.user.user_roles.build :user_id => id, :role => 'admin'
       end
       time_by_year = timesheets.group_by {|t| t.start_time.year}
       # People like Danger Ranger get a radio but don't work any shifts
