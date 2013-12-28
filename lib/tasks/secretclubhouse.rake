@@ -84,7 +84,8 @@ namespace :clubhouse do
       errors = []
       model.connection.transaction do
         puts "Deleting old #{model} records"
-        model.destroy_all
+        model.includes(:event).
+          where('events.start_date < ?', Date.new(2014, 1, 1)).destroy_all
         errors +=
           SecretClubhouse::Conversion::convert_model(SecretClubhouse::Asset)
       end # transaction
@@ -107,7 +108,8 @@ namespace :clubhouse do
   task :schedules => :environment do
     with_timing 'converting shifts' do
       ::Shift.transaction do
-        ::Shift.destroy_all
+        # Only delete shifts for conversion years
+        # ::Shift.destroy_all
         SecretClubhouse::Conversion.convert_shifts
       end
     end

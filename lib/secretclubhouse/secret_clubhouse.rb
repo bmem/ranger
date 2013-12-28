@@ -88,7 +88,8 @@ module SecretClubhouse
     def self.create_credits(schemes_hash, deltas_hash)
       audited_as_system_user do
         ::CreditScheme.transaction do
-          ::CreditScheme.destroy_all
+          ::CreditScheme.includes(:event).
+            where('events.start_date < ?', Date.new(2014, 1, 1)).destroy_all
           schemes_hash.each do |eid, schemes|
             puts "Adding credit schemes to #{eid}"
             e = ::Event.find_by_slug(eid)
@@ -121,6 +122,7 @@ module SecretClubhouse
         (2008..2013).each do |year|
           ts = ::TrainingSeason.find("training-season-#{year}")
           puts "Creating shifts for #{ts}"
+          ts.shifts.destroy_all
           training_slots = Slot.with_position(Position::TRAINING).in_year(year)
           training_slots.each do |t|
             puts "Converting #{t}"
@@ -148,8 +150,9 @@ module SecretClubhouse
           puts "#{ts.shifts.count} shifts and #{ts.slots.count} slots in #{ts}"
         end # each year
 
-        ::BurningMan.all.each do |bm|
+        ::BurningMan.where('start_date < ?', Date.new(2014, 1, 1)).each do |bm|
           puts "Creating shifts for #{bm} year #{bm.start_date.year}"
+          bm.shifts.destroy_all
           grouped_slots = Slot.in_year(bm.start_date.year).group_by do |s|
             [s.start_time, s.end_time, shift_name(s)]
           end
