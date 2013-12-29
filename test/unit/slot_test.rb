@@ -7,9 +7,19 @@ class SlotTest < ActiveSupport::TestCase
       :start_time => 1.hour.ago, :end_time => 1.hour.from_now
     shift = shifts(:one)
     position = positions(:dirt)
-    assert Slot.new(:shift => shift).invalid?, "Just shift was valid"
-    assert Slot.new(:position => position).invalid?, "Just position was valid"
-    assert Slot.new(:shift => shift, :position => position).valid?, "Full slot was invalid"
+    Slot.new.tap do |slot|
+      slot.shift = shift
+      assert slot.invalid?, "Just shift was valid"
+    end
+    Slot.new.tap do |slot|
+      slot.position = position
+      assert slot.invalid?, "Just position was valid"
+    end
+    Slot.new.tap do |slot|
+      slot.shift = shift
+      slot.position = position
+      assert slot.valid?, "Full slot was invalid"
+    end
   end
 
   test "validates numericality" do
@@ -17,8 +27,8 @@ class SlotTest < ActiveSupport::TestCase
       :start_time => 1.hour.ago, :end_time => 1.hour.from_now
     shift = shifts(:one)
     position = positions(:dirt)
-    slot = Slot.new(:shift => shift, :position => position,
-      :min_people => 0, :max_people => 0)
+    slot = shift.slots.build min_people: 0, max_people: 0
+    slot.position = position
     assert slot.valid?, "Full slot was invalid #{slot.errors.full_messages}"
     slot.min_people = nil
     assert slot.invalid?, "Nil min people was valid"

@@ -19,7 +19,7 @@ class SlotsControllerTest < ActionController::TestCase
 
   test "should create slot" do
     assert_difference('Slot.count') do
-      post :create, :slot => @slot.attributes
+      post :create, event_id: @slot.event.id, slot: {shift_id: @slot.shift_id, position_id: @slot.position_id, min_people: @slot.min_people, max_people: @slot.max_people}
     end
 
     assert_redirected_to slot_path(assigns(:slot))
@@ -36,7 +36,7 @@ class SlotsControllerTest < ActionController::TestCase
   end
 
   test "should update slot" do
-    put :update, :id => @slot, :slot => @slot.attributes
+    put :update, id: @slot, slot: {min_people: 10, max_people: 20}
     assert_redirected_to slot_path(assigns(:slot))
   end
 

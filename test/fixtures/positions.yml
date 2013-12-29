@@ -3,137 +3,171 @@
 
 alpha:
   name: Alpha
+  slug: alpha
   description: New volunteers who are ready for mentoring.
 
 burn_perimeter:
   name: Burn Perimeter
+  slug: burn-perimeter
   description: Maintaining safety around a large object on fire.
 
 dirt:
   name: Dirt
+  slug: dirt
   description: The fundamental Ranger practice--walking around and talking.
 
 doubleohseven:
   name: "007"
+  slug: "007"
   description: Wise old folks called in to the stickiest situations.
 
 echelon_field:
   name: Echelon Field
+  slug: echelon-field
   description: Taking care of the Rangers who take care of the city.
 
 green_dot:
   name: Green Dot Ranger
+  slug: green-dot-ranger
   description: Handling situations that need more kleenex than duct tape.
 
 green_dot_long:
   name: Green Dot Long
+  slug: green-dot-long
   description: Overseeing green dot operations for a day.
 
 green_dot_sanctuary:
   name: Green Dot Sanctuary
+  slug: green-dot-sanctuary
   description: Being present with people who need to take a break from chaos.
 
 green_dot_short:
   name: Green Dot Short
+  slug: green-dot-short
   description: Overseeing green dot operations for a shift.
 
 hot_springs:
   name: Hot Springs Patrol
+  slug: hot-springs-patrol
   description: Ensuring preservation of natural resources.
 
 hq_long:
   name: HQ Long
+  slug: hq-long
   description: Overseeing HQ for a day.
 
 hq_runner:
   name: HQ Runner
+  slug: hq-runner
   description: Lubricating HQ functionality.
 
 hq_short:
   name: HQ Short
+  slug: hq-short
   description: Overseeing HQ for a shift.
 
 hq_training:
   name: HQ Training
+  slug: hq-training
   description: Learn how to work in HQ.
 
 hq_window:
   name: HQ Window
+  slug: hq-window
   description: Check folks in and out, give them a radio and a battery.
 
 intercept:
   name: Intercept
+  slug: intercept
   description: Vehicle safety and Rangering the inner playa.
 
 intercept_dispatch:
   name: Intercept Dispatch
+  slug: intercept-dispatch
   description: Overseeing an Intercept shift.
 
 leal:
   name: LEAL
+  slug: leal
   description: Law Enforcement Agency Liason
 
 leal_trainee:
   name: LEAL Trainee
+  slug: leal-trainee
   description: Learning to LEAL
 
 mentor:
   name: Mentor
+  slug: mentor
   description: Showing alphas the ropes.
 
 mentor_long:
   name: Mentor Long
+  slug: mentor-long
   description: "Overseeing a day's mentoring."
 
 mentor_short:
   name: Mentor Short
+  slug: mentor-short
   description: Overseeing a mentor shift.
 
 ood:
   name: OOD
+  slug: ood
   description: Officer of the Day
 
 operations_manager:
   name: Operations Manager
+  slug: operations-manager
   description: Where all the sticky stuff flows.
 
 pre_team:
   name: Pre-Team (Dirt Ranger)
+  slug: pre-team (dirt-ranger)
   description: Rangering long before the gates open.
 
 rnr:
   name: RNR
+  slug: rnr
   description: Rapid Night Response
 
 rsc_envoy:
   name: RSC Envoy
+  slug: rsc-envoy
   description: Helping out the shift command team.
 
 rsci:
   name: RSCI
+  slug: rsci
   description: Shift command intern.
 
 sandman:
   name: Sandman
+  slug: sandman
   description: The last line of defense between crazies and fire.
 
 shift_lead:
   name: Shift Lead
+  slug: shift-lead
   description: Orchestrating a symphony of chaos.
 
 tow_truck_driver:
   name: Tow Truck Driver
+  slug: tow-truck-driver
   description: Helping relocate medium-sized objects.
 
 trainee:
   name: Trainee
+  slug: trainee
   description: Sign up to learn about the Rangers.
   new_user_eligible: true
 
 trainer:
   name: Trainer
+  slug: trainer
   description: Educating prospective and returning volunteers.
 
 training_auditor:
   name: Training Auditor
+  slug: training-auditor
   description: Attending a training but not planning to be a Black Rock Ranger.

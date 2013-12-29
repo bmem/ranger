@@ -3,7 +3,11 @@ class Shift < ActiveRecord::Base
   has_many :slots, :dependent => :destroy
   has_many :work_logs
   has_one :training, :dependent => :destroy # iff event type is TrainingSeason
+  attr_accessible :name, :description, :start_time, :end_time, :event_id
   accepts_nested_attributes_for :training
+
+  audited associated_with: :event
+  has_associated_audits
 
   validates :name, :start_time, :end_time, :event, :presence => true
   validates_presence_of :training, :if => Proc.new {|shift| shift.event.is_a? TrainingSeason}

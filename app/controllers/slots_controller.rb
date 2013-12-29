@@ -33,6 +33,18 @@ class SlotsController < EventBasedController
     end
   end
 
+  # GET /slots/1/changes
+  # GET /slots/1/changes.json
+  def changes
+    @slot = Slot.find(params[:id])
+    authorize! :audit, @slot
+    @audits = order_by_params @slot.audits, default_sort_column: 'version', default_sort_column_direction: 'desc'
+    respond_to do |format|
+      format.html # changes.html.haml
+      format.json { render json: @audits }
+    end
+  end
+
   # GET /slots/new
   # GET /slots/new.json
   def new

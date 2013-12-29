@@ -5,6 +5,9 @@ class Asset < ActiveRecord::Base
   has_many :asset_uses, dependent: :destroy
   attr_accessible :description, :designation, :name, :type
 
+  audited associated_with: :event
+  has_associated_audits
+
   validates :name, :type, :event_id, presence: true
   validates_uniqueness_of :name, scope: [:event_id, :type]
   validates_inclusion_of :designation, allow_blank: true, allow_nil: true,

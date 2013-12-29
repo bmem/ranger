@@ -14,7 +14,11 @@ Ranger::Application.routes.draw do
 
   resources :users, :except => 'create'
 
-  resources :reports
+  resources :reports do
+    member do
+      get :changes
+    end
+  end
   match 'reports/generate/:report_name(.:format)' => 'reports#generate', as: :generate_report, via: :post
 
   resources :people, :constraints => {:id => /\d+/} do
@@ -23,7 +27,7 @@ Ranger::Application.routes.draw do
       get 'typeahead', action: :typeahead, as: :typeahead, constraints: {format: 'json'}
     end
     member do
-      get 'changes'
+      get :changes
     end
   end
   match 'people/tag(/:tag(/:name))' => 'people#tag', :as => :tag_people
@@ -80,46 +84,101 @@ Ranger::Application.routes.draw do
   end
 
   resources :events do
-    resources :reports
-    match 'reports/generate/:report_name(.:format)' => 'reports#generate', as: :generate_report, via: :post
     collection do
       post 'set_default', as: :set_default
     end
+    member do
+      get :changes
+    end
+
+    resources :reports do
+      member do
+        get :changes
+      end
+    end
+    match 'reports/generate/:report_name(.:format)' => 'reports#generate', as: :generate_report, via: :post
 
     resources :shifts do
+      member do
+        get :changes
+        post :copy
+      end
       resources :slots do
-        post 'join', :on => :member
-        post 'leave', :on => :member
+        member do
+          get :changes
+          post :join
+          post :leave
+        end
       end
       resources :work_logs, :path => 'worklogs'
-      post 'copy', :on => :member
     end
     resources  :slots do
-      post 'join', :on => :member
-      post 'leave', :on => :member
+      member do
+        get :changes
+        post :join
+        post :leave
+      end
     end
     resources :involvements, constraints: {:id => /\d+/} do
-      get 'signup', :on => :member
+      member do
+        get :changes
+        get :signup
+      end
       collection do
         get 'search(/:q)', action: :search, as: :search
         get 'typeahead', action: :typeahead, as: :typeahead, constraints: {format: 'json'}
       end
     end
-    resources :trainings
-    resources :work_logs, :path => 'worklogs'
+    resources :trainings do
+      member do
+        get :changes
+      end
+    end
+    resources :work_logs, :path => 'worklogs' do
+      member do
+        get :changes
+      end
+    end
     # TODO /credits/ paths
     resources :credit_schemes do
-      resources :credit_deltas
+      member do
+        get :changes
+      end
+      resources :credit_deltas do
+        member do
+          get :changes
+        end
+      end
     end
 
-    resources :assets
+    resources :assets do
+      member do
+        get :changes
+      end
+    end
     [:radios, :vehicles, :keys].each do |asset_type|
-      resources asset_type, controller: 'assets', type_plural: asset_type
+      resources asset_type, controller: 'assets', type_plural: asset_type do
+        member do
+          get :changes
+        end
+      end
     end
-    resources :asset_uses
+    resources :asset_uses do
+      member do
+        get :changes
+      end
+    end
 
-    resources :mentorships
-    resources :mentors
+    resources :mentorships do
+      member do
+        get :changes
+      end
+    end
+    resources :mentors do
+      member do
+        get :changes
+      end
+    end
   end
 
   match 'schedule' => 'schedule_home#index', :as => :schedule_home

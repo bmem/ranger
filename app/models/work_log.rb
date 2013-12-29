@@ -4,8 +4,14 @@ class WorkLog < ActiveRecord::Base
   belongs_to :position
   belongs_to :event
   belongs_to :shift
+  # TODO this one really needs strong parameters.
+  attr_accessible :involvement_id, :position_id, :shift_id, :event_id,
+    :start_time, :end_time, :note
+
+  audited associated_with: :involvement
 
   validates_presence_of :involvement, :position, :event, :start_time
+  validates :audit_comment, presence: true, on: :update
 
   self.per_page = 100
 

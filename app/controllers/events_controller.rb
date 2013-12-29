@@ -34,6 +34,18 @@ class EventsController < EventBasedController
     end
   end
 
+  # GET /events/1/changes
+  # GET /events/1/changes.json
+  def changes
+    @event = Event.find(params[:id])
+    authorize! :audit, @event
+    @audits = order_by_params @event.audits, default_sort_column: 'version', default_sort_column_direction: 'desc'
+    respond_to do |format|
+      format.html # changes.html.haml
+      format.json { render json: @audits }
+    end
+  end
+
   # GET /events/new
   # GET /events/new.json
   def new

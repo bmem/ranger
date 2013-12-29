@@ -4,6 +4,9 @@ class CreditScheme < ActiveRecord::Base
   has_and_belongs_to_many :positions
   attr_accessible :base_hourly_rate, :description, :name, :position_ids
 
+  audited associated_with: :event
+  has_associated_audits
+
   validates_presence_of :name, :base_hourly_rate
 
   def credit_value(start_time, end_time)

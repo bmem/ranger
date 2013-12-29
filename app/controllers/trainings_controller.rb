@@ -26,7 +26,7 @@ class TrainingsController < EventBasedController
   # GET /trainings/new
   # GET /trainings/new.json
   def new
-    @training.build_shift(:event => @event)
+    @training.build_shift.event = @event
     if params[:date].present? and d = Time.zone.parse(params[:date])
       @training.shift.end_time = @training.shift.start_time = d
     end

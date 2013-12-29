@@ -7,4 +7,5 @@
     = f.input :positions, :as => :check_boxes, :collection => Position.order(:name)
 
   = f.actions do
+    = f.input :audit_comment, as: :audit
     = f.action(:submit)

@@ -4,6 +4,7 @@ class WorkLogsControllerTest < ActionController::TestCase
   setup do
     sign_in users(:adminuser)
     @work_log = work_logs(:one)
+    @event = events(:one)
   end
 
   test "should get index" do
@@ -19,7 +20,7 @@ class WorkLogsControllerTest < ActionController::TestCase
 
   test "should create work_log" do
     assert_difference('WorkLog.count') do
-      post :create, :work_log => @work_log.attributes
+      post :create, event_id: @event.id, work_log: {position_id: positions(:dirt).id, involvement_id: @event.involvements.first.id, start_time: @event.start_date + 1.hour, end_time: @event.end_date - 1.hour}
     end
 
     assert_redirected_to work_log_path(assigns(:work_log))
@@ -36,7 +37,7 @@ class WorkLogsControllerTest < ActionController::TestCase
   end
 
   test "should update work_log" do
-    put :update, :id => @work_log, :work_log => @work_log.attributes
+    put :update, id: @work_log, work_log: {start_time: @work_log.start_time - 1.hour, end_time: @work_log.end_time + 1.hour, position_id: @work_log.position_id, audit_comment: 'Test case'}
     assert_redirected_to work_log_path(assigns(:work_log))
   end
 

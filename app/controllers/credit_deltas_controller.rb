@@ -21,6 +21,18 @@ class CreditDeltasController < EventBasedController
     end
   end
 
+  # GET /credit_deltas/1/changes
+  # GET /credit_deltas/1/changes.json
+  def changes
+    @credit_delta = CreditDelta.find(params[:id])
+    authorize! :audit, @credit_delta
+    @audits = order_by_params @credit_delta.audits, default_sort_column: 'version', default_sort_column_direction: 'desc'
+    respond_to do |format|
+      format.html # changes.html.haml
+      format.json { render json: @audits }
+    end
+  end
+
   # GET /credit_deltas/new
   # GET /credit_deltas/new.json
   def new

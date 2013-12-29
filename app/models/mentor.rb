@@ -6,6 +6,8 @@ class Mentor < ActiveRecord::Base
   has_one :mentee, through: :mentorship, class_name: 'Involvement'
   attr_accessible :involvement_id, :note, :vote
 
+  audited associated_with: :mentorship
+
   validates_uniqueness_of :involvement_id, scope: :mentorship_id
   validates :vote, inclusion: {in: Mentorship::OUTCOMES}
   validate do

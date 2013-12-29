@@ -59,6 +59,18 @@ class InvolvementsController < EventBasedController
     end
   end
 
+  # GET /involvements/1/changes
+  # GET /involvements/1/changes.json
+  def changes
+    @involvement = Involvement.find(params[:id])
+    authorize! :audit, @involvement
+    @audits = order_by_params @involvement.audits, default_sort_column: 'version', default_sort_column_direction: 'desc'
+    respond_to do |format|
+      format.html # changes.html.haml
+      format.json { render json: @audits }
+    end
+  end
+
   # GET /involvements/new
   # GET /involvements/new.json
   def new

@@ -14,4 +14,5 @@
       %p.inline-hints
         New shift will have slots with position(s)
         = @shift_template.slot_templates.to_sentence
+    = f.input :audit_comment, as: :audit
     = f.action(:submit)

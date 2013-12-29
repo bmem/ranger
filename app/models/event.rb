@@ -18,6 +18,9 @@ class Event < ActiveRecord::Base
   has_many :mentors
   belongs_to :linked_event, :class_name => 'Event'
 
+  audited
+  has_associated_audits
+
   class LinkTypeValidator < ActiveModel::EachValidator
     def validate_each(record, attribute, value)
       unless value.is_a? record.linked_event_class
