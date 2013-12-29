@@ -51,7 +51,7 @@ module SecretClubhouse
         sc.roles.each do |role|
           unless bmem.has_role? role
             puts "Adding #{role} to #{bmem.email}"
-            bmem.user_roles.build(role: role.to_s, user_id: bmem.id)
+            bmem.user_roles.build(role: role.to_sym.to_s, user_id: bmem.id)
           end
         end
         bmem
@@ -127,9 +127,8 @@ module SecretClubhouse
           training_slots.each do |t|
             puts "Converting #{t}"
             t.event = ts
-            shift = ::Shift.create!(
-              :event => ts, :name => t.description, :description => t.url,
-              :start_time => t.start_time, :end_time => t.end_time)
+            shift = ts.shifts.create! name: t.description, description: t.url,
+              start_time: t.start_time, end_time: t.end_time
             bmem_training_slot = t.to_bmem_model
             bmem_training_slot.shift = shift
             bmem_training_slot.save!

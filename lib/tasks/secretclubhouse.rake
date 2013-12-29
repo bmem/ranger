@@ -51,6 +51,7 @@ namespace :clubhouse do
         puts "#{model.model_name.human}: #{model.count}"
       end
     end
+    puts "Be sure to run: rake index:rebuild"
   end
 
   desc "Convert mentors"

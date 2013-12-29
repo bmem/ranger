@@ -23,9 +23,10 @@ module SecretClubhouse
           # TODO set personnel_status to alpha if they weren't a ranger
           # TODO check if they completed training
           status = event.is_a?(TrainingSeason) ? 'confirmed' : 'withdrawn'
-          involvement = person.involvements.create :event => event,
-            :name => p.callsign, :personnel_status => p.status,
-            :involvement_status => status
+          involvement = person.involvements.build name: p.callsign,
+            personnel_status: p.status, involvement_status: status
+          involvement.event = event
+          involvement.save!
         end
         s.involvements << involvement
       end

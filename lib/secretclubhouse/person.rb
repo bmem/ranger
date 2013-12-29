@@ -57,9 +57,9 @@ module SecretClubhouse
                        end
                      else 'confirmed'
                      end
-        involvement = ::Involvement.new event: event,
-          name: display_name, barcode: barcode,
+        involvement = ::Involvement.new name: display_name, barcode: barcode,
           personnel_status: status, involvement_status: inv_status
+        involvement.event = event
         p.involvements << involvement
         sheets.each do |ts|
           worklog = ts.to_bmem_model
