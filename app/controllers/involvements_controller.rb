@@ -89,9 +89,11 @@ class InvolvementsController < EventBasedController
   # POST /involvements
   # POST /involvements.json
   def create
+    @involvement.event = @event if @event
+    @involvement.person = Person.find(params[:person_id]) if params[:person_id]
     respond_to do |format|
       if @involvement.save
-        format.html { redirect_to @involvement, :notice => 'Involvement was successfully created.' }
+        format.html { redirect_to [@involvement.event, @involvement], :notice => 'Involvement was successfully created.' }
         format.json { render :json => @involvement, :status => :created, :location => @involvement }
       else
         format.html { render :action => "new" }
@@ -105,7 +107,7 @@ class InvolvementsController < EventBasedController
   def update
     respond_to do |format|
       if @involvement.update_attributes(params[:involvement])
-        format.html { redirect_to @involvement, :notice => 'Involvement was successfully updated.' }
+        format.html { redirect_to [@involvement.event, @involvement], :notice => 'Involvement was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render :action => "edit" }
@@ -120,7 +122,7 @@ class InvolvementsController < EventBasedController
     @involvement.destroy
 
     respond_to do |format|
-      format.html { redirect_to involvements_url }
+      format.html { redirect_to event_involvements_url(@involvement.event) }
       format.json { head :no_content }
     end
   end
@@ -143,7 +145,7 @@ class InvolvementsController < EventBasedController
   end
 
   def default_sort_column
-    'name'
+    'involvements.name'
   end
 
   private

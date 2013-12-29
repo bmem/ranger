@@ -5,7 +5,7 @@ results
   %tr
     - unless @event
       %th Event
-    %th= sortable_header 'name', 'Callsign'
+    %th= sortable_header 'involvements.name', 'Callsign'
     %th
       = sortable_header 'involvement_status' do
         Involvement
