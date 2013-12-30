@@ -33,6 +33,7 @@ module ApplicationHelper
 
   def sortable_header(col_name, title = nil, link_options = {},
                       html_options = {}, &block)
+    col_name = col_name.to_s
     title ||= col_name.gsub(/.*\./, '').titleize
     css_class = "sortable-header header-#{col_name.gsub(/\W+/, '_')}"
     dir = 'asc'

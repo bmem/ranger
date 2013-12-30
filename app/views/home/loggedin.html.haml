@@ -41,3 +41,6 @@
   - if can? :edit, :arts
     %dt= link_to 'ARTs', arts_path
     %dd Needs work.
+  - if can? :list, :audits
+    %dt= link_to 'Audit records', audits_path
+    %dd View change history for all records.  See also "Changes" links on individual record pages.

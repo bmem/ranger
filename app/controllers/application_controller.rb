@@ -70,6 +70,8 @@ class ApplicationController < ActionController::Base
   end
 
   def sort_direction(options = {})
+    options = options.reverse_merge(
+      default_sort_column_direction: default_sort_column_direction)
     params[:sort_direction].try {|dir| dir if %w(asc desc).include? dir} or
       options[:default_sort_column_direction] or 'asc'
   end
