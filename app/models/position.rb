@@ -2,6 +2,10 @@ class Position < ActiveRecord::Base
   include FriendlyId
   friendly_id :name, use: :slugged
 
+  audited
+
+  attr_accessible :name, :team_id, :description, :new_user_eligible, :all_team_members_eligible
+
   belongs_to :team
   has_and_belongs_to_many :people
   has_many :involvements, :through => :people

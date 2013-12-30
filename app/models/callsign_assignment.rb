@@ -1,4 +1,6 @@
 class CallsignAssignment < ActiveRecord::Base
+  audited associated_with: :callsign
+
   belongs_to :callsign, autosave: true
   belongs_to :person, autosave: true
   attr_accessible :end_date, :start_date, :primary_callsign

@@ -7,17 +7,25 @@
   %tr
     %th= sortable_header 'people.display_name', 'Callsign'
     %th= sortable_header 'people.full_name', 'Full name'
-    %th= sortable_header 'email'
+    %th= sortable_header 'users.email', 'Email'
     %th= sortable_header 'disabled', 'Disabled?'
     %th= sortable_header 'last_sign_in_at', 'Last login'
 
   - @users.each do |user|
-    - person = user.person || Person.new
+    - person = user.person
     %tr
-      %td= link_to person.to_s, user
-      %td= link_to person.full_name, user
+      %td
+        - if person
+          = link_to person.display_name, user
+        - else
+          = link_to user.email.gsub(/@.*/, ''), user
+      %td
+        - if person
+          = link_to person.full_name, user
+        - else
+          = link_to '(no associated person)', user
       %td= link_to user.email, user
-      %td= 'Disabled' if user.disabled?
+      %td{title: user.disabled_message}= 'Disabled' if user.disabled?
       %td= user.last_sign_in_at.try {|time| l time}
 
 = will_paginate @users, :inner_window => 10

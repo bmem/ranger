@@ -19,6 +19,17 @@ class TeamsController < ApplicationController
     end
   end
 
+  # GET /teams/1
+  # GET /teams/1.json
+  def changes
+    @team = Team.find(params[:id])
+    authorize! :audit, @team
+    respond_to do |format|
+      format.html # changes.html.erb
+      format.json { render :json => @team.audits }
+    end
+  end
+
   # GET /teams/new
   # GET /teams/new.json
   def new

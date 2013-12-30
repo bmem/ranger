@@ -19,6 +19,17 @@ class PositionsController < ApplicationController
     end
   end
 
+  # GET /positions/1
+  # GET /positions/1.json
+  def changes
+    @position = Position.find(params[:id])
+    authorize! :audit, @position
+    respond_to do |format|
+      format.html # changes.html.erb
+      format.json { render :json => @position.audits }
+    end
+  end
+
   # GET /positions/new
   # GET /positions/new.json
   def new

@@ -35,6 +35,25 @@ module SecretClubhouse
       end
     end
 
+    # email: address to normalize
+    # person: a Secret Clubhouse person record
+    def normalize_person_email(email, person)
+      if email.blank?
+        email = person.callsign.downcase.gsub(/\W+/, '_') + '@noemail.invalid'
+      end
+      email = email.strip.downcase
+      email = email.gsub(/-dupe/i, '+duplicate')
+      if %w(deceased uberbonked).include? person.status
+        return email.gsub(/@/, '+') + "@#{person.status}.invalid"
+      end
+      unless EmailHelper::VALID_EMAIL.match email
+        # typically people with two listed emails
+        return email.gsub(/[@,\s]+/, '+').gsub(/[^\w+.-]+/, '_') +
+          '@format.invalid'
+      end
+      return email
+    end
+
     def convert_with_attrs(klass, *attrs)
       r = klass.new(Hash[attrs.collect {|a| [a, self.send(a)]}])
       r.id = id # ensure relations remain aligned

@@ -23,6 +23,18 @@ class ReportsController < EventBasedController
     end
   end
 
+  # GET /reports/1/changes
+  # GET /reports/1/changes.json
+  def changes
+    @report = Report.find(params[:id])
+    authorize! :audit, @report
+    @audits = order_by_params @report.audits, default_sort_column: 'version', default_sort_column_direction: 'desc'
+    respond_to do |format|
+      format.html # changes.html.haml
+      format.json { render json: @audits }
+    end
+  end
+
   # GET /reports/1/edit
   def edit
   end

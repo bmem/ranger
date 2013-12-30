@@ -3,6 +3,9 @@ class Slot < ActiveRecord::Base
   belongs_to :position
   has_and_belongs_to_many :involvements
   has_one :event, :through => :shift
+  attr_accessible :shift_id, :position_id, :min_people, :max_people
+
+  audited associated_with: :shift
 
   validates :shift_id, :position_id, :presence => true
   validates :min_people, :max_people, :presence => true,

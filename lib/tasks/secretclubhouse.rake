@@ -28,30 +28,30 @@ namespace :clubhouse do
       SecretClubhouse::Conversion.ensure_events_created
 
       target_models = [
-        ::Position, ::Person, ::Involvement, ::User, ::WorkLog, ::Callsign,
+        ::Position, ::Person, ::Involvement, ::WorkLog, ::Callsign,
+        Audited.audit_class
       ]
       # Transaction can speed things up, but with SQLite it will keep the whole
       # transaction sequence in memory which can slow it down or OOM
-      #::Person.connection.transaction do
+      ::Person.connection.transaction do
         target_models.each do |model|
           puts "Deleting old #{model} records"
           model.connection.transaction do
             model.destroy_all
           end
         end
-        [
-          SecretClubhouse::Position,
-          SecretClubhouse::Person,
-        ].each do |from_table|
-          errors += SecretClubhouse::Conversion::convert_model(from_table)
-        end # convert models each
-      #end # transaction
+      end # transaction
+      [SecretClubhouse::Position, SecretClubhouse::Person].each do |from_table|
+        errors += SecretClubhouse::Conversion::convert_model(from_table)
+      end # convert models each
+      errors += SecretClubhouse::Conversion::convert_users
       puts "#{errors.count} errors"
       puts errors.join("\n")
       target_models.each do |model|
         puts "#{model.model_name.human}: #{model.count}"
       end
     end
+    puts "Be sure to run: rake index:rebuild"
   end
 
   desc "Convert mentors"
@@ -85,7 +85,8 @@ namespace :clubhouse do
       errors = []
       model.connection.transaction do
         puts "Deleting old #{model} records"
-        model.destroy_all
+        model.includes(:event).
+          where('events.start_date < ?', Date.new(2014, 1, 1)).destroy_all
         errors +=
           SecretClubhouse::Conversion::convert_model(SecretClubhouse::Asset)
       end # transaction
@@ -108,7 +109,8 @@ namespace :clubhouse do
   task :schedules => :environment do
     with_timing 'converting shifts' do
       ::Shift.transaction do
-        ::Shift.destroy_all
+        # Only delete shifts for conversion years
+        # ::Shift.destroy_all
         SecretClubhouse::Conversion.convert_shifts
       end
     end

@@ -4,6 +4,10 @@ class User < ActiveRecord::Base
   # If true, the first user created is an admin. Disable for conversion.
   cattr_accessor :first_user_is_admin do true end
 
+  audited associated_with: :person,
+    only: [:person, :user_roles, :email, :disabled, :disabled_message,
+      :reset_password_sent_at]
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -36,8 +40,12 @@ class User < ActiveRecord::Base
     Role[role].in? roles
   end
 
-  def to_s
+  def to_title
     person ? person.to_s : email
+  end
+
+  def to_s
+    to_title
   end
 
   before_validation do |u|

@@ -5,3 +5,5 @@
   - if @user and @user.person
     %li= link_to "#{@user.person} person info", @user.person
   = render 'record_actions'
+  - if @user and not @user.new_record? and can? :audit, @user
+    %li= link_to "Changes made by #{@user}", audits_path(user_id: @user.id)

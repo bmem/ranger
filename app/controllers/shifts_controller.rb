@@ -19,6 +19,18 @@ class ShiftsController < EventBasedController
     end
   end
 
+  # GET /shifts/1/changes
+  # GET /shifts/1/changes.json
+  def changes
+    @shift = Shift.find(params[:id])
+    authorize! :audit, @shift
+    @audits = order_by_params @shift.audits, default_sort_column: 'version', default_sort_column_direction: 'desc'
+    respond_to do |format|
+      format.html # changes.html.haml
+      format.json { render json: @audits }
+    end
+  end
+
   # GET /shifts/new
   # GET /shifts/new.json
   def new
@@ -46,6 +58,7 @@ class ShiftsController < EventBasedController
   # POST /shifts
   # POST /shifts.json
   def create
+    @shift.event = @event if @event
     respond_to do |format|
       if @shift.save
         if params[:template].present? and t = ShiftTemplate.find(params[:template])

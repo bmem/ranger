@@ -1,7 +1,8 @@
 - provide :main_action_list_items do
-  - event = @event || (@shift && @shift.event) || (@slot && @slot.event)
   - shift = @shift || (@slot && @slot.shift)
+  - event = @event || (shift && shift.event) || (@slot && @slot.event)
   - if event and shift
+    = render 'record_actions', record: shift
     %li= link_to "#{shift} slots", event_shift_slots_path(event, shift)
     - if can? :create, :slots
       %li= link_to "New slot in #{shift}", new_event_shift_slot_path(event, shift)

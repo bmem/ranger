@@ -1,0 +1,33 @@
+- audits ||= @audits
+- include_type ||= false
+%table.change-history
+  %thead
+    %tr
+      %th Field
+      %th Old value
+      %th New value
+  - audits.each do |audit|
+    %tbody.audit
+      - audit.change_structs.reject {|c| [c.old_value, c.new_value].all? &:blank?}.each_with_index do |change, i|
+        %tr{class: i == 0 ? 'new-audit' : 'continue-audit'}
+          %td= change.field.to_s.titleize
+          -# TODO consider two-cell colorized diff for text attributes
+          %td.text-attribute<= change.old_value
+          %td.text-attribute<= change.new_value
+      %tr
+        %td.rowhead(colspan=3)
+          - if include_type
+            %em.audit-item-type= audit.auditable_type.titleize
+          - begin
+            = link_to_record audit.auditable
+          - rescue ActiveRecord::RecordNotFound, NoMethodError
+          %strong.audit-action= audit.action.titleize
+          by
+          %strong.audit-user= link_to_record audit.user
+          at
+          %strong.audit-time= l audit.created_at
+          - if audit.comment.present?
+            %br
+            %strong Comment:
+            %span.audit-comment<= audit.comment
+          %hr

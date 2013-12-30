@@ -1,4 +1,6 @@
 class SlotTemplate < ActiveRecord::Base
+  audited associated_with: :shift_template
+
   belongs_to :shift_template
   belongs_to :position
   attr_accessible :max_people, :min_people, :position_id, :shift_template_id

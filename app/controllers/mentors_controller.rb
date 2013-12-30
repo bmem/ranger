@@ -22,6 +22,18 @@ class MentorsController < EventBasedController
     end
   end
 
+  # GET /mentors/1/changes
+  # GET /mentors/1/changes.json
+  def changes
+    @mentor = Mentor.find(params[:id])
+    authorize! :audit, @mentor
+    @audits = order_by_params @mentor.audits, default_sort_column: 'version', default_sort_column_direction: 'desc'
+    respond_to do |format|
+      format.html # changes.html.haml
+      format.json { render json: @audits }
+    end
+  end
+
   # GET /mentors/new
   # GET /mentors/new.json
   def new

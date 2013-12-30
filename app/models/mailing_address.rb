@@ -2,7 +2,13 @@ class MailingAddress < ActiveRecord::Base
   # Field names are based on vCard
   ADDRESS_ATTRS = [:extra_address, :street_address, :post_office_box, :locality,
     :region, :postal_code, :country_name]
+
+  audited associated_with: :person
+
   attr_accessible *ADDRESS_ATTRS
+
+  has_one :profile
+  has_one :person, through: :profile
 
   before_validation do |a|
     ADDRESS_ATTRS.each do |attr|

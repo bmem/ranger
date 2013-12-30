@@ -101,6 +101,18 @@ class PeopleController < ApplicationController
     end
   end
 
+  # GET /people/1/changes
+  # GET /people/1/changes.json
+  def changes
+    @person = Person.find(params[:id])
+    authorize! :audit, @person
+    @audits = order_by_params @person.audits, default_sort_column: 'version', default_sort_column_direction: 'desc'
+    respond_to do |format|
+      format.html # changes.html.haml
+      format.json { render json: @audits }
+    end
+  end
+
   # GET /people/new
   # GET /people/new.json
   def new

@@ -13,6 +13,9 @@ gem 'activerecord-mysql-adapter'
 
 gem 'json'
 
+# run "rails generate audited:upgrade" when upgrading
+gem 'audited-activerecord' ,'~> 3.0'
+
 gem 'will_paginate', '~> 3.0'
 
 # slug URL fragments for some models

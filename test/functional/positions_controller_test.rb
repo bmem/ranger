@@ -19,7 +19,7 @@ class PositionsControllerTest < ActionController::TestCase
 
   test "should create position" do
     assert_difference('Position.count') do
-      post :create, :position => @position.attributes
+      post :create, position: {name: 'Test Position'}
     end
 
     assert_redirected_to position_path(assigns(:position))
@@ -36,7 +36,7 @@ class PositionsControllerTest < ActionController::TestCase
   end
 
   test "should update position" do
-    put :update, :id => @position, :position => @position.attributes
+    put :update, id: @position, position: {name: @position.name, description: @position.description, team_id: @position.team_id, new_user_eligible: @position.new_user_eligible, all_team_members_eligible: @position.all_team_members_eligible}
     assert_redirected_to position_path(assigns(:position))
   end
 

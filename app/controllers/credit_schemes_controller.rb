@@ -18,6 +18,18 @@ class CreditSchemesController < EventBasedController
     end
   end
 
+  # GET /credit_schemes/1/changes
+  # GET /credit_schemes/1/changes.json
+  def changes
+    @credit_scheme = CreditScheme.find(params[:id])
+    authorize! :audit, @credit_scheme
+    @audits = order_by_params @credit_scheme.audits, default_sort_column: 'version', default_sort_column_direction: 'desc'
+    respond_to do |format|
+      format.html # changes.html.haml
+      format.json { render json: @audits }
+    end
+  end
+
   # GET /credit_schemes/new
   # GET /credit_schemes/new.json
   def new

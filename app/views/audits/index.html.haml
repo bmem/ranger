@@ -1,0 +1,47 @@
+%h1
+  - if params[:type].present?
+    #{params[:type].titleize} audit records
+  - else
+    Audit records
+
+%p
+  = form_tag audits_path, method: :get do
+    - options = options_from_collection_for_select distinct_auditable_types, :to_s, :titleize, params[:type]
+    = label_tag 'type', 'Record type'
+    = select_tag 'type', options, include_blank: true
+    = label_tag 'start_date', 'From'
+    -# TODO date_field_tag
+    = text_field_tag 'start_date', params[:start_date], class: 'datepicker'
+    = label_tag 'end_date', 'To'
+    = text_field_tag 'end_date', params[:end_date], class: 'datepicker'
+    = submit_tag 'Filter', data: {disable_with: 'Filtering...'}
+
+= page_entries_info @audits, model: 'audits'
+%br
+= will_paginate @audits, inner_window: 5
+
+%table
+  %thead
+    %tr
+      %th= sortable_header :action
+      %th Record
+      %th= sortable_header :auditable_type, 'Type'
+      %th= sortable_header :user_id
+      %th= sortable_header :created_at, 'Time'
+      %th= sortable_header :comment
+  %tbody
+    - @audits.each do |audit|
+      %tr
+        %td= link_to audit.action.titleize, audit_path(audit)
+        %td
+          - if audit.auditable
+            - begin
+              = link_to_record audit.auditable
+            - rescue ActiveRecord::RecordNotFound, NoMethodError
+              = audit.auditable.to_title
+          - else
+            = audit.auditable_id
+        %td= audit.auditable_type.titleize
+        %td= link_to_record audit.user
+        %td= l audit.created_at
+        %td.text-attribute= audit.comment

@@ -3,10 +3,10 @@ require 'test_helper'
 class ShiftTest < ActiveSupport::TestCase
   test "validates presence" do
     assert Shift.new.invalid?, "Empty shift was valid"
-    shift = Shift.new :name => 'A shift',
-      :start_time => 1.hour.ago.to_datetime,
-      :end_time => 1.hour.from_now.to_datetime,
-      :event => events(:one)
+    event = events(:one)
+    shift = Shift.new name: 'A shift',
+      start_time: 1.hour.ago.to_datetime, end_time: 1.hour.from_now.to_datetime
+    shift.event = event
     assert shift.valid?, "Full shift was invalid"
     shift.name = nil
     assert shift.invalid?, "Nil name was valid"
@@ -26,8 +26,8 @@ class ShiftTest < ActiveSupport::TestCase
 
   test "date order" do
     now = DateTime.now
-    shift = Shift.new :name => 'A shift', :event => events(:one),
-      :start_time => now, :end_time => now
+    event = events(:one)
+    shift = event.shifts.build name: 'A shift', start_time: now, end_time: now
     assert shift.valid?, "Same start and end were invalid"
     shift.end_time = 1.hour.ago.to_datetime
     assert shift.invalid?, "End before start was valid"

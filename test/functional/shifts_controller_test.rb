@@ -19,7 +19,7 @@ class ShiftsControllerTest < ActionController::TestCase
 
   test "should create shift" do
     assert_difference('Shift.count') do
-      post :create, :shift => @shift.attributes
+      post :create, event_id: @shift.event_id, shift: {name: @shift.name, start_time: @shift.start_time + 1.day, end_time: @shift.end_time + 1.day}
     end
 
     assert_redirected_to event_shift_path(assigns(:event), assigns(:shift))
@@ -36,7 +36,7 @@ class ShiftsControllerTest < ActionController::TestCase
   end
 
   test "should update shift" do
-    put :update, :id => @shift, :shift => @shift.attributes
+    put :update, id: @shift, event_id: @shift.event_id, shift: {name: @shift.name, start_time: @shift.start_time + 1.day, end_time: @shift.end_time + 1.day}
     assert_redirected_to event_shift_path(assigns(:event), assigns(:shift))
   end
 

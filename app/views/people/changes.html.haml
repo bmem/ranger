@@ -1,0 +1,12 @@
+%h1 Change history for #{link_to_record @person}
+
+%h2 Core
+= render 'audits/changes_table'
+
+- if @person.profile
+  %h2 Profile
+  = render 'audits/changes_table', audits: associated_audits_for(@person, :profile, :mailing_address)
+
+- if @person.user
+  %h2 User
+  = render 'audits/changes_table', audits: associated_audits_for(@person, :user)

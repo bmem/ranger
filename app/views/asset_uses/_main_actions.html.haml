@@ -1,3 +1,6 @@
 - provide :main_action_list_items do
+  %li= link_to "#{@event} assets", event_assets_path(@event)
+  - if @asset_use
+    = render 'record_actions', record: @asset_use.asset
   %li= link_to "#{@event} asset uses", event_asset_uses_path(@event)
   = render 'record_actions'

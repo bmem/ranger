@@ -1,9 +1,11 @@
 class Callsign < ActiveRecord::Base
   include FriendlyId
+  friendly_id :name, use: :slugged
 
   STATUSES = %w(pending approved available reserved temporary).freeze
 
-  friendly_id :name, use: :slugged
+  audited
+  has_associated_audits
 
   attr_accessible :name, :note, :status
 

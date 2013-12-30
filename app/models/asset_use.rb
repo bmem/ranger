@@ -5,6 +5,8 @@ class AssetUse < ActiveRecord::Base
   attr_accessible :asset_id, :checked_in, :checked_out, :due_in,
     :involvement_id, :extra, :note
 
+  audited associated_with: :asset
+
   validates_presence_of :event, :asset, :involvement, :checked_out, :due_in
   validates_with DateOrderValidator, start: :checked_out, end: :checked_in
   validates_with DateOrderValidator, start: :checked_out, end: :due_in

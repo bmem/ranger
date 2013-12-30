@@ -6,6 +6,8 @@ class Report < ActiveRecord::Base
   serialize :report_object, Reporting::Report
   serialize :readable_parameters # Hash
 
+  audited except: [:report_object, :readable_parameters]
+
   validates_presence_of :user, :name, :report_object
 
   default_scope order('created_at DESC')

@@ -7,6 +7,9 @@ class Mentorship < ActiveRecord::Base
   has_many :mentors, dependent: :destroy
   attr_accessible :note, :outcome, :shift_id
 
+  audited associated_with: :mentee
+  has_associated_audits
+
   validates :outcome, inclusion: {in: OUTCOMES}
   validate do
     errors.add(:mentee, 'Event mismatch') unless event_id == mentee.event_id

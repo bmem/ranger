@@ -27,6 +27,18 @@ class WorkLogsController < EventBasedController
     end
   end
 
+  # GET /work_logs/1/changes
+  # GET /work_logs/1/changes.json
+  def changes
+    @work_log = WorkLog.find(params[:id])
+    authorize! :audit, @work_log
+    @audits = order_by_params @work_log.audits, default_sort_column: 'version', default_sort_column_direction: 'desc'
+    respond_to do |format|
+      format.html # changes.html.haml
+      format.json { render json: @audits }
+    end
+  end
+
   # GET /work_logs/new
   # GET /work_logs/new.json
   def new
@@ -48,6 +60,7 @@ class WorkLogsController < EventBasedController
   # POST /work_logs.json
   def create
     respond_to do |format|
+      @work_log.event = @event if @event
       if @work_log.save
         format.html { redirect_to @work_log, :notice => 'Work log was successfully created.' }
         format.json { render :json => @work_log, :status => :created, :location => @work_log }
@@ -69,6 +82,7 @@ class WorkLogsController < EventBasedController
         format.html { redirect_to @work_log, :notice => 'Work log was successfully updated.' }
         format.json { head :no_content }
       else
+        select_options(@work_log)
         format.html { render :action => "edit" }
         format.json { render :json => @work_log.errors, :status => :unprocessable_entity }
       end

@@ -18,9 +18,16 @@ class Involvement < ActiveRecord::Base
   # this involvment is the mentor in self.mentors
   has_many :mentors
 
+  # TODO make these actual attributes
   store :details, :accessors => DETAIL_ATTRS
 
+  attr_accessible :name, :barcode, :involvement_status, :personnel_status,
+    :on_site, *DETAIL_ATTRS
+
   acts_as_indexed fields: [:token_list]
+
+  audited associated_with: :person
+  has_associated_audits
 
   validates :name, :involvement_status, :personnel_status, :presence => true
   validates_uniqueness_of :person_id, :scope => :event_id,
@@ -31,7 +38,7 @@ class Involvement < ActiveRecord::Base
   validates :personnel_status, :inclusion =>
     { :in => Person::STATUSES.map(&:to_s), :message => "is not a valid status" }
 
-  default_scope order('LOWER(name) ASC')
+  default_scope order('LOWER(involvements.name) ASC')
 
   before_validation do |p|
     if p.new_record?

@@ -1,0 +1,57 @@
+- title = begin
+  - @audit.auditable
+- rescue
+  - @audit.auditable_id
+- title = "#{@audit.auditable_type.titleize} #{title}"
+%h1 Audit record for #{title}
+
+= link_to "All changes to #{title}", audits_path(type: @audit.auditable_type, record_id: @audit.auditable_id)
+- if @audit.associated_id
+  |
+  = link_to "All changes to #{@audit.associated_type} #{@audit.associated}", audits_path(type: @audit.associated_type, record_id: @audit.associated_id)
+
+%dl.attributes[@audit]
+  %dt#label_created_at Time
+  %dd#value_created_at
+    = l @audit.created_at
+    (#{distance_of_time_in_words_to_now @audit.created_at} ago)
+  %dt#label_version Record version
+  %dd#value_version<= @audit.version.ordinalize
+  %dt#label_user User
+  %dd#value_user<= link_to_record @audit.user
+  %dt#label_user Comment
+  %dd#value_user.text-attribute<= @audit.comment
+  %dt#label_action Action
+  %dd#value_action<= @audit.action.titleize
+  %dt#label_auditable_type Record type
+  %dd#value_auditable_type<= @audit.auditable_type.titleize
+  %dt#label_auditable_id Record
+  %dd#value_auditable_type
+    - begin
+      = link_to_record @audit.auditable
+    - rescue
+      = @audit.auditable_id
+  - if @audit.associated_type.present?
+    %dt#label_associated_type Associated type
+    %dd#value_associated_type<= @audit.associated_type.titleize
+    %dt#label_associated_id Associated record
+    %dd#value_associated_type
+      - begin
+        = link_to_record @audit.associated
+      - rescue
+        = @audit.associated_id
+
+  %dt#label_changes Changes
+  %dd#value_changes
+    %table
+      %thead
+        %tr
+          %th Field
+          %th Old value
+          %th New value
+      %tbody
+        - @audit.change_structs.reject {|c| [c.old_value, c.new_value].all? &:blank?}.each do |change|
+          %tr
+            %td= change.field.to_s.titleize
+            %td.text-attribute<= change.old_value
+            %td.text-attribute<= change.new_value

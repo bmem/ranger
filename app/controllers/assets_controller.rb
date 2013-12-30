@@ -29,6 +29,18 @@ class AssetsController < EventBasedController
     end
   end
 
+  # GET /assets/1/changes
+  # GET /assets/1/changes.json
+  def changes
+    @asset = Asset.find(params[:id])
+    authorize! :audit, @asset
+    @audits = order_by_params @asset.audits, default_sort_column: 'version', default_sort_column_direction: 'desc'
+    respond_to do |format|
+      format.html # changes.html.haml
+      format.json { render json: @audits }
+    end
+  end
+
   # GET /assets/new
   # GET /assets/new.json
   def new

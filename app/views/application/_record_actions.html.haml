@@ -8,3 +8,8 @@
         - "Edit #{record.to_title}"
   - if can? :delete, record
     %li= link_to "Delete #{record.to_title}", record, :confirm => 'Delete: are you sure?', :method => :delete
+  - if can? :audit, record
+    - begin
+      - polymorphic_path(record, action: :changes).presence.try do |path|
+        %li= link_to "Changes to #{record}", path
+    - rescue NoMethodError # changes not implemented for this type
