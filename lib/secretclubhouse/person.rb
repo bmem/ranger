@@ -75,9 +75,11 @@ module SecretClubhouse
         when 'deceased', 'retired' then 'available'
         else 'pending'
       end
-      callsign_date = Date.new(time_by_year.keys.max) if time_by_year.any?
+      callsign_date = Date.new(time_by_year.keys.min) if time_by_year.any?
       callsign_date ||= status_date
       callsign_date ||= date_verified
+      callsign_date ||=
+        p.slots.order(:begins).first.try {|s| s.start_time.to_date}
       callsign_date ||= Time.zone.now.to_date
       cassign = p.callsign_assignments.build(primary_callsign: true,
         start_date: callsign_date)
