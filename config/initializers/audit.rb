@@ -1,6 +1,16 @@
 module Audited
   ChangeStruct = Struct.new :field, :old_value, :new_value
   module Audit
+    module ClassMethods
+      def with_default_audit_comment(comment, &block)
+        saved = Thread.current[:default_audit_comment]
+        Thread.current[:default_audit_comment] = comment
+        yield
+      ensure
+        Thread.current[:default_audit_comment] = saved
+      end
+    end
+
     def change_structs
       (audited_changes || {}).map do |k, v|
         case action

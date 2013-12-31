@@ -1,13 +1,15 @@
 module SecretClubhouse
   class Conversion
     def self.audited_as_system_user(&block)
-      user = ::User.find_or_create_by_id!(0) do |u|
-        u.email = 'ranger-tech-ninjas@burningman.com'
-        u.disabled = true
-        u.disabled_message = 'System robot user; do not log in'
-        u.password = (32.chr..126.chr).to_a.sample(16).join
+      Audited.audit_class.with_default_audit_comment('Secret Clubhouse conversion') do
+        user = ::User.find_or_create_by_id!(0) do |u|
+          u.email = 'ranger-tech-ninjas@burningman.com'
+          u.disabled = true
+          u.disabled_message = 'System robot user; do not log in'
+          u.password = (32.chr..126.chr).to_a.sample(16).join
+        end
+        Audited.audit_class.as_user user, &block
       end
-      Audited.audit_class.as_user user, &block
     end
 
     def self.convert_model(from_model, &convert)
