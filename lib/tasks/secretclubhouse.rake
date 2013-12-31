@@ -18,7 +18,7 @@ namespace :clubhouse do
   end
 
   desc "Convert everything from Secret Clubhouse to BMEM"
-  task convert: [:convertmain, :assets, :schedules, :credits, :mentors, :reserved_callsigns, :teams]
+  task convert: [:convertmain, :assets, :schedules, :credits, :mentors, :reserved_callsigns, :teams, 'index:rebuild']
 
   desc "Convert people and more from Secret Clubhouse to BMEM"
   task :convertmain => :environment do
