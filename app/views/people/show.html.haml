@@ -122,6 +122,8 @@
               %td= link_to mentorship.outcome, mentorship
               %td= mentorship.mentors.to_sentence
       - if mentees.any?
+        - if mentors.any?
+          %hr
         %table
           %thead
             %caption Mentees

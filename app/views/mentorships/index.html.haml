@@ -10,7 +10,11 @@
 
   - @mentorships.each do |mentorship|
     %tr
-      %td= link_to_record mentorship.shift
+      %td
+        - mentorship.shift.try do |shift|
+          - day = Date::ABBR_DAYNAMES[shift.start_time.wday]
+          = day unless shift.name.start_with? day
+          = link_to_record shift
       %td= link_to mentorship.mentee, mentorship
       %td
         - mentorship.mentors.sort_by(&:display_name).each do |mentor|

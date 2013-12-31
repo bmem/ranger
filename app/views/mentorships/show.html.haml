@@ -4,7 +4,11 @@
   %dt{id: 'label_event'} Event
   %dd{id: 'value_event'}<= link_to_record @mentorship.event
   %dt{id: 'label_shift'} Shift
-  %dd{id: 'value_shift'}<= link_to_record @mentorship.shift
+  %dd{id: 'value_shift'}<
+    - @mentorship.shift.try do |shift|
+      - day = Date::DAYNAMES[shift.start_time.wday]
+      = day unless shift.name.start_with? day
+      = link_to_record shift
   %dt{id: 'label_mentee'} Mentee
   %dd{id: 'value_mentee'}<= link_to_record @mentorship.mentee
   %dt{id: 'label_mentors'} Mentors

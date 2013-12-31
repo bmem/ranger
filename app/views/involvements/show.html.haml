@@ -25,13 +25,13 @@
 
   .tab-content#tab-status
     %dl.attributes[@involvement]
-      - [:name, :barcode, :on_site, :involvement_status, :personnel_status, :prior_years_rangered].each do |attr|
+      %dt#label_name<= Involvement.human_attribute_name :name
+      %dd#value_name< #{@involvement.name} (#{@involvement.person.full_name})
+      - [:barcode, :on_site, :involvement_status, :personnel_status, :prior_years_rangered].each do |attr|
         %dt{:id => "label_#{attr}"}<= Involvement.human_attribute_name attr
         %dd{:id => "value_#{attr}"}<= @involvement.send attr
       %dt#label_positions< Positions
       %dd#value_positions<= @involvement.positions.to_sentence
-      %dt#label_person< More details about this person
-      %dd#value_person<= link_to_record @involvement.person
 
   .tab-content#tab-schedule
     = render :partial => 'slots/list_for_involvement', :locals => {:involvement => @involvement}
@@ -62,8 +62,10 @@
           %tr
             %td= link_to m.outcome, m
             %td
-              - if m.shift.present?
-                = link_to m.shift, m
+              - m.shift.try do |shift|
+                - day = Date::ABBR_DAYNAMES[shift.start_time.wday]
+                = day unless shift.name.start_with? day
+                = link_to shift, m
             %td= m.mentors.to_sentence
 
   - if @involvement.mentors.any?
@@ -71,15 +73,20 @@
       %table
         %tr
           %th Outcome
-          %th Shift
           %th Mentee
+          %th Shift
           %th Other Mentor(s)
         - @involvement.mentors.each do |mentor|
           - mentor.mentorship.tap do |mentorship|
             %tr
               %td= link_to mentorship.outcome, mentorship
-              %td= mentor.mentorship
+              %td= link_to_record mentor.mentorship
               %td
-                - if mentorship.shift
-                  = mentorship.shift
+                - mentorship.shift.try do |shift|
+                  - day = Date::ABBR_DAYNAMES[shift.start_time.wday]
+                  = day unless shift.name.start_with? day
+                  = shift
               %td= mentorship.mentors.where('involvement_id != ?', @involvement.id).to_sentence
+
+%p
+= link_to "More details and other events for #{@involvement}", @involvement.person

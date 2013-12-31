@@ -15,34 +15,32 @@ module SecretClubhouse
         inv.involvement_status = 'confirmed'
       end
       mentee_person = ::Person.find person_id
-      mentee_involvement = mentee_person.involvements.where(event_id: event.id).first_or_create! do |inv|
+      mentee_inv = mentee_person.involvements.where(event_id: event.id).first_or_create! do |inv|
         inv.name = mentee_person.display_name
         inv.personnel_status = mentee_person.status
         inv.involvement_status = 'confirmed'
       end
-      mentorship = event.mentorships.where(mentee_id: mentee_involvement.id).first_or_create! do |ms|
+      mentorship = event.mentorships.where(mentee_id: mentee_inv.id).first_or_create! do |ms|
         ms.outcome = mentor.vote
         alpha = ::Position.find 'alpha'
-        mentee_involvement.slots.each do |slot|
-          if slot.position_id == alpha.id
-            ms.shift = slot.shift
-          end
+        mentee_inv.slots.where(position_id: alpha.id).first.try do |slot|
+          ms.shift = slot.shift
         end
         if ms.shift.blank?
-          mentee_involvement.work_logs.where(position_id: alpha.id) do |work|
+          mentee_inv.work_logs.where(position_id: alpha.id).each do |work|
             if work.shift.present?
               ms.shift = work.shift
             else
-              event.slots.where(position_id: alpha.id) do |slot|
-                if slot.shift.start_time < work.end_time and
-                    slot.shift.end_time > work.start_time
-                  ms.shift = slot.shift
-                end
-              end
-            end
-          end
-        end
-      end
+              event.shifts.with_positions(alpha.id).each do |shift|
+                if shift.start_time < work.end_time and
+                    shift.end_time > work.start_time
+                  ms.shift = shift
+                end # if time
+              end # each shift
+            end # if shift
+          end # work_logs.each
+        end # if ms.shift.blank?
+      end # first_or_create
       mentor.mentorship = mentorship
       mentor
     end
