@@ -61,7 +61,9 @@ module Ranger
 
     config.generators do |g|
       g.orm :active_record
-      g.template_engine :haml
+      # Generate one for each file in lib/templates/scaffold
+      g.template_engine :all
+      #g.template_engine :haml
       g.test_framework :test_unit, :fixture => true
       # Don't generate scaffold or empty view CSS files
       g.stylesheets false

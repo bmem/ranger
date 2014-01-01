@@ -1,0 +1,12 @@
+%h1 <%= human_name %> #{link_to_record @<%= singular_name %>}
+
+%dl.attributes[@<%= singular_name %>]
+<% attributes.each do |attribute| -%>
+<% if attribute.name == 'event' -%>
+  %dt#label_event Event
+  %dd#value_event= link_to_record @<%= singular_name %>.<%= attribute.name %>
+<% else -%>
+  %dt#label_<%= attribute.name %> <%= attribute.human_name %>
+  %dd<% if attribute.type.to_s == 'text' %>.text-attribute<% end %>#value_<%= attribute.name %><= <% if attribute.type.to_s == 'references' %>link_to_record <%end %>@<%= singular_name %>.<%= attribute.name %>
+<% end -%>
+<% end -%>

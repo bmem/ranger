@@ -1,0 +1,3 @@
+%h1 New <%= singular_table_name %><% if attributes.any? {|a| a.name == 'event'} %> in #{link_to_record @event}<% end %>
+
+= render 'form'

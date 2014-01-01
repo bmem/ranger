@@ -1,0 +1,14 @@
+%h1 <%= plural_name.titleize %><% if attributes.map(&:name).include? 'event' %> in #{link_to_record @event}<% end %>
+
+%table
+  %thead
+    %tr
+<% for attribute in attributes -%>
+      %th= sortable_header :<%= attribute.name %>, '<%= attribute.human_name %>'
+<% end -%>
+  %tbody
+    - @<%= plural_name %>.each do |<%= singular_table_name %>|
+      %tr
+<% for attribute in attributes -%>
+        %td<% if attribute.type.to_s == 'text' %>.text-attribute<<% end %>= <% if attribute.name.in? ['name', 'display_name', 'title'] %>link_to_record <%= singular_table_name %><% elsif attribute.type.to_s == 'references' %>link_to_record <%= singular_table_name %>.<%= attribute.name %><% else %><%= singular_table_name %>.<%= attribute.name %><% end %>
+<% end -%>
