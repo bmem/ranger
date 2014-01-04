@@ -109,6 +109,23 @@ address {
 .content {
 }
 
+abbr {
+  text-decoration-color: blue;
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  // TODO Bourbon or Compass for mixins
+ -moz-text-decoration: blue dashed underline;
+ -ms-text-decoration: blue dashed underline;
+ -o-text-decoration: blue dashed underline;
+ -webkit-text-decoration: blue dashed underline;
+
+  &:after {
+    color: blue;
+    content: "\2139" // INFORMATION SOURCE
+  }
+  // TODO js abbr touch handling to display title
+}
+
 th, td {
   padding-right: 1em;
 }
@@ -155,6 +172,7 @@ dl.user-roles form {
   width: 100%;
 
   th {
+    text-align: left;
     min-width: 10ex;
     white-space: nowrap;
   }

@@ -20,4 +20,35 @@ module TimeHelper
     # convert seconds to minutes, divmod to get hours and remainder
     seconds.fdiv(60).round.divmod(60)
   end
+
+  def relative_date_tag(date_or_time, options = {})
+    options = {class: ''}.merge options
+    classes = options[:class].split
+    if date_or_time.blank?
+      classes << 'date-empty'
+      options[:class] = classes.join(' ')
+      content_tag :span, '', options
+    else
+      classes << 'date'
+      classes << 'time' if date_or_time.acts_like? :time
+      if date_or_time.past?
+        classes << 'past'
+        suffix = 'ago'
+      else
+        classes << 'future'
+        prefix = 'in'
+      end
+      options[:title] = l date_or_time, format: :long
+      options[:class] = classes.join(' ')
+      difference = (Time.zone.now - date_or_time).abs
+      text = if difference < 1.month
+               "#{prefix} #{time_ago_in_words date_or_time} #{suffix}"
+             elsif difference < 1.year
+               l date_or_time.to_date, format: :short
+             else
+               l date_or_time.to_date, format: :default
+             end
+      content_tag :abbr, text, options
+    end
+  end
 end

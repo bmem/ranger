@@ -43,5 +43,5 @@
             = audit.auditable_id
         %td= audit.auditable_type.titleize
         %td= link_to_record audit.user
-        %td= l audit.created_at
+        %td= relative_date_tag audit.created_at
         %td.text-attribute= audit.comment
