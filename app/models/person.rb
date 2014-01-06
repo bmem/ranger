@@ -21,6 +21,8 @@ class Person < ActiveRecord::Base
   has_many :events, :through => :involvements
   has_many :callsign_assignments, autosave: true
   has_many :callsigns, through: :callsign_assignments
+  has_many :message_receipts, foreign_key: :recipient_id, order: 'delivered, created_at desc', dependent: :destroy
+  has_many :messages, through: :message_receipts
   has_and_belongs_to_many :positions
   has_and_belongs_to_many :teams, join_table: :team_members
   has_and_belongs_to_many :managed_teams,

@@ -1,0 +1,21 @@
+%h1 Message #{link_to_record @message}
+
+%dl.attributes[@message]
+  %dt#label_title Title
+  %dd#value_title<= @message.title
+  %dt#label_created_at Sent
+  %dd#value_created_at<= l @message.created_at
+  %dt#label_from From
+  %dd#value_from<= @message.from
+  %dt#label_to To
+  %dd#value_to<= @message.to
+  %dt#label_body Body
+  %dd.text-attribute#value_body<= @message.body
+  %dt#label_expires Expires
+  %dd#value_expires<= @message.expires
+  %dt#label_sender Sender
+  %dd#value_sender<= link_to_record @message.sender
+  %dt#label_recipients Recipients
+  %dd#value_recipients
+    - @message.recipients.each do |person|
+      = link_to_record person

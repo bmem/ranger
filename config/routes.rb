@@ -7,6 +7,13 @@ Ranger::Application.routes.draw do
     end
   end
 
+  resources :messages do
+    member do
+      get :changes
+      post :deliver
+    end
+  end
+
   resources :profiles
 
   resources :roles, :only => [:index, :show, :update], :id => /\w+/

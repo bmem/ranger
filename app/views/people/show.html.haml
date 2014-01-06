@@ -2,6 +2,10 @@
 
 %h1= "#{@person.display_name} (#{@person.full_name})"
 
+- @person.messages.undelivered.presence.try do |undelivered|
+  .notifications
+    .notice= link_to pluralize(undelivered.count, 'new message'), '#tab-messages'
+
 .tab-container
   %ul
     %li.tab-title
@@ -20,6 +24,8 @@
       %a.tab-link{:href => '#tab-user'} User
     %li.tab-title
       %a.tab-link{:href => '#tab-mentorships'} Mentorships
+    %li.tab-title
+      %a.tab-link(href='#tab-messages') Messages
 
   .tab-content#tab-core
     %dl.attributes[@person]
@@ -136,3 +142,10 @@
               %td= mentorship.event
               %td= link_to mentorship.outcome, mentorship
               %td= mentorship.mentee
+
+  .tab-content#tab-messages
+    %dl.send-message.accordion
+      %dt Send a message to #{@person}
+      %dd= render 'messages/quick_send', people: @person
+    %h3 Messages for #{@person}
+    = render 'messages/for_person'

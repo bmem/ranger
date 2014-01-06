@@ -1,0 +1,48 @@
+.person-messages {
+  tbody.message {
+    margin-bottom: 1em;
+
+    tr.message-metadata td {
+      padding-top: 1em;
+    }
+
+    &.undelivered tr.message-metadata {
+      font-weight: bolder;
+      .actions {
+        font-weight: normal;
+      }
+    }
+
+    &.delivered tr.message-body .body {
+      max-height: 1em;
+      max-width: 64ex;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      &:hover {
+        max-height: none;
+        overflow: none;
+        white-space: pre-line;
+      }
+    }
+
+    tr.message-body td {
+      border-bottom: thin solid;
+    }
+  }
+}
+
+.messages-index {
+  td.text-attribute {
+    max-width: 10em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &:hover {
+      overflow: none;
+      white-space: pre-line;
+    }
+  }
+}

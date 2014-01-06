@@ -24,6 +24,7 @@
 %p
   %b Members
   (#{@team.members.count})
+  = link_to 'Send a message to all members', new_message_path(team_ids: @team.to_param)
   %ul
     - @team.members.each do |person|
       %li= link_to_record person

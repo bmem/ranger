@@ -1,0 +1,18 @@
+= semantic_form_for @message do |f|
+  - if @message.new_record?
+    = field_set_tag '', class: 'inputs' do
+      %ol
+        %li.input
+          = label_tag 'team_ids[]', 'To members of'
+          = select_tag 'team_ids[]', options_from_collection_for_select(@teams, :id, :name, @selected_teams.map(&:id)), multiple: true
+          To send a message to an individual, click on Messages on their page.
+  = f.inputs do
+    = f.input :title
+    = f.input :from
+    = f.input :to
+    - if @message.type == 'Broadcast' # TODO handle this
+      = f.input :expires
+    = f.input :body
+
+  = f.actions do
+    = f.action(:submit)

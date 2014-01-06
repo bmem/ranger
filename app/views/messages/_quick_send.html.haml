@@ -1,0 +1,16 @@
+- people = Array.wrap(people || [])
+- teams = Array.wrap(teams || [])
+.message-quick-send
+  - message = Message.new to: (people + teams).to_sentence
+  = semantic_form_for message, remote: true do |f|
+    - if people.any?
+      = hidden_field_tag 'person_ids[]', people.map(&:to_param)
+    - if teams.any?
+      = hidden_field_tag 'team_ids[]', teams.map(&:to_param)
+    = f.inputs do
+      = f.input :title
+      = f.input :from
+      = f.input :to
+      = f.input :body, input_html: {rows: 5}
+    = f.actions do
+      = f.action :submit, label: 'Send message', data: {disable_with: 'Sending...'}

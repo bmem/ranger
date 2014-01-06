@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  message: one
+  recipient: one
+  delivered: false
+
+two:
+  message: two
+  recipient: admin
+  delivered: true

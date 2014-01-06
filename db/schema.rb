@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131224173140) do
+ActiveRecord::Schema.define(:version => 20140104224321) do
 
   create_table "arts", :force => true do |t|
     t.string   "name",         :null => false
@@ -225,6 +225,32 @@ ActiveRecord::Schema.define(:version => 20131224173140) do
   add_index "mentorships", ["event_id"], :name => "index_mentorships_on_event_id"
   add_index "mentorships", ["mentee_id"], :name => "index_mentorships_on_mentee_id"
   add_index "mentorships", ["shift_id"], :name => "index_mentorships_on_shift_id"
+
+  create_table "message_receipts", :force => true do |t|
+    t.integer  "message_id",                      :null => false
+    t.integer  "recipient_id",                    :null => false
+    t.boolean  "delivered",    :default => false, :null => false
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
+    t.boolean  "deleted",      :default => false, :null => false
+  end
+
+  add_index "message_receipts", ["message_id"], :name => "index_message_receipts_on_message_id"
+  add_index "message_receipts", ["recipient_id"], :name => "index_message_receipts_on_recipient_id"
+
+  create_table "messages", :force => true do |t|
+    t.string   "type"
+    t.string   "title"
+    t.string   "from"
+    t.string   "to"
+    t.datetime "expires"
+    t.integer  "sender_id"
+    t.text     "body"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "messages", ["sender_id"], :name => "index_messages_on_sender_id"
 
   create_table "people", :force => true do |t|
     t.string   "display_name", :null => false

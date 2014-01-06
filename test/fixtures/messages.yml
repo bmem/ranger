@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  type: Message
+  title: Hello from Alice
+  from: Alice
+  to: Bob
+  expires: 2015-01-01 00:00:00
+  sender: hquser
+  body: Alice stopped by to say hello.
+
+two:
+  type:
+  title:
+  from:
+  to:
+  expires: 2010-12-31 23:59:59
+  sender: adminuser
+  body: Test Message

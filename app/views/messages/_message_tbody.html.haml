@@ -1,0 +1,21 @@
+- receipt ||= @receipt
+- if receipt
+  - message = receipt.message
+- else
+  - message ||= @message
+  - receipt = message.receipts.count == 1 ? message.receipts.first : message.receipts.build
+%tbody.message{class: receipt.delivered? ? 'delivered' : 'undelivered'}
+  %tr.message-metadata
+    %td.title= message.to_title
+    %td.from= message.from
+    %td.to= message.to
+    %td.sent= relative_date_tag message.created_at
+    %td.sender= message.sender
+    - receipt.recipient_id.try do |person_id|
+      %td.actions
+        = link_to 'Undeliver', deliver_message_path(message, person_id: person_id, undeliver: 'undeliver'), method: :post, remote: true, class: "action-undeliver #{'hidden' unless receipt.delivered?}"
+        = link_to 'Deliver', deliver_message_path(message, person_id: person_id), method: :post, remote: true, class: "action-deliver #{'hidden' if receipt.delivered?}"
+        - if can? :delete, receipt
+          = link_to 'Delete', deliver_message_path(message, person_id: person_id, delete: 'delete', format: :json), method: :post, remote: true, confirm: 'Delete: are you sure?', class: 'action-delete'
+  %tr.message-body
+    %td.body.text-attribute(colspan=6)<= message.body

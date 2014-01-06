@@ -1,0 +1,12 @@
+- person ||= @person
+%table.messages.person-messages[person]
+  %thead
+    %tr
+      %th Title
+      %th From
+      %th To
+      %th Sent
+      %th Sender
+      %th
+  - person.message_receipts.order(created_at: :desc).each do |receipt|
+    = render 'messages/message_tbody', receipt: receipt

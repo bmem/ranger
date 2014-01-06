@@ -1,0 +1,28 @@
+%h1 Messages
+
+= page_entries_info @messages, model: 'messages'
+%br
+= will_paginate @messages, inner_window: 10
+
+%table.messages-index
+  %thead
+    %tr
+      %th= sortable_header :created_at, 'Sent'
+      %th= sortable_header :title, 'Title'
+      %th= sortable_header :from, 'From'
+      %th= sortable_header :to, 'To'
+      %th= sortable_header :expires, 'Expires'
+      %th= sortable_header 'sender_id', 'Sender'
+      %th= sortable_header :body, 'Body'
+  %tbody
+    - @messages.each do |message|
+      %tr
+        %td= link_to relative_date_tag(message.created_at), message
+        %td= link_to_record message
+        %td= message.from
+        %td= message.to
+        %td= relative_date_tag message.expires
+        %td= link_to_record message.sender
+        %td.text-attribute<= message.body
+
+= will_paginate @messages, inner_window: 10

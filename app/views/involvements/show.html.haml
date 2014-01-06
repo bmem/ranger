@@ -4,6 +4,10 @@
     (now known as #{@involvement.person.display_name})
 %h2 involvement in #{link_to_record @involvement.event}
 
+- @involvement.person.messages.undelivered.presence.try do |undelivered|
+  .notifications
+    .notice= link_to pluralize(undelivered.count, 'new message'), '#tab-messages'
+
 .tab-container
   %ul
     %li.tab-title
@@ -14,6 +18,8 @@
       %a.tab-link(href='#tab-worklogs') Work Logs
     %li.tab-title
       %a.tab-link(href='#tab-assets') Assets
+    %li.tab-title
+      %a.tab-link(href='#tab-messages') Messages
     %li.tab-title
       %a.tab-link(href='#tab-onsite') On-Site Details
     - if @involvement.mentorships.any?
@@ -44,6 +50,13 @@
 
   .tab-content#tab-assets
     = render :partial => 'asset_uses/use_list', :locals => {uses: @involvement.asset_uses, excludes: [:involvement]}
+
+  .tab-content#tab-messages
+    %dl.send-message.accordion
+      %dt Send a message to #{@involvement.person}
+      %dd= render 'messages/quick_send', people: @involvement.person
+    %h3 Messages for #{@involvement.person}
+    = render 'messages/for_person', person: @involvement.person
 
   .tab-content#tab-onsite
     %dl.attributes[@involvement]

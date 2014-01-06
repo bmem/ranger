@@ -10,3 +10,9 @@
 - if @person.user
   %h2 User
   = render 'audits/changes_table', audits: associated_audits_for(@person, :user)
+
+%h2 Involvements
+= render 'audits/changes_table', audits: associated_audits_for(@person, :involvement)
+
+%h2 Other changes
+= render 'audits/changes_table', audits: associated_audits_for(@person).where('auditable_type NOT IN (?)', %w(Involvement Profile User))
