@@ -18,7 +18,7 @@ namespace :clubhouse do
   end
 
   desc "Convert everything from Secret Clubhouse to BMEM"
-  task convert: [:convertmain, :assets, :schedules, :credits, :mentors, :reserved_callsigns, :teams, 'index:rebuild']
+  task convert: [:convertmain, :assets, :schedules, :credits, :mentors, :messages, :reserved_callsigns, :teams, 'index:rebuild']
 
   desc "Convert people and more from Secret Clubhouse to BMEM"
   task :convertmain => :environment do
@@ -89,6 +89,23 @@ namespace :clubhouse do
           where('events.start_date < ?', Date.new(2014, 1, 1)).destroy_all
         errors +=
           SecretClubhouse::Conversion::convert_model(SecretClubhouse::Asset)
+      end # transaction
+      puts "#{errors.count} errors"
+      puts errors.join("\n")
+      puts "#{model.model_name.human}: #{model.count}"
+    end
+  end
+
+  desc "Convert messages"
+  task messages: :environment do
+    with_timing 'converting messages' do
+      model = ::Message
+      errors = []
+      model.connection.transaction do
+        puts "Deleting old #{model} records"
+        model.where('created_at < ?', Date.new(2014, 1, 1)).destroy_all
+        errors += SecretClubhouse::Conversion::convert_model(SecretClubhouse::PersonMessage2012)
+        errors += SecretClubhouse::Conversion::convert_model(SecretClubhouse::PersonMessage)
       end # transaction
       puts "#{errors.count} errors"
       puts errors.join("\n")

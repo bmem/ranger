@@ -24,11 +24,14 @@ module SecretClubhouse
             to = yield from
           else
             to = from.to_bmem_model
-            to.id = from.id
           end
           to.audit_comment = 'Secret Clubhouse conversion' if to.respond_to? :audit_comment=
           unless to and to.save
-            err = "Error converting #{ident}: #{to.errors.full_messages.to_sentence}"
+            err = if to
+                    "Error converting #{ident}: #{to.errors.full_messages.to_sentence}"
+                  else
+                    "Did not convert #{ident}: to_bmem_model returned nil"
+                  end
             errors << err
             puts err
           end

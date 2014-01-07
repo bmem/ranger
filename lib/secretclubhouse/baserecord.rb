@@ -55,7 +55,9 @@ module SecretClubhouse
     end
 
     def convert_with_attrs(klass, *attrs)
-      r = klass.new(Hash[attrs.collect {|a| [a, self.send(a)]}])
+      #r = klass.new(Hash[attrs.collect {|a| [a, self.send(a)]}])
+      r = klass.new
+      attrs.each {|a| r.send "#{a}=", self.send(a)}
       r.id = id # ensure relations remain aligned
       r
     end

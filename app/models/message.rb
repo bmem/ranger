@@ -13,7 +13,7 @@ class Message < ActiveRecord::Base
 
   scope :current, -> {where('expires IS NULL or expires > NOW()')}
   # requires a JOIN with receipts; intended use: person.messages.undelivered
-  scope :undelivered, -> {where('NOT message_receipts.delivered')}
+  scope :undelivered, -> {where('message_receipts.delivered' => false)}
 
   def to_title
     title.presence || '(untitled)'
