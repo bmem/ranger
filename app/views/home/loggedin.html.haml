@@ -32,6 +32,9 @@
       Set up teams or manage memberships.
       - @person.managed_teams.each do |team|
         = link_to_record team
+  - if can? :message, :teams or can? :list, :messages
+    %dt= link_to 'Messages', messages_path
+    %dd= link_to 'Send a message to a team', new_message_path
   - if can? :edit, :positions
     %dt= link_to 'Positions', positions_path
     %dd Set up positions for scheduling.
