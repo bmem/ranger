@@ -2,8 +2,8 @@ module SecretClubhouse
   class Conversion
     def self.audited_as_system_user(&block)
       Audited.audit_class.with_default_audit_comment('Secret Clubhouse conversion') do
-        user = ::User.find_or_create_by_id!(0) do |u|
-          u.email = 'ranger-tech-ninjas@burningman.com'
+        user = ::User.where(email: 'ranger-tech-ninjas@burningman.com').first_or_create! do |u|
+          u.id = -1 # MySQL treats id=0 as "next auto increment value"
           u.disabled = true
           u.disabled_message = 'System robot user; do not log in'
           u.password = (32.chr..126.chr).to_a.sample(16).join
