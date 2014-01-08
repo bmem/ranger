@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140104224321) do
+ActiveRecord::Schema.define(:version => 20140108043911) do
 
   create_table "arts", :force => true do |t|
     t.string   "name",         :null => false
@@ -77,8 +77,8 @@ ActiveRecord::Schema.define(:version => 20140104224321) do
     t.string   "user_type"
     t.string   "username"
     t.string   "action"
-    t.text     "audited_changes"
-    t.integer  "version",         :default => 0
+    t.text     "audited_changes", :limit => 20971520
+    t.integer  "version",                             :default => 0
     t.string   "comment"
     t.string   "remote_address"
     t.datetime "created_at"
@@ -245,9 +245,9 @@ ActiveRecord::Schema.define(:version => 20140104224321) do
     t.string   "to"
     t.datetime "expires"
     t.integer  "sender_id"
-    t.text     "body"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.text     "body",       :limit => 1048576
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
   end
 
   add_index "messages", ["sender_id"], :name => "index_messages_on_sender_id"
@@ -314,10 +314,10 @@ ActiveRecord::Schema.define(:version => 20140104224321) do
     t.string   "name"
     t.integer  "num_results"
     t.text     "note"
-    t.text     "report_object"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
-    t.text     "readable_parameters"
+    t.text     "report_object",       :limit => 20971520
+    t.datetime "created_at",                              :null => false
+    t.datetime "updated_at",                              :null => false
+    t.text     "readable_parameters", :limit => 131072
   end
 
   add_index "reports", ["event_id"], :name => "index_reports_on_event_id"
