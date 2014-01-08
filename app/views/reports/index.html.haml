@@ -1,5 +1,8 @@
 / TODO dynamically get available reports based on Ability
-%h1 Run a report
+%h1
+  Run a report
+  - if @event
+    in #{link_to_record @event}
 %dl.generate-report.accordion
   - %w(Birthday HoursCredits ShirtSizes ThankYouCard).each do |name|
     - path = @event ? event_generate_report_path(@event, report_name: name) : generate_report_path(report_name: name)
