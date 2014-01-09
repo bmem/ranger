@@ -1,6 +1,6 @@
 class BirthdayReport
   def initialize(parameters)
-    @month = parameters[:month].to_i rescue nil
+    @month = parameters[:month].presence.try {|m| m.to_i}
     @event_id = parameters[:event_id]
     @statuses = parameters[:statuses] || []
     @statuses = %w(vintage, active, inactive, retired) if @statuses.none?
@@ -18,6 +18,7 @@ class BirthdayReport
     else
       Person.where(status: @statuses)
     end
+    people = people.includes(:profile)
     people.each do |p|
       p.profile and p.profile.birth_date.try do |birthday|
         if @month.blank? or @month == birthday.month
@@ -30,6 +31,6 @@ class BirthdayReport
       [entry[:birthday].month, entry[:birthday].day, entry[:name]]
     end
     return Reporting::ReportResult.new result, result.entries.length,
-      {event: event && event.name, month: Date::MONTHNAMES[@month], statuses: @statuses.to_sentence}
+      {event: event && event.name, month: @month && Date::MONTHNAMES[@month], statuses: @statuses.to_sentence}
   end
 end
