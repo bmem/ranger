@@ -24,6 +24,9 @@
   %b Note:
   = @report.note
 
+- if @report.report_object.is_a? String or @report.report_object.blank?
+  Oops, there was an error loading the saved report.
+- else
 - report_template = @report.report_object.class.name.demodulize.underscore
 - if lookup_context.template_exists?(report_template, 'reports', true)
   .report-inline
