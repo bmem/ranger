@@ -162,35 +162,43 @@ bm2013-operations_grave_9_03:
   name: Grave
   hourly_rate: 0.25
   start_time: 2013-09-03 00:00:00 -07:00
-  end_time: 2013-09-03 06:00:00 -07:00
+  end_time: 2013-09-03 08:00:00 -07:00
 
 bm2013-operations_grave_9_04:
   credit_scheme: bm2013-operations
   name: Grave
   hourly_rate: 0.25
   start_time: 2013-09-04 00:00:00 -07:00
-  end_time: 2013-09-04 06:00:00 -07:00
+  end_time: 2013-09-04 08:00:00 -07:00
 
 bm2013-operations_grave_9_05:
   credit_scheme: bm2013-operations
   name: Grave
   hourly_rate: 0.25
   start_time: 2013-09-05 00:00:00 -07:00
-  end_time: 2013-09-05 06:00:00 -07:00
+  end_time: 2013-09-05 08:00:00 -07:00
 
 bm2013-operations_grave_9_06:
   credit_scheme: bm2013-operations
   name: Grave
   hourly_rate: 0.25
   start_time: 2013-09-06 00:00:00 -07:00
-  end_time: 2013-09-06 06:00:00 -07:00
+  end_time: 2013-09-06 08:00:00 -07:00
 
 bm2013-operations_grave_9_07:
   credit_scheme: bm2013-operations
   name: Grave
   hourly_rate: 0.25
   start_time: 2013-09-07 00:00:00 -07:00
-  end_time: 2013-09-07 06:00:00 -07:00
+  end_time: 2013-09-07 08:00:00 -07:00
+
+# "Bug compatible" with Secret Clubhouse: 0 credits (rather than 0.25)
+bm2013-perimeters_pre_event:
+  credit_scheme: bm2013-perimeters
+  name: Pre-Event
+  hourly_rate: -1.0
+  start_time: 2013-08-01 00:00:00 -07:00
+  end_time: 2013-08-25 18:00:00 -07:00
 
 bm2013-perimeters_man_burn:
   credit_scheme: bm2013-perimeters
@@ -198,6 +206,64 @@ bm2013-perimeters_man_burn:
   hourly_rate: 0.25
   start_time: 2013-08-31 18:00:00 -07:00
   end_time: 2013-09-01 00:00:00 -07:00
+
+# "Bug compatible" with Secret Clubhouse: 0 credits (rather than 1) for
+# pre-event staff training.
+bm2013-trainings_pre_event:
+  credit_scheme: bm2013-trainings
+  name: Pre-Event
+  hourly_rate: -1.0
+  start_time: 2013-01-01 00:00:00 -07:00
+  end_time: 2013-08-25 00:00:00 -07:00
+
+bm2013-preteam_grave_8_18:
+  credit_scheme: bm2013-preteam
+  name: Grave
+  hourly_rate: 0.25
+  start_time: 2013-08-18 00:00:00 -07:00
+  end_time: 2013-08-18 08:00:00 -07:00
+
+bm2013-preteam_grave_8_19:
+  credit_scheme: bm2013-preteam
+  name: Grave
+  hourly_rate: 0.25
+  start_time: 2013-08-19 00:00:00 -07:00
+  end_time: 2013-08-19 08:00:00 -07:00
+
+bm2013-preteam_grave_8_20:
+  credit_scheme: bm2013-preteam
+  name: Grave
+  hourly_rate: 0.25
+  start_time: 2013-08-20 00:00:00 -07:00
+  end_time: 2013-08-20 08:00:00 -07:00
+
+bm2013-preteam_grave_8_21:
+  credit_scheme: bm2013-preteam
+  name: Grave
+  hourly_rate: 0.25
+  start_time: 2013-08-21 00:00:00 -07:00
+  end_time: 2013-08-21 08:00:00 -07:00
+
+bm2013-preteam_grave_8_22:
+  credit_scheme: bm2013-preteam
+  name: Grave
+  hourly_rate: 0.25
+  start_time: 2013-08-22 00:00:00 -07:00
+  end_time: 2013-08-22 08:00:00 -07:00
+
+bm2013-preteam_grave_8_23:
+  credit_scheme: bm2013-preteam
+  name: Grave
+  hourly_rate: 0.25
+  start_time: 2013-08-23 00:00:00 -07:00
+  end_time: 2013-08-23 08:00:00 -07:00
+
+bm2013-preteam_grave_8_24:
+  credit_scheme: bm2013-preteam
+  name: Grave
+  hourly_rate: 0.25
+  start_time: 2013-08-24 00:00:00 -07:00
+  end_time: 2013-08-24 08:00:00 -07:00
 
 ### Burning Man 2012 ###
 

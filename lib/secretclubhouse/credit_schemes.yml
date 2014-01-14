@@ -38,12 +38,19 @@ bm2013-misc:
   description: Various positions that only get the base rate
   position_names: [hot-springs-patrol, tow-truck-driver]
 
+bm2013-preteam:
+  event: burning-man-2013
+  name: Pre-Event Team
+  base_hourly_rate: 0.25
+  description: Pre-event Dirt rangering
+  position_names: [pre-team-dirt-ranger]
+
 bm2013-operations:
   event: burning-man-2013
   name: Operations
   base_hourly_rate: 1.0
   description: Main configuration for operational positions
-  position_names: [dirt, echelon-field, gate-opening, green-dot-long, green-dot-mentee, green-dot-mentor, green-dot-ranger, green-dot-sanctuary, green-dot-short, hq-long, hq-runner, hq-short, hq-window, intercept, intercept-dispatch, leal, leal-trainee, logistics, ood, operator, pre-team-dirt-ranger, rnr, rsc-envoy, rsci, shift-lead, site-teardown, tech-team]
+  position_names: [dirt, echelon-field, gate-opening, green-dot-long, green-dot-mentee, green-dot-mentor, green-dot-ranger, green-dot-sanctuary, green-dot-short, hq-long, hq-runner, hq-short, hq-window, intercept, intercept-dispatch, leal, leal-trainee, logistics, ood, operator, rnr, rsc-envoy, rsci, shift-lead, site-teardown, tech-team]
 
 bm2013-perimeters:
   event: burning-man-2013
