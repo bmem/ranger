@@ -23,7 +23,7 @@
   %b Credits:
   = @work_log.credit_value_formatted
   %br
-  = @work_log.credit_value_explained
+  #{@work_log.scheme}&mdash;#{@work_log.credit_value_explained}
 %p
   %b Note:
   = @work_log.note
