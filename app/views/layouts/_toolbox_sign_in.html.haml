@@ -2,7 +2,7 @@
 = form_for :user, as: :user, url: user_session_path do |f|
   = f.label :email
   %br
-  = f.email_field :email, required: true, placeholder: 'Email address'
+  = f.email_field :email, required: true, placeholder: 'Email address', autofocus: true
   %br
   = f.label :password
   %br

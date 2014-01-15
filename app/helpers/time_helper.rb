@@ -40,6 +40,7 @@ module TimeHelper
       end
       options[:title] = l date_or_time, format: :long
       options[:class] = classes.join(' ')
+      options[:datetime] = date_or_time.to_s
       difference = (Time.zone.now - date_or_time).abs
       text = if difference < 1.month
                "#{prefix} #{time_ago_in_words date_or_time} #{suffix}"
@@ -48,7 +49,7 @@ module TimeHelper
              else
                l date_or_time.to_date, format: :default
              end
-      content_tag :abbr, text, options
+      content_tag :time, text, options
     end
   end
 end

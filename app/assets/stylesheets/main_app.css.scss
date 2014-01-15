@@ -1,11 +1,19 @@
 $khaki: #C3B091;
 
+// Tell old browser that HTML5 semantic block elements are blocks
+article, section, aside, nav, header, footer, figure, figcaption {
+  display: block;
+}
+
 body {
   margin: 0;
 }
 
-address {
+nav, footer, address {
   background-color: $khaki;
+}
+
+footer, address {
   border-top: thin solid;
   margin-top: 0;
   padding-bottom: 1em;
@@ -19,7 +27,6 @@ address {
 }
 
 .menu_header {
-  background-color: $khaki;
   border-bottom: thin solid;
   margin: 0;
   padding: 0 1ex;
@@ -69,7 +76,6 @@ address {
 }
 
 #main-toolbox {
-  background-color: $khaki;
   border-right: thin black solid;
   display: table-cell;
   height: 100%;
@@ -102,7 +108,7 @@ address {
   }
 }
 
-#body-container {
+main {
   background-color: white;
   display: table-cell;
   margin-left: 25%;
@@ -113,21 +119,13 @@ address {
 .content {
 }
 
-abbr {
-  text-decoration-color: blue;
-  text-decoration-line: underline;
-  text-decoration-style: dashed;
-  // TODO Bourbon or Compass for mixins
- -moz-text-decoration: blue dashed underline;
- -ms-text-decoration: blue dashed underline;
- -o-text-decoration: blue dashed underline;
- -webkit-text-decoration: blue dashed underline;
-
+time[title] {
   &:after {
     color: blue;
-    content: "\2139" // INFORMATION SOURCE
+    content: "\23F2" // TIMER CLOCK
   }
   // TODO js abbr touch handling to display title
+  // TODO <details> instead of :after?
 }
 
 th, td {

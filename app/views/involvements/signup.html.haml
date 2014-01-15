@@ -70,12 +70,16 @@
           %td= s.credit_value_formatted
           %td
             - num_people = s.involvements.count
-            - if s.max_people > 0
-              #{num_people}/#{s.max_people}
+            - max = s.max_people
+            - min = s.min_people
+            %meter{value: num_people, min: 0, low: min, max: max > 0 ? max : 1000, optimum: max > 0 ? max : min * 2}
+            - if max > 0
+              #{num_people}/#{max}
             - else
               = num_people
             - if s.in_need?
-              %nobr (need #{s.min_people - num_people} more)
+              %wbr
+              %nobr (need #{min - num_people})
           %td.signup
             - if signed_up
               = link_to 'Remove', leave_event_slot_path(s.event, s, :involvement_id => @involvement.id), :confirm => 'Are you sure?', :method => :post
