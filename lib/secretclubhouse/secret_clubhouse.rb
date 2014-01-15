@@ -41,7 +41,7 @@ module SecretClubhouse
     end
 
     def self.convert_users
-      self.convert_model(User) do |from|
+      errors = self.convert_model(User) do |from|
         sc = from.to_bmem_model
         bmem = ::User.where(id: sc.id).first
         # TODO return nil for non-person users like "Temp 10"
@@ -61,6 +61,7 @@ module SecretClubhouse
         end
         bmem
       end
+      errors
     end
 
     def self.ensure_events_created

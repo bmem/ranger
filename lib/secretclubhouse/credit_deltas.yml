@@ -185,18 +185,17 @@ bm2013-operations_grave_9_06:
   start_time: 2013-09-06 00:00:00 -07:00
   end_time: 2013-09-06 08:00:00 -07:00
 
-bm2013-operations_grave_9_07:
+bm2013-operations_way_post_event:
   credit_scheme: bm2013-operations
-  name: Grave
-  hourly_rate: 0.25
+  name: Waaay post event
+  hourly_rate: -1.0
   start_time: 2013-09-07 00:00:00 -07:00
-  end_time: 2013-09-07 08:00:00 -07:00
+  end_time: 2013-09-30 00:00:00 -07:00
 
-# "Bug compatible" with Secret Clubhouse: 0 credits (rather than 0.25)
 bm2013-perimeters_pre_event:
   credit_scheme: bm2013-perimeters
   name: Pre-Event
-  hourly_rate: -1.0
+  hourly_rate: -0.75
   start_time: 2013-08-01 00:00:00 -07:00
   end_time: 2013-08-25 18:00:00 -07:00
 
@@ -207,6 +206,14 @@ bm2013-perimeters_man_burn:
   start_time: 2013-08-31 18:00:00 -07:00
   end_time: 2013-09-01 00:00:00 -07:00
 
+# "Bug compatible" with Secret Clubhouse: no credit for pre-Sunday misc
+bm2013-misc_pre_event:
+  credit_scheme: bm2013-misc
+  name: Pre-Event
+  hourly_rate: -1.0
+  start_time: 2013-08-01 00:00:00 -07:00
+  end_time: 2013-08-25 00:00:00 -07:00
+
 # "Bug compatible" with Secret Clubhouse: 0 credits (rather than 1) for
 # pre-event staff training.
 bm2013-trainings_pre_event:
@@ -214,7 +221,7 @@ bm2013-trainings_pre_event:
   name: Pre-Event
   hourly_rate: -1.0
   start_time: 2013-01-01 00:00:00 -07:00
-  end_time: 2013-08-25 00:00:00 -07:00
+  end_time: 2013-08-23 00:00:00 -07:00
 
 bm2013-preteam_grave_8_18:
   credit_scheme: bm2013-preteam
