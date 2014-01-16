@@ -206,9 +206,9 @@ bm2013-perimeters_man_burn:
   start_time: 2013-08-31 18:00:00 -07:00
   end_time: 2013-09-01 00:00:00 -07:00
 
-# "Bug compatible" with Secret Clubhouse: no credit for pre-Sunday misc
-bm2013-misc_pre_event:
-  credit_scheme: bm2013-misc
+# "Bug compatible" with Secret Clubhouse: no credit for pre-Sunday Hot Springs
+bm2013-misc2_pre_event:
+  credit_scheme: bm2013-misc2
   name: Pre-Event
   hourly_rate: -1.0
   start_time: 2013-08-01 00:00:00 -07:00

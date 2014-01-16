@@ -36,7 +36,14 @@ bm2013-misc:
   name: Misc Positions
   base_hourly_rate: 1.0
   description: Various positions that only get the base rate
-  position_names: [hot-springs-patrol, tow-truck-driver]
+  position_names: [tow-truck-driver]
+
+bm2013-misc2:
+  event: burning-man-2013
+  name: Misc Positions 2
+  base_hourly_rate: 1.0
+  description: Various positions that only get the base rate. Differs from Misc for historical accuracy reasons.
+  position_names: [hot-springs-patrol]
 
 bm2013-preteam:
   event: burning-man-2013
