@@ -1,6 +1,6 @@
 $(document).ready(function() {
   $('.quick-search-box').each(function (i, e) {
-    var ttl = 24 * 60 * 60 * 1000; // 1 day
+    var ttl = 4 * 60 * 60 * 1000; // 4 hours
     var datasets = [];
     var eventId = $(e).data('event-id');
     if (eventId) {
