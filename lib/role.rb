@@ -29,6 +29,7 @@ class Role
     'Edit people data, sign in/out, run reports')
   HQ_LEAD = Role.new(:hq_lead, 'Echelon HQ Lead', 'Manage HQ operations')
   MENTOR = Role.new(:mentor, 'Mentor Short', 'Mentoring data entry and reports')
+  PERSONNEL = Role.new(:personnel, 'Personnel Manager', 'Manage people')
   TRAINER = Role.new(:trainer, 'Trainer', 'Training data entry and reports')
   TRAINER_LEAD = Role.new(:trainer_lead, 'Trainer Lead', 'Manage all trainings')
   VC = Role.new(:vc, 'Volunteer Coordinator', 'Volunteer intake and outreach')

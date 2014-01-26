@@ -17,7 +17,7 @@
   - if can? :list, :people
     %dt= link_to 'All People', people_path
     %dd View or edit person records.
-  - if can? :list, :users
+  - if policy(User.new).list?
     %dt= link_to 'All Users', users_path
     %dd View or edit user records.
   - if can? :edit, :user_roles

@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include Pundit
   helper TitleHelper
   helper_method :sort_column, :sort_direction
 
@@ -6,15 +7,18 @@ class ApplicationController < ActionController::Base
 
   before_filter :set_default_event_id
 
-  rescue_from CanCan::AccessDenied do |ex|
+  rescue_from CanCan::AccessDenied, with: :user_not_authorized
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
+  protected
+  def user_not_authorized(ex)
     if current_user
-      redirect_back :alert => ex.message
+      redirect_back alert: 'You are not authorized to perform that action'
     else
-      redirect_to new_user_session_path, :alert => ex.message
+      redirect_to new_user_session_path, alert: 'You must be logged in to perform taht action'
     end
   end
 
-  protected
   def redirect_back(*args)
     target = root_url
     if request.env["HTTP_REFERER"].try {|s| s.start_with? root_url}
