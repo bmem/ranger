@@ -103,7 +103,8 @@ namespace :clubhouse do
       errors = []
       model.connection.transaction do
         puts "Deleting old #{model} records"
-        model.where('created_at < ?', Date.new(2014, 1, 1)).destroy_all
+        model.destroy_all
+        #model.where('created_at < ?', Date.new(2014, 1, 1)).destroy_all
         errors += SecretClubhouse::Conversion::convert_model(SecretClubhouse::PersonMessage2012)
         errors += SecretClubhouse::Conversion::convert_model(SecretClubhouse::PersonMessage)
       end # transaction

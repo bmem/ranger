@@ -17,25 +17,29 @@ module SecretClubhouse
       human_name = from_model.model_name.human
       puts "Converting #{from_model.count} #{human_name.pluralize}"
       audited_as_system_user do
-        from_model.all.each do |from|
-          ident = "#{human_name} #{from.id} (#{from.to_s})"
-          puts "Converting #{ident}"
-          if block_given?
-            to = yield from
-          else
-            to = from.to_bmem_model
-          end
-          to.audit_comment = 'Secret Clubhouse conversion' if to.respond_to? :audit_comment=
-          unless to and to.save
-            err = if to
-                    "Error converting #{ident}: #{to.errors.full_messages.to_sentence}"
-                  else
-                    "Did not convert #{ident}: to_bmem_model returned nil"
-                  end
-            errors << err
-            puts err
-          end
-        end # from_model.all
+        from_model.all.in_groups_of(200) do |batch|
+          ::User.transaction do
+            batch.reject(&:blank?).each do |from|
+              ident = "#{human_name} #{from.id} (#{from.to_s})"
+              puts "Converting #{ident}"
+              if block_given?
+                to = yield from
+              else
+                to = from.to_bmem_model
+              end
+              to.audit_comment = 'Secret Clubhouse conversion' if to.respond_to? :audit_comment=
+              unless to and to.save
+                err = if to
+                        "Error converting #{ident}: #{to.errors.full_messages.to_sentence}"
+                      else
+                        "Did not convert #{ident}: to_bmem_model returned nil"
+                      end
+                errors << err
+                puts err
+              end
+            end # batch.each
+          end # transaction
+        end # from_model.all.in_groups_of
       end # audited_as_system_user
       errors
     end
@@ -45,23 +49,26 @@ module SecretClubhouse
         sc = from.to_bmem_model
         bmem = ::User.where(id: sc.id).first
         # TODO return nil for non-person users like "Temp 10"
-        return sc if bmem.nil?
-        if sc.email != bmem.email or sc.person_id != bmem.person_id
+        if bmem.nil?
+          sc
+        elsif sc.email != bmem.email or sc.person_id != bmem.person_id
           puts "Deleting user #{bmem.email} in favor of #{sc.email}"
           bmem.destroy
-          return sc
-        end
-        bmem.disabled = false unless sc.disabled
-        bmem.disabled_message = sc.disabled_message if bmem.disabled
-        sc.roles.each do |role|
-          unless bmem.has_role? role
-            puts "Adding #{role} to #{bmem.email}"
-            bmem.user_roles.build(role: role.to_sym.to_s, user_id: bmem.id)
+          sc
+        else
+          bmem.disabled = false unless sc.disabled
+          bmem.disabled_message = sc.disabled_message if bmem.disabled
+          sc.roles.each do |role|
+            unless bmem.has_role? role
+              puts "Adding #{role} to #{bmem.email}"
+              bmem.user_roles.build(role: role.to_sym.to_s, user_id: bmem.id)
+            end
           end
+          bmem
         end
-        bmem
       end
-      errors
+      puts "Errors is a #{errors.class}: #{errors}" # WTF?
+      Array.wrap(errors.presence || [])
     end
 
     def self.ensure_events_created
