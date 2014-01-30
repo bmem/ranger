@@ -13,13 +13,20 @@
 
   - @callsigns.each do |callsign|
     %tr
-      %td= link_to_record callsign
+      %td
+        - if policy(callsign).show?
+          = link_to_record callsign
+        - else
+          = callsign
       %td= callsign.status
       %td
         - callsign.current_assignee.try do |person|
-          = link_to_record person
-          - if person.full_name != person.display_name
-            %nobr (#{person.full_name})
-      %td.text-attribute= callsign.note
+          - if policy(person).show?
+            = link_to_record person
+            - if person.full_name != person.display_name
+              %nobr (#{person.full_name})
+      %td.text-attribute<
+        - if policy(callsign).show?
+          = callsign.note
 
 = will_paginate @callsigns, :inner_window => 10

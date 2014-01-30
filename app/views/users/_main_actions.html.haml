@@ -1,9 +1,10 @@
 - provide :main_action_list_items do
-  %li= link_to 'All users', users_path
-  - if can? :create, :users
+  - if policy(User).list?
+    %li= link_to 'All users', users_path
+  - if policy(User).create?
     %li= link_to 'New user', new_user_path
-  - if @user and @user.person
+  - if @user and @user.person and policy(@user.person).show?
     %li= link_to "#{@user.person} person info", @user.person
   = render 'record_actions'
-  - if @user and not @user.new_record? and can? :audit, @user
+  - if @user and not @user.new_record? and policy(@user).audit?
     %li= link_to "Changes made by #{@user}", audits_path(user_id: @user.id)

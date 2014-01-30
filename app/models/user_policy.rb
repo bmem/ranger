@@ -1,9 +1,9 @@
 class UserPolicy < ApplicationPolicy
-  MANAGER_ROLES = [Role::ADMIN, Role::VC, Role::PERSONNEL].freeze
+  MANAGE_ROLES = [Role::ADMIN, Role::VC, Role::PERSONNEL].freeze
 
   self::Scope = Struct.new(:user, :scope) do
     def resolve
-      if user.has_role? *MANAGER_ROLES
+      if user.has_role? *MANAGE_ROLES
         scope.where('1 = 1')
       else
         scope.where(id: user.id)
@@ -31,8 +31,10 @@ class UserPolicy < ApplicationPolicy
   def manage?
     # Admins, volunteer coordinators, and personnel managers are the sorts of
     # folks people will turn to when their account doesn't work
-    has_role? *[Role::ADMIN, Role::VC, Role::PERSONNEL]
+    has_role? *MANAGE_ROLES
   end
+
+  def audit? ; manage? ; end
 
   def disable?
     # These folks can prevent users from logging in

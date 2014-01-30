@@ -53,6 +53,7 @@ class ApplicationPolicy
   def audit?
     has_role? Role::ADMIN
   end
+  def changes? ; audit? ; end
 
   def manage?
     has_role? Role::ADMIN

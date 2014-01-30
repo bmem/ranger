@@ -28,8 +28,13 @@ class Role
   HQ = Role.new(:hq, 'Echelon HQ',
     'Edit people data, sign in/out, run reports')
   HQ_LEAD = Role.new(:hq_lead, 'Echelon HQ Lead', 'Manage HQ operations')
+  LAMINATES = Role.new(:laminates, 'Laminates', 'Organize and print IDs')
   MENTOR = Role.new(:mentor, 'Mentor Short', 'Mentoring data entry and reports')
+  OPERATOR = Role.new(:operator, 'Operator',
+    'See data in support of incident logging')
   PERSONNEL = Role.new(:personnel, 'Personnel Manager', 'Manage people')
+  SHIFT_LEAD = Role.new(:shift_lead, 'Shift Lead',
+    'View people, schedules, and reports')
   TRAINER = Role.new(:trainer, 'Trainer', 'Training data entry and reports')
   TRAINER_LEAD = Role.new(:trainer_lead, 'Trainer Lead', 'Manage all trainings')
   VC = Role.new(:vc, 'Volunteer Coordinator', 'Volunteer intake and outreach')
