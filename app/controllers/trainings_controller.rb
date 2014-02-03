@@ -1,7 +1,11 @@
 class TrainingsController < EventBasedController
+  after_filter :verify_authorized, except: :index
+  after_filter :verify_policy_scoped, only: :index
+
   # GET /trainings
   # GET /trainings.json
   def index
+    @trainings = policy_scope(Training)
     @trainings = @trainings.includes(:shift)
     @trainings = @trainings.where('shifts.event_id = ?', @event.id)
     @trainings = order_by_params @trainings
@@ -15,8 +19,6 @@ class TrainingsController < EventBasedController
   # GET /trainings/1
   # GET /trainings/1.json
   def show
-    @training = Training.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @training }
@@ -26,6 +28,7 @@ class TrainingsController < EventBasedController
   # GET /trainings/new
   # GET /trainings/new.json
   def new
+    @training = Training.new
     @training.build_shift.event = @event
     if params[:date].present? and d = Time.zone.parse(params[:date])
       @training.shift.end_time = @training.shift.start_time = d
@@ -34,6 +37,7 @@ class TrainingsController < EventBasedController
       @shift_template = t
       @training.shift.merge_from_template! t, params[:date]
     end
+    authorize @training
 
     respond_to do |format|
       format.html # new.html.erb
@@ -43,15 +47,16 @@ class TrainingsController < EventBasedController
 
   # GET /trainings/1/edit
   def edit
-    @training = Training.find(params[:id])
   end
 
   # POST /trainings
   # POST /trainings.json
   def create
-    @training.build_shift(:event => @event) unless @training.shift
+    @training = Training.new training_params
+    @training.shift = @event.shifts.build unless @training.shift
     @training.shift.event ||= @event
     @training.shift.training = @training
+    authorize @training
 
     respond_to do |format|
       if @training.save
@@ -72,7 +77,7 @@ class TrainingsController < EventBasedController
   # PUT /trainings/1.json
   def update
     respond_to do |format|
-      if @training.update_attributes(params[:training])
+      if @training.update_attributes(training_params)
         format.html { redirect_to [@event, @training], :notice => 'Training was successfully updated.' }
         format.json { head :no_content }
       else
@@ -97,7 +102,17 @@ class TrainingsController < EventBasedController
     @training
   end
 
+  def load_subject_record_by_id
+    @training = Training.find(params[:id])
+  end
+
   def default_sort_column
     'shifts.start_time'
+  end
+
+  private
+  def training_params
+    params.require(:training).
+      permit(*policy(@training || Training).permitted_attributes)
   end
 end

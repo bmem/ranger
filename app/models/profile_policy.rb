@@ -37,7 +37,7 @@ class ProfilePolicy < ApplicationPolicy
 
   def permitted_attributes
     # All fields can be edited
-    [
+    [ :audit_comment,
       :email, :full_name, :nicknames, :phone_numbers, :contact_note,
       :gender, :birth_date, :shirt_size, :shirt_style, :years_at_burning_man,
       # TODO consider using composed_of for addresses instead

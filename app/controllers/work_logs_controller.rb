@@ -1,8 +1,12 @@
 class WorkLogsController < EventBasedController
+  after_filter :verify_authorized, except: :index
+  after_filter :verify_policy_scoped, only: :index
+
   # GET /work_logs
   # GET /work_logs.json
   def index
     @param_prototype = p = select_options
+    @work_logs = policy_scope(WorkLog)
     @work_logs = @work_logs.where(:event_id => @event.id) if @event
     @work_logs = @work_logs.where(:shift_id => p.shift) if p.shift
     @work_logs = @work_logs.where(:involvement_id => p.involvement) if p.involvement
@@ -20,7 +24,7 @@ class WorkLogsController < EventBasedController
   # GET /work_logs/1
   # GET /work_logs/1.json
   def show
-    @event = @work_log.event
+    authorize @work_log
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @work_log }
@@ -30,8 +34,7 @@ class WorkLogsController < EventBasedController
   # GET /work_logs/1/changes
   # GET /work_logs/1/changes.json
   def changes
-    @work_log = WorkLog.find(params[:id])
-    authorize! :audit, @work_log
+    authorize @work_log
     @audits = order_by_params @work_log.audits, default_sort_column: 'version', default_sort_column_direction: 'desc'
     respond_to do |format|
       format.html # changes.html.haml
@@ -42,8 +45,9 @@ class WorkLogsController < EventBasedController
   # GET /work_logs/new
   # GET /work_logs/new.json
   def new
-    select_options(@work_log)
-    @work_log.start_time = DateTime.now
+    @work_log = select_options
+    authorize @work_log
+    @work_log.start_time = Time.zone.now
 
     respond_to do |format|
       format.html # new.html.erb
@@ -53,22 +57,22 @@ class WorkLogsController < EventBasedController
 
   # GET /work_logs/1/edit
   def edit
+    authorize @work_log
     select_options(@work_log)
   end
 
   # POST /work_logs
   # POST /work_logs.json
   def create
+    @work_log = select_options
+    @work_log.attributes = work_log_params
+    authorize @work_log
     respond_to do |format|
-      @work_log.event = @event if @event
       if @work_log.save
-        format.html { redirect_to @work_log, :notice => 'Work log was successfully created.' }
+        format.html { redirect_to [@work_log.event, @work_log], notice: 'Work log was successfully created.' }
         format.json { render :json => @work_log, :status => :created, :location => @work_log }
       else
-        format.html do
-          select_options(@work_log)
-          render :action => "new"
-        end
+        format.html { render :action => "new" }
         format.json { render :json => @work_log.errors, :status => :unprocessable_entity }
       end
     end
@@ -77,9 +81,10 @@ class WorkLogsController < EventBasedController
   # PUT /work_logs/1
   # PUT /work_logs/1.json
   def update
+    authorize @work_log
     respond_to do |format|
-      if @work_log.update_attributes(params[:work_log])
-        format.html { redirect_to @work_log, :notice => 'Work log was successfully updated.' }
+      if @work_log.update_attributes(work_log_params)
+        format.html { redirect_to [@work_log.event, @work_log], :notice => 'Work log was successfully updated.' }
         format.json { head :no_content }
       else
         select_options(@work_log)
@@ -92,6 +97,7 @@ class WorkLogsController < EventBasedController
   # DELETE /work_logs/1
   # DELETE /work_logs/1.json
   def destroy
+    authorize @work_log
     @work_log.destroy
 
     respond_to do |format|
@@ -104,32 +110,50 @@ class WorkLogsController < EventBasedController
     @work_log
   end
 
+  def load_subject_record_by_id
+    @work_log = WorkLog.find(params[:id])
+  end
+
   private
+  def work_log_params
+    params.require(:work_log).
+      permit(*policy(@work_log || WorkLog).permitted_attributes)
+  end
+
   def select_options(work = WorkLog.new)
+    if params[:slot_id].present?
+      slot = Slot.find(params[:slot_id])
+    end
     if params[:position_id].present?
       work.position ||= Position.find(params[:position_id])
-    elsif params[:slot_id].present?
-      slot ||= Slot.find(params[:slot_id]).position
-      work.position ||= slot.position if slot
+    elsif slot
+      work.position ||= slot.position
     end
     if params[:shift_id]
       work.shift ||= Shift.find(params[:shift_id])
     elsif slot
       work.shift ||= slot.shift
     end
-    work.involvement ||= readable(Involvement).find(params[:involvement_id]) if params[:involvement_id]
+    if params[:sign_out].present? && params[:sign_out]
+      work.end_time = Time.zone.now
+    end
+    work.involvement ||= Involvement.find(params[:involvement_id]) if params[:involvement_id]
+    @involvement = work.involvement
     @event ||= work.shift.event if work.shift
     work.event ||= @event
-    @positions = @involvement ? @involvement.positions : readable(Position).order(:name)
+    @positions = @involvement ? @involvement.positions : policy_scope(Position)
     @involvements = if @involvement
-      [@involvement]
-    elsif @event
-      readable(@event.involvements).order(:name)
+        [@involvement]
+      elsif @event
+        readable(@event.involvements).order(:name)
+      else
+        readable(Involvement).order(:name)
+      end
+    if @event
+      @shifts = @event.shifts.with_positions(work.position_id.presence || @positions)
     else
-      readable(Involvement).order(:name)
+      @shifts = work.shift ? [work.shift] : []
     end
-    @shifts = work.shift ? [work.shift] :
-      @event ? @event.shifts : readable(Shift).order(:start_time)
     @events = @event ? [@event] : readable(Event).order('end_date DESC')
     work
   end

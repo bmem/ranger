@@ -31,6 +31,8 @@ class PersonPolicy < ApplicationPolicy
     user.has_role? *MANAGE_ROLES
   end
 
+  def copy? ; edit? ; end
+
   def create?
     # TODO Consider letting trainers create person records for sit-ins
     user.has_role? *MANAGE_ROLES
@@ -48,7 +50,11 @@ class PersonPolicy < ApplicationPolicy
   def audit? ; manage? ; end
 
   def permitted_attributes
-    a = [:full_name, :barcode, :email]
+    a = [:audit_comment, :full_name, :barcode, :email]
+    if user.has_role? *MANAGE_ROLES
+      # TODO Let team managers add people to managed positions
+      a += [position_ids: []]
+    end
     if user.has_role? Role::ADMIN
       # Ordinarily, these should go through their own workflow or controllers
       a += [:display_name, :status]

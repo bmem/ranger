@@ -42,6 +42,6 @@ class CallsignPolicy < ApplicationPolicy
 
   def permitted_attributes
     # TODO Consider letting requesters add notes to their callsign
-    [ :name, :status, :note ]
+    [ :audit_comment, :name, :status, :note ]
   end
 end

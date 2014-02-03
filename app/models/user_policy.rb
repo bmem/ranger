@@ -42,7 +42,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    a = [:email]
+    a = [:audit_comment, :email]
     if disable?
       a += [:disabled, :disabled_message]
     end

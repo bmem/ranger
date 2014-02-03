@@ -41,6 +41,6 @@ class CallsignAssignmentPolicy < ApplicationPolicy
   def audit? ; manage? ; end
 
   def permitted_attributes
-    [ :start_date, :end_date, :primary_callsign ]
+    [ :audit_comment, :start_date, :end_date, :primary_callsign ]
   end
 end

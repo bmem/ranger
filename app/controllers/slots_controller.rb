@@ -1,10 +1,11 @@
 class SlotsController < EventBasedController
-  load_and_authorize_resource :shift, :class => Shift
-  skip_authorize_resource :only => [:join, :leave]
+  before_filter :load_shift
+  #skip_authorize_resource :only => [:join, :leave]
 
   # GET /slots
   # GET /slots.json
   def index
+    @slots = policy_scope(@shift ? @shift.slots : Slot)
     @possible_positions = Position.accessible_by(current_ability)
     @query_position_ids = selected_array_param(params[:position_id]).map(&:to_i)
     if @query_position_ids.any?
@@ -36,8 +37,6 @@ class SlotsController < EventBasedController
   # GET /slots/1/changes
   # GET /slots/1/changes.json
   def changes
-    @slot = Slot.find(params[:id])
-    authorize! :audit, @slot
     @audits = order_by_params @slot.audits, default_sort_column: 'version', default_sort_column_direction: 'desc'
     respond_to do |format|
       format.html # changes.html.haml
@@ -48,7 +47,8 @@ class SlotsController < EventBasedController
   # GET /slots/new
   # GET /slots/new.json
   def new
-    @slot.shift = @shift if @shift
+    @slot = @shift ? @shift.slots.build : Slot.new
+    authorize @slot
     respond_to do |format|
       format.html # new.html.erb
       format.json { render :json => @slot }
@@ -62,6 +62,8 @@ class SlotsController < EventBasedController
   # POST /slots
   # POST /slots.json
   def create
+    @slot = @shift ? @shift.slots.build(slot_params) : Slot.new(slot_params)
+    authorize @slot
     respond_to do |format|
       if @slot.save
         format.html { redirect_to @slot, :notice => 'Slot was successfully created.' }
@@ -77,7 +79,7 @@ class SlotsController < EventBasedController
   # PUT /slots/1.json
   def update
     respond_to do |format|
-      if @slot.update_attributes(params[:slot])
+      if @slot.update_attributes(slot_params)
         format.html { redirect_to @slot, :notice => 'Slot was successfully updated.' }
         format.json { head :no_content }
       else
@@ -90,13 +92,15 @@ class SlotsController < EventBasedController
   # POST /slots/1/join
   # POST /sots/1/join.json
   def join
+    @slot = Slot.find(params[:id])
+    authorize @slot, :show? # TODO authorize a join model
     if params[:involvement_id].present?
       @involvement = Involvement.find(params[:involvement_id])
     elsif params[:person_id].present?
       person = Person.find(params[:person_id])
       @involvement = person.involvements.find_by_event_id @shift.event_id
     end
-    authorize! :edit, @involvement
+    authorize @involvement, :schedule?
     respond_to do |format|
       if not @event.signup_open?
         error = "#{@event} is not open for signups."
@@ -125,13 +129,15 @@ class SlotsController < EventBasedController
   # POST /slots/1/leave
   # POST /sots/1/leave.json
   def leave
+    @slot = Slot.find(params[:id])
+    authorize @slot, :show? # TODO authorize a join model
     if params[:involvement_id].present?
       @involvement = Involvement.find(params[:involvement_id])
     elsif params[:person_id].present?
       person = Person.find(params[:person_id])
       @involvement = person.involvements.find_by_event_id @shift.event_id
     end
-    authorize! :edit, @involvement
+    authorize @involvement, :signup?
     respond_to do |format|
       unless @slot.id.in? @involvement.slot_ids
         format.html { redirect_to :back, :alert => "#{@involvement} is not signed up for #{@slot}." }
@@ -164,7 +170,30 @@ class SlotsController < EventBasedController
     @slot
   end
 
+  def load_subject_record_by_id
+    @slot = Slot.find(params[:id])
+  end
+
   def default_sort_column
     'shifts.start_time'
+  end
+
+  protected
+  def should_load_and_authorize
+    super and not [:join, :leave].include? params[:action].to_sym
+  end
+
+  private
+  def slot_params
+    params.require(:slot).
+      permit(*policy(@slot || Slot).permitted_attributes)
+  end
+
+  def load_shift
+    @shift = if @slot
+               @slot.shift
+             elsif params[:shift_id].present?
+               Shift.find(params[:shift_id])
+             end
   end
 end

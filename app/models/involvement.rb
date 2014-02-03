@@ -1,9 +1,9 @@
 class Involvement < ActiveRecord::Base
-  STATUSES = [:planned, :confirmed, :bonked, :withdrawn]
+  STATUSES = [:planned, :confirmed, :bonked, :withdrawn].freeze
   DETAIL_ATTRS = [
     :camp_location, :on_site_planned, :on_site_actual,
     :off_site_planned, :off_site_actual, :emergency_contact_info
-  ]
+  ].freeze
 
   belongs_to :person
   belongs_to :event

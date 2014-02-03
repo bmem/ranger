@@ -1,4 +1,5 @@
 class PeopleController < ApplicationController
+  before_filter :authenticate_user!
   after_filter :verify_authorized, except: [:index, :tag]
   after_filter :verify_policy_scoped, only: [:index, :tag]
 

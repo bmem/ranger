@@ -1,6 +1,7 @@
 class Shift < ActiveRecord::Base
   belongs_to :event
   has_many :slots, :dependent => :destroy
+  has_many :positions, through: :slots
   has_many :work_logs
   has_one :training, :dependent => :destroy # iff event type is TrainingSeason
   attr_accessible :name, :description, :start_time, :end_time, :event_id

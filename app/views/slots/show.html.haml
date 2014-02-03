@@ -33,17 +33,13 @@
           %td Yes
           - if work.end_time.present?
             %td Yes
-            %td
           - else
             %td No
-            %td= link_to 'Sign out', work
-          %td
+            -# TODO better, unobtrusive sign in/out UX
+            %td= link_to 'Sign out', edit_event_work_log_path(work.event, work, sign_out: true)
+          %td= link_to 'Work log', work
         - else
           %td No
           %td No
-          %td= link_to 'Sign in', work
+          %td= link_to 'Sign in', new_event_work_log_path(@event, slot_id: @slot.id, involvement_id: p.id)
           %td= link_to 'Remove', leave_event_slot_path(@slot.event, @slot, :involvement_id => p.id), :confirm => 'Are you sure?', :method => :post
-
-= link_to 'Edit', edit_slot_path(@slot)
-\|
-= link_to 'Back', slots_path
