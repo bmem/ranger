@@ -1,5 +1,6 @@
 %h1
-  Listing credit_deltas for
-  = link_to @credit_scheme, event_credit_scheme_path(@credit_scheme.event, @credit_scheme)
+  Listing credit deltas
+  - if @credit_scheme
+    for #{link_to_record @credit_scheme}
 
 = render :partial => 'table'

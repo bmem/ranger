@@ -1,6 +1,5 @@
 class SlotsController < EventBasedController
   before_filter :load_shift
-  #skip_authorize_resource :only => [:join, :leave]
 
   # GET /slots
   # GET /slots.json

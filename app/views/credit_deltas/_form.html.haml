@@ -2,7 +2,7 @@
   %h3= @credit_scheme
   = f.inputs do
     = f.input :name
-    = f.input :hourly_rate, :label => 'Hourly rate change'
+    = f.input :hourly_rate, label: 'Hourly rate change', input_html: {step: '0.05'}
     = f.input :start_time
     = f.input :end_time
 

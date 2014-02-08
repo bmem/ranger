@@ -1,7 +1,4 @@
 class EventsController < EventBasedController
-  after_filter :verify_authorized, except: [:index, :set_default]
-  after_filter :verify_policy_scoped, only: :index
-
   # GET /events
   # GET /events.json
   def index
@@ -104,17 +101,22 @@ class EventsController < EventBasedController
     end
   end
 
+  def subject_record
+    @event
+  end
+
+  protected
   def load_subject_record_by_id
     @event = Event.find(params[:id])
   end
 
-  def subject_record
-    @event
+  def skip_verify_authorized_actions
+    [:index, :set_default]
   end
 
   private
   def event_params
     params.require(:event).
-      permit(*policy(@event || Event).permitted_attributes)
+      permit(*policy(@event || Event.new).permitted_attributes)
   end
 end

@@ -12,15 +12,15 @@
   - @credit_deltas.order(:start_time, :end_time => :desc).each do |delta|
     %tr
       - unless @credit_scheme
-        %td= delta.credit_scheme
+        %td= link_to_record delta.credit_scheme
       %td= link_to_record delta
       %td= delta.hourly_rate
       %td= l delta.start_time
       %td= l delta.end_time
       %td= link_to_edit_record delta
-      %td= link_to 'Destroy', delta, :method => :delete, :data => { :confirm => 'Are you sure?' }
+      %td= link_to 'Delete', delta, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
 
 - if @credit_scheme
-  = link_to 'New Credit delta', new_event_credit_scheme_credit_delta_path(@credit_scheme.event, @credit_scheme)
+  = link_to "New credit delta in #{@credit_scheme}", new_event_credit_scheme_credit_delta_path(@credit_scheme.event, @credit_scheme)

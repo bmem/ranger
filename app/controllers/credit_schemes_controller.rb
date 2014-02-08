@@ -2,6 +2,7 @@ class CreditSchemesController < EventBasedController
   # GET /credit_schemes
   # GET /credit_schemes.json
   def index
+    @credit_schemes = policy_scope(CreditScheme)
     @credit_schemes = @credit_schemes.where(:event_id => @event.id) if @event
     respond_to do |format|
       format.html # index.html.erb
@@ -21,8 +22,6 @@ class CreditSchemesController < EventBasedController
   # GET /credit_schemes/1/changes
   # GET /credit_schemes/1/changes.json
   def changes
-    @credit_scheme = CreditScheme.find(params[:id])
-    authorize! :audit, @credit_scheme
     @audits = order_by_params @credit_scheme.audits, default_sort_column: 'version', default_sort_column_direction: 'desc'
     respond_to do |format|
       format.html # changes.html.haml
@@ -33,7 +32,8 @@ class CreditSchemesController < EventBasedController
   # GET /credit_schemes/new
   # GET /credit_schemes/new.json
   def new
-    @credit_scheme.event = @event if @event
+    @credit_scheme = @event ? @event.credit_schemes.build : CreditScheme.new
+    authorize @credit_scheme
     respond_to do |format|
       format.html # new.html.erb
       format.json { render :json => @credit_scheme }
@@ -47,7 +47,8 @@ class CreditSchemesController < EventBasedController
   # POST /credit_schemes
   # POST /credit_schemes.json
   def create
-    @credit_scheme.event = @event if @event and not @credit_scheme.event
+    @credit_scheme = @event ? @event.credit_schemes.build(credit_scheme_params) : CreditScheme.new(credit_scheme_params)
+    authorize @credit_scheme
     respond_to do |format|
       if @credit_scheme.save
         format.html { redirect_to @credit_scheme, :notice => 'Credit scheme was successfully created.' }
@@ -63,7 +64,7 @@ class CreditSchemesController < EventBasedController
   # PUT /credit_schemes/1.json
   def update
     respond_to do |format|
-      if @credit_scheme.update_attributes(params[:credit_scheme])
+      if @credit_scheme.update_attributes(credit_scheme_params)
         format.html { redirect_to @credit_scheme, :notice => 'Credit scheme was successfully updated.' }
         format.json { head :no_content }
       else
@@ -85,5 +86,15 @@ class CreditSchemesController < EventBasedController
 
   def subject_record
     @credit_scheme
+  end
+
+  def load_subject_record_by_id
+    @credit_scheme = CreditScheme.find(params[:id])
+  end
+
+  private
+  def credit_scheme_params
+    params.require(:credit_scheme).
+      permit(*policy(@credit_scheme || CreditScheme.new).permitted_attributes)
   end
 end

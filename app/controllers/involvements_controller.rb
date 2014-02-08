@@ -1,7 +1,4 @@
 class InvolvementsController < EventBasedController
-  after_filter :verify_authorized, except: [:index, :search, :typeahead]
-  after_filter :verify_policy_scoped, only: [:index, :search, :typeahead]
-
   # GET /involvements
   # GET /involvements.json
   def index

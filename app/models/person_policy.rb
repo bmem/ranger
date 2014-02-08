@@ -1,7 +1,8 @@
 class PersonPolicy < ApplicationPolicy
   MANAGE_ROLES = [Role::ADMIN, Role::HQ_LEAD, Role::PERSONNEL, Role::VC].freeze
   VIEW_ROLES = (MANAGE_ROLES + [Role::HQ, Role::LAMINATES, Role::MENTOR,
-                Role::OPERATOR, Role::SHIFT_LEAD, Role::TRAINER_LEAD]).freeze
+    Role::OPERATOR, Role::SHIFT_LEAD, Role::TRAINER_LEAD,
+    Role::VEHICLE_LEAD]).freeze
 
   self::Scope = Struct.new(:user, :scope) do
     def resolve

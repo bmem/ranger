@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include Pundit
+  include ApplicationHelper
   helper TitleHelper
   helper_method :sort_column, :sort_direction
 

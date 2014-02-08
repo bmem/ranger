@@ -1,7 +1,4 @@
 class TrainingsController < EventBasedController
-  after_filter :verify_authorized, except: :index
-  after_filter :verify_policy_scoped, only: :index
-
   # GET /trainings
   # GET /trainings.json
   def index

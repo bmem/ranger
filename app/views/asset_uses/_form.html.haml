@@ -2,8 +2,14 @@
 = semantic_form_for [@event, @asset_use] do |f|
   = f.inputs do
     = f.input :event, input_html: { disabled: @asset_use.event.present? }
-    = f.input :asset, input_html: { disabled: @asset_use.asset.present? }
-    = f.input :involvement, input_html: { disabled: @asset_use.involvement.present? }
+    - if @asset_use.event.present?
+      = f.input :event_id, as: :hidden
+    = f.input :asset, collection: @event.assets, input_html: { disabled: @asset_use.asset.present? }
+    - if @asset_use.asset.present?
+      = f.input :asset_id, as: :hidden
+    = f.input :involvement, collection: @event.involvements, input_html: { disabled: @asset_use.involvement.present? }
+    - if @asset_use.involvement.present?
+      = f.input :involvement_id, as: :hidden
     = f.input :extra, as: :select, collection: extras
     = f.input :checked_out
     = f.input :checked_in

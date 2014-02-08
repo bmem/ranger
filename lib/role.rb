@@ -38,8 +38,11 @@ class Role
   TRAINER = Role.new(:trainer, 'Trainer', 'Training data entry and reports')
   TRAINER_LEAD = Role.new(:trainer_lead, 'Trainer Lead', 'Manage all trainings')
   VC = Role.new(:vc, 'Volunteer Coordinator', 'Volunteer intake and outreach')
+  VEHICLE_LEAD = Role.new(:vehicle_lead, 'Vehicle lead',
+    'Manage the motor pool')
 
-  ALL = [ADMIN, HQ, HQ_LEAD, MENTOR, TRAINER, TRAINER_LEAD, VC].freeze
+  ALL = [ADMIN, HQ, HQ_LEAD, LAMINATES, MENTOR, OPERATOR, PERSONNEL, SHIFT_LEAD,
+    TRAINER, TRAINER_LEAD, VC, VEHICLE_LEAD].freeze
   ALL_SYM = ALL.map(&:to_sym).freeze
   BY_SYMBOL = ALL.index_by(&:to_sym).freeze
 

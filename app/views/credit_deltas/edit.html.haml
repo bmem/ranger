@@ -1,13 +1,3 @@
-%h1 Editing credit_delta
+%h1 Editing #{@credit_delta.name} in #{link_to_record @credit_scheme}
 
 = render 'form'
-
-- if @credit_scheme
-  = link_to_record @credit_delta
-  \|
-  = link_to 'New', new_event_credit_scheme_credit_delta_path(@credit_scheme.event, @credit_scheme)
-  \|
-  = link_to 'Back', event_credit_scheme_credit_deltas_path(@credit_scheme.event, @credit_scheme)
-/= link_to 'Show', @credit_delta
-/\|
-/= link_to 'Back', credit_deltas_path

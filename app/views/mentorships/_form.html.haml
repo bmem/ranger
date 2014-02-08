@@ -1,4 +1,5 @@
-= semantic_form_for [@event, @mentorship], mentee_id: @mentorship.mentee_id do |f|
+= semantic_form_for [@event, @mentorship] do |f|
+  = hidden_field_tag :mentee_id, @mentorship.mentee_id
   = f.inputs do
     = f.input :shift, collection: @event.shifts.with_positions(Position.find('alpha').id)
     = f.input :outcome, collection: Mentorship::OUTCOMES

@@ -1,9 +1,8 @@
 class ReportsController < EventBasedController
-  load_and_authorize_resource
-
   # GET /reports
   # GET /reports.json
   def index
+    @reports = policy_scope(Report)
     @reports = @reports.where event_id: @event.id if @event
     @reports = order_by_params @reports
     respond_to do |format|
@@ -26,8 +25,6 @@ class ReportsController < EventBasedController
   # GET /reports/1/changes
   # GET /reports/1/changes.json
   def changes
-    @report = Report.find(params[:id])
-    authorize! :audit, @report
     @audits = order_by_params @report.audits, default_sort_column: 'version', default_sort_column_direction: 'desc'
     respond_to do |format|
       format.html # changes.html.haml
@@ -43,7 +40,7 @@ class ReportsController < EventBasedController
   # PUT /reports/1.json
   def update
     respond_to do |format|
-      if @report.update_attributes(params[:report])
+      if @report.update_attributes(report_params)
         format.html do
           target = @event ? [@event, @report] : @report
           redirect_to target, notice: 'Report was successfully updated.'
@@ -70,6 +67,8 @@ class ReportsController < EventBasedController
   # POST /reports/generate/Birthday
   def generate
     raise 'Missing report name' unless params[:report_name].present?
+    authorize Report.new
+    # TODO authorize the specific report
     klass = (params[:report_name] + 'Report').constantize
     parameters = params[:parameters] || {}
     if @event
@@ -105,11 +104,21 @@ class ReportsController < EventBasedController
     @report
   end
 
+  def load_subject_record_by_id
+    @report = Report.find params[:id]
+  end
+
   def default_sort_column
     'created_at'
   end
 
   def default_sort_column_direction
     'desc'
+  end
+
+  private
+  def report_params
+    params.require(:report).
+      permit(*policy(@report || Report.new).permitted_attributes)
   end
 end
