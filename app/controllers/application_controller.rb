@@ -18,9 +18,21 @@ class ApplicationController < ActionController::Base
   protected
   def user_not_authorized(ex)
     if current_user
-      redirect_back alert: 'You are not authorized to perform that action'
+      respond_to do |format|
+        message = 'You are not authorized to perform that action'
+        format.html { redirect_back alert: message }
+        format.json { render json: {errors: [message]}, status: :forbidden }
+        format.xml { render xml: {errors: [message]}, status: :forbidden }
+        format.js { render js: "alert('#{message}')", status: :forbidden }
+      end
     else
-      redirect_to new_user_session_path, alert: 'You must be logged in to perform taht action'
+      respond_to do |format|
+        message =  'You must be logged in to perform taht action'
+        format.html {redirect_to new_user_session_path, alert: message}
+        format.json { render json: {errors: [message]}, status: :forbidden }
+        format.xml { render xml: {errors: [message]}, status: :forbidden }
+        format.js { render js: "alert('#{message}')", status: :forbidden }
+      end
     end
   end
 

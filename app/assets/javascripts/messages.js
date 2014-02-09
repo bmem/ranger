@@ -7,12 +7,12 @@ $(document).ready(function() {
       alert(data.responseText);
     });
 
-  $('table.messages').on('ajax:success', '.action-delete[data-remote]',
-    function(e, data, status, xhr) {
-      $(this).closest('tbody.message').fadeOut().detach();
-    }).on('ajax:error', '.action-delete[data-remote]',
+  $('table.messages').on('ajax:error',
     function(e, data, status, xhr) {
       alert(data.errors.join(', '));
+    }).on('ajax:success', '.action-delete[data-remote]',
+    function(e, data, status, xhr) {
+      $(this).closest('tbody.message').fadeOut().detach();
     }).on('ajax:success', '.action-deliver[data-remote]',
     function(e, data, status, xhr) {
       $(this).closest('tbody.message').addClass('delivered').removeClass('undelivered');
