@@ -11,6 +11,14 @@ class ApplicationPolicy
     @user.present? and user.has_role? *roles
   end
 
+  def if_person(&block)
+    user && user.person.try {|p| yield p}
+  end
+
+  def if_person_id(&block)
+    user && user.person_id.try {|pid| yield pid}
+  end
+
   def self.default_scope
     Struct.new(:user, :scope) do
       def resolve
