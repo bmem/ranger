@@ -65,7 +65,11 @@ Ranger::Application.routes.draw do
     end
   end
 
-  resources :arts
+  resources :arts do
+    member do
+      get :changes
+    end
+  end
 
   # TODO require access through /events/e/credits
   resources :credit_schemes
