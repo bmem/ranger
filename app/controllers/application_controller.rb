@@ -18,21 +18,21 @@ class ApplicationController < ActionController::Base
   protected
   def user_not_authorized(ex)
     if current_user
-      respond_to do |format|
-        message = 'You are not authorized to perform that action'
-        format.html { redirect_back alert: message }
-        format.json { render json: {errors: [message]}, status: :forbidden }
-        format.xml { render xml: {errors: [message]}, status: :forbidden }
-        format.js { render js: "alert('#{message}')", status: :forbidden }
-      end
+      logger.warn "Unauthorized attempt by #{current_user}: #{ex.inspect}"
+      message = 'You are not authorized to perform that action'
     else
-      respond_to do |format|
-        message =  'You must be logged in to perform taht action'
+      logger.info "Unauthenticated request to #{fullpath}"
+      message =  'You must be logged in to perform taht action'
+    end
+    respond_to do |format|
+      if current_user
+        format.html { redirect_back alert: message }
+      else
         format.html {redirect_to new_user_session_path, alert: message}
-        format.json { render json: {errors: [message]}, status: :forbidden }
-        format.xml { render xml: {errors: [message]}, status: :forbidden }
-        format.js { render js: "alert('#{message}')", status: :forbidden }
       end
+      format.json { render json: {errors: [message]}, status: :forbidden }
+      format.xml { render xml: {errors: [message]}, status: :forbidden }
+      format.js { render :error_message, locals: {message: message}, status: :forbidden }
     end
   end
 

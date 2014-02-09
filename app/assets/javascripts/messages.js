@@ -9,7 +9,11 @@ $(document).ready(function() {
 
   $('table.messages').on('ajax:error',
     function(e, data, status, xhr) {
-      alert(data.errors.join(', '));
+      if (data.errors) {
+        alert(data.errors.join(', '));
+      } else {
+        alert(data.statusText);
+      }
     }).on('ajax:success', '.action-delete[data-remote]',
     function(e, data, status, xhr) {
       $(this).closest('tbody.message').fadeOut().detach();
