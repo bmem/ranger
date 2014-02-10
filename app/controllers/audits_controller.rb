@@ -1,9 +1,11 @@
 class AuditsController < ApplicationController
   include DistinctValuesHelper
   helper_method :distinct_auditable_types
+  after_filter :verify_authorized, except: :index
+  after_filter :verify_policy_scoped, only: :index
 
   def index
-    @audits = Audited.audit_class.accessible_by(current_ability)
+    @audits = policy_scope(Audited.audit_class)
     if [:type, :record_id].map {|x| params[x]}.all?(&:present?)
       @audits = @audits.where(
         '(auditable_type = :type AND auditable_id = :id) OR (associated_type = :type AND associated_id = :id)',
@@ -24,7 +26,7 @@ class AuditsController < ApplicationController
 
   def show
     @audit = Audited.audit_class.find(params[:id])
-    authorize! :read, @audit
+    authorize @audit
     respond_to do |format|
       format.html # show.html.haml
       format.json { render json: @audit }
