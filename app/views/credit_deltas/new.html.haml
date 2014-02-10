@@ -1,4 +1,7 @@
-%h1 New credit_delta
+%h1
+  New credit delta
+  - if @credit_scheme
+    in #{link_to_record @credit_scheme}
 
 = render 'form'
 

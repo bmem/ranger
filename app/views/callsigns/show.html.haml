@@ -17,7 +17,7 @@
       %th End date
       %th
   %tbody
-    - @callsign.assignments.each do |ca|
+    - policy_scope(@callsign.assignments).each do |ca|
       %tr
         %td= link_to ca.person.full_name, ca.person
         %td= link_to ca.person.display_name, ca.person

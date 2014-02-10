@@ -1,5 +1,13 @@
 %h1 Asset uses in #{link_to_record @event}
 
+- if params[:out].present?
+  Showing only <strong>checked-out</strong> assets.
+  = link_to 'Show all assets', event_asset_uses_path(@event)
+- else
+  Showing all assets.
+  = link_to 'Show only checked-out assets', event_asset_uses_path(@event, out: 1)
+%br
+
 = page_entries_info @asset_uses, :model => 'asset_uses'
 = will_paginate @asset_uses, :inner_window => 10
 = render partial: 'use_list', locals: {uses: @asset_uses, excludes: [:note]}

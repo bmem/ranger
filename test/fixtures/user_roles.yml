@@ -9,13 +9,13 @@ hq1:
   role: hq
 
 hq2:
-  user: hqmentor
+  user: hqmentoruser
   role: hq
 
 mentor1:
-  user: hqmentor
+  user: hqmentoruser
   role: mentor
 
 trainer1:
-  user: trainer
+  user: traineruser
   role: trainer

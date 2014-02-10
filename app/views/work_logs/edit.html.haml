@@ -1,7 +1,3 @@
 %h1 Editing work log for #{link_to_record @work_log.involvement}
 
 = render 'form'
-
-= link_to 'Show', @work_log
-\|
-= link_to 'Back', @event ? event_work_logs_path(@event) : work_logs_path

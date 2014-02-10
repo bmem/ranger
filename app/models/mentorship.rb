@@ -10,9 +10,11 @@ class Mentorship < ActiveRecord::Base
   audited associated_with: :mentee
   has_associated_audits
 
+  validates :mentee, :event, presence: true
   validates :outcome, inclusion: {in: OUTCOMES}
   validate do
-    errors.add(:mentee, 'Event mismatch') unless event_id == mentee.event_id
+    errors.add(:mentee, 'Event mismatch') unless
+      mentee.blank? or event_id == mentee.event_id
     errors.add(:shift, 'Shift must be from same event') unless
       shift.blank? or shift.event_id == event_id
   end

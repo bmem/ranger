@@ -22,7 +22,7 @@ class CreditSchemesControllerTest < ActionController::TestCase
       post :create, :event_id => @credit_scheme.event_id, :credit_scheme => { :base_hourly_rate => @credit_scheme.base_hourly_rate, :description => @credit_scheme.description, :name => @credit_scheme.name }
     end
 
-    assert_redirected_to credit_scheme_path(assigns(:credit_scheme))
+    assert_redirected_to event_credit_scheme_path(assigns(:credit_scheme).event, assigns(:credit_scheme))
   end
 
   test "should show credit_scheme" do
@@ -37,7 +37,7 @@ class CreditSchemesControllerTest < ActionController::TestCase
 
   test "should update credit_scheme" do
     put :update, :id => @credit_scheme, :credit_scheme => { :base_hourly_rate => @credit_scheme.base_hourly_rate, :description => @credit_scheme.description, :name => @credit_scheme.name }
-    assert_redirected_to credit_scheme_path(assigns(:credit_scheme))
+    assert_redirected_to event_credit_scheme_path(assigns(:credit_scheme).event, assigns(:credit_scheme))
   end
 
   test "should destroy credit_scheme" do

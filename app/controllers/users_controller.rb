@@ -1,10 +1,13 @@
 class UsersController < ApplicationController
-  load_and_authorize_resource :except => :index
+  before_filter :authenticate_user!
+  after_filter :verify_authorized, except: :index
+  after_filter :verify_policy_scoped, only: :index
 
   # GET /users
   # GET /users.json
   def index
-    @users = User.accessible_by(current_ability).includes(:person)
+    @users = policy_scope(User)
+    @users = @users.includes(:person)
     @users = order_by_params(@users).
       paginate(:page => params[:page], :per_page => params[:page_size] || 100)
     respond_to do |format|
@@ -16,6 +19,8 @@ class UsersController < ApplicationController
   # GET /people/1
   # GET /people/1.json
   def show
+    @user = User.find(params[:id])
+    authorize @user
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @user }
@@ -25,6 +30,8 @@ class UsersController < ApplicationController
   # GET /people/new
   # GET /people/new.json
   def new
+    @user = User.find(params[:id])
+    authorize @user
     respond_to do |format|
       format.html # new.html.erb
       format.json { render :json => @user }
@@ -33,6 +40,8 @@ class UsersController < ApplicationController
 
   # GET /people/1/edit
   def edit
+    @user = User.find(params[:id])
+    authorize @user
   end
 
   # No create through this controller
@@ -40,13 +49,15 @@ class UsersController < ApplicationController
   # PUT /people/1
   # PUT /people/1.json
   def update
+    @user = User.find(params[:id])
+    authorize @user
     respond_to do |format|
-      if @user.update_attributes(params[:user])
+      if @user.update_attributes(user_attributes)
         target = @user.person || @user
         format.html { redirect_to target, :notice => 'User was successfully updated.' }
         format.json { head :no_content }
       else
-        if can? :edit, @user
+        if policy(@user).edit?
           format.html { render :action => "edit" }
         else
           format.html { redirect_to @user.person, :notice => @user.errors.full_messages.join(', ') }
@@ -59,6 +70,8 @@ class UsersController < ApplicationController
   # DELETE /people/1
   # DELETE /people/1.json
   def destroy
+    @user = User.find(params[:id])
+    authorize @user
     @user.destroy
 
     respond_to do |format|
@@ -73,5 +86,10 @@ class UsersController < ApplicationController
 
   def default_sort_column
     'people.display_name'
+  end
+
+  private
+  def user_attributes
+    params.require(:user).permit(*policy(@user).permitted_attributes)
   end
 end

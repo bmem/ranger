@@ -1,4 +1,6 @@
 class Art < ActiveRecord::Base
+  audited
+
   has_and_belongs_to_many :involvements
   has_and_belongs_to_many :trainings
 

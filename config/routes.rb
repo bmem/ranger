@@ -17,11 +17,13 @@ Ranger::Application.routes.draw do
   resources :profiles
 
   resources :roles, :only => [:index, :show, :update], :id => /\w+/
-  resources :user_roles, :except => [:new, :update]
+  resources :user_roles, only: [:index]
 
   devise_for :users, :path => 'user'
 
-  resources :users, :except => 'create'
+  resources :users, except: 'create' do
+    resources :user_roles, path: :roles, only: [:index, :create, :destroy]
+  end
 
   resources :reports do
     member do
@@ -65,7 +67,11 @@ Ranger::Application.routes.draw do
     end
   end
 
-  resources :arts
+  resources :arts do
+    member do
+      get :changes
+    end
+  end
 
   # TODO require access through /events/e/credits
   resources :credit_schemes

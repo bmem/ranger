@@ -57,10 +57,12 @@ gem 'formtastic'
 
 gem 'acts-as-taggable-on'
 
+gem 'strong_parameters' # TODO this comes by default in Rails 4
+
 # Patched to fix various stack overflow and sqlite compatibility errors
 #gem "rails_sql_views", :git => "git://github.com/flwyd/rails_sql_views"
 
-gem 'cancan', '= 1.6.9' # due to https://github.com/ryanb/cancan/pull/864
+gem 'pundit'
 gem 'devise'
 
 # To use ActiveModel has_secure_password

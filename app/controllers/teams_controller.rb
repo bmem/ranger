@@ -1,9 +1,14 @@
 class TeamsController < ApplicationController
-  load_and_authorize_resource
+  before_filter :authenticate_user!
+  # TODO move this filter to ApplicationController after all Cancan expunged
+  before_filter :load_subject_record_by_id, if: proc {|c| c.params[:id].present?}
+  after_filter :verify_authorized, except: :index
+  after_filter :verify_policy_scoped, only: :index
 
   # GET /teams
   # GET /teams.json
   def index
+    @teams = policy_scope(Team)
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @teams }
@@ -22,8 +27,6 @@ class TeamsController < ApplicationController
   # GET /teams/1
   # GET /teams/1.json
   def changes
-    @team = Team.find(params[:id])
-    authorize! :audit, @team
     respond_to do |format|
       format.html # changes.html.erb
       format.json { render :json => @team.audits }
@@ -33,6 +36,8 @@ class TeamsController < ApplicationController
   # GET /teams/new
   # GET /teams/new.json
   def new
+    @team = Team.new
+    authorize @team
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @team }
@@ -46,6 +51,8 @@ class TeamsController < ApplicationController
   # POST /teams
   # POST /teams.json
   def create
+    @team = Team.new team_params
+    authorize @team
     respond_to do |format|
       if @team.save
         format.html { redirect_to @team, notice: 'Team was successfully created.' }
@@ -61,7 +68,7 @@ class TeamsController < ApplicationController
   # PUT /teams/1.json
   def update
     respond_to do |format|
-      if @team.update_attributes(params[:team])
+      if @team.update_attributes(team_params)
         format.html { redirect_to @team, notice: 'Team was successfully updated.' }
         format.json { head :no_content }
       else
@@ -84,5 +91,16 @@ class TeamsController < ApplicationController
 
   def subject_record
     @team
+  end
+
+  def load_subject_record_by_id
+    @team = Team.find(params[:id])
+    authorize @team
+  end
+
+  private
+  def team_params
+    params.require(:team).
+      permit(*policy(@team || Team).permitted_attributes)
   end
 end

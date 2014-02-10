@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  include Pundit
+  include ApplicationHelper
   helper TitleHelper
   helper_method :sort_column, :sort_direction
 
@@ -6,15 +8,33 @@ class ApplicationController < ActionController::Base
 
   before_filter :set_default_event_id
 
-  rescue_from CanCan::AccessDenied do |ex|
+  # TODO Accept an audit_comment parameter and set it as default so each Policy
+  # doesn't have to include :audit_comment in its result.
+  # Alternatively, figure out a way to always .permit() it on sub-params.
+
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
+  protected
+  def user_not_authorized(ex)
     if current_user
-      redirect_back :alert => ex.message
+      logger.warn "Unauthorized attempt by #{current_user}: #{ex.inspect}"
+      message = 'You are not authorized to perform that action'
     else
-      redirect_to new_user_session_path, :alert => ex.message
+      logger.info "Unauthenticated request to #{fullpath}"
+      message =  'You must be logged in to perform taht action'
+    end
+    respond_to do |format|
+      if current_user
+        format.html { redirect_back alert: message }
+      else
+        format.html {redirect_to new_user_session_path, alert: message}
+      end
+      format.json { render json: {errors: [message]}, status: :forbidden }
+      format.xml { render xml: {errors: [message]}, status: :forbidden }
+      format.js { render :error_message, locals: {message: message}, status: :forbidden }
     end
   end
 
-  protected
   def redirect_back(*args)
     target = root_url
     if request.env["HTTP_REFERER"].try {|s| s.start_with? root_url}

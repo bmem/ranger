@@ -1,4 +1,4 @@
-- if can? :read, Person
+- if policy(Person).search?
   .quick-search
     %h2.quick-search-header Search
     - event_exists = @event && @event.persisted?

@@ -4,7 +4,8 @@ class ShiftTemplate < ActiveRecord::Base
 
   attr_accessible :description, :end_hour, :end_minute, :event_type, :name, :start_hour, :start_minute, :title
 
-  has_many :slot_templates, :dependent => :destroy
+  has_many :slot_templates, dependent: :destroy
+  has_many :positions, through: :slot_templates
 
   validates :title, :presence => true, :uniqueness => true
   validates_inclusion_of :start_hour, :end_hour, :in => 0..23

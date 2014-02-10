@@ -2,6 +2,6 @@
   %li= link_to "All shift templates", shift_templates_path
   %li= link_to "Shift template #{@shift_template}", @shift_template
   %li= link_to "Slot templates in #{@shift_template}", shift_template_slot_templates_path(@shift_template)
-  - if can? :edit, :shift_templates
+  - if policy(SlotTemplate.new).create?
     %li= link_to "New slot in #{@shift_template}", new_shift_template_slot_template_path(@shift_template)
   = render 'record_actions'

@@ -31,6 +31,6 @@
         %nobr= l shift.end_time, :format => :short
       %td= shift.description
 
-- if can? :create, Shift
+- if policy(Shift.new).create?
   %br
   = render 'template_picker'

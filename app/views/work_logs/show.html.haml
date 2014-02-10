@@ -6,10 +6,13 @@
   = link_to_record @work_log.involvement
 %p
   %b Position:
-  = @work_log.position
+  - if @work_log.shift and (slots = @work_log.shift.slots.where(position_id: @work_log.position.id)).any?
+    = link_to_record slots.first
+  - else
+    = @work_log.position
 %p
   %b Shift:
-  = @work_log.shift
+  = link_to_record @work_log.shift
 %p
   %b Start time:
   = l @work_log.start_time
@@ -24,7 +27,7 @@
   = @work_log.credit_value_formatted
   %br
   - @work_log.scheme.try do |scheme|
-    - if can? :read, scheme
+    - if policy(scheme).show?
       = link_to_record scheme
     - else
       scheme
@@ -33,7 +36,3 @@
 %p
   %b Note:
   = @work_log.note
-
-= link_to 'Edit', edit_work_log_path(@work_log)
-\|
-= link_to 'Back', @event ? event_work_logs_path(@event) : work_logs_path

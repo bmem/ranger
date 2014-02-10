@@ -2,7 +2,7 @@ class MentorsController < EventBasedController
   # GET /mentors
   # GET /mentors.json
   def index
-    @mentors = @mentors.where(event_id: @event.id)
+    @mentors = policy_scope(@event.mentors)
     @mentors = @mentors.includes(:mentorship).includes(:involvement).
       includes(:mentee).includes(:shift)
     @mentors = order_by_params @mentors
@@ -25,8 +25,6 @@ class MentorsController < EventBasedController
   # GET /mentors/1/changes
   # GET /mentors/1/changes.json
   def changes
-    @mentor = Mentor.find(params[:id])
-    authorize! :audit, @mentor
     @audits = order_by_params @mentor.audits, default_sort_column: 'version', default_sort_column_direction: 'desc'
     respond_to do |format|
       format.html # changes.html.haml
@@ -37,8 +35,9 @@ class MentorsController < EventBasedController
   # GET /mentors/new
   # GET /mentors/new.json
   def new
-    @mentor.event = @event
+    @mentor = @event.mentors.build
     @mentor.mentorship = Mentorship.find params['mentorship_id'] if params['mentorship_id'].present?
+    authorize @mentor
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @mentor }
@@ -52,8 +51,9 @@ class MentorsController < EventBasedController
   # POST /mentors
   # POST /mentors.json
   def create
-    @mentor.event = @event
+    @mentor = @event.mentors.build mentor_params
     @mentor.mentorship = Mentorship.find params['mentorship_id']
+    authorize @mentor
     respond_to do |format|
       if @mentor.save
         format.html { redirect_to [@event, @mentor], notice: 'Mentor was successfully created.' }
@@ -69,7 +69,7 @@ class MentorsController < EventBasedController
   # PUT /mentors/1.json
   def update
     respond_to do |format|
-      if @mentor.update_attributes(params[:mentor])
+      if @mentor.update_attributes(mentor_params)
         format.html { redirect_to [@mentor.event, @mentor], notice: 'Mentor was successfully updated.' }
         format.json { head :no_content }
       else
@@ -94,7 +94,17 @@ class MentorsController < EventBasedController
     @mentor
   end
 
+  def load_subject_record_by_id
+    @mentor = @event.mentors.find params[:id]
+  end
+
   def default_sort_column
     'involvements.name'
+  end
+
+  private
+  def mentor_params
+    params.require(:mentor).
+      permit(*policy(@mentor || Mentor.new).permitted_attributes)
   end
 end

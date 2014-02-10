@@ -3,6 +3,7 @@ class InvolvementsController < EventBasedController
   # GET /involvements.json
   def index
     set_statuses_from_params
+    @involvements = policy_scope(Involvement)
     @involvements = @involvements.where(:event_id => @event.id) if @event
     filter_by_status
     @involvements = order_by_params(@involvements)
@@ -16,8 +17,9 @@ class InvolvementsController < EventBasedController
   def search
     @query = params[:q]
     set_statuses_from_params
+    @involvements = policy_scope(Involvement)
     if @query.blank? and @personnel_statuses.none? and @involvement_statuses.none?
-      @involvements = Involvement.where('1 = 0')
+      @involvements = @involvements.where('1 = 0')
       flash.notice = 'Empty search query'
     else
       @query = @query.to_ascii
@@ -43,6 +45,7 @@ class InvolvementsController < EventBasedController
 
   # GET /events/:event_id/involvements/typehead.json
   def typeahead
+    @involvements = policy_scope(Involvement)
     @involvements = @involvements.where(event_id: @event.id)
     @dataset = @involvements.map &:to_typeahead_datum
     respond_to do |format|
@@ -62,8 +65,6 @@ class InvolvementsController < EventBasedController
   # GET /involvements/1/changes
   # GET /involvements/1/changes.json
   def changes
-    @involvement = Involvement.find(params[:id])
-    authorize! :audit, @involvement
     @audits = order_by_params @involvement.audits, default_sort_column: 'version', default_sort_column_direction: 'desc'
     respond_to do |format|
       format.html # changes.html.haml
@@ -74,8 +75,10 @@ class InvolvementsController < EventBasedController
   # GET /involvements/new
   # GET /involvements/new.json
   def new
+    @involvement = Involvement.new
     @involvement.event ||= @event
-    @involvement.person_id ||= params[:person_id]
+    @involvement.person_id ||= params[:person_id].presence.to_i
+    authorize @involvement
     respond_to do |format|
       format.html # new.html.erb
       format.json { render :json => @involvement }
@@ -89,8 +92,12 @@ class InvolvementsController < EventBasedController
   # POST /involvements
   # POST /involvements.json
   def create
+    @involvement = Involvement.new
     @involvement.event = @event if @event
-    @involvement.person = Person.find(params[:person_id]) if params[:person_id]
+    person_id = params[:person_id].presence || params[:involvement][:person_id]
+    @involvement.person = Person.find person_id
+    authorize @involvement
+    @involvement.attributes = involvement_params
     respond_to do |format|
       if @involvement.save
         format.html { redirect_to [@involvement.event, @involvement], :notice => 'Involvement was successfully created.' }
@@ -106,7 +113,7 @@ class InvolvementsController < EventBasedController
   # PUT /involvements/1.json
   def update
     respond_to do |format|
-      if @involvement.update_attributes(params[:involvement])
+      if @involvement.update_attributes(involvement_params)
         format.html { redirect_to [@involvement.event, @involvement], :notice => 'Involvement was successfully updated.' }
         format.json { head :no_content }
       else
@@ -128,7 +135,6 @@ class InvolvementsController < EventBasedController
   end
 
   def signup
-    authorize! :update, @involvement
     if @involvement.positions.empty?
       @slots = []
     else
@@ -140,6 +146,10 @@ class InvolvementsController < EventBasedController
     end
   end
 
+  def load_subject_record_by_id
+    @involvement = Involvement.find(params[:id])
+  end
+
   def subject_record
     @involvement
   end
@@ -149,6 +159,11 @@ class InvolvementsController < EventBasedController
   end
 
   private
+  def involvement_params
+    params.require(:involvement).
+      permit(*policy(@involvement || Involvement).permitted_attributes)
+  end
+
   def set_statuses_from_params
     @personnel_statuses = selected_array_param(params[:status])
     @involvement_statuses = selected_array_param(params[:involvement_status])

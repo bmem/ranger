@@ -26,3 +26,5 @@ module Audited
     end
   end
 end
+
+Audited.audit_class.class_exec { def self.policy_class ; ::AuditPolicy ; end }

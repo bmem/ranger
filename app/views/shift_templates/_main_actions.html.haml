@@ -1,6 +1,6 @@
 - provide :main_action_list_items do
   %li= link_to 'All shift templates', shift_templates_path
-  - if can? :create, :shift_templates
+  - if policy(ShiftTemplate.new).create?
     %li= link_to 'New shift template', new_shift_template_path
     - if @shift_template and not @shift_template.new_record?
       %li= link_to "Slots in #{@shift_template}", shift_template_slot_templates_path(@shift_template)

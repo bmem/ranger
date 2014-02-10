@@ -1,4 +1,4 @@
-- if can? :read, :events
+- if policy(Event).list?
   %h2.actions-header Event
   = form_tag set_default_events_path, class: 'quick-event-form' do
     - options = options_from_collection_for_select(Event.select([:slug, :name]), :slug, :name, @event ? @event.slug : @default_event_id)

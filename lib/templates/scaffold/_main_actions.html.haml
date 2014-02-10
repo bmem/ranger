@@ -1,6 +1,7 @@
 - provide :main_action_list_items do
-  %li= link_to 'All <%= plural_name %>', <%= index_helper %>_path
-  - if can? :create, :<%= plural_name %>
+  - if policy(<%= plural_name %>).list?
+    %li= link_to 'All <%= plural_name %>', <%= index_helper %>_path
+  - if policy(<%= singular_name %>.new).create?
     %li= link_to 'New <%= singular_name %>', new_<%= singular_name %>_path
   = render 'record_actions'
 

@@ -1,6 +1,6 @@
 - provide :main_action_list_items do
   %li= link_to 'All messages', messages_path
-  - if can? :create, :messages
+  - if policy(Message.new).create?
     %li= link_to 'New message', new_message_path
   = render 'record_actions'
 

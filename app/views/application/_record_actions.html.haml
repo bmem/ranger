@@ -1,14 +1,18 @@
 - # render 'record_actions', :locals => {:record => r}
 - record ||= subject_record
 - unless record.blank? or record.new_record?
+  - begin
+    - policy = policy(record)
+  - rescue Pundit::NotDefinedError
+    - # let policy be nil
   %li= link_to_record record
-  - if can? :edit, record
+  - if (policy and policy.edit?) or policy(record).edit?
     %li
       = link_to_edit_record record do
         - "Edit #{record.to_title}"
-  - if can? :delete, record
+  - if (policy and policy.delete?) or policy(record).delete?
     %li= link_to "Delete #{record.to_title}", record, :confirm => 'Delete: are you sure?', :method => :delete
-  - if can? :audit, record
+  - if (policy and policy.audit?) or policy(record).audit?
     - begin
       - polymorphic_path(record, action: :changes).presence.try do |path|
         %li= link_to "Changes to #{record}", path

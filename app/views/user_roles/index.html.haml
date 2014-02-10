@@ -1,5 +1,21 @@
 %h1 Listing user roles
 
+- policy(UserRole).listable_roles.sort.presence.try do |listable|
+  %p
+    = form_tag user_roles_path, method: :get do
+      - checked_roles = (@selected_roles.presence || listable).map &:to_sym
+      - listable.each do |role|
+        - box_id = "query-role-#{role.to_sym}"
+        %label.input{for: box_id, style: 'display: inline-block'}
+          - checked = (role.to_sym.in? checked_roles or checked_roles.none?)
+          = check_box_tag "role[#{role.to_sym}]", '1', checked, id: box_id
+          = role
+      %br
+      = submit_tag 'Filter by role'
+
+= page_entries_info @user_roles, model: 'user roles'
+= will_paginate @user_roles, inner_window: 10
+
 %table
   %tr
     %th Role
@@ -10,7 +26,6 @@
   - @user_roles.each do |user_role|
     - role = Role[user_role.role]
     %tr
-      %td{:title => role.description}= link_to role.name, user_roles_path(:role => role.to_sym)
-      %td= link_to user_role.user, user_role_path(user_role.user) if user_role.user
-      %td= link_to 'Edit', edit_user_role_path(user_role.user) if user_role.user
-      %td= link_to 'Revoke', user_role, :method => :delete, :data => { :confirm => "Revoke #{role} for #{user_role.user}?" }
+      %td{title: role.description}= link_to role.name, user_roles_path(role: role.to_sym)
+      %td= link_to user_role.user, user_user_roles_path(user_role.user)
+      %td= link_to 'Revoke', user_role, method: :delete, data: { confirm: "Revoke #{role} from #{user_role.user}?" }

@@ -2,7 +2,7 @@ class MentorshipsController < EventBasedController
   # GET /mentorships
   # GET /mentorships.json
   def index
-    @mentorships = @mentorships.where(event_id: @event.id)
+    @mentorships = policy_scope(@event.mentorships)
     @mentorships = @mentorships.includes(:shift).includes(:mentee)
     @mentorships = order_by_params @mentorships
 
@@ -24,8 +24,6 @@ class MentorshipsController < EventBasedController
   # GET /mentorships/1/changes
   # GET /mentorships/1/changes.json
   def changes
-    @mentorship = Mentorship.find(params[:id])
-    authorize! :audit, @mentorship
     @audits = order_by_params @mentorship.audits, default_sort_column: 'version', default_sort_column_direction: 'desc'
     respond_to do |format|
       format.html # changes.html.haml
@@ -36,13 +34,15 @@ class MentorshipsController < EventBasedController
   # GET /mentorships/new
   # GET /mentorships/new.json
   def new
-    @mentorship.event = @event
+    @mentorship = @event.mentorships.build
+    @mentorship.outcome = Mentorship::OUTCOMES.first
     params['mentee_id'].try do |mid|
       @mentorship.mentee = Involvement.find mid
     end
     params['shift_id'].try do |sid|
       @mentorship.shift = Shift.find sid
     end
+    authorize @mentorship
     respond_to do |format|
       if @mentorship.valid?
         format.html
@@ -61,9 +61,10 @@ class MentorshipsController < EventBasedController
   # POST /mentorships
   # POST /mentorships.json
   def create
-    @mentorship.event = @event
-    @mentorship.mentee = Involvement.find params['mentee_id']
-    @mentorship.shift = Shift.find params['shift_id'] if params['shift_id'].present?
+    @mentorship = @event.mentorships.build mentorship_params
+    params['mentee_id'].presence.try {|mid| @mentorship.mentee = Involvement.find mid }
+    params['shift_id'].presence.try {|sid| @mentorship.shift = Shift.find sid}
+    authorize @mentorship
     respond_to do |format|
       if @mentorship.save
         format.html { redirect_to [@mentorship.event, @mentorship], notice: 'Mentorship was successfully created.' }
@@ -79,7 +80,7 @@ class MentorshipsController < EventBasedController
   # PUT /mentorships/1.json
   def update
     respond_to do |format|
-      if @mentorship.update_attributes(params[:mentorship])
+      if @mentorship.update_attributes(mentorship_params)
         format.html { redirect_to [@mentorship.event, @mentorship], notice: 'Mentorship was successfully updated.' }
         format.json { head :no_content }
       else
@@ -104,7 +105,17 @@ class MentorshipsController < EventBasedController
     @mentorship
   end
 
+  def load_subject_record_by_id
+    @mentorship = @event.mentorships.find(params[:id])
+  end
+
   def default_sort_column
     'shifts.start_time'
+  end
+
+  private
+  def mentorship_params
+    params.require(:mentorship).
+      permit(*policy(@mentorship || Mentorship.new).permitted_attributes)
   end
 end

@@ -2,6 +2,7 @@ class ShiftsController < EventBasedController
   # GET /shifts
   # GET /shifts.json
   def index
+    @shifts = policy_scope(Shift)
     @shifts = @shifts.where(:event_id => @event.id) if @event
     @shifts = order_by_params @shifts
     respond_to do |format|
@@ -22,8 +23,6 @@ class ShiftsController < EventBasedController
   # GET /shifts/1/changes
   # GET /shifts/1/changes.json
   def changes
-    @shift = Shift.find(params[:id])
-    authorize! :audit, @shift
     @audits = order_by_params @shift.audits, default_sort_column: 'version', default_sort_column_direction: 'desc'
     respond_to do |format|
       format.html # changes.html.haml
@@ -35,9 +34,12 @@ class ShiftsController < EventBasedController
   # GET /shifts/new.json
   def new
     if @event
-      @shift.event = @event
+      @shift = @event.shifts.build
       @shift.end_time = @shift.start_time = Time.zone.parse(@event.start_date.to_s)
+    else
+      @shift = Shift.new
     end
+    authorize @shift
     if params[:date].present? and d = Time.zone.parse(params[:date])
       @shift.end_time = @shift.start_time = d
     end
@@ -58,7 +60,9 @@ class ShiftsController < EventBasedController
   # POST /shifts
   # POST /shifts.json
   def create
-    @shift.event = @event if @event
+    @shift = @event ? @event.shifts.build : Shift.new
+    @shift.attributes = shift_params
+    authorize @shift
     respond_to do |format|
       if @shift.save
         if params[:template].present? and t = ShiftTemplate.find(params[:template])
@@ -117,7 +121,7 @@ class ShiftsController < EventBasedController
   # PUT /shifts/1.json
   def update
     respond_to do |format|
-      if @shift.update_attributes(params[:shift])
+      if @shift.update_attributes(shift_params)
         format.html { redirect_to [@shift.event, @shift], :notice => 'Shift was successfully updated.' }
         format.json { head :no_content }
       else
@@ -142,11 +146,20 @@ class ShiftsController < EventBasedController
     @shift
   end
 
+  def load_subject_record_by_id
+    @shift = Shift.find(params[:id])
+  end
+
   def default_sort_column
     'start_time'
   end
 
   private
+  def shift_params
+    params.require(:shift).
+      permit(*policy(@shift || Shift).permitted_attributes)
+  end
+
   def date_and_time(date, time)
     DateTime.new(date.year, date.month, date.day, time.hour, time.min, time.sec, time.zone)
   end

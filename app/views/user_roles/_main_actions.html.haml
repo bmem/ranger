@@ -1,0 +1,11 @@
+- provide :main_action_list_items do
+  - if policy(UserRole).list?
+    %li= link_to 'All user roles', user_roles_path
+  - if policy(User).list?
+    %li= link_to 'All users', users_path
+  - if @user
+    - if policy(@user.user_roles.build).show?
+      %li= link_to "#{@user}'s roles", user_user_roles_path(@user)
+    = render 'record_actions', record: @user
+    - if policy(@user).audit?
+      %li= link_to "Changes made by #{@user}", audits_path(user_id: @user.id)

@@ -17,7 +17,7 @@ class AssetUse < ActiveRecord::Base
   self.per_page = 100
 
   default_scope { order('checked_out DESC') }
-  scope :currently_out, -> { where('checked_out IS NULL') }
+  scope :currently_out, -> { where('checked_in IS NULL') }
 
   def currently_out?
     checked_in.nil?

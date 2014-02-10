@@ -7,11 +7,11 @@
       %li= link_to 'Shifts', event_shifts_path(@event)
     %li= link_to 'Slots', event_slots_path(@event)
     %li= link_to 'Work Logs', event_work_logs_path(@event)
-    -if can? :manage, Involvement
+    - if policy(Involvement).list?
       %li= link_to 'People involved', event_involvements_path(@event)
-    - if can? :read, Asset
+    - if policy(Asset).list?
       %li= link_to 'Assets', event_assets_path(@event)
-    - if can? :read, Report
+    - if policy(Report).list?
       %li= link_to 'Reports', event_reports_path(@event)
     - person_me.try do |person|
       - involvement_for_event_person(@event, person).try do |involvement|

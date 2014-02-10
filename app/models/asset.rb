@@ -13,6 +13,11 @@ class Asset < ActiveRecord::Base
   validates_inclusion_of :designation, allow_blank: true, allow_nil: true,
     in: ->(asset) { asset.possible_designations }
 
+  # All asset types share policy
+  def policy_class
+    AssetPolicy
+  end
+
   def possible_designations
     []
   end

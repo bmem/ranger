@@ -14,9 +14,9 @@
         = yield :main_menu
         %li= link_to 'Schedule', schedule_home_path
         %li= link_to 'Events', events_path
-        - if can? :manage, Person
+        - if policy(Person).list?
           %li= link_to Person.model_name.human.pluralize, people_path
-        - if can? :view, Report
+        - if policy(Report).list?
           %li= link_to Report.model_name.human.pluralize, reports_path
         - if user_signed_in?
           - if current_user.person

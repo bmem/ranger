@@ -25,16 +25,16 @@
       = link_to_record @event.linked_event
   %dt Dates
   %dd #{@event.start_date} to #{@event.end_date} (#{distance_of_time_in_words(@event.start_date, @event.end_date)})
-  - if can? :manage, Involvement
+  - if policy(Involvement).list?
     %dt= link_to 'People', event_involvements_path(@event)
     %dd View and manage the #{@event.involvements.count} people involved
-  - if can? :view, Report
+  - if policy(Report).list?
     %dt= link_to 'Reports', event_reports_path(@event)
     %dd Run, view, print, or download reports
-  - if can? :view, WorkLog
+  - if policy(WorkLog).list?
     %dt= link_to 'Work logs', event_work_logs_path(@event)
     %dd View shift work logs
-  - if can? :manage, Asset
+  - if policy(Asset).list?
     %dt
       = link_to 'Assets', event_assets_path(@event)
       and
@@ -44,12 +44,12 @@
       = link_to 'Radios', event_radios_path(@event)
       = link_to 'Vehicles', event_vehicles_path(@event)
       = link_to 'Keys', event_keys_path(@event)
-  - if can? :manage, Mentorship
+  - if policy(Mentorship).manage?
     %dt Mentors and alphas
     %dd
       = link_to 'Assign mentors, manage alphas,', event_mentorships_path(@event)
       = link_to 'View alphas by mentor', event_mentors_path(@event)
-  - if can? :manage, CreditScheme
+  - if policy(CreditScheme).manage?
     %dt= link_to 'Credit schemes', event_credit_schemes_path(@event)
     %dd Manage credits for shifts
 
@@ -57,22 +57,23 @@
   = link_to 'Shifts', event_shifts_path(@event)
   and
   = link_to 'Slots', event_slots_path(@event)
-- if can? :create, Shift
+- if policy(Shift.new).create?
   = render 'shifts/template_picker'
-%table
-  %tr
-    %th= Shift.human_attribute_name(:name)
-    %th= Shift.human_attribute_name(:start_time)
-    %th= Shift.human_attribute_name(:end_time)
-    %th= Shift.human_attribute_name(:description)
-  - @event.shifts.each do |shift|
+- if policy(Shift).list?
+  %table
     %tr
-      - if @event.is_a? TrainingSeason and shift.training
-        %td= link_to_record shift.training
-      - else
-        %td= link_to_record shift
-      %td
-        %nobr= l shift.start_time, format: :short
-      %td
-        %nobr= l shift.end_time, format: :short
-      %td.text-attribute= shift.description
+      %th= Shift.human_attribute_name(:name)
+      %th= Shift.human_attribute_name(:start_time)
+      %th= Shift.human_attribute_name(:end_time)
+      %th= Shift.human_attribute_name(:description)
+    - policy_scope(@event.shifts).each do |shift|
+      %tr
+        - if @event.is_a? TrainingSeason and shift.training
+          %td= link_to_record shift.training
+        - else
+          %td= link_to_record shift
+        %td
+          %nobr= l shift.start_time, format: :short
+        %td
+          %nobr= l shift.end_time, format: :short
+        %td.text-attribute= shift.description

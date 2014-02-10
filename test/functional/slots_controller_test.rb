@@ -22,7 +22,7 @@ class SlotsControllerTest < ActionController::TestCase
       post :create, event_id: @slot.event.id, slot: {shift_id: @slot.shift_id, position_id: @slot.position_id, min_people: @slot.min_people, max_people: @slot.max_people}
     end
 
-    assert_redirected_to slot_path(assigns(:slot))
+    assert_redirected_to event_shift_slot_path(assigns(:slot).event, assigns(:slot).shift, assigns(:slot))
   end
 
   test "should show slot" do
@@ -37,7 +37,7 @@ class SlotsControllerTest < ActionController::TestCase
 
   test "should update slot" do
     put :update, id: @slot, slot: {min_people: 10, max_people: 20}
-    assert_redirected_to slot_path(assigns(:slot))
+    assert_redirected_to event_shift_slot_path(assigns(:slot).event, assigns(:slot).shift, assigns(:slot))
   end
 
   test "should destroy slot" do

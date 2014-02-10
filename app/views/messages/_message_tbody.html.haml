@@ -13,9 +13,10 @@
     %td.sender= message.sender
     - receipt.recipient_id.try do |person_id|
       %td.actions
-        = link_to 'Undeliver', deliver_message_path(message, person_id: person_id, undeliver: 'undeliver'), method: :post, remote: true, class: "action-undeliver #{'hidden' unless receipt.delivered?}"
-        = link_to 'Deliver', deliver_message_path(message, person_id: person_id), method: :post, remote: true, class: "action-deliver #{'hidden' if receipt.delivered?}"
-        - if can? :delete, receipt
+        - if policy(receipt).deliver?
+          = link_to 'Undeliver', deliver_message_path(message, person_id: person_id, undeliver: 'undeliver'), method: :post, remote: true, class: "action-undeliver #{'hidden' unless receipt.delivered?}"
+          = link_to 'Deliver', deliver_message_path(message, person_id: person_id), method: :post, remote: true, class: "action-deliver #{'hidden' if receipt.delivered?}"
+        - if policy(receipt).delete?
           = link_to 'Delete', deliver_message_path(message, person_id: person_id, delete: 'delete', format: :json), method: :post, remote: true, confirm: 'Delete: are you sure?', class: 'action-delete'
   %tr.message-body
     %td.body.text-attribute(colspan=6)<= message.body

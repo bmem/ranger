@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   audited associated_with: :person,
     only: [:person, :user_roles, :email, :disabled, :disabled_message,
       :reset_password_sent_at]
+  has_associated_audits
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
@@ -33,11 +34,11 @@ class User < ActiveRecord::Base
   end
 
   def roles
-    user_roles.map {|ur| Role[ur.role]}
+    @roles ||= user_roles.map {|ur| Role[ur.role]}
   end
 
-  def has_role?(role)
-    Role[role].in? roles
+  def has_role?(*roles_or_syms_or_strings)
+    roles_or_syms_or_strings.any? {|role| Role[role].in? roles}
   end
 
   def to_title

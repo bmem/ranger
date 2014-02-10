@@ -1,9 +1,9 @@
 - provide :main_action_list_items do
   - if @event
     %li= link_to "#{@event} shifts", event_shifts_path(@event)
-    - if can? :create, :shifts
+    - if policy(Shift.new).create?
       %li= link_to "New shift in #{@event}", new_event_shift_path(@event)
-    - if @shift and not @shift.new_record? and can? :create, :slots
+    - if @shift and not @shift.new_record? and policy(Slot.new).create?
       %li= link_to "New slot in #{@shift}", new_event_shift_slot_path(@event, @shift)
   - else
     %li= link_to 'All shifts', shifts_path

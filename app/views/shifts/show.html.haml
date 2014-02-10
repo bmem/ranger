@@ -18,18 +18,21 @@
   = l @shift.end_time
 %p
   %h3= link_to 'Slots', shift_slots_path(@shift)
-  = link_to 'New slot', new_shift_slot_path(@shift)
+  - if policy(Slot.new).create?
+    = link_to 'New slot', new_shift_slot_path(@shift)
   %table
     %tr
       %th= Slot.human_attribute_name(:position)
       %th= Slot.human_attribute_name(:min_people)
       %th= Slot.human_attribute_name(:max_people)
+      %th Signed up
       %th= Slot.human_attribute_name(:credit_value)
-    - @shift.slots.each do |slot|
+    - policy_scope(@shift.slots).each do |slot|
       %tr
         %td= link_to slot.position.name, shift_slot_path(@shift, slot)
         %td= slot.min_people
         %td= slot.max_people
+        %td= slot.involvements.count
         %td= slot.credit_value_formatted
 
 .copy
@@ -40,7 +43,3 @@
     to
     = text_field_tag 'end', @shift.event.end_date.to_s, :class => 'datepicker'
     = f.submit 'Copy shift'
-
-= link_to 'Edit', edit_shift_path(@shift)
-\|
-= link_to 'Back', shifts_path
