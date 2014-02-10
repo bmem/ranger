@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   audited associated_with: :person,
     only: [:person, :user_roles, :email, :disabled, :disabled_message,
       :reset_password_sent_at]
+  has_associated_audits
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable

@@ -12,8 +12,14 @@
     = f.actions do
       = f.action(:submit)
 
+- if policy(UserRole).managed_roles.any? or Rails.configuration.users_can_choose_roles_dangerous
+  %h2 Roles
+  = link_to 'Manage roles', user_user_roles_path(@user)
+  %ul
+    - @user.roles.sort.each do |role|
+      %li{title: role.description}= role
 -# TODO policy for roles
-- if can? :manage, :roles or Rails.configuration.users_can_choose_roles_dangerous && current_user == @user
+-# if can? :manage, :roles or Rails.configuration.users_can_choose_roles_dangerous && current_user == @user
   -# not a semantic form since Role isn't a relation; pretend it's formtastic for stylistic reasons
   = form_tag role_path(@user.id), :method => :put, :class => 'formtastic user' do
     %fieldset.inputs

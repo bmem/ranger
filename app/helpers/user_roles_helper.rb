@@ -1,5 +1,5 @@
 module UserRolesHelper
-  def polymorphic_url(record_hash_array, options = {})
+  def deprecated_polymorphic_url(record_hash_array, options = {})
     # show and edit are about a user, not a specific UserRole
     if options[:action] && options[:action].in?([:show, :edit])
       case record_hash_array

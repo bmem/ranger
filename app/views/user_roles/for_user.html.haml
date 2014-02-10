@@ -1,0 +1,33 @@
+%h1 Roles for #{link_to_record @user}
+
+%h2 Current
+- if @user.roles.none?
+  #{@user} has no roles assigned.
+- else
+  %dl
+    - @user.roles.sort.each do |role|
+      %dt= role.name
+      %dd= role.description
+
+- policy(UserRole).managed_roles.presence.try do |managed_roles|
+  %h2 Manage
+  %table.user-roles
+    %tr
+      %th Role
+      %th Has?
+      %th Action
+      %th Description
+    - urs = @user_roles.index_by &:role_obj
+    - managed_roles.each do |role|
+      %tr
+        %td= role.name
+        %td= urs[role] ? 'yes' : ''
+        %td
+          - if urs[role]
+            = form_for [@user, urs[role]], method: :delete do |f|
+              = submit_tag 'Revoke', confirm: "Revoke #{role} from #{@user}?"
+          - else
+            = form_for [@user, UserRole.new(role: role.to_sym)] do |f|
+              = f.hidden_field :role
+              = submit_tag 'Grant', confirm: "Grant #{role} to #{@user}?"
+        %td= role.description
