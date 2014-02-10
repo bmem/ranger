@@ -1,8 +1,11 @@
 class ScheduleHomeController < ApplicationController
+  before_filter :authenticate_user!
+
   def index
     @page_title = "Schedule"
-    unless current_user and @person = current_user.person
-      raise CanCan::AccessDenied.new('Not logged in')
+    unless @person = current_user.person
+      redirect_to '/', notice: 'No person associated with this user'
+      return
     end
     @involvements = @person.involvements
     @involvements_by_event = @involvements.index_by &:event_id

@@ -43,7 +43,6 @@ GEM
       audited (= 3.0.0)
     bcrypt-ruby (3.1.2)
     builder (3.0.4)
-    cancan (1.6.9)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
       railties (~> 3.2.0)
@@ -167,7 +166,6 @@ DEPENDENCIES
   acts-as-taggable-on
   acts_as_indexed
   audited-activerecord (~> 3.0)
-  cancan (= 1.6.9)
   coffee-rails (~> 3.2)
   devise
   fastercsv

@@ -12,7 +12,6 @@ class ApplicationController < ActionController::Base
   # doesn't have to include :audit_comment in its result.
   # Alternatively, figure out a way to always .permit() it on sub-params.
 
-  rescue_from CanCan::AccessDenied, with: :user_not_authorized
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   protected
