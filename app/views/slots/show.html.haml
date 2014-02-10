@@ -26,7 +26,7 @@
       %th Signed out?
       %th
       %th
-    - @slot.involvements.accessible_by(current_ability).each do |p|
+    - policy_scope(@slot.involvements).each do |p|
       %tr
         %td= link_to_record p
         - if work = p.work_logs.where(:shift_id => @slot.shift_id).first

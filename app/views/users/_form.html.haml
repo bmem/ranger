@@ -18,23 +18,3 @@
   %ul
     - @user.roles.sort.each do |role|
       %li{title: role.description}= role
--# TODO policy for roles
--# if can? :manage, :roles or Rails.configuration.users_can_choose_roles_dangerous && current_user == @user
-  -# not a semantic form since Role isn't a relation; pretend it's formtastic for stylistic reasons
-  = form_tag role_path(@user.id), :method => :put, :class => 'formtastic user' do
-    %fieldset.inputs
-      %legend
-        %span Roles
-      %ol
-        - Role::ALL.each do |role|
-          %li.boolean.input.optional
-            - id = "role_#{role.to_sym}"
-            - present = @user.has_role?(role)
-            = label_tag id, :class => (present ? 'present' : 'absent') do
-              = check_box_tag 'roles[]', role.to_sym, present, :id => id
-              = role.name
-            %p.inline-hints= role.description
-    %fieldset.actions
-      %ol
-        %li.action.input_action#user_roles_submit_action
-          = submit_tag 'Update Roles', :disable_with => 'Saving...', :name => 'commit'

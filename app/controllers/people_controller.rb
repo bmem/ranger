@@ -72,9 +72,7 @@ class PeopleController < ApplicationController
   def tag
     @tag = params['tag'].try &:pluralize
     tag_name = params['name']
-    #people = Person.accessible_by(current_ability).order(:display_name)
     people = policy_scope(Person)
-    #people = people.where(:on_playa => true) if params['on_playa']
     if params[:on_playa] and default_event_id || params[:event_id].present?
       event = Event.find(params[:event_id].presence || default_event_id)
       people = people.joins(:involvements).
@@ -120,7 +118,6 @@ class PeopleController < ApplicationController
   # GET /people/1/changes.json
   def changes
     @person = Person.find(params[:id])
-    #authorize! :audit, @person
     authorize @person
     @audits = order_by_params @person.audits, default_sort_column: 'version', default_sort_column_direction: 'desc'
     respond_to do |format|

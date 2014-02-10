@@ -2,7 +2,7 @@
 = fields_for :parameters do |f|
   - unless @event
     = f.label 'Event:'
-    = f.collection_select :event_id, Event.accessible_by(current_ability), :slug, :name, {include_blank: true}
+    = f.collection_select :event_id, policy_scope(Event), :slug, :name, {include_blank: true}
   = f.label :month, 'Month:'
   = f.collection_select :month, (1..12).map {|i| [i, Date::MONTHNAMES[i]]}, :first, :second, {include_blank: true}
   = f.label :statuses, 'Personnel statuses:'

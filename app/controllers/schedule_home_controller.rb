@@ -1,6 +1,4 @@
 class ScheduleHomeController < ApplicationController
-  skip_load_and_authorize_resource
-
   def index
     @page_title = "Schedule"
     unless current_user and @person = current_user.person

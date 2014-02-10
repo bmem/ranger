@@ -98,7 +98,7 @@
   .tab-content#tab-user
     - @person.user.try do |user|
       %dl.attributes[user]
-        - if can? :audit, user
+        - if policy(user).audit?
           %dt#label_user_audits Changes
           %dd#value_user_audits= link_to "Changes made by #{user}", audits_path(user_id: user.id)
         %dt{:id => "label_user_roles"} Roles

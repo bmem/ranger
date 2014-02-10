@@ -16,6 +16,11 @@ class ShiftPolicy < ApplicationPolicy
         scope.where("1 = 'Non-person, no access'")
       end
     end
+
+    private
+    def team_manager?
+      ShiftPolicy.new(user, Shift.new).team_manager?
+    end
   end
 
   def list?
@@ -63,8 +68,7 @@ class ShiftPolicy < ApplicationPolicy
     a
   end
 
-  private
   def team_manager?
-    user.person_id.present? and user.person.managed_team_ids.any?
+    if_person {|p| p.managed_team_ids.any?}
   end
 end

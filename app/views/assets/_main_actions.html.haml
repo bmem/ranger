@@ -1,6 +1,6 @@
 - provide :main_action_list_items do
   %li= link_to "#{@event} assets", event_assets_path(@event)
-  - if can? :create, :assets
+  - if policy(Asset.new).create?
     - [Radio, Vehicle, Key, Asset].each do |type|
       %li= link_to "New #{type} in #{@event}", new_event_asset_path(@event, {type: type.to_s})
   = render 'record_actions'

@@ -1,5 +1,5 @@
 - provide :main_action_list_items do
   %li= link_to 'All teams', teams_path
-  - if can? :create, :teams
+  - if policy(Team.new).create?
     %li= link_to 'New team', new_team_path
   = render 'record_actions'

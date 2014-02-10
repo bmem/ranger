@@ -26,6 +26,6 @@
   %dd{:id => "value_created_at"}= l @user.created_at
   %dt{:id => "label_updated_at"} Updated
   %dd{:id => "value_updated_at"}= l @user.updated_at
-  - if can? :audit, @user
+  - if policy(@user).audit?
     %dt{:id => "label_audits"} Audit records
     %dd{:id => "value_audits"}= link_to "Changes made by #{@user}", audits_path(user_id: @user.id)

@@ -20,6 +20,6 @@
           = link_to 'Map', training.map_link
       %td= link_to 'Shift', training.shift
 
-- if can? :create, Training
+- if policy(Training.new).create?
   %br
   = render 'shifts/template_picker'

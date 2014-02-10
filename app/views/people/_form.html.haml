@@ -11,24 +11,24 @@
 
 .tab-container
   %ul
-    - if can? :edit, @person
+    - if policy(@person).update?
       %li.tab-title
         %a.tab-link{:href => '#tab-core'} Core
-    - if can? :edit, @person.profile
+    - if policy(@person.profile).edit?
       %li.tab-title
         %a.tab-link{:href => '#tab-contact'} Contact
       %li.tab-title
         %a.tab-link{:href => '#tab-profile'} Profile
-    - if can? :edit, @person
       %li.tab-title
         %a.tab-link{:href => '#tab-skills'} Skills
-    - if can? :edit, Position
+    - if policy(Position).list?
       %li.tab-title
         %a.tab-link{:href => '#tab-positions'} Positions
-    %li.tab-title
-      %a.tab-link{:href => '#tab-user'} User
+    - if @person.user
+      %li.tab-title
+        %a.tab-link{:href => '#tab-user'} User
 
-  - if can? :edit, @person
+  - if policy(@person).update?
     .tab-content#tab-core
       = semantic_form_for(@person, :namespace => 'core_form') do |f|
         = f.inputs do
@@ -43,7 +43,7 @@
           = f.input :audit_comment, as: :audit, required: audit_required
           = f.action(:submit)
 
-  - if can? :edit, @person.profile
+  - if policy(@person.profile).edit?
     .tab-content#tab-contact
       = semantic_form_for(@person.profile, :namespace => 'contact_form') do |f|
         = f.inputs do
@@ -78,7 +78,7 @@
           = f.input :audit_comment, as: :audit, required: audit_required
           = f.action(:submit)
 
-  - if can? :edit, Position
+  - if policy(Position).list?
     .tab-content#tab-positions
       = semantic_form_for(@person, :namespace => 'positions_form') do |f|
         = f.inputs do
@@ -87,6 +87,6 @@
           = f.input :audit_comment, as: :audit
           = f.action(:submit)
 
-  .tab-content#tab-user
-    - @person.user.try do |user|
-      = render :partial => 'users/form', :locals => {:@user => user}
+  - if @person.user
+    .tab-content#tab-user
+      = render :partial => 'users/form', :locals => {:@user => @person.user}

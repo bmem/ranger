@@ -4,7 +4,7 @@
   - if event and shift
     = render 'record_actions', record: shift
     %li= link_to "#{shift} slots", event_shift_slots_path(event, shift)
-    - if can? :create, :slots
+    - if policy(Slot.new).create?
       %li= link_to "New slot in #{shift}", new_event_shift_slot_path(event, shift)
   - elsif event
     %li= link_to_record event

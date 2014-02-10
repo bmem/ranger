@@ -16,7 +16,7 @@ class PositionPolicy < ApplicationPolicy
   end
 
   def list?
-    user and user.has_role? *VIEW_ROLES
+    has_role? *VIEW_ROLES or if_person {|p| p.managed_team_ids.any?}
   end
 
   def show?

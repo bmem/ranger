@@ -4,18 +4,21 @@ class SlotsController < EventBasedController
   # GET /slots
   # GET /slots.json
   def index
-    @slots = policy_scope(@shift ? @shift.slots : Slot)
-    @possible_positions = Position.accessible_by(current_ability)
+    if @shift
+      @slots = policy_scope(@shift.slots.with_shift)
+    else
+      @slots = policy_scope(Slot).with_shift
+      @slots = @slots.where('shifts.event_id' => @event.id) if @event
+    end
+    @slots = @slots.includes(:position)
+    @possible_positions = policy_scope(Position)
     @query_position_ids = selected_array_param(params[:position_id]).map(&:to_i)
     if @query_position_ids.any?
       @query_position_ids &= @possible_positions.map(&:id)
+      @slots = @slots.where(position_id: @query_position_ids)
     else
       @query_position_ids = @possible_positions.map(&:id)
     end
-    @slots = @slots.with_shift
-    @slots = @slots.includes(:position)
-    @slots = @slots.where('shifts.event_id' => @event.id) if @event
-    @slots = @slots.where(position_id: @query_position_ids)
     @slots = order_by_params @slots
     @slots = @slots.page(params[:page])
     respond_to do |format|

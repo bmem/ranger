@@ -1,9 +1,9 @@
 - provide :main_action_list_items do
   %li= link_to 'All people', people_path
   - if @profile
-    - if can? :read, @profile.person
+    - if policy(@profile.person).show?
       %li= link_to_record @profile.person
-    - if can? :edit, @profile.person or can? :edit, @profile
+    - if policy(@profile.person).edit? or policy(@profile).edit?
       %li
         = link_to_edit_record @profile.person do
           Edit #{@profile.person}

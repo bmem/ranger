@@ -1,4 +1,4 @@
 - unless @event
   = fields_for :parameters do |f|
     = f.label 'Event:'
-    = f.collection_select :event_id, Event.accessible_by(current_ability), :slug, :name, {include_blank: true}
+    = f.collection_select :event_id, policy_scope(Event), :slug, :name, {include_blank: true}

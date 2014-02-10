@@ -11,39 +11,39 @@
       %br
       - @interesting_events.each do |event|
         %nobr= link_to_record event
-  - if can? :read, :reports
+  - if policy(Report).list? or policy(Report.new).create?
     %dt= link_to 'Reports', reports_path
     %dd Run or view reports.
-  - if can? :list, :people
+  - if policy(Person).list?
     %dt= link_to 'All People', people_path
     %dd View or edit person records.
   - if policy(User.new).list?
     %dt= link_to 'All Users', users_path
     %dd View or edit user records.
-  - if can? :edit, :user_roles
+  - if policy(UserRole).list?
     %dt= link_to 'User Roles', user_roles_path
-    %dd View, assign, or revoke user roles.
-  - if can? :edit, :callsigns
+    %dd View, grant, or revoke user roles.
+  - if policy(Callsign).manage?
     %dt= link_to 'Callsigns', callsigns_path
     %dd Approve or manage callsigns.
-  - if can? :edit, :teams or @person.managed_teams.any?
+  - if policy(Team).list?
     %dt= link_to 'Teams', teams_path
     %dd
       Set up teams or manage memberships.
       - @person.managed_teams.each do |team|
         = link_to_record team
-  - if can? :message, :teams or can? :list, :messages
+  - if policy(Message).create? or policy(Message).list?
     %dt= link_to 'Messages', messages_path
     %dd= link_to 'Send a message to a team', new_message_path
-  - if can? :edit, :positions
+  - if policy(Position).list?
     %dt= link_to 'Positions', positions_path
     %dd Set up positions for scheduling.
-  - if can? :edit, :shift_templates
+  - if policy(ShiftTemplate).list?
     %dt= link_to 'Shift Templates', shift_templates_path
     %dd Set up shift templates for easy creation of lots of similar shifts.
-  - if can? :edit, :arts
+  - if policy(Art).manage?
     %dt= link_to 'ARTs', arts_path
     %dd Needs work.
-  - if can? :list, :audits
+  - if policy(Audited.audit_class).list?
     %dt= link_to 'Audit records', audits_path
     %dd View change history for all records.  See also "Changes" links on individual record pages.

@@ -41,7 +41,7 @@
 
   .tab-content#tab-schedule
     = render :partial => 'slots/list_for_involvement', :locals => {:involvement => @involvement}
-    - if can? :update, @involvement and @event.signup_open?
+    - if policy(@involvement).schedule? and @event.signup_open?
       %br
       = link_to 'Sign up for more', signup_event_involvement_path(@event, @involvement)
 

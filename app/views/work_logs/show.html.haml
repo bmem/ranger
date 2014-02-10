@@ -27,7 +27,7 @@
   = @work_log.credit_value_formatted
   %br
   - @work_log.scheme.try do |scheme|
-    - if can? :read, scheme
+    - if policy(scheme).show?
       = link_to_record scheme
     - else
       scheme

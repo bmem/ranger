@@ -1,12 +1,12 @@
 - provide :main_action_list_items do
   %li= link_to 'All events', events_path
-  - if can? :create, :events
+  - if policy(Event).create?
     %li= link_to 'New event', new_event_path
   - if @event and not @event.new_record?
-    - if @event.is_a? TrainingSeason and can? :create, :trainings
+    - if @event.is_a? TrainingSeason and policy(Training).create?
       %li= link_to 'New training', new_event_training_path(@event)
-    - if can? :create, :shifts
+    - if policy(Shift.new).create?
       %li= link_to 'New shift', new_event_shift_path(@event)
-    - if can? :create, :credit_schemes
+    - if policy(CreditScheme.new).create?
       %li= link_to 'New credit scheme', new_event_credit_scheme_path(@event)
   = render 'record_actions'

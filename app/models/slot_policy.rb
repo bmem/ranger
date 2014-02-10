@@ -12,11 +12,16 @@ class SlotPolicy < ApplicationPolicy
       # to add their team's positions to
       if user.has_role? *VIEW_ROLES
         scope.where('1 = 1')
-      elsif user.person_id.present?
-        scope.with_positions(relevant_position_ids)
+      elsif relevant_position_ids.present?
+        scope.where(position_id: relevant_position_ids.to_a)
       else
         scope.where("1 = 'Non-person, no access'")
       end
+    end
+
+    private
+    def relevant_position_ids
+      SlotPolicy.new(user, Slot.new).relevant_position_ids
     end
   end
 
@@ -65,7 +70,6 @@ class SlotPolicy < ApplicationPolicy
     [:audit_comment, :shift_id, :position_id, :min_people, :max_people]
   end
 
-  private
   def team_manager?
     user.person_id.present? and user.person.managed_team_ids.any?
   end

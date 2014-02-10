@@ -26,7 +26,7 @@ class ProfilePolicy < ApplicationPolicy
   end
 
   def edit?
-    record.person_id? == user.person_id or user.has_role? *MANAGE_ROLES
+    record.person_id == user.person_id or user.has_role? *MANAGE_ROLES
   end
 
   def manage?

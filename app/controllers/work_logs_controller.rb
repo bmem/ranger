@@ -145,20 +145,16 @@ class WorkLogsController < EventBasedController
     @involvements = if @involvement
         [@involvement]
       elsif @event
-        readable(@event.involvements).order(:name)
+        policy_scope(@event.involvements).order(:name)
       else
-        readable(Involvement).order(:name)
+        policy_scope(Involvement).order(:name)
       end
     if @event
       @shifts = @event.shifts.with_positions(work.position_id.presence || @positions)
     else
       @shifts = work.shift ? [work.shift] : []
     end
-    @events = @event ? [@event] : readable(Event).order('end_date DESC')
+    @events = @event ? [@event] : policy_scope(Event).order('end_date DESC')
     work
-  end
-
-  def readable(query)
-    query.accessible_by(current_ability)
   end
 end

@@ -28,6 +28,14 @@ class PersonPolicy < ApplicationPolicy
   end
 
   def edit?
+    update? or # edit person directly
+      record.id == user.person_id or # edit own profile
+      (record.profile && Pundit.policy(user, record.profile).edit?) or # profile
+      (record.user && Pundit.policy(user, record.user).edit?) or # edit user
+      if_person {|p| p.managed_team_ids.any?} # add to positions (TODO better)
+  end
+
+  def update?
     # Users can't edit their own person record (just their profile record)
     user.has_role? *MANAGE_ROLES
   end
