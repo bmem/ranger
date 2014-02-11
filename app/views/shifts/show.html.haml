@@ -27,6 +27,7 @@
       %th= Slot.human_attribute_name(:max_people)
       %th Signed up
       %th= Slot.human_attribute_name(:credit_value)
+      %th
     - policy_scope(@shift.slots).each do |slot|
       %tr
         %td= link_to slot.position.name, shift_slot_path(@shift, slot)
@@ -34,6 +35,7 @@
         %td= slot.max_people
         %td= slot.involvements.count
         %td= slot.credit_value_formatted
+        %td= slot_meter_tag slot
 
 .copy
   %h3 Copy this shift and its slots

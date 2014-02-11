@@ -72,7 +72,7 @@
             - num_people = s.involvements.count
             - max = s.max_people
             - min = s.min_people
-            %meter{value: num_people, min: 0, low: min, max: max > 0 ? max : 1000, optimum: max > 0 ? max : min * 2}
+            = slot_meter_tag s
             - if max > 0
               #{num_people}/#{max}
             - else
