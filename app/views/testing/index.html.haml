@@ -1,0 +1,13 @@
+%h1 Testing Utilities
+
+%p
+  You are logged in as #{link_to @user.email, @user}.
+  %br
+  Your IP address is #{@remote_ip}.
+
+%dl
+  - if @user.roles.any?
+    %dt= link_to 'Mask roles', testing_mask_roles_path
+    %dd
+      Experience the site with a different set of permissions.
+      Useful for seeing what someone with a more limited set of roles can see.

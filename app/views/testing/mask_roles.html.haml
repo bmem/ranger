@@ -1,0 +1,29 @@
+%h1 Mask roles testing utility
+
+%p
+  This page lets you pretend you have fewer permissions than you actually do.
+  For instance, if you are a manager conducting training for a group, check the
+  boxes to <em>mask the manager roles</em>, leaving the trainee group unchecked.
+  To regain all your permissions, return to this page or sign out and sign back
+  in again.
+
+%h2 Current Roles
+%dl
+- @roles.sort.each do |role|
+  %dt
+    - if @masked_roles.include? role
+      %s #{role}
+      (masked)
+    - else
+      = role
+  %dd.text-attribute= role.description
+
+%h2 Mask These Roles
+Check the roles you <strong>don't</strong> want to be in effect.
+= form_tag testing_update_mask_roles_path do
+  - @roles.sort.each do |role|
+    - box_id = "role-#{role.to_sym}"
+    %label.input{for: box_id, style: 'display: inline-block'}
+      = check_box_tag "mask_roles[#{role.to_sym}]", '1',role.in?(@masked_roles), id: box_id
+      %span{title: role.description}= role
+  = submit_tag 'Mask roles'

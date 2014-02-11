@@ -198,6 +198,10 @@ Ranger::Application.routes.draw do
 
   match 'schedule' => 'schedule_home#index', :as => :schedule_home
 
+  get 'testing' => 'testing#index'
+  get 'testing/mask_roles'
+  post 'testing/mask_roles' => 'testing#update_mask_roles', as: :testing_update_mask_roles
+
   root :to => "home#index"
 
   # The priority is based upon order of creation:

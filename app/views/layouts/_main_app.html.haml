@@ -54,3 +54,10 @@
     %address
       Is clicking the mouse pushing your buttons? Kick it sideways to
       %a(href="mailto:#{t('support.email')}") #{t('support.name')} (#{t('support.email')})
+      - current_user.try do |user|
+        - if user.masked_roles.present?
+          %br
+          %strong
+            Some permissions are disabled.  See
+            = link_to 'mask roles', testing_mask_roles_path
+            to restore permissions.

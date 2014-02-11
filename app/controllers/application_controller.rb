@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery
 
+  before_filter :mask_user_roles
   before_filter :set_default_event_id
 
   # TODO Accept an audit_comment parameter and set it as default so each Policy
@@ -126,5 +127,12 @@ class ApplicationController < ActionController::Base
       relation = relation.order("#{tweak_sort_column dcol} #{dir}")
     end
     relation
+  end
+
+  private
+  def mask_user_roles
+    if current_user and session[:masked_roles].present?
+      current_user.masked_roles = session[:masked_roles]
+    end
   end
 end

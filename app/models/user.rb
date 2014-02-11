@@ -37,8 +37,19 @@ class User < ActiveRecord::Base
     @roles ||= user_roles.map {|ur| Role[ur.role]}
   end
 
+  def masked_roles
+    @masked_roles
+  end
+
+  def masked_roles=(masked_roles)
+    @masked_roles = masked_roles.map {|r| Role[r]}.select(&:present?)
+  end
+
   def has_role?(*roles_or_syms_or_strings)
-    roles_or_syms_or_strings.any? {|role| Role[role].in? roles}
+    roles_or_syms_or_strings.any? do |role|
+      r = Role[role]
+      r.in?(roles) and not r.in?(masked_roles || [])
+    end
   end
 
   def to_title
