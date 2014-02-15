@@ -5,8 +5,9 @@ class User < ActiveRecord::Base
   cattr_accessor :first_user_is_admin do true end
 
   audited associated_with: :person,
-    only: [:person, :user_roles, :email, :disabled, :disabled_message,
-      :reset_password_sent_at]
+    except: [:encrypted_password, :reset_password_token, :remember_created_at,
+      :sign_in_count, :current_sign_in_at, :last_sign_in_at,
+      :current_sign_in_ip, :last_sign_in_ip]
   has_associated_audits
 
   # Include default devise modules. Others available are:
