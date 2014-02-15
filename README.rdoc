@@ -1,10 +1,10 @@
-== Khaki Clubhouse, Black Rock Rangers on Rails
+== Secret Clubhouse 2.0, Black Rock Rangers on Rails
 
 Ruby on Rails application for managing Ranger data.
 
 This application is built by the Rangers[http://rangers.burningman.com/] to
 manage personnel, scheduling, and operational needs of the department.
-During Burning Man, Khaki Clubhouse runs on site to manage people on duty,
+During Burning Man, Secret Clubhouse runs on site to manage people on duty,
 assets checked out, and upcoming shift scheduling.  Year round, it serves as
 a database about old and new volunteers and allows people to plan their
 participation in training and event work.
@@ -62,15 +62,15 @@ These concepts are discussed further in the information architecture.
 
 = Ranger Code and Development
 
-This code is copyright Black Rock City, LLC and is made available under the
-open source Apache license.  By contributing code to BMEM or Khaki Clubhouse,
+This code is copyright The Burning Man Project and is made available under the
+open source Apache license.  By contributing code to BMEM or Secret Clubhouse,
 you consent for that code to be used under the BMEM license.
 See the link:LICENSE file for details.
 
 If you are interested in contributing to this project, send a message to
 ranger-tech-cadre at burningman dot com and explain your interest.
 
-BMEM and Khaki Clubhouse are hosted on GitHub.  Git is a distributed source
+BMEM and Secret Clubhouse are hosted on GitHub.  Git is a distributed source
 control system that lets you make unlimited local edits and branches and
 effectively merge your changes with others working on the same project.
 If you're new to Git or GitHub, read the *Beginner* section of
@@ -102,7 +102,7 @@ Use idiomatic Ruby on Rails practices and document anything that's particularly
 tricky.  Ease of readability usuallyt trumps speed of authorship.  The next
 person who edits your code (and it may be you!) will thank you.
 
-In addition to RESTful views, Khaki Clubhouse development will focus on
+In addition to RESTful views, Secret Clubhouse development will focus on
 task-centric views, tailored to the needs of groups within the organization.
 For instance, volunteer coordinators and mentors will view people with a focus
 on contact information and training status while folks at the HQ window will
