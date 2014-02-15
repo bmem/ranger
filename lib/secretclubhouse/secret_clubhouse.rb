@@ -45,7 +45,7 @@ module SecretClubhouse
     end
 
     def self.convert_users
-      errors = self.convert_model(User) do |from|
+      self.convert_model(User) do |from|
         sc = from.to_bmem_model
         bmem = ::User.where(id: sc.id).first
         # TODO return nil for non-person users like "Temp 10"
@@ -67,8 +67,6 @@ module SecretClubhouse
           bmem
         end
       end
-      puts "Errors is a #{errors.class}: #{errors}" # WTF?
-      Array.wrap(errors.presence || [])
     end
 
     def self.ensure_events_created
