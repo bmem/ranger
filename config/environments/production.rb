@@ -16,8 +16,7 @@ Ranger::Application.configure do
   config.assets.compress = true
 
   # Default: Don't fallback to assets pipeline if a precompiled asset is missed
-  # We might be changing assets on the fly; it's okay to take the hit
-  config.assets.compile = true
+  # config.assets.compile = true
 
   # Generate digests for assets URLs
   config.assets.digest = true
@@ -54,7 +53,7 @@ Ranger::Application.configure do
   # config.action_mailer.raise_delivery_errors = false
 
   # Enable threaded mode
-  # config.threadsafe!
+  config.threadsafe!
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation can not be found)
