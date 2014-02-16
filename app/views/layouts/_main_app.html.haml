@@ -22,6 +22,7 @@
           - if current_user.person
             %li.account= link_to_record current_user.person, title: 'Your profile'
           %li.session= link_to 'Sign out', destroy_user_session_path, :method => :delete
+          %li= link_to 'Send feedback', 'https://docs.google.com/forms/d/1QJW0qqQL2SZq4WYbOfzqAcxFM8VhUgj6k4C3_1npWKc/viewform'
         - else
           %li.account= link_to 'Create account', new_user_registration_path
           %li.session= link_to 'Sign in', new_user_session_path
