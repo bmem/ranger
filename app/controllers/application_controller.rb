@@ -107,7 +107,7 @@ class ApplicationController < ActionController::Base
     else
       is_str = column_name =~ /name|title|description|note/
     end
-    is_str ? "LOWER(\"#{column_name}\")" : column_name
+    is_str ? "LOWER(#{quote_column_name column_name})" : column_name
   end
 
   def default_sort_column

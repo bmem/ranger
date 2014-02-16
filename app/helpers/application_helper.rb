@@ -50,4 +50,14 @@ module ApplicationHelper
       link_to(title, options, html_options)
     end
   end
+
+  def quote_column_name(column_name)
+    if column_name.include? '.'
+      column_name.split('.').map do |chunk|
+        ActiveRecord::Base.connection.quote_column_name chunk
+      end.join('.')
+    else
+      ActiveRecord::Base.connection.quote_column_name column_name
+    end
+  end
 end
