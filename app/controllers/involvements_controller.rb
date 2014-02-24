@@ -58,7 +58,12 @@ class InvolvementsController < EventBasedController
   def show
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @involvement }
+      format.json do
+        render json: @involvement, include: {
+          positions: {only: [:id, :name]},
+          slots: {include: {shift: {}, position: {only: [:id, :name]}}}
+        }
+      end
     end
   end
 
@@ -131,6 +136,14 @@ class InvolvementsController < EventBasedController
     respond_to do |format|
       format.html { redirect_to event_involvements_url(@involvement.event) }
       format.json { head :no_content }
+    end
+  end
+
+  # GET /involvements/1/schedule
+  def schedule
+    respond_to do |format|
+      format.html # schedule.html.haml
+      format.json { render json: @involvement.slots }
     end
   end
 

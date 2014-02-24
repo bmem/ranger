@@ -14,6 +14,8 @@ GEM
       rack-cache (~> 1.2)
       rack-test (~> 0.6.1)
       sprockets (~> 2.2.1)
+    active_model_serializers (0.8.1)
+      activemodel (>= 3.0)
     activemodel (3.2.16)
       activesupport (= 3.2.16)
       builder (~> 3.0.0)
@@ -35,6 +37,7 @@ GEM
     acts-as-taggable-on (3.0.1)
       rails (>= 3, < 5)
     acts_as_indexed (0.8.3)
+    angularjs-rails (1.2.13)
     arel (3.0.3)
     atomic (1.1.14)
     audited (3.0.0)
@@ -170,9 +173,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_model_serializers
   activerecord-mysql-adapter
   acts-as-taggable-on
   acts_as_indexed
+  angularjs-rails
   audited-activerecord (~> 3.0)
   coffee-rails (~> 3.2)
   devise

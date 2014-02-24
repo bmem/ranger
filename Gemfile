@@ -12,6 +12,7 @@ gem 'mysql2'
 gem 'activerecord-mysql-adapter'
 
 gem 'json'
+gem 'active_model_serializers'
 
 # run "rails generate audited:upgrade" when upgrading
 gem 'audited-activerecord' ,'~> 3.0'
@@ -54,6 +55,8 @@ group :development do
 end
 
 gem 'jquery-rails', '< 3.0' # TODO jquery-ui-rails, jquery-ui-sass-rails
+
+gem 'angularjs-rails'
 
 gem 'haml-rails'
 

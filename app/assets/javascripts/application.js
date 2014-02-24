@@ -16,5 +16,8 @@
 //= require jquery.collapse.js
 //= require handlebars.runtime
 //= require twitter/typeahead.min
+//= require angular
+//= require angular-animate
+//= require angular-resource
 //= require_tree ./templates
 //= require_tree .

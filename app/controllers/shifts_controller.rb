@@ -1,9 +1,12 @@
 class ShiftsController < EventBasedController
+  before_filter :load_and_authorize_involvement
+
   # GET /shifts
   # GET /shifts.json
   def index
     @shifts = policy_scope(Shift)
     @shifts = @shifts.where(:event_id => @event.id) if @event
+    @shifts = @shifts.with_positions(@involvement.position_ids) if @involvement
     @shifts = order_by_params @shifts
     respond_to do |format|
       format.html # index.html.erb
@@ -162,5 +165,12 @@ class ShiftsController < EventBasedController
 
   def date_and_time(date, time)
     DateTime.new(date.year, date.month, date.day, time.hour, time.min, time.sec, time.zone)
+  end
+
+  def load_and_authorize_involvement
+    params[:involvement_id].presence.try do |iid|
+      @involvement = Involvement.find iid
+      authorize @involvement, :signup?
+    end
   end
 end

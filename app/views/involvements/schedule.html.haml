@@ -1,0 +1,27 @@
+.schedule-app(ng-app="scheduleApp"){'data-event-id' => @event.to_param, 'data-involvement-id' => @involvement.id}
+  %h1 Schedule for #{link_to_record @involvement} in #{link_to_record @event}
+
+  .position-controller(ng-controller="PositionCtrl")
+    .schedule-current(ng-controller="ScheduleCtrl")
+      %table
+        %thead
+          %tr
+            %th Position
+            %th Shift
+            %th Start
+            %th End
+            %th Hours
+            %th Credits
+            %th Actions
+        %tbody
+          %tr(ng-repeat="slot in scheduledSlots | orderBy:'shift.start_time'")
+            %td= link_to '{{getPosition(slot.position_id).name}}', "{{'/events/#{@event.to_param}/shifts/' + slot.shift.id + '/slots/' + slot.id}}"
+            %td(title="{{slot.shift.description}}")= link_to '{{slot.shift.name}}', "{{'/events/#{@event.to_param}/shifts/' + slot.shift.id}}"
+            %td
+              %nobr {{slot.shift.start_time_formatted}}
+            %td
+              %nobr {{slot.shift.end_time_formatted}}
+            %td {{slot.shift.duration_formatted}}
+            %td {{slot.credit_value_formatted}}
+            %td
+              %button.action.slot-leave(ng-click="leave(slot)") Leave

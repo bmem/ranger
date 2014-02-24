@@ -137,6 +137,7 @@ Ranger::Application.routes.draw do
     resources :involvements, constraints: {:id => /\d+/} do
       member do
         get :changes
+        get :schedule
         get :signup
       end
       collection do
