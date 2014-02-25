@@ -14,6 +14,7 @@
 //= require jquery-ui
 //= require jquery_ujs
 //= require jquery.collapse.js
+//= require lodash
 //= require handlebars.runtime
 //= require twitter/typeahead.min
 //= require angular

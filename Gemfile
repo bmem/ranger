@@ -57,6 +57,8 @@ end
 gem 'jquery-rails', '< 3.0' # TODO jquery-ui-rails, jquery-ui-sass-rails
 
 gem 'angularjs-rails'
+gem 'lodash-rails' # this or underscore required for restangular
+# TODO create a restangular-rails gem or use bower
 
 gem 'haml-rails'
 
