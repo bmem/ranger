@@ -4,7 +4,6 @@
     %title= page_title
     = yield :assets
     = stylesheet_link_tag "application", :media => "all"
-    = javascript_include_tag "application"
     = favicon_link_tag
     = csrf_meta_tags
   %body
@@ -62,3 +61,5 @@
             Some permissions are disabled.  See
             = link_to 'mask roles', testing_mask_roles_path
             to restore permissions.
+
+  = javascript_include_tag "application"
