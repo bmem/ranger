@@ -28,7 +28,7 @@ class ReportPolicy < ApplicationPolicy
 
   def create?
     # TODO policy for each report type
-    true
+    manage?
   end
 
   def generate? ; create? ; end
