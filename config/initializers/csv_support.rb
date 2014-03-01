@@ -1,3 +1,5 @@
+require 'filename_helper'
+
 ActionController::Renderers.add :csv do |csv, options|
   options = options.reverse_merge type: Mime::CSV, disposition: 'attachment'
   content = if csv.respond_to? :to_csv
