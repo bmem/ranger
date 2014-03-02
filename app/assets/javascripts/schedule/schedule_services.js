@@ -1,5 +1,30 @@
 var scheduleServices = angular.module('scheduleServices', ['ngResource']).
 
+config(['RestangularProvider', function(RestangularProvider) {
+  RestangularProvider.setResponseExtractor(function(resp, operation, what, url) {
+    if (what in resp) {
+      var newResponse;
+      newResponse = resp[what];
+      if ('meta' in resp) {
+        newResponse._meta = resp['meta'];
+      }
+      return newResponse;
+    } else {
+      return resp;
+    }
+  });
+
+  RestangularProvider.addElementTransformer('shifts', false, function(shift) {
+    shift.startMoment = moment(shift.start_time);
+    shift.endMoment = moment(shift.end_time);
+    shift.dayClass = shift.startMoment.dayOfYear() % 2 == 0 ? 'day-a' : 'day-b';
+    angular.forEach(shift.slots, function(slot) {
+      slot.shift = shift;
+    });
+    return shift;
+  });
+}]).
+
 factory('eventId', ['$rootElement', function($rootElement) {
   return $rootElement.data('event-id');
 }]).

@@ -4,13 +4,17 @@ class ShiftsController < EventBasedController
   # GET /shifts
   # GET /shifts.json
   def index
+    page = (params[:page] || 1).to_i
     @shifts = policy_scope(Shift)
     @shifts = @shifts.where(:event_id => @event.id) if @event
+    # TODO select_aray_param position_ids instead of @involvement?
     @shifts = @shifts.with_positions(@involvement.position_ids) if @involvement
     @shifts = order_by_params @shifts
+    @shifts = @shifts.page(page)
+
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @shifts }
+      format.json { render json: @shifts, meta: {total_pages: @shifts.total_pages, page: page} }
     end
   end
 

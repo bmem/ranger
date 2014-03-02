@@ -10,6 +10,8 @@ class Shift < ActiveRecord::Base
   audited associated_with: :event
   has_associated_audits
 
+  self.per_page = 50
+
   validates :name, :start_time, :end_time, :event, :presence => true
   validates_presence_of :training, :if => Proc.new {|shift| shift.event.is_a? TrainingSeason}
   validates_with DateOrderValidator, :start => :start_time, :end => :end_time

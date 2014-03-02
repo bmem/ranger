@@ -4,20 +4,20 @@
   .event-controller(ng-controller="EventCtrl")
     .involvement-controller(ng-controller="InvolvementCtrl")
       .position-controller(ng-controller="PositionCtrl")
+        %h2 Current Schedule
         .schedule-current(ng-controller="ScheduleCtrl")
           %table
             %thead
               %tr
-                %th Position
                 %th Shift
                 %th Start
                 %th End
                 %th Hours
                 %th Credits
+                %th Position
                 %th Actions
             %tbody
               %tr(ng-repeat="slot in scheduledSlots | orderBy:'shift.start_time'")
-                %td= link_to '{{getPosition(slot.position_id).name}}', "{{'/events/#{@event.to_param}/shifts/' + slot.shift.id + '/slots/' + slot.id}}"
                 %td(title="{{slot.shift.description}}")= link_to '{{slot.shift.name}}', "{{'/events/#{@event.to_param}/shifts/' + slot.shift.id}}"
                 %td
                   %nobr {{slot.shift.start_time_formatted}}
@@ -25,15 +25,41 @@
                   %nobr {{slot.shift.end_time_formatted}}
                 %td {{slot.shift.duration_formatted}}
                 %td {{slot.credit_value_formatted}}
+                %td= link_to '{{getPosition(slot.position_id).name}}', "{{'/events/#{@event.to_param}/shifts/' + slot.shift.id + '/slots/' + slot.id}}"
                 %td
                   %button.action.slot-leave(ng-click="leave(slot)") Leave
             %tfoot
               %tr
-                %th Total
-                %th= ''
-                %th= ''
-                %th= ''
+                %td Total
+                %td= ''
+                %td= ''
                 -# TODO format as hh:mm
-                %th {{totalHours() | number:2}}
-                %th {{totalCredits() | number:2}}
-                %th= ''
+                %td {{totalHours() | number:2}}
+                %td {{totalCredits() | number:2}}
+                %td= ''
+                %td= ''
+
+          %h2 Available Shifts
+          %table#shift-slots
+            %thead
+              %tr
+                %th Shift
+                %th Start
+                %th End
+                %th Hours
+                %th Credits
+                %th Position
+                %th Actions
+            %tbody(ng-repeat="shift in allShifts | orderBy:start_time")
+              %tr(ng-repeat="slot in shift.slots" ng-class="shift.dayClass")
+                %td(title="{{shift.description}}" ng-show="{{$first}}" rowspan="{{shift.slots.length}}")= link_to '{{shift.name}}', "{{'/events/#{@event.to_param}/shifts/' + shift.id}}"
+                %td
+                  %nobr {{shift.start_time_formatted}}
+                %td
+                  %nobr {{shift.end_time_formatted}}
+                %td {{shift.duration_formatted}}
+                %td {{slot.credit_value_formatted}}
+                %td {{getPosition(slot.position_id).name}}
+                %td
+                  %button.action.slot-join(ng-click="join(slot)" ng-hide="alreadyIn(slot)") Join
+                  %button.action.slot-leave(ng-click="leave(slot)" ng-show="alreadyIn(slot)") Leave
