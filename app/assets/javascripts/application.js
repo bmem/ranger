@@ -21,5 +21,6 @@
 //= require angular
 //= require angular-animate
 //= require angular-resource
+//= require restangular
 //= require_tree ./templates
 //= require_tree .

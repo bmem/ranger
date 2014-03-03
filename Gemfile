@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+source 'https://rails-assets.org' # bridge between bundler and bower
 
 gem 'rails', '~> 3.2'
 
@@ -28,9 +29,6 @@ gem 'stringex'
 # record text search without needing to configure a separate search engine
 gem 'acts_as_indexed'
 
-# autocomplete search results
-gem 'twitter-typeahead-rails'
-
 # TODO this is just CSV in 1.9 and it complains loudly if you try to use
 # FasterCSV.  Figure out how to dispatch appropriately or whether to ditch
 # 1.8 support entirely.
@@ -54,12 +52,16 @@ group :development do
   gem 'meta_request'
 end
 
+# JavaScript gems
 gem 'jquery-rails', '< 3.0' # TODO jquery-ui-rails, jquery-ui-sass-rails
-
-gem 'angularjs-rails'
-gem 'lodash-rails' # this or underscore required for restangular
-# TODO create a restangular-rails gem or use bower
+gem 'lodash-rails'
 gem 'momentjs-rails'
+# autocomplete search results
+gem 'twitter-typeahead-rails'
+
+# AngularJS gems
+gem 'angularjs-rails'
+gem 'rails-assets-restangular'
 
 gem 'haml-rails'
 
