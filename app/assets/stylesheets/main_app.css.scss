@@ -159,6 +159,14 @@ dl.attributes {
   display: inline-block;
 }
 
+.checkbox-label {
+  display: inline-block;
+}
+
+.checkbox-list .checkbox-label {
+  margin-right: 1em;
+}
+
 dl.user-roles form {
   display: inline;
 }

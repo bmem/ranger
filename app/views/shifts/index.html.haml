@@ -4,6 +4,10 @@
     for
     = link_to @event.name, @event if @event
 
+= page_entries_info @shifts, model: 'shifts'
+%br
+= will_paginate @shifts, inner_window: 10, outer_window: 5
+
 %table
   %tr
     %th= sortable_header 'name'
@@ -30,6 +34,8 @@
       %td
         %nobr= l shift.end_time, :format => :short
       %td= shift.description
+
+= will_paginate @shifts, inner_window: 10, outer_window: 5
 
 - if policy(Shift.new).create?
   %br

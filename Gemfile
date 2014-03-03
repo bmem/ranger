@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+source 'https://rails-assets.org' # bridge between bundler and bower
 
 gem 'rails', '~> 3.2'
 
@@ -12,6 +13,7 @@ gem 'mysql2'
 gem 'activerecord-mysql-adapter'
 
 gem 'json'
+gem 'active_model_serializers'
 
 # run "rails generate audited:upgrade" when upgrading
 gem 'audited-activerecord' ,'~> 3.0'
@@ -26,9 +28,6 @@ gem 'stringex'
 
 # record text search without needing to configure a separate search engine
 gem 'acts_as_indexed'
-
-# autocomplete search results
-gem 'twitter-typeahead-rails'
 
 # TODO this is just CSV in 1.9 and it complains loudly if you try to use
 # FasterCSV.  Figure out how to dispatch appropriately or whether to ditch
@@ -53,7 +52,17 @@ group :development do
   gem 'meta_request'
 end
 
+# JavaScript gems
 gem 'jquery-rails', '< 3.0' # TODO jquery-ui-rails, jquery-ui-sass-rails
+gem 'lodash-rails'
+gem 'momentjs-rails'
+# autocomplete search results
+gem 'twitter-typeahead-rails'
+
+# AngularJS gems
+gem 'angularjs-rails'
+gem 'rails-assets-restangular'
+gem 'rails-assets-checklist-model'
 
 gem 'haml-rails'
 

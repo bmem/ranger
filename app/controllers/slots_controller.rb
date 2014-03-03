@@ -1,5 +1,6 @@
 class SlotsController < EventBasedController
   before_filter :load_shift
+  before_filter :load_and_authorize_involvement
 
   # GET /slots
   # GET /slots.json
@@ -11,6 +12,7 @@ class SlotsController < EventBasedController
       @slots = @slots.where('shifts.event_id' => @event.id) if @event
     end
     @slots = @slots.includes(:position)
+    @slots = @slots.where(position_id: @involvement.position_ids) if @involvement
     @possible_positions = policy_scope(Position)
     @query_position_ids = selected_array_param(params[:position_id]).map(&:to_i)
     if @query_position_ids.any?
@@ -197,5 +199,12 @@ class SlotsController < EventBasedController
              elsif params[:shift_id].present?
                Shift.find(params[:shift_id])
              end
+  end
+
+  def load_and_authorize_involvement
+    params[:involvement_id].presence.try do |iid|
+      @involvement = Involvement.find iid
+      authorize @involvement, :signup?
+    end
   end
 end

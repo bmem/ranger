@@ -1,0 +1,69 @@
+.schedule-app(ng-app="scheduleApp" ng-cloak){'data-event-id' => @event.to_param, 'data-involvement-id' => @involvement.id}
+  %h1 Schedule for #{link_to_record @involvement} in #{link_to_record @event}
+
+  .event-controller(ng-controller="EventCtrl")
+    .involvement-controller(ng-controller="InvolvementCtrl")
+      .position-controller(ng-controller="PositionCtrl")
+        %h2 Current Schedule
+        .schedule-current(ng-controller="ScheduleCtrl")
+          %table
+            %thead
+              %tr
+                %th Shift
+                %th Start
+                %th End
+                %th Hours
+                %th Credits
+                %th Position
+                %th Actions
+            %tbody
+              %tr(ng-repeat="slot in scheduledSlots | orderBy:'shift.start_time'")
+                %td(title="{{slot.shift.description}}")= link_to '{{slot.shift.name}}', "{{'/events/#{@event.to_param}/shifts/' + slot.shift.id}}"
+                %td
+                  %nobr {{slot.shift.start_time_formatted}}
+                %td
+                  %nobr {{slot.shift.end_time_formatted}}
+                %td {{slot.shift.duration_formatted}}
+                %td {{slot.credit_value_formatted}}
+                %td= link_to '{{getPosition(slot.position_id).name}}', "{{'/events/#{@event.to_param}/shifts/' + slot.shift.id + '/slots/' + slot.id}}"
+                %td
+                  %button.action.slot-leave(ng-click="leave(slot)") Leave
+            %tfoot
+              %tr
+                %td Total
+                %td= ''
+                %td= ''
+                -# TODO format as hh:mm
+                %td {{totalHours() | number:2}}
+                %td {{totalCredits() | number:2}}
+                %td= ''
+                %td= ''
+
+          %h2 Available Shifts
+          Filter by position:
+          %span.checkbox-list
+            %label.checkbox-label(ng-repeat="position in availablePositions | orderBy:'name'")
+              %input(type="checkbox" checklist-model="selectedPositionIds" checklist-value="position.id") {{position.name}}
+          %table#shift-slots
+            %thead
+              %tr
+                %th Shift
+                %th Start
+                %th End
+                %th Hours
+                %th Credits
+                %th Position
+                %th Actions
+            %tbody(ng-repeat="shift in allShifts | orderBy:start_time")
+              %tr(ng-repeat="slot in shift.slots | filter:positionFilter" ng-class="shift.dayClass")
+                %td(title="{{shift.description}}" ng-show="{{$first}}" rowspan="{{shift.slots.length}}")= link_to '{{shift.name}}', "{{'/events/#{@event.to_param}/shifts/' + shift.id}}"
+                %td
+                  %nobr {{shift.start_time_formatted}}
+                %td
+                  %nobr {{shift.end_time_formatted}}
+                %td {{shift.duration_formatted}}
+                %td {{slot.credit_value_formatted}}
+                %td {{getPosition(slot.position_id).name}}
+                %td
+                  %button.action.slot-join(ng-click="join(slot)" ng-hide="alreadyIn(slot)") Join
+                  %button.action.slot-leave(ng-click="leave(slot)" ng-show="alreadyIn(slot)") Leave

@@ -31,6 +31,16 @@
   - if policy(Report).list?
     %dt= link_to 'Reports', event_reports_path(@event)
     %dd Run, view, print, or download reports
+  - if policy(Shift).list? or policy(Slot).list?
+    %dt Scheduling
+    %dd
+      View or create
+      - if policy(Shift).list?
+        = link_to 'Shifts', event_shifts_path(@event)
+      - if policy(Slot).list?
+        = link_to 'Slots', event_slots_path(@event)
+      - if policy(ShiftTemplate).list?
+        = link_to 'Shift templates', shift_templates_path(@event)
   - if policy(WorkLog).list?
     %dt= link_to 'Work logs', event_work_logs_path(@event)
     %dd View shift work logs
@@ -52,28 +62,3 @@
   - if policy(CreditScheme).manage?
     %dt= link_to 'Credit schemes', event_credit_schemes_path(@event)
     %dd Manage credits for shifts
-
-%h3
-  = link_to 'Shifts', event_shifts_path(@event)
-  and
-  = link_to 'Slots', event_slots_path(@event)
-- if policy(Shift.new).create?
-  = render 'shifts/template_picker'
-- if policy(Shift).list?
-  %table
-    %tr
-      %th= Shift.human_attribute_name(:name)
-      %th= Shift.human_attribute_name(:start_time)
-      %th= Shift.human_attribute_name(:end_time)
-      %th= Shift.human_attribute_name(:description)
-    - policy_scope(@event.shifts).each do |shift|
-      %tr
-        - if @event.is_a? TrainingSeason and shift.training
-          %td= link_to_record shift.training
-        - else
-          %td= link_to_record shift
-        %td
-          %nobr= l shift.start_time, format: :short
-        %td
-          %nobr= l shift.end_time, format: :short
-        %td.text-attribute= shift.description

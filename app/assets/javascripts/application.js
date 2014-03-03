@@ -14,7 +14,14 @@
 //= require jquery-ui
 //= require jquery_ujs
 //= require jquery.collapse.js
+//= require lodash
+//= require moment
 //= require handlebars.runtime
 //= require twitter/typeahead.min
+//= require angular
+//= require angular-animate
+//= require angular-resource
+//= require restangular
+//= require checklist-model
 //= require_tree ./templates
 //= require_tree .
