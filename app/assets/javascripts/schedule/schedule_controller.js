@@ -4,6 +4,12 @@ var scheduleController = angular.module('scheduleController',
 controller('ScheduleCtrl', ['$scope', '$log', function($scope, $log) {
   $scope.allShifts = [];
   $scope.scheduledSlots = [];
+  $scope.selectedPositionIds = [];
+  $scope.availablePositions = [];
+
+  $scope.$watch('involvement.position_ids', function(position_ids) {
+    $scope.selectedPositionIds = position_ids || [];
+  });
 
   $scope.$watch('involvement.slot_ids', function(slot_ids) {
     existing = _.map($scope.scheduledSlots, function(s) { return s.id });
@@ -21,6 +27,24 @@ controller('ScheduleCtrl', ['$scope', '$log', function($scope, $log) {
       });
     });
   }, true /* isArray */);
+
+  $scope.$watch('allShifts', function(shifts) {
+    if (!shifts) {
+      $scope.availablePositions = [];
+      return;
+    }
+    var allPositionIds = _(shifts).map(function(shift) {
+      return _.pluck(shift.slots, 'position_id');
+    }).flatten().uniq().value();
+    var currentPositionIds = _.pluck($scope.availablePositions, 'id');
+    var diff = _.difference(allPositionIds, currentPositionIds);
+    if (diff.length > 0) {
+      _.forEach(diff, function(positionId) {
+        $scope.availablePositions.push($scope.getPosition(positionId));
+      });
+    }
+  });
+
   $scope.$watch('eventResource', function(eventResource) {
     $scope.allShifts = []
     var params = {involvement_id: $scope.involvementId};
@@ -70,5 +94,10 @@ controller('ScheduleCtrl', ['$scope', '$log', function($scope, $log) {
     _.remove($scope.involvement.slot_ids, function(x) {
       return x == slot.id;
     });
+  };
+
+  $scope.positionFilter = function(slot) {
+    return $scope.selectedPositionIds.length == 0 ||
+      $scope.selectedPositionIds.indexOf(slot.position_id) >= 0;
   };
 }]);

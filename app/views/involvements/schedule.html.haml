@@ -40,6 +40,10 @@
                 %td= ''
 
           %h2 Available Shifts
+          Filter by position:
+          %span.checkbox-list
+            %label.checkbox-label(ng-repeat="position in availablePositions | orderBy:'name'")
+              %input(type="checkbox" checklist-model="selectedPositionIds" checklist-value="position.id") {{position.name}}
           %table#shift-slots
             %thead
               %tr
@@ -51,7 +55,7 @@
                 %th Position
                 %th Actions
             %tbody(ng-repeat="shift in allShifts | orderBy:start_time")
-              %tr(ng-repeat="slot in shift.slots" ng-class="shift.dayClass")
+              %tr(ng-repeat="slot in shift.slots | filter:positionFilter" ng-class="shift.dayClass")
                 %td(title="{{shift.description}}" ng-show="{{$first}}" rowspan="{{shift.slots.length}}")= link_to '{{shift.name}}', "{{'/events/#{@event.to_param}/shifts/' + shift.id}}"
                 %td
                   %nobr {{shift.start_time_formatted}}

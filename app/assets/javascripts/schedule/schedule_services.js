@@ -17,6 +17,9 @@ config(['RestangularProvider', function(RestangularProvider) {
   RestangularProvider.addElementTransformer('shifts', false, function(shift) {
     shift.startMoment = moment(shift.start_time);
     shift.endMoment = moment(shift.end_time);
+    // TODO This only produces alternating colors for days when they're all in
+    // a row (e.g. burning man), not sparse like trainings.  Create some sort of
+    // stateful date latch that only toggles when a threshold is crossed.
     shift.dayClass = shift.startMoment.dayOfYear() % 2 == 0 ? 'day-a' : 'day-b';
     angular.forEach(shift.slots, function(slot) {
       slot.shift = shift;

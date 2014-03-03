@@ -62,6 +62,7 @@ gem 'twitter-typeahead-rails'
 # AngularJS gems
 gem 'angularjs-rails'
 gem 'rails-assets-restangular'
+gem 'rails-assets-checklist-model'
 
 gem 'haml-rails'
 

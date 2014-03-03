@@ -1,5 +1,6 @@
 var scheduleApp = angular.module('scheduleApp', [
   'restangular',
+  'checklist-model',
   'scheduleServices',
   'eventController',
   'involvementController',

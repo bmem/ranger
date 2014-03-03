@@ -125,6 +125,8 @@ GEM
       bundler (~> 1.0)
       railties (= 3.2.16)
     rails-assets-angular (1.2.14)
+    rails-assets-checklist-model (0.1.3)
+      rails-assets-angular (>= 1.0.8)
     rails-assets-lodash (2.4.1)
     rails-assets-restangular (1.3.1)
       rails-assets-angular
@@ -204,6 +206,7 @@ DEPENDENCIES
   mysql2
   pundit
   rails (~> 3.2)
+  rails-assets-checklist-model
   rails-assets-restangular
   sass-rails (~> 3.2)
   sqlite3

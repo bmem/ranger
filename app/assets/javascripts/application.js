@@ -22,5 +22,6 @@
 //= require angular-animate
 //= require angular-resource
 //= require restangular
+//= require checklist-model
 //= require_tree ./templates
 //= require_tree .

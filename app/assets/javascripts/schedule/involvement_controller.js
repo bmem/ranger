@@ -9,4 +9,13 @@ controller('InvolvementCtrl', ['$scope', 'involvementId', function($scope, invol
       $scope.involvement = $scope.involvementResource.get().$object;
     }
   });
+
+  $scope.hasPosition = function(position) {
+    var id = position;
+    if (position.id !== undefined) {
+      id = position.id;
+    }
+    return $scope.involvement && $scope.involvement.position_ids &&
+      $scope.involvement.position_ids.indexOf(id) >= 0;
+  };
 }]);
