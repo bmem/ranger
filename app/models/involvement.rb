@@ -9,7 +9,8 @@ class Involvement < ActiveRecord::Base
   belongs_to :event
   has_one :profile, through: :person
   has_many :positions, :through => :person
-  has_and_belongs_to_many :slots
+  has_many :attendees
+  has_many :slots, through: :attendees
   has_many :work_logs
   has_many :asset_uses
   has_and_belongs_to_many :arts

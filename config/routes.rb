@@ -124,6 +124,11 @@ Ranger::Application.routes.draw do
           post :join
           post :leave
         end
+        resources :attendees do
+          member do
+            get :changes
+          end
+        end
       end
       resources :work_logs, :path => 'worklogs'
     end
@@ -132,6 +137,16 @@ Ranger::Application.routes.draw do
         get :changes
         post :join
         post :leave
+      end
+      resources :attendees do
+        member do
+          get :changes
+        end
+      end
+    end
+    resources :attendees do
+      member do
+        get :changes
       end
     end
     resources :involvements, constraints: {:id => /\d+/} do
@@ -143,6 +158,11 @@ Ranger::Application.routes.draw do
       collection do
         get 'search(/:q)', action: :search, as: :search
         get 'typeahead', action: :typeahead, as: :typeahead, constraints: {format: 'json'}
+      end
+      resources :attendees do
+        member do
+          get :changes
+        end
       end
     end
     resources :trainings do

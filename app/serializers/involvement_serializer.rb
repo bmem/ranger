@@ -1,8 +1,10 @@
 class InvolvementSerializer < ActiveModel::Serializer
+  embed :ids
+
   # TODO detail attributes
   attributes :id, :name, :barcode, :involvement_status, :personnel_status,
-    :on_site, :person_id, :position_ids, :slot_ids
+    :on_site, :position_ids
 
+  has_one :person
   has_many :positions
-  has_many :slots
 end

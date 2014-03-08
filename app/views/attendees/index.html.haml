@@ -1,0 +1,25 @@
+%h1
+  Attendees
+  - if @slot
+    in #{link_to_record @slot.shift} #{link_to_record @slot}
+  - if @involvement
+    for #{link_to_record @involvement}
+
+%table
+  %thead
+    %tr
+      - unless @slot
+        %th Shift
+        %th Slot
+      %th Involvement
+      %th Status
+      %th Signed up at
+  %tbody
+    - @attendees.each do |attendee|
+      %tr
+        - unless @slot
+          %td= link_to_record attendee.shift
+          %td= link_to_record attendee.slot
+        %td= link_to_record attendee.involvement
+        %td= attendee.status
+        %td= relative_date_tag attendee.created_at

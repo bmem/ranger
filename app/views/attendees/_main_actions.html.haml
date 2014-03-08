@@ -1,0 +1,11 @@
+- provide :main_action_list_items do
+  - if policy(Attendee).list?
+    - if @slot
+      %li= link_to "#{@slot} attendees", event_slot_attendees_path(@event, @slot)
+    - elsif @involvement
+      %li= link_to "#{@involvement} attendance", event_involvement_attendees_path(@event, @involvement)
+  - if @slot and policy(Attendee.new).create?
+    %li= link_to 'New attendee', new_event_slot_attendee_path(@event, @slot)
+  - if @involvement and policy(@involvement).schedule?
+    %li= link_to "#{@involvement} schedule", schedule_event_involvement_path(@event, @involvement)
+  = render 'record_actions'

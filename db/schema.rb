@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140108043911) do
+ActiveRecord::Schema.define(:version => 20140308185549) do
 
   create_table "arts", :force => true do |t|
     t.string   "name",         :null => false
@@ -67,6 +67,17 @@ ActiveRecord::Schema.define(:version => 20140108043911) do
   end
 
   add_index "assets", ["event_id", "type", "name"], :name => "index_assets_on_event_id_and_type_and_name", :unique => true
+
+  create_table "attendees", :force => true do |t|
+    t.integer  "involvement_id",                        :null => false
+    t.integer  "slot_id",                               :null => false
+    t.string   "status",         :default => "planned", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "attendees", ["involvement_id", "slot_id"], :name => "index_participants_slots_pair", :unique => true
+  add_index "attendees", ["slot_id"], :name => "index_participants_slots_on_slot_id"
 
   create_table "audits", :force => true do |t|
     t.integer  "auditable_id"
@@ -177,14 +188,6 @@ ActiveRecord::Schema.define(:version => 20140108043911) do
   add_index "involvements", ["event_id"], :name => "index_participants_on_event_id"
   add_index "involvements", ["name"], :name => "index_participants_on_name"
   add_index "involvements", ["person_id"], :name => "index_participants_on_person_id"
-
-  create_table "involvements_slots", :id => false, :force => true do |t|
-    t.integer "involvement_id", :null => false
-    t.integer "slot_id",        :null => false
-  end
-
-  add_index "involvements_slots", ["involvement_id", "slot_id"], :name => "index_participants_slots_pair", :unique => true
-  add_index "involvements_slots", ["slot_id"], :name => "index_participants_slots_on_slot_id"
 
   create_table "mailing_addresses", :force => true do |t|
     t.string   "extra_address"

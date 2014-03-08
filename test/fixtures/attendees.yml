@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  slot: one
+  involvement: e1p1
+  status: confirmed
+
+two:
+  slot: one
+  involvement: e1p2
+  status: planned

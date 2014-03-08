@@ -1,7 +1,8 @@
 class Slot < ActiveRecord::Base
   belongs_to :shift
   belongs_to :position
-  has_and_belongs_to_many :involvements
+  has_many :attendees
+  has_many :involvements, through: :attendees
   has_one :event, :through => :shift
   attr_accessible :shift_id, :position_id, :min_people, :max_people
 
@@ -35,11 +36,11 @@ class Slot < ActiveRecord::Base
   end
 
   def full?
-    max_people > 0 && involvements.count >= max_people
+    max_people > 0 && attendees.count >= max_people
   end
 
   def in_need?
-    min_people > 0 && involvements.count < min_people
+    min_people > 0 && attendees.count < min_people
   end
 
   def to_title

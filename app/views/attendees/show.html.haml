@@ -1,0 +1,18 @@
+%h1 Attendee #{link_to_record @attendee}
+
+%dl.attributes[@attendee]
+  %dt#label_shift Shift
+  %dd#value_shift
+    = link_to_record @attendee.shift
+    from
+    = l @attendee.shift.start_time
+    to
+    = l @attendee.shift.end_time
+  %dt#label_slot Slot
+  %dd#value_slot= link_to_record @attendee.slot
+  %dt#label_involvement Involvement
+  %dd#value_involvement= link_to_record @attendee.involvement
+  %dt#label_status Status
+  %dd#value_status= @attendee.status
+  %dt#label_created_at Signed up at
+  %dd#value_created_at= relative_date_tag @attendee.created_at

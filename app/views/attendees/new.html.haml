@@ -1,0 +1,6 @@
+%h1
+  New attendee
+  - if @attendee.slot
+    in #{link_to_record @attendee.shift} #{link_to_record @attendee.slot}
+
+= render 'form'

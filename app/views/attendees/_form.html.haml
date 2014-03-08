@@ -1,0 +1,7 @@
+= semantic_form_for @attendee do |f|
+  = f.inputs do
+    = f.input :involvement, as: :select, collection: (@attendee.involvement.try {|inv| [inv]} or policy_scope(@attendee.event.involvements))
+    = f.input :status, as: :select, collection: Attendee::STATUSES
+
+  = f.actions do
+    = f.action(:submit)

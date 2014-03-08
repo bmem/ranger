@@ -1,6 +1,8 @@
 class ShiftSerializer < ActiveModel::Serializer
   include TimeHelper
 
+  embed :ids, include: true
+
   attributes :id, :event_id, :slot_ids, :name, :description,
     :duration_seconds, :duration_formatted,
     :start_time, :end_time, :start_time_formatted, :end_time_formatted

@@ -1,3 +1,4 @@
+- attendee_by_slot = @involvement.attendees.index_by &:slot_id
 %h1
   Schedule for
   = link_to_record @involvement
@@ -47,8 +48,8 @@
       - slots.each do |s|
         - toggle.check(s.shift.start_time)
         - rowclass = [ "day-#{toggle.state ? 'a' : 'b'}" ]
-        - signed_up = s.id.in? @involvement.slot_ids
-        - if signed_up
+        - attendee = attendee_by_slot[s.id]
+        - if attendee
           - rowclass << 'signedup'
         - elsif s.full?
           - rowclass << 'full'
@@ -81,12 +82,12 @@
               %wbr
               %nobr (need #{min - num_people})
           %td.signup
-            - if signed_up
-              = link_to 'Remove', leave_event_slot_path(s.event, s, :involvement_id => @involvement.id), :confirm => 'Are you sure?', :method => :post
+            - if attendee
+              = link_to 'Remove', event_slot_attendee_path(s.event, s, attendee), confirm: 'Are you sure?', method: :delete
             - elsif s.full?
               Slot full
             - else
-              = link_to 'Sign up', join_event_slot_path(s.event, s, :involvement_id => @involvement.id), :method => :post
+              = link_to 'Sign up', event_attendees_path(s.event, slot_id: s.id, involvement_id: @involvement.id), method: :post
 
 %h2 By day
 %table#shift-slots
@@ -100,7 +101,7 @@
   - toggle = DateToggle.new
   - @slots.group_by(&:shift).each do |shift, slots|
     - toggle.check(shift.start_time)
-    - signed_up = slots.map(&:id).to_set.intersection(@involvement.slot_ids).present?
+    - signed_up = slots.any? {|slot| slot.id.in? attendee_by_slot}
     - full = !slots.find {|s| not s.full?}
     - rowclass = [signed_up ? 'signedup' : (full ? 'full' : 'available')]
     - rowclass << "day-#{toggle.state ? 'a' : 'b'}"
@@ -124,11 +125,11 @@
           %nobr
             - if signed_up
               = s.position
-              - if s.id.in? @involvement.slot_ids
-                = link_to '(remove)', leave_event_slot_path(s.event, s, :involvement_id => @involvement.id), :confirm => 'Are you sure?', :method => :post
+              - if attendee = attendee_by_slot[s.id]
+                = link_to '(remove)', event_slot_attendee_path(s.event, s, attendee), confirm: 'Are you sure?', method: :delete
             - elsif s.full?
               #{s.position} (full)
             - else
-              = link_to s.position.name, join_event_slot_path(s.event, s, :involvement_id => @involvement.id), :method => :post
+              = link_to s.position.name, event_attendees_path(s.event, slot_id: s.id, involvement_id: @involvement.id), method: :post
             - if s.in_need?
               %nobr (need #{s.min_people - s.involvements.count} more)

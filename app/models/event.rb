@@ -9,6 +9,7 @@ class Event < ActiveRecord::Base
   has_many :shifts, :dependent => :destroy
   has_many :slots, :through => :shifts
   has_many :involvements
+  has_many :attendees, through: :involvements
   has_many :people, through: :involvements
   has_many :work_logs
   has_many :credit_schemes

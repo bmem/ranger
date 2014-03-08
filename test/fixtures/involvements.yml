@@ -26,6 +26,14 @@ e1p2:
   barcode: 223344
   details:
 
+e1phq:
+  person: hq
+  event: one
+  name: Heathen Queen
+  involvement_status: confirmed
+  personnel_status: active
+  barcode: 98765
+
 bm2012_alpha1:
   person: alpha1
   event: burning_man_2012
