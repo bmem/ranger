@@ -1,12 +1,12 @@
 var involvementController = angular.module('involvementController',
     ['scheduleServices']).
 
-controller('InvolvementCtrl', ['$scope', 'involvementId', function($scope, involvementId) {
+controller('InvolvementCtrl', ['$scope', 'Involvements', 'involvementId',
+    function($scope, Involvements, involvementId) {
   $scope.involvementId = involvementId;
   $scope.$watch('involvementId', function(iid) {
     if (iid) {
-      $scope.involvementResource = $scope.eventResource.one('involvements', iid);
-      $scope.involvement = $scope.involvementResource.get().$object;
+      $scope.involvement = Involvements.get(iid);
     }
   });
 

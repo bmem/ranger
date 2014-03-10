@@ -7,8 +7,9 @@ class ShiftsController < EventBasedController
     page = (params[:page] || 1).to_i
     @shifts = policy_scope(Shift)
     @shifts = @shifts.where(:event_id => @event.id) if @event
-    # TODO select_aray_param position_ids instead of @involvement?
-    @shifts = @shifts.with_positions(@involvement.position_ids) if @involvement
+    selected_array_param(params[:position_id]).presence.try do |position_ids|
+      @shifts = @shifts.with_positions(position_ids)
+    end
     @shifts = order_by_params @shifts
     @shifts = @shifts.page(page)
 
