@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140308185549) do
+ActiveRecord::Schema.define(:version => 20140313041955) do
 
   create_table "arts", :force => true do |t|
     t.string   "name",         :null => false
@@ -363,12 +363,13 @@ ActiveRecord::Schema.define(:version => 20140308185549) do
   add_index "slot_templates", ["shift_template_id"], :name => "index_slot_templates_on_shift_template_id"
 
   create_table "slots", :force => true do |t|
-    t.integer  "shift_id",                   :null => false
-    t.integer  "position_id",                :null => false
-    t.integer  "min_people",  :default => 0, :null => false
-    t.integer  "max_people",  :default => 0, :null => false
-    t.datetime "created_at",                 :null => false
-    t.datetime "updated_at",                 :null => false
+    t.integer  "shift_id",                       :null => false
+    t.integer  "position_id",                    :null => false
+    t.integer  "min_people",      :default => 0, :null => false
+    t.integer  "max_people",      :default => 0, :null => false
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
+    t.integer  "attendees_count"
   end
 
   add_index "slots", ["position_id"], :name => "index_slots_on_position_id"

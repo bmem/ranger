@@ -70,7 +70,7 @@
           %td= distance_of_time_hours_minutes s.shift.start_time, s.shift.end_time
           %td= s.credit_value_formatted
           %td
-            - num_people = s.involvements.count
+            - num_people = s.attendees_count
             - max = s.max_people
             - min = s.min_people
             = slot_meter_tag s
@@ -132,4 +132,4 @@
             - else
               = link_to s.position.name, event_attendees_path(s.event, slot_id: s.id, involvement_id: @involvement.id), method: :post
             - if s.in_need?
-              %nobr (need #{s.min_people - s.involvements.count} more)
+              %nobr (need #{s.min_people - s.attendees_count} more)

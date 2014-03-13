@@ -1,7 +1,7 @@
 class Attendee < ActiveRecord::Base
   STATUSES = %w(planned confirmed noshow).freeze
 
-  belongs_to :slot
+  belongs_to :slot, counter_cache: true
   belongs_to :involvement
   has_one :event, through: :involvement
   has_one :shift, through: :slot
