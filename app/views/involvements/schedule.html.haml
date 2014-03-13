@@ -39,7 +39,13 @@
               %td= ''
 
         %h2 Available Shifts
-        Filter by position:
+        %label.checkbox-label
+          %input(type="checkbox" ng-model="showFullSlots")
+            %strong Show full slots
+        &nbsp;
+        %input(type="search" ng-model="shiftFilterText" placeholder="Filter by shift name")
+        %br
+        %strong Show positions:
         %span.checkbox-list
           %label.checkbox-label(ng-repeat="position in availablePositions | orderBy:'name'")
             %input(type="checkbox" checklist-model="selectedPositionIds" checklist-value="position.id") {{position.name}}
@@ -52,10 +58,11 @@
               %th Hours
               %th Credits
               %th Position
+              %th Space
               %th Actions
-          %tbody(ng-repeat="shift in allShifts | orderBy:start_time")
-            %tr(ng-repeat="slot in shift.slots | filter:positionFilter" ng-class="shift.dayClass")
-              %td(title="{{shift.description}}" ng-show="{{$first}}" rowspan="{{shift.slots.length}}")= link_to '{{shift.name}}', "{{'/events/#{@event.to_param}/shifts/' + shift.id}}"
+          %tbody(ng-repeat="shift in allShifts | filter:availableShiftFilter | filter:{name:shiftFilterText} | orderBy:start_time" ng-class="{'day-a': $odd, 'day-b': $even}")
+            %tr(ng-repeat="slot in shift.slots | filter:positionFilter | filter:availabileSlotFilter")
+              %td(title="{{shift.description}}")= link_to '{{shift.name}}', "{{'/events/#{@event.to_param}/shifts/' + shift.id}}"
               %td
                 %nobr {{shift.start_time_formatted}}
               %td
@@ -63,6 +70,9 @@
               %td {{shift.duration_formatted}}
               %td {{slot.credit_value_formatted}}
               %td {{slot.position.name}}
+              %td(title="{{slot.attendees_count}}/{{slot.max_people}}")
+                %meter(value="{{slot.attendees_count}}" min="0" low="{{slot.min_people}}" max="{{slot.max_people || 1000}}" optimum="{{slot.max_people || slot.min_people * 2}}")
+                  {{slot.attendees_count}}/{{slot.max_people}}
               %td
-                %button.action.slot-join(ng-click="join(slot)" ng-hide="alreadyIn(slot)") Join
+                %button.action.slot-join(ng-click="join(slot)" ng-hide="slot.max_people <= slot.attendees_count || alreadyIn(slot)") Join
                 %button.action.slot-leave(ng-click="leave(slot)" ng-show="alreadyIn(slot)") Leave

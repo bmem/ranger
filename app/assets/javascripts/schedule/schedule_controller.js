@@ -94,4 +94,13 @@ controller('ScheduleCtrl', ['$scope', '$log', 'Shifts', 'Attendees',
     return $scope.selectedPositionIds.length == 0 ||
       $scope.selectedPositionIds.indexOf(slot.position_id) >= 0;
   };
+
+  $scope.availabileSlotFilter = function(slot) {
+    return $scope.showFullSlots || slot.max_people <= 0 ||
+      slot.max_people > slot.attendees_count;
+  };
+
+  $scope.availableShiftFilter = function(shift) {
+    return _.every(shift.slots, $scope.availableSlotFilter, this);
+  };
 }]);

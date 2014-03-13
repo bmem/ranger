@@ -11,10 +11,10 @@
     }
     vertical-align: top;
   }
-  tr.day-a td {
+  tr.day-a td, tbody.day-a tr td {
     background-color: #eee;
   }
-  tr.day-b td {
+  tr.day-b td, tbody.day-b tr td {
     background-color: #ddd;
   }
   tr.day-a:hover, tr.day-b:hover {
