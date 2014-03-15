@@ -39,13 +39,23 @@
               %td= ''
 
         %h2 Available Shifts
+        %h3 Filter
         %label.checkbox-label
-          %input(type="checkbox" ng-model="showFullSlots")
-            %strong Show full slots
+          %input(type="checkbox" ng-model="showFullSlots") Show full slots
+        %label.checkbox-label
+          %input(type="checkbox" ng-model="showPastShifts") Show past shifts
         &nbsp;
         %input(type="search" ng-model="shiftFilterText" placeholder="Filter by shift name")
+        &nbsp;
         %select(ng-model="selectedPositionId" ng-options="position.id as position.name for position in availablePositions")
           %option(value="") Filter by position
+        &nbsp;
+        %label.checkbox-label
+          %input(type="checkbox" ng-model="filterByHour")
+            Hour of day:
+            <span ng-show="filterByHour">{{selectedHour}}</span>
+          %input(type="range" ng-model="selectedHour" min="0" max="23" value="12" ng-disabled="!filterByHour")
+
         %table#shift-slots
           %thead
             %tr
@@ -57,7 +67,7 @@
               %th Position
               %th Space
               %th Actions
-          %tbody(ng-repeat="shift in allShifts | filter:availableShiftFilter | filter:{name:shiftFilterText} | orderBy:start_time" ng-class="{'day-a': $odd, 'day-b': $even}")
+          %tbody(ng-repeat="shift in allShifts | filter:shiftTimeFilter | filter:availableShiftFilter | filter:{name:shiftFilterText} | orderBy:start_time" ng-class="{'day-a': $odd, 'day-b': $even}")
             %tr(ng-repeat="slot in shift.slots | filter:positionFilter | filter:availabileSlotFilter")
               %td(title="{{shift.description}}")= link_to '{{shift.name}}', "{{'/events/#{@event.to_param}/shifts/' + shift.id}}"
               %td

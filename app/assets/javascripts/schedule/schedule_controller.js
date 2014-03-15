@@ -5,6 +5,7 @@ controller('ScheduleCtrl', ['$scope', '$log', 'Shifts', 'Attendees',
   $scope.attendees = []
   $scope.allShifts = [];
   $scope.availablePositions = [];
+  $scope.selectedHour = 12;
 
   $scope.$watch('involvementId', function(iid) {
     $scope.attendees = Attendees.listForInvolvement(iid);
@@ -99,5 +100,30 @@ controller('ScheduleCtrl', ['$scope', '$log', 'Shifts', 'Attendees',
 
   $scope.availableShiftFilter = function(shift) {
     return _.every(shift.slots, $scope.availableSlotFilter, this);
+  };
+
+  $scope.shiftTimeFilter = function(shift) {
+    var start = moment.parseZone(shift.start_time);
+    var end = moment.parseZone(shift.end_time);
+    if (!$scope.showPastShifts) {
+      return moment().isBefore(end);
+    }
+    if ($scope.filterByHour) {
+      if (end.diff(start, 'hours') >= 24) {
+        return true;
+      }
+      var testHour = Number($scope.selectedHour);
+      var test = start.clone().hour(testHour).minute(0);
+      if (end.day() == start.day()) {
+        // same day, test hour between start and end
+        return end.isAfter(test, 'minute') &&
+          (start.isBefore(test, 'minute') || start.isSame(test, 'minute'));
+      }
+      // different day, test hour either after start or before end
+      var test2 = end.clone().hour(testHour).minute(0);
+      return end.isAfter(test2, 'minute') ||
+        (start.isBefore(test, 'minute') || start.isSame(test, 'minute'));
+    }
+    return true;
   };
 }]);
