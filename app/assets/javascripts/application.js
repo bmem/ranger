@@ -20,6 +20,5 @@
 //= require twitter/typeahead.min
 //= require angular
 //= require restangular
-//= require checklist-model
 //= require_tree ./templates
 //= require_tree .

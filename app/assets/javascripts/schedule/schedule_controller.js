@@ -4,7 +4,6 @@ controller('ScheduleCtrl', ['$scope', '$log', 'Shifts', 'Attendees',
     function($scope, $log, Shifts, Attendees) {
   $scope.attendees = []
   $scope.allShifts = [];
-  $scope.selectedPositionIds = [];
   $scope.availablePositions = [];
 
   $scope.$watch('involvementId', function(iid) {
@@ -12,7 +11,6 @@ controller('ScheduleCtrl', ['$scope', '$log', 'Shifts', 'Attendees',
   });
 
   $scope.$watch('involvement.position_ids', function(position_ids) {
-    $scope.selectedPositionIds = position_ids || [];
     if (_.isEmpty(position_ids)) {
       $scope.allShifts = [];
       $scope.availablePositions = [];
@@ -91,8 +89,7 @@ controller('ScheduleCtrl', ['$scope', '$log', 'Shifts', 'Attendees',
   };
 
   $scope.positionFilter = function(slot) {
-    return $scope.selectedPositionIds.length == 0 ||
-      $scope.selectedPositionIds.indexOf(slot.position_id) >= 0;
+    return !$scope.selectedPositionId || $scope.selectedPositionId == slot.position_id;
   };
 
   $scope.availabileSlotFilter = function(slot) {

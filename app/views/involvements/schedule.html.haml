@@ -44,11 +44,8 @@
             %strong Show full slots
         &nbsp;
         %input(type="search" ng-model="shiftFilterText" placeholder="Filter by shift name")
-        %br
-        %strong Show positions:
-        %span.checkbox-list
-          %label.checkbox-label(ng-repeat="position in availablePositions | orderBy:'name'")
-            %input(type="checkbox" checklist-model="selectedPositionIds" checklist-value="position.id") {{position.name}}
+        %select(ng-model="selectedPositionId" ng-options="position.id as position.name for position in availablePositions")
+          %option(value="") Filter by position
         %table#shift-slots
           %thead
             %tr
