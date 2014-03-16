@@ -1,0 +1,2 @@
+class EventRadioAuthorizationPolicy < RadioAuthorizationPolicy
+end

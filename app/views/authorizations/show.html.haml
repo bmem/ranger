@@ -1,0 +1,15 @@
+%h1 #{link_to_record @authorization}
+
+%dl.attributes[@authorization]
+  %dt#label_type Type
+  %dd#value_type<= @authorization.type.underscore.humanize
+  %dt#label_event Event
+  %dd#value_event= link_to_record @authorization.event
+  %dt#label_involvement Person
+  %dd#value_involvement<= link_to_record @authorization.involvement
+  %dt#label_user Authorizing user
+  %dd#value_user<= link_to_record @authorization.user
+  %dt#label_created_at Created at
+  %dd#value_created_at
+    = l @authorization.created_at
+    (#{time_ago_in_words(@authorization.created_at)} ago)

@@ -1,0 +1,2 @@
+class RentalVehicleAuthorization < Authorization
+end

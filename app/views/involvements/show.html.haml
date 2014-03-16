@@ -49,6 +49,22 @@
     = render :partial => 'work_logs/list_for_involvement', :locals => {:involvement => @involvement}
 
   .tab-content#tab-assets
+    %h3 Authorizations
+    - has = []
+    - if @involvement.authorizations.none?
+      None
+    - else
+      %ul
+        - @involvement.authorizations.each do |auth|
+          %li= link_to auth.human_type, auth
+          - has << auth.type
+    - Authorization.human_types.each do |type, name|
+      - unless type.in? has
+        - a = type.constantize.new(involvement_id: @involvement.id)
+        - if policy(a).create?
+          %br
+          = link_to "Grant #{name}", new_event_authorization_path(@event, type: type, involvement_id: @involvement.id)
+    %h3 Asset History
     = render :partial => 'asset_uses/use_list', :locals => {uses: @involvement.asset_uses, excludes: [:involvement]}
 
   .tab-content#tab-messages

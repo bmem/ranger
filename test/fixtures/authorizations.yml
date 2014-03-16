@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  type: RadioAuthorization
+  event: one
+  involvement: e1p1
+  user: adminuser
+
+two:
+  type: EventRadioAuthorization
+  event: one
+  involvement: e1p1
+  user: adminuser

@@ -1,4 +1,5 @@
 Ranger::Application.routes.draw do
+
   resources :audits, only: [:index, :show]
 
   resources :callsigns do
@@ -204,6 +205,7 @@ Ranger::Application.routes.draw do
         get :changes
       end
     end
+    resources :authorizations
 
     resources :mentorships do
       member do

@@ -54,6 +54,12 @@
       = link_to 'Radios', event_radios_path(@event)
       = link_to 'Vehicles', event_vehicles_path(@event)
       = link_to 'Keys', event_keys_path(@event)
+  - if policy(Authorization).list?
+    %dt= link_to 'Authorizations', event_authorizations_path(@event)
+    %dd
+      People authorized for asset types:
+      - Authorization.human_types.each do |type, name|
+        = link_to name.pluralize, event_authorizations_path(@event, type: type)
   - if policy(Mentorship).manage?
     %dt Mentors and alphas
     %dd

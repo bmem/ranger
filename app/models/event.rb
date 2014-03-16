@@ -15,6 +15,7 @@ class Event < ActiveRecord::Base
   has_many :credit_schemes
   has_many :assets
   has_many :asset_uses
+  has_many :authorizations
   has_many :mentorships
   has_many :mentors
   belongs_to :linked_event, :class_name => 'Event'

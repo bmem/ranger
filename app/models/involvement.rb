@@ -13,6 +13,7 @@ class Involvement < ActiveRecord::Base
   has_many :slots, through: :attendees
   has_many :work_logs
   has_many :asset_uses
+  has_many :authorizations
   has_and_belongs_to_many :arts
   # this involvement is the mentee in self.mentorships
   has_many :mentorships, foreign_key: :mentee_id

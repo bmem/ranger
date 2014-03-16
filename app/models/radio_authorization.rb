@@ -1,0 +1,2 @@
+class RadioAuthorization < Authorization
+end

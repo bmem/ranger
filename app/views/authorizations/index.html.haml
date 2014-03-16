@@ -1,0 +1,22 @@
+%h1 Authorizations in #{link_to_record @event}
+
+= page_entries_info @authorizations, model: 'authorizations'
+%br
+= will_paginate @authorizations, inner_window: 10
+
+%table
+  %thead
+    %tr
+      %th= sortable_header :type, 'Type'
+      %th= sortable_header 'involvements.name', 'Person'
+      %th= sortable_header :user, 'Authorized by'
+      %th= sortable_header :created_at, 'Date authorized'
+  %tbody
+    - @authorizations.each do |authorization|
+      %tr
+        %td= link_to authorization.type.underscore.humanize, authorization
+        %td= link_to_record authorization.involvement
+        %td= link_to_record authorization.user
+        %td= relative_date_tag authorization.created_at
+
+= will_paginate @authorizations, inner_window: 10

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140313041955) do
+ActiveRecord::Schema.define(:version => 20140315223451) do
 
   create_table "arts", :force => true do |t|
     t.string   "name",         :null => false
@@ -99,6 +99,19 @@ ActiveRecord::Schema.define(:version => 20140313041955) do
   add_index "audits", ["auditable_id", "auditable_type"], :name => "auditable_index"
   add_index "audits", ["created_at"], :name => "index_audits_on_created_at"
   add_index "audits", ["user_id", "user_type"], :name => "user_index"
+
+  create_table "authorizations", :force => true do |t|
+    t.string   "type"
+    t.integer  "event_id"
+    t.integer  "involvement_id"
+    t.integer  "user_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  add_index "authorizations", ["event_id"], :name => "index_authorizations_on_event_id"
+  add_index "authorizations", ["involvement_id"], :name => "index_authorizations_on_involvement_id"
+  add_index "authorizations", ["type", "event_id", "involvement_id"], :name => "index_authorizations_on_type_and_event_id_and_involvement_id", :unique => true
 
   create_table "callsign_assignments", :force => true do |t|
     t.integer  "callsign_id",                        :null => false

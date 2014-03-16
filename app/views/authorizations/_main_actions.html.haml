@@ -1,0 +1,7 @@
+- provide :main_action_list_items do
+  - if policy(Authorization).list?
+    %li= link_to 'All authorizations', event_authorizations_path(@event)
+  - if policy(Authorization.new).create?
+    %li= link_to 'New authorization', new_event_authorization_path(@event)
+  = render 'record_actions'
+
