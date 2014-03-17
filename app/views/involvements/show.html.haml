@@ -43,7 +43,7 @@
     = render :partial => 'slots/list_for_involvement', :locals => {:involvement => @involvement}
     - if policy(@involvement).schedule? and @event.signup_open?
       %br
-      = link_to 'Sign up for more', signup_event_involvement_path(@event, @involvement)
+      = link_to 'Sign up for more', schedule_event_involvement_path(@event, @involvement)
 
   .tab-content#tab-worklogs
     = render :partial => 'work_logs/list_for_involvement', :locals => {:involvement => @involvement}

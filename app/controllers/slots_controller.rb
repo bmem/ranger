@@ -143,7 +143,7 @@ class SlotsController < EventBasedController
       person = Person.find(params[:person_id])
       @involvement = person.involvements.find_by_event_id @shift.event_id
     end
-    authorize @involvement, :signup?
+    authorize @involvement, :schedule?
     respond_to do |format|
       unless @slot.id.in? @involvement.slot_ids
         format.html { redirect_to :back, :alert => "#{@involvement} is not signed up for #{@slot}." }
@@ -206,7 +206,7 @@ class SlotsController < EventBasedController
   def load_and_authorize_involvement
     params[:involvement_id].presence.try do |iid|
       @involvement = Involvement.find iid
-      authorize @involvement, :signup?
+      authorize @involvement, :schedule?
     end
   end
 end

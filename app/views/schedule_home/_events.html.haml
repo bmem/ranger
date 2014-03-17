@@ -8,7 +8,7 @@
         = link_to involvement.involvement_status.titleize, involvement
         - if event.signup_open?
           \|
-          = link_to 'Sign up for slots', signup_event_involvement_path(event, involvement)
+          = link_to 'Edit schedule', schedule_event_involvement_path(event, involvement)
       - else
         = link_to 'Get involved!', new_event_involvement_path(event, :person_id => @person.id)
     %p.text-attribute<= event.description

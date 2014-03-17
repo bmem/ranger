@@ -175,7 +175,7 @@ class ShiftsController < EventBasedController
   def load_and_authorize_involvement
     params[:involvement_id].presence.try do |iid|
       @involvement = Involvement.find iid
-      authorize @involvement, :signup?
+      authorize @involvement, :schedule?
     end
   end
 end

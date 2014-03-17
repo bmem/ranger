@@ -15,6 +15,7 @@
               %th Credits
               %th Position
               %th Actions
+              %th Description
           %tbody
             %tr(ng-repeat="attendee in attendees | orderBy:'shift.start_time'" ng-init="slot = attendee.slot; shift = attendee.shift; position = attendee.position;")
               %td(title="{{shift.description}}")= link_to '{{shift.name}}', "{{'/events/#{@event.to_param}/shifts/' + shift.id}}"
@@ -27,6 +28,7 @@
               %td= link_to '{{position.name}}', "{{'/events/#{@event.to_param}/shifts/' + shift.id + '/slots/' + slot.id}}"
               %td
                 %button.action.slot-leave(ng-click="leave(attendee)") Leave
+              %td.text-attribute {{shift.description}}
           %tfoot
             %tr
               %td Total
@@ -81,5 +83,5 @@
                 %meter(value="{{slot.attendees_count}}" min="0" low="{{slot.min_people}}" max="{{slot.max_people || 1000}}" optimum="{{slot.max_people || slot.min_people * 2}}")
                   {{slot.attendees_count}}/{{slot.max_people}}
               %td
-                %button.action.slot-join(ng-click="join(slot)" ng-hide="slot.max_people <= slot.attendees_count || alreadyIn(slot)") Join
-                %button.action.slot-leave(ng-click="leave(slot)" ng-show="alreadyIn(slot)") Leave
+                %button.action.slot-join(title="{{shift.description}}" ng-click="join(slot)" ng-hide="slot.max_people <= slot.attendees_count || alreadyIn(slot)") Join
+                %button.action.slot-leave(title="{{shift.description}}" ng-click="leave(slot)" ng-show="alreadyIn(slot)") Leave

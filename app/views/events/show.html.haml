@@ -7,7 +7,7 @@
     - if inv = involvement_for_event_person(@event, person_me)
       = link_to "#{inv} is #{inv.involvement_status}.", event_involvement_path(@event, inv)
       - if @event.signup_open?
-        %strong= link_to 'Sign up for shifts', signup_event_involvement_path(@event, inv)
+        %strong= link_to 'Sign up for shifts', schedule_event_involvement_path(@event, inv)
     - else
       #{person_me} is not involved.
       - if @event.signup_open?
