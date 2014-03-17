@@ -9,16 +9,16 @@ class Involvement < ActiveRecord::Base
   belongs_to :event
   has_one :profile, through: :person
   has_many :positions, :through => :person
-  has_many :attendees
+  has_many :attendees, dependent: :destroy
   has_many :slots, through: :attendees
-  has_many :work_logs
-  has_many :asset_uses
-  has_many :authorizations
+  has_many :work_logs, dependent: :destroy
+  has_many :asset_uses, dependent: :destroy
+  has_many :authorizations, dependent: :destroy
   has_and_belongs_to_many :arts
   # this involvement is the mentee in self.mentorships
-  has_many :mentorships, foreign_key: :mentee_id
+  has_many :mentorships, foreign_key: :mentee_id, dependent: :destroy
   # this involvment is the mentor in self.mentors
-  has_many :mentors
+  has_many :mentors, dependent: :destroy
 
   # TODO make these actual attributes
   store :details, :accessors => DETAIL_ATTRS

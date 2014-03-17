@@ -89,6 +89,20 @@ namespace :clubhouse do
           where('events.start_date < ?', Date.new(2014, 1, 1)).destroy_all
         errors +=
           SecretClubhouse::Conversion::convert_model(SecretClubhouse::Asset)
+        AssetUse.includes(:asset).
+            select([:event_id, :involvement_id, 'assets.type']).
+            uniq.each do |use|
+          case use.asset.type
+          when 'Radio' then auth_type = RadioAuthorization
+          when 'Vehicle' then auth_type = VehicleAuthorization
+          end
+          if auth_type
+            auth_type.where(event_id: use.event_id, involvement_id: use.involvement_id).
+                first_or_create! do |auth|
+              puts "#{auth.human_type} of #{auth.involvement_id} in #{auth.event_id}"
+            end
+          end
+        end
       end # transaction
       puts "#{errors.count} errors"
       puts errors.join("\n")

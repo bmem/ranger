@@ -8,6 +8,7 @@ module SecretClubhouse
 
     has_many :timesheets
     has_many :languages
+    has_many :tickets
     has_and_belongs_to_many :positions, :join_table => 'person_position'
     has_and_belongs_to_many :roles, :join_table => 'person_role'
     has_and_belongs_to_many :slots, :join_table => 'person_slot'
@@ -66,6 +67,10 @@ module SecretClubhouse
           worklog.event = event
           worklog.involvement = involvement
           involvement.work_logs << worklog
+        end
+        if p.tickets.where(year: year, eligibility: 'gift').any?
+          auth = involvement.authorizations.build(type: 'EventRadioAuthorization')
+          auth.event = event
         end
       end
       callsign_status = case status

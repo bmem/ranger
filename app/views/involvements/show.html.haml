@@ -53,6 +53,7 @@
     - has = []
     - if @involvement.authorizations.none?
       None
+      %br
     - else
       %ul
         - @involvement.authorizations.each do |auth|
@@ -62,8 +63,8 @@
       - unless type.in? has
         - a = type.constantize.new(involvement_id: @involvement.id)
         - if policy(a).create?
-          %br
           = link_to "Grant #{name}", new_event_authorization_path(@event, type: type, involvement_id: @involvement.id)
+          %br
     %h3 Asset History
     = render :partial => 'asset_uses/use_list', :locals => {uses: @involvement.asset_uses, excludes: [:involvement]}
 
