@@ -71,7 +71,7 @@ module SecretClubhouse
 
     def self.ensure_events_created
       audited_as_system_user do
-        (1992..2013).each do |year|
+        (1992..2014).each do |year|
           puts "Finding events for #{year}"
           bm = ::BurningMan.where(slug: "burning-man-#{year}").first_or_create! do |e|
             e.name = "Burning Man #{year}"
@@ -130,7 +130,7 @@ module SecretClubhouse
 
     def self.convert_shifts
       audited_as_system_user do
-        (2008..2013).each do |year|
+        (2008..2014).each do |year|
           ts = ::TrainingSeason.find("training-season-#{year}")
           puts "Creating shifts for #{ts}"
           ts.shifts.destroy_all
