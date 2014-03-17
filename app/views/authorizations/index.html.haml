@@ -9,8 +9,8 @@
     %tr
       %th= sortable_header :type, 'Type'
       %th= sortable_header 'involvements.name', 'Person'
-      %th= sortable_header :user, 'Authorized by'
-      %th= sortable_header :created_at, 'Date authorized'
+      %th= sortable_header 'users.email', 'Authorized by'
+      %th= sortable_header 'authorizations.created_at', 'Date authorized'
   %tbody
     - @authorizations.each do |authorization|
       %tr
