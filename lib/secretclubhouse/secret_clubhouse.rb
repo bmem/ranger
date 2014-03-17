@@ -170,7 +170,9 @@ module SecretClubhouse
             raise "#{key[0]} - #{key[1]} vs. #{bm.start_date} - #{bm.end_date}" unless key[0].year == bm.start_date.year
             shift = ::Shift.where(event_id: bm.id, name: key[2],
                 start_time: key[0], end_time: key[1]).first_or_create! do |s|
-              s.description = slots.map {|slot| slot.position.name}.to_sentence
+              if s.name =~ /grave/i
+                s.description = s.end_time.yesterday.strftime('%A') + ' night'
+              end
             end
             puts "Creating shift #{shift.name} #{shift.start_time}"
             slots.each do |slot|

@@ -81,14 +81,18 @@ namespace :clubhouse do
   desc "Convert assets"
   task :assets => :environment do
     with_timing 'converting assets' do
-      model = ::Asset
+      models = [::Asset, ::Authorization]
       errors = []
-      model.connection.transaction do
-        puts "Deleting old #{model} records"
-        model.includes(:event).
-          where('events.start_date < ?', Date.new(2014, 1, 1)).destroy_all
+      models.first.connection.transaction do
+        models.each do |model|
+          puts "Deleting old #{model} records"
+          model.includes(:event).
+            where('events.start_date < ?', Date.new(2014, 1, 1)).destroy_all
+        end
         errors +=
           SecretClubhouse::Conversion::convert_model(SecretClubhouse::Asset)
+        errors +=
+          SecretClubhouse::Conversion::convert_model(SecretClubhouse::Ticket)
         AssetUse.includes(:asset).
             select([:event_id, :involvement_id, 'assets.type']).
             uniq.each do |use|
@@ -106,7 +110,7 @@ namespace :clubhouse do
       end # transaction
       puts "#{errors.count} errors"
       puts errors.join("\n")
-      puts "#{model.model_name.human}: #{model.count}"
+      puts "#{models.first.model_name.human}: #{models.first.count}"
     end
   end
 

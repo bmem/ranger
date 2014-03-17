@@ -68,10 +68,6 @@ module SecretClubhouse
           worklog.involvement = involvement
           involvement.work_logs << worklog
         end
-        if p.tickets.where(year: year, eligibility: 'gift').any?
-          auth = involvement.authorizations.build(type: 'EventRadioAuthorization')
-          auth.event = event
-        end
       end
       callsign_status = case status
         when 'prospective', 'alpha', 'bonked', 'uberbonked' then
@@ -97,6 +93,11 @@ module SecretClubhouse
           start_date: callsign_date)
         ac.build_callsign name: alternate_callsign, status: 'approved',
           note: 'LEAL callsign'
+      end
+      p.involvements.each do |inv|
+        unless inv.valid?
+          puts "Invalid involvement for #{p}: #{inv.errors.full_messages.to_sentence}"
+        end
       end
       p
     end
