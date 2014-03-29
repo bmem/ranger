@@ -1,5 +1,5 @@
 class WorkLogsController < EventBasedController
-  after_filter :verify_authorized, except: :index
+  after_filter :verify_authorized, except: [:index, :guess_shifts]
   after_filter :verify_policy_scoped, only: :index
 
   # GET /work_logs
@@ -18,6 +18,26 @@ class WorkLogsController < EventBasedController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @work_logs }
+    end
+  end
+
+  # POST /events/1/work_logs/guess_shifts
+  def guess_shifts
+    authorize WorkLog.new, :manage?
+    changes = 0
+    WorkLog.transaction do
+      policy_scope(@event.work_logs).where(shift_id: nil).each do |wl|
+        wl.guess_shift!
+        if wl.changed?
+          wl.audit_comment = 'Guess work log shifts (automated process)'
+          wl.save!
+          changes += 1
+        end
+      end
+    end
+    respond_to do |format|
+      format.html { redirect_to event_work_logs_path(@event), notice: "Guessed shifts for #{changes} work logs" }
+      format.json { head :no_content }
     end
   end
 

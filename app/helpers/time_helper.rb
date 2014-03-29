@@ -21,6 +21,18 @@ module TimeHelper
     seconds.fdiv(60).round.divmod(60)
   end
 
+  # Number of seconds overlap between two time ranges.  Arguments must respond
+  # to max and min methods: Range, Array, Enumerable, etc.
+  def overlap_seconds(time_range1, time_range2)
+    start1, end1 = time_range1.min, time_range1.max
+    start2, end2 = time_range2.min, time_range2.max
+    if start1 >= end2 or start2 >= end1
+      0
+    else
+      [end1, end2].min - [start1, start2].max
+    end
+  end
+
   def relative_date_tag(date_or_time, options = {})
     options = {class: ''}.merge options
     classes = options[:class].split

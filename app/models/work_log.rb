@@ -50,11 +50,7 @@ class WorkLog < ActiveRecord::Base
   end
 
   def seconds_overlap(start_t, end_t)
-    if start_t >= end_time_or_now || end_t <= start_time
-      0
-    else
-      [end_t.to_i, end_time_or_now.to_i].min - [start_t.to_i, start_time.to_i].max
-    end
+    overlap_seconds(start_time..end_time_or_now, start_t..end_t)
   end
 
   def duration_seconds
@@ -63,5 +59,28 @@ class WorkLog < ActiveRecord::Base
 
   def hours_formatted
     distance_of_time_hours_minutes(start_time, end_time)
+  end
+
+  def guess_shift!
+    unless shift_id
+      wlrange = start_time..end_time
+      mappct = Proc.new do |shift|
+        pct = overlap_seconds(wlrange, (shift.start_time..shift.end_time)) /
+          shift.duration_seconds
+        [pct, shift]
+      end
+      personal = involvement.shifts.with_positions(position_id).
+        overlapping(wlrange).map(&mappct).sort
+      if personal.any? and personal.last.first > 0.5
+        self.shift = personal.last.second
+      else
+        general = event.shifts.with_positions(position_id).
+          overlapping(wlrange).map(&mappct).sort
+        a = general.any? ? general.last : [0, nil]
+        b = personal.any? ? personal.last : [0, nil]
+        self.shift = [a, b].max.last
+      end
+    end
+    self.shift
   end
 end

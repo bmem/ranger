@@ -16,6 +16,8 @@
       %li= link_to "Work logs in #{@event}", event_work_logs_path(@event)
       - if policy(WorkLog.new).create?
         %li= link_to "New work log in #{@event}", new_event_work_log_path(@event)
+    - if policy(WorkLog.new).manage?
+      %li= link_to "Guess work log shifts", guess_shifts_event_work_logs_path(@event), method: :post, confirm: "This will update the shift on all work logs which don't have a shift assigned"
   - else
     %li= link_to 'All work_logs', work_logs_path
   = render 'record_actions'

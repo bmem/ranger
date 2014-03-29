@@ -84,7 +84,7 @@ Ranger::Application.routes.draw do
       get 'search(/:q)', action: :search, as: :search
     end
   end
-  resources :work_logs, :path => 'worklogs'
+  resources :work_logs, path: 'worklogs'
   resources :slots do
     resources :work_logs, :path => 'worklogs'
     post 'join', :on => :member
@@ -171,7 +171,10 @@ Ranger::Application.routes.draw do
         get :changes
       end
     end
-    resources :work_logs, :path => 'worklogs' do
+    resources :work_logs, path: 'worklogs' do
+      collection do
+        post :guess_shifts
+      end
       member do
         get :changes
       end
