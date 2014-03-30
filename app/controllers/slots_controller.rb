@@ -34,6 +34,17 @@ class SlotsController < EventBasedController
   # GET /slots/1
   # GET /slots/1.json
   def show
+    @participants = Hash[policy_scope(@slot.attendees).includes(:involvement).map do |att|
+      [att.involvement_id, SlotParticipant.new(slot: @slot, attendee: att)]
+    end]
+    policy_scope(@slot.shift.work_logs).where(position_id: @slot.position).map do |work|
+      iid = work.involvement_id
+      if iid.in? @participants
+        @participants[iid].work_log = work
+      else
+        @participants[iid] = SlotParticipant.new slot: @slot, work_log: work
+      end
+    end
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @slot }

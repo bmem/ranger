@@ -19,9 +19,7 @@
     %th= sortable_header 'shifts.start_time'
     %th= sortable_header 'shifts.end_time'
     %th Credits
-    %th(title='Minimum people required') Min
-    %th(title='Maximum people allowed') Max
-    %th(title='Number of people currently signed up') Cur
+    %th Attendees
 
   - @slots.each do |slot|
     %tr
@@ -30,8 +28,6 @@
       %td= l slot.shift.start_time, format: :short
       %td= l slot.shift.end_time, format: :short
       %td= format('%.2f', slot.credit_value)
-      %td= slot.min_people
-      %td= slot.max_people
-      %td= slot.involvements.count
+      %td= slot_meter_tag(slot)
 
 = will_paginate @slots, :inner_window => 10, :outer_window => 5

@@ -33,16 +33,17 @@ class WorkLogPolicy < ApplicationPolicy
 
   def start?
     # HQ and Trainers can create work logs in their respective domains,
-    # but only if the event isn't over
+    # but only if the event isn't over.  Managers can create logs for events
+    # that are over.
     # TODO Only let trainers add work logs to their own training?
     # TODO Revisit this: Can operators sign themselves in?
     #   Can Shift Leads sign others out?
-    record.event.signup_open? and edit? or user.has_role *CREATE_ROLES and
+    manage? or (record.event.signup_open? and user.has_role? *CREATE_ROLES and
       case record.event.type
-      when 'BurningMan' then user.has_role Role::HQ
-      when 'TrainingSeason' then user.has_role Role::TRAINER
+      when 'BurningMan' then user.has_role? Role::HQ
+      when 'TrainingSeason' then user.has_role? Role::TRAINER
       else true
-      end
+      end)
   end
 
   def signin? ; start? ; end

@@ -11,6 +11,7 @@ class Involvement < ActiveRecord::Base
   has_many :positions, :through => :person
   has_many :attendees, dependent: :destroy
   has_many :slots, through: :attendees
+  has_many :shifts, through: :slots
   has_many :work_logs, dependent: :destroy
   has_many :asset_uses, dependent: :destroy
   has_many :authorizations, dependent: :destroy

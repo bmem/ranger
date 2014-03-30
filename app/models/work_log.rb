@@ -20,6 +20,10 @@ class WorkLog < ActiveRecord::Base
       end_time, start_time)
   end
 
+  def on_duty?
+    end_time.blank?
+  end
+
   def end_time_or_now
     end_time || Time.zone.now
   end

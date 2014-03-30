@@ -6,40 +6,57 @@
   %b Position:
   = link_to @slot.position.name, position_path(@slot.position) if @slot.position
 %p
+  %b Hours:
+  = format_seconds_as_hours_minutes(@slot.shift.duration_seconds)
   %b Credits:
   = format('%.2f', @slot.credit_value)
 %p
-  %b Min people:
+  %b People:
+  = slot_meter_tag(@slot)
+  %b Min:
   = @slot.min_people
-%p
-  %b Max people:
+  = '/'
+  %b Max:
   = @slot.max_people
+  = '/'
+  %b Signed up:
+  = @slot.attendees_count || 0
+  - if (attended = @participants.values.find_all{|p| p.work_log || p.attendee.status == 'confirmed'}.count) > 0
+    = '/'
+    %b Attended:
+    = attended
 %p
   %b Sign up:
   = render :partial => 'add', :locals => {:slot => @slot}
 %p
-  %b People signed up:
+  %b Attendees
   %table
     %tr
-      %th Name
-      %th Signed in?
-      %th Signed out?
-      %th
-      %th
-    - policy_scope(@slot.involvements).each do |p|
+      %th.name Name
+      %th.status Status
+      %th.hours Hours
+      %th.credits Credits
+      %th.signinout
+      %th.manage
+    - @participants.values.sort.each do |participant|
+      - involvement = participant.involvement
+      - work = participant.work_log
+      - attendee = participant.attendee
       %tr
-        %td= link_to_record p
-        - if work = p.work_logs.where(:shift_id => @slot.shift_id).first
-          %td Yes
-          - if work.end_time.present?
-            %td Yes
-          - else
-            %td No
-            -# TODO better, unobtrusive sign in/out UX
-            %td= link_to 'Sign out', edit_event_work_log_path(work.event, work, sign_out: true)
-          %td= link_to 'Work log', work
-        - else
-          %td No
-          %td No
-          %td= link_to 'Sign in', new_event_work_log_path(@event, slot_id: @slot.id, involvement_id: p.id)
-          %td= link_to 'Remove', leave_event_slot_path(@slot.event, @slot, :involvement_id => p.id), :confirm => 'Are you sure?', :method => :post
+        %td.name= link_to_record involvement
+        %td.status= participant.status
+        %td.hours= participant.hours_formatted
+        %td.credits= participant.credits_formatted
+        %td.signinout
+          - if work and work.on_duty?
+            - if policy(work).signout?
+              = link_to 'Sign out', edit_event_work_log_path(work.event, work, sign_out: true)
+          - elsif not work
+            - if policy(WorkLog.new(involvement_id: involvement.id, position_id: @slot.position.id, shift_id: @slot.shift.id, event_id: @event.id)).signin?
+              = link_to 'Sign in', new_event_work_log_path(@event, slot_id: @slot.id, involvement_id: involvement)
+        %td.manage
+          - if work
+            - if policy(work).show?
+              = link_to 'Work log', work
+          - elsif attendee and policy(attendee).destroy?
+            = link_to 'Remove', leave_event_slot_path(@slot.event, @slot, involvement_id: participant.involvement), confirm: 'Are you sure?', method: :post

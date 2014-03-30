@@ -22,6 +22,17 @@ class Shift < ActiveRecord::Base
   default_scope order('start_time, end_time, name')
   scope :with_positions, lambda {|position_ids|
     includes(:slots).where('slots.position_id IN (?)', position_ids).uniq}
+  scope :overlapping, lambda {|range_or_start, end_time=nil|
+    if range_or_start.respond_to?(:min)
+      t1, t2 = range_or_start.min, range_or_start.max
+    elsif end_time
+      r = [range_or_start, end_time]
+      t1, t2 = r.min, r.max
+    else
+      t1, t2 = range_or_start, range_or_start
+    end
+    where('end_time > ? and start_time < ?', t1, t2)
+  }
 
   before_validation do |shift|
     if shift.event.is_a? TrainingSeason and shift.training.blank?

@@ -31,10 +31,12 @@
   - if policy(Report).list?
     %dt= link_to 'Reports', event_reports_path(@event)
     %dd Run, view, print, or download reports
-  - if policy(Shift).list? or policy(Slot).list?
+  - if policy(Shift).list? or policy(Slot).list? or policy(Training).list?
     %dt Scheduling
     %dd
       View or create
+      - if policy(Training).list? and @event.type == 'TrainingSeason'
+        = link_to 'Trainings', event_trainings_path(@event)
       - if policy(Shift).list?
         = link_to 'Shifts', event_shifts_path(@event)
       - if policy(Slot).list?
