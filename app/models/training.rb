@@ -6,6 +6,8 @@ class Training < ActiveRecord::Base
   attr_accessible :art_ids, :instructions, :location, :map_link, :name, :shift_attributes
   accepts_nested_attributes_for :shift
 
+  audited associated_with: :shift
+
   validates_presence_of :shift
   validates_each :training_season, :allow_nil => true do |record, attr, val|
     record.errors.add attr, 'is not a training event' unless val.is_a? TrainingSeason
