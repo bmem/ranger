@@ -11,3 +11,8 @@
     %dd
       Experience the site with a different set of permissions.
       Useful for seeing what someone with a more limited set of roles can see.
+  - if @user.has_role? Role::ADMIN
+    %dt= link_to 'Populate event', testing_populate_event_path
+    %dd
+      Populate an event with people from a previous event.
+      Only appropriate on a test database; do not use on a live system.
