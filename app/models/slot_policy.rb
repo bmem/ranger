@@ -38,12 +38,12 @@ class SlotPolicy < ApplicationPolicy
     # TODO allow people to sign themselves up, which requires knowing the param
     # which isn't a record attribute.  Maybe make a join model.
     user.has_role? *SCHEDULE_ROLES or
-      team_manager? and record.position_id.in? managed_position_ids
+      (team_manager? and record.position_id.in? managed_position_ids)
   end
 
   def leave?
     user.has_role? *SCHEDULE_ROLES or
-      team_manager? and record.position_id.in? managed_position_ids
+      (team_manager? and record.position_id.in? managed_position_ids)
   end
 
   def edit?

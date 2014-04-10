@@ -33,9 +33,10 @@
     = '/'
     %b Attended:
     = attended
-%p
-  %b Sign up:
-  = render :partial => 'add', :locals => {:slot => @slot}
+- if policy(@slot).join?
+  %p
+    %b Sign up:
+    = render :partial => 'add', :locals => {:slot => @slot}
 %p
   %b Attendees
   %table
