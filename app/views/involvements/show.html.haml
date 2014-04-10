@@ -13,6 +13,8 @@
     %li.tab-title
       %a.tab-link(href='#tab-status') Status
     %li.tab-title
+      %a.tab-link(href='#tab-signinout') Sign In/Out
+    %li.tab-title
       %a.tab-link(href='#tab-schedule') Schedule
     %li.tab-title
       %a.tab-link(href='#tab-worklogs') Work Logs
@@ -38,6 +40,20 @@
         %dd{:id => "value_#{attr}"}<= @involvement.send attr
       %dt#label_positions< Positions
       %dd#value_positions<= @involvement.positions.to_sentence
+
+  .tab-content#tab-signinout
+    - worklog = WorkLog.new( {start_time: Time.zone.now, involvement_id: @involvement.id, event_id: @event.id} ) 
+    = semantic_form_for [@involvement.event, worklog] do |f|
+      = f.inputs do
+        = f.input :involvement_id, :as => :hidden
+        = f.input :position, :as => :select, :collection => @involvement.positions
+        -# = f.input :shift, :as => :select, :collection => Hash[@shifts.map {|s| [s.to_s_with_date, s.id]}]
+        -# = f.input :event, :as => :select, :collection => @events
+        / TODO :as => datetime_picker
+        = f.input :start_time
+      = f.actions do
+        -# = f.input :audit_comment, as: :audit, required: true
+        = f.submit 'Sign In'  
 
   .tab-content#tab-schedule
     = render :partial => 'slots/list_for_involvement', :locals => {:involvement => @involvement}

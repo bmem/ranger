@@ -66,6 +66,19 @@ class InvolvementsController < EventBasedController
       end
     end
   end
+  
+  # GET /involvements/1/hqwin
+  def hqwin
+    respond_to do |format|
+      format.html # hqwin.html.erb
+      format.json do
+        render json: @involvement, include: {
+          positions: {only: [:id, :name]},
+          slots: {include: {shift: {}, position: {only: [:id, :name]}}}
+        }
+      end
+    end
+  end
 
   # GET /involvements/1/changes
   # GET /involvements/1/changes.json
