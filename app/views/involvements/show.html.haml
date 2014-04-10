@@ -1,3 +1,4 @@
+= stylesheet_link_tag "//ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/smoothness/jquery-ui.css"
 %h1
   = @involvement.name
   - if @involvement.person.display_name != @involvement.name
@@ -50,7 +51,7 @@
         -# = f.input :shift, :as => :select, :collection => Hash[@shifts.map {|s| [s.to_s_with_date, s.id]}]
         -# = f.input :event, :as => :select, :collection => @events
         / TODO :as => datetime_picker
-        = f.input :start_time
+        = f.input :start_time, :as => :DatePicker, :value => Time.now.to_formatted_s(:db)
       = f.actions do
         -# = f.input :audit_comment, as: :audit, required: true
         = f.submit 'Sign In'  
