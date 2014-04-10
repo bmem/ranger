@@ -192,7 +192,7 @@ class SlotsController < EventBasedController
   end
 
   def default_sort_column
-    'shifts.start_time'
+    @shift ? 'positions.name' : 'shifts.start_time'
   end
 
   protected

@@ -3,10 +3,11 @@
   - if @event
     in #{link_to_record @event}
 
-%p
-  = form_tag (@event ? event_slots_path(@event) : slots_path), method: :get do
-    = render 'positions/search_positions', checked_ids: @query_position_ids, positions: @posible_positions
-    = submit_tag 'Filter by position'
+- unless @shift
+  %p
+    = form_tag (@event ? event_slots_path(@event) : slots_path), method: :get do
+      = render 'positions/search_positions', checked_ids: @query_position_ids, positions: @posible_positions
+      = submit_tag 'Filter by position'
 
 = page_entries_info @slots, :model => 'slots'
 %br
