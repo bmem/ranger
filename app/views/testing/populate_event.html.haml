@@ -1,0 +1,16 @@
+%h1 Populate an event with people from a previous event
+
+%p
+  %strong Only use this on a test database; this is not an appropriate tool for a live system.
+
+= form_tag testing_update_populate_event_path do
+  = label_tag 'source_event_id', 'Source Event'
+  = select_tag 'source_event_id', options_from_collection_for_select(@events, :id, :name)
+  %br
+  = label_tag 'destination_event_id', 'Destination Event'
+  = select_tag 'destination_event_id', options_from_collection_for_select(@events, :id, :name)
+  %br
+  = label_tag 'involvement_status', 'Source involvement status'
+  = select_tag 'involvement_status', options_for_select(Involvement::STATUSES), multiple: true
+  %br
+  = submit_tag 'Create lots of data'
