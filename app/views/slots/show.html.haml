@@ -1,7 +1,15 @@
+%h1 #{@slot.position.name} in #{@slot.shift.name}
+
 %p
   %b Shift:
-  = link_to @slot.shift.to_s_with_date, event_shift_path(@slot.shift.event, @slot.shift) if @slot.shift
-  = link_to @slot.shift.event.name, event_path(@slot.shift.event) if @slot.shift.event
+  = link_to @slot.shift.to_s_with_date, event_shift_path(@slot.shift.event, @slot.shift)
+%p
+  - if @slot.shift.training
+    %b Training:
+    = link_to_record @slot.shift.training
+%p
+  %b Event:
+  = link_to_record @slot.event
 %p
   %b Position:
   = link_to @slot.position.name, position_path(@slot.position) if @slot.position

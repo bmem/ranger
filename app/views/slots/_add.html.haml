@@ -6,6 +6,6 @@
 - else
   = form_tag join_event_slot_path(slot.event, slot), :method => :post do |f|
     Add
-    = select_tag 'involvement_id', options_from_collection_for_select(involvements, 'id', 'name')
+    = select_tag 'involvement_id', options_from_collection_for_select(involvements, 'id', 'name'), include_blank: true
     = "to #{slot.position} in #{slot.shift}"
     = submit_tag 'Sign up'
