@@ -46,6 +46,8 @@ class ShiftPolicy < ApplicationPolicy
     manage? or team_manager?
   end
 
+  def copy? ; create? ; end
+
   def destroy?
     manage?
   end

@@ -22,6 +22,16 @@ class TrainingsController < EventBasedController
     end
   end
 
+  # GET /trainings/1/changes
+  # GET /trainings/1/changes.json
+  def changes
+    @audits = order_by_params @training.audits, default_sort_column: 'version', default_sort_column_direction: 'desc'
+    respond_to do |format|
+      format.html # changes.html.haml
+      format.json { render json: @audits }
+    end
+  end
+
   # GET /trainings/new
   # GET /trainings/new.json
   def new

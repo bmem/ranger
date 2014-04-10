@@ -227,6 +227,8 @@ Ranger::Application.routes.draw do
   get 'testing' => 'testing#index'
   get 'testing/mask_roles'
   post 'testing/mask_roles' => 'testing#update_mask_roles', as: :testing_update_mask_roles
+  get 'testing/populate_event'
+  post 'testing/populate_event' => 'testing#update_populate_event', as: :testing_update_populate_event
 
   root :to => "home#index"
 

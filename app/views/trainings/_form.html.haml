@@ -10,12 +10,16 @@
     = f.input :location, :input_html => {:rows => 6}
     = f.input :map_link, :as => :url, :hint => "Copy from Google Maps"
     = f.input :instructions
-  = f.inputs :name => "Available ARTs" do
-    = f.input :arts, :as => :check_boxes
+  - if Art.any?
+    = f.inputs :name => "Available ARTs" do
+      = f.input :arts, :as => :check_boxes
 
   = f.actions do
     - if @shift_template and @shift_template.slot_templates.present?
       %p.inline-hints
+        Shift template: #{link_to_record @shift_template}
+        %br
         New shift will have slots with position(s)
         = @shift_template.slot_templates.to_sentence
+    = f.input :audit_comment, as: :audit
     = f.action(:submit)

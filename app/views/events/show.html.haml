@@ -42,7 +42,7 @@
       - if policy(Slot).list?
         = link_to 'Slots', event_slots_path(@event)
       - if policy(ShiftTemplate).list?
-        = link_to 'Shift templates', shift_templates_path(@event)
+        = link_to 'Shift templates', shift_templates_path
   - if policy(WorkLog).list?
     %dt= link_to 'Work logs', event_work_logs_path(@event)
     %dd View shift work logs
