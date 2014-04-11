@@ -47,14 +47,24 @@
     = semantic_form_for [@involvement.event, worklog] do |f|
       = f.inputs do
         = f.input :involvement_id, :as => :hidden
-        = f.input :position, :as => :select, :collection => @involvement.positions
+        - if !@involvement.work_logs.any? &:on_duty?
+          = f.input :position, :as => :select, :collection => @involvement.positions
+        - else
+          / TODO set value to current position
+          = f.input :position, :as => :hidden  
         -# = f.input :shift, :as => :select, :collection => Hash[@shifts.map {|s| [s.to_s_with_date, s.id]}]
         -# = f.input :event, :as => :select, :collection => @events
-        / TODO :as => datetime_picker
-        = f.input :start_time, :as => :DatePicker, :value => Time.now.to_formatted_s(:db)
+        / TODO :as => datetime_picker (read only?)
+        - if @involvement.work_logs.any? &:on_duty?
+          = f.input :end_time, :as => :DatePicker, :value => Time.now.to_formatted_s(:db)
+        - else
+          = f.input :start_time, :as => :DatePicker, :value => Time.now.to_formatted_s(:db)  
       = f.actions do
         -# = f.input :audit_comment, as: :audit, required: true
-        = f.submit 'Sign In'  
+        - if @involvement.work_logs.any? &:on_duty?
+          = f.submit 'Sign Out'
+        - else  
+          = f.submit 'Sign In'
 
   .tab-content#tab-schedule
     = render :partial => 'slots/list_for_involvement', :locals => {:involvement => @involvement}
